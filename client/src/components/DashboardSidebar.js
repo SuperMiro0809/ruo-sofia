@@ -23,6 +23,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
+import LogoutItem from './LogoutItem'; 
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -163,6 +164,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           ))}
           <DropDownMenu {...dropDownQualifications}/>
           <DropDownMenu {...dropDownEducation}/>
+          <LogoutItem />
         </List>
       </Box>
       <Box sx={{ flexGrow: 1 }} />

@@ -14,10 +14,6 @@ import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from './Logo';
 
-function logout() {
-  console.log('logged out');
-}
-
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   return (
     <AppBar
@@ -29,8 +25,8 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
           <Logo />
         </RouterLink>
         <Box sx={{ flexGrow: 1 }} />
-        <Hidden xlDown>
-          {/* <IconButton color="inherit" size="large">
+        {/* <Hidden xlDown>
+          <IconButton color="inherit" size="large">
             <Badge
               badgeContent={notifications.length}
               color="primary"
@@ -38,11 +34,11 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
             >
               <NotificationsIcon />
             </Badge>
-          </IconButton> */}
+          </IconButton>
           <IconButton color="inherit" size="large" onClick={logout}>
             <InputIcon />
           </IconButton>
-        </Hidden>
+        </Hidden> */}
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen} size="large">
             <MenuIcon />

@@ -56,7 +56,7 @@ const DropDownMenu = (props) => {
                 }}
                 onClick={expandMenu}
             >
-                <FontAwesomeIcon style={{width: '20px', height: '20px'}} size="20" icon={Icon}/>
+                <FontAwesomeIcon style={{width: '20px', height: '20px'}} icon={Icon}/>
                 <span>{title}</span>
                 <ClosedIcon {...IconStyles} />
             </Button>
