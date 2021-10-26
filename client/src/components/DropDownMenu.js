@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Button, List, Fade } from '@material-ui/core';
 import {
-    KeyboardArrowRight as ClosedIcon,
-    KeyboardArrowDown as OpenedIcon
+    KeyboardArrowRight as ClosedIcon
 } from '@material-ui/icons';
 import NavItem from './NavItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DropDownMenu = (props) => {
     const Icon = props.icon;
@@ -16,7 +16,9 @@ const DropDownMenu = (props) => {
         sx: {
            //marginLeft: '40px'
            position: 'absolute',
-           left: '85%'
+           left: '85%',
+           transform: opened ? 'rotate(90deg)' : '',
+           transition: 'transform 0.3s'
         },
         size: "20"
     }
@@ -54,13 +56,9 @@ const DropDownMenu = (props) => {
                 }}
                 onClick={expandMenu}
             >
-                <Icon size="20" />
+                <FontAwesomeIcon style={{width: '20px', height: '20px'}} size="20" icon={Icon}/>
                 <span>{title}</span>
-                {opened ? (
-                    <OpenedIcon {...IconStyles} />
-                ) : (
-                    <ClosedIcon {...IconStyles} />
-                )}
+                <ClosedIcon {...IconStyles} />
             </Button>
             {opened && (
                 <Fade in={opened}>
@@ -70,7 +68,7 @@ const DropDownMenu = (props) => {
                                 href={el.href}
                                 key={el.title}
                                 title={el.title}
-                                icon={Icon}
+                                icon={el.icon}
                             />
                         ))}
                     </List>

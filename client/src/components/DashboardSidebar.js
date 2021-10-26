@@ -11,16 +11,16 @@ import {
   Typography
 } from '@material-ui/core';
 import {
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  Users as UsersIcon
-} from 'react-feather';
-import { 
-  SchoolOutlined as SchoolIcon
-} from '@material-ui/icons';
+  faGlasses as GlassesIcon,
+  faPrint as PrintIcon,
+  faUserGraduate as UserGraduateIcon,
+  faGraduationCap as GraduationCapIcon,
+  faFileContract as FileContractIcon,
+  faPollH as PollHIcon,
+  faUsers as UsersIcon,
+  faUserCog as UserCogIcon,
+  faSignal as SignalIcon
+} from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
 
@@ -33,7 +33,7 @@ const user = {
 const items = [
   {
     href: '/app/dashboard',
-    icon: BarChartIcon,
+    icon: SignalIcon,
     title: 'Начало'
   },
   {
@@ -41,62 +41,62 @@ const items = [
     icon: UsersIcon,
     title: 'Потребители'
   },
-  {
-    href: '/app/products',
-    icon: ShoppingBagIcon,
-    title: 'Products'
-  },
+  // {
+  //   href: '/app/products',
+  //   icon: ShoppingBagIcon,
+  //   title: 'Products'
+  // },
   {
     href: '/app/account',
-    icon: UserIcon,
-    title: 'Account'
+    icon: UserCogIcon,
+    title: 'Профил'
   },
-  {
-    href: '/app/settings',
-    icon: SettingsIcon,
-    title: 'Settings'
-  },
-  {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
-  }
+  // {
+  //   href: '/app/settings',
+  //   icon: SettingsIcon,
+  //   title: 'Settings'
+  // },
+  // {
+  //   href: '/login',
+  //   icon: LockIcon,
+  //   title: 'Login'
+  // }
 ];
 
 const dropDownQualifications = {
-  icon: SchoolIcon,
+  icon: PollHIcon,
   title: 'Квалификации',
   elements: [
     {
       href: '/app/teachers',
-      icon: BarChartIcon,
+      icon: GlassesIcon,
       title: 'Учители'
     },
     {
       href: '/app/teachers-protokol',
-      icon: BarChartIcon,
+      icon: FileContractIcon,
       title: 'Генериране на протокол'
     },
     {
       href: '/app/teachers-certificate',
-      icon: BarChartIcon,
+      icon: PrintIcon,
       title: 'Издаване на удостоверение'
     }
   ]
 }
 
 const dropDownEducation = {
-  icon: SchoolIcon,
+  icon: GraduationCapIcon,
   title: 'Образование',
   elements: [
     {
       href: '/app/students',
-      icon: BarChartIcon,
+      icon: UserGraduateIcon,
       title: 'Ученици'
     },
     {
       href: '/app/students-certificate',
-      icon: BarChartIcon,
+      icon: PrintIcon,
       title: 'Удостоверение за завършен клас'
     }
   ]

@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button, ListItem } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NavItem = ({
   href,
@@ -48,7 +49,7 @@ const NavItem = ({
         to={href}
       >
         {Icon && (
-          <Icon size="20" />
+          <FontAwesomeIcon style={{width: '20px', height: '20px'}} icon={Icon}/>
         )}
         <span>
           {title}
