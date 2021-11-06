@@ -8,6 +8,7 @@ import {
   SvgIcon
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 const CustomerListToolbar = (props) => (
   <Box {...props}>
@@ -24,10 +25,12 @@ const CustomerListToolbar = (props) => (
         Export
       </Button>
       <Button
+        component={RouterLink}
         color="primary"
         variant="contained"
+        to="/app/users/add"
       >
-        Add customer
+        Добави потребител
       </Button>
     </Box>
     <Box sx={{ mt: 3 }}>

@@ -3,12 +3,14 @@ import DashboardLayout from './components/DashboardLayout';
 import MainLayout from './components/MainLayout';
 import Account from './pages/Account';
 import CustomerList from './pages/CustomerList';
+import CustomerAdd from './pages/CustomerAdd';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
+import TeacherList from './pages/Teacher';
 import AdminRoute from './hoc/isAdmin';
 
 const routes = [
@@ -18,8 +20,10 @@ const routes = [
     children: [
       { path: 'account', element: <Account /> },
       { path: 'users', element: <AdminRoute component={CustomerList} /> },
+      { path: 'users/add', element: <AdminRoute component={CustomerAdd} /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
+      { path: 'teachers', element: <TeacherList /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
