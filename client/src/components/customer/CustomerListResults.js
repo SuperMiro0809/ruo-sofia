@@ -14,74 +14,70 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  TableContainer
+  TableContainer,
+  CircularProgress
 } from '@material-ui/core';
-import {  
-  faTrash as TrashIcon
-} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import userServices from '../../services/user';
+import CustomerContext from '../../contexts/CustomerContext';
+import CustomerListItem from './CustomerListItem';
+import CustomerModal from '../customer-modal/CustomerModal';
 
 const CustomerListResults = ({ ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [customers, setCustomers] = useState([]);
+  const [loader, setLoader] = useState(true);
+  let [open, setOpen] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(0);
+
+  let openProp = { open, setOpen };
+  let selectedCustomerProp = { selectedCustomer, setSelectedCustomer }
 
   useEffect(() => {
     loadCustomers();
   }, []);
 
-  let roles = {
-    'Administrator': 'Администратор'
-  };
-
   const loadCustomers = () => {
     userServices.getAll()
-    .then(data => {
-      setCustomers(data);
-    })
+      .then(data => {
+        setCustomers(data);
+        setLoader(false);
+      })
   }
 
-  const deleteCustomer = (id) => {
-    userServices.destroy(id)
-    .then(data => {
-      console.log(data);
-      loadCustomers();
-    })
-  }
+  // const handleSelectAll = (event) => {
+  //   let newSelectedCustomerIds;
 
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+  //   if (event.target.checked) {
+  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
+  //   } else {
+  //     newSelectedCustomerIds = [];
+  //   }
 
-    if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  // const handleSelectOne = (event, id) => {
+  //   const selectedIndex = selectedCustomerIds.indexOf(id);
+  //   let newSelectedCustomerIds = [];
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+  //   if (selectedIndex === -1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+  //   } else if (selectedIndex === 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
+  //       selectedCustomerIds.slice(0, selectedIndex),
+  //       selectedCustomerIds.slice(selectedIndex + 1)
+  //     );
+  //   }
 
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -92,27 +88,29 @@ const CustomerListResults = ({ ...rest }) => {
   };
 
   return (
-    <Card {...rest}>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <TableContainer>
-            <Box sx={{
-              pl: { sm: 2 },
-              pr: { xs: 1, sm: 1 },
-              mt: 3,
-              mb: 1
-            }}>
-              <Typography
-                color="textPrimary"
-                variant="h3"
-              >
-                Потребители
+    <CustomerContext.Provider value={[customers, setCustomers]}>
+      <Card {...rest}>
+        <CustomerModal openProp={openProp} selectedCustomerProp={selectedCustomerProp} />
+        <PerfectScrollbar>
+          <Box sx={{ minWidth: 1050 }}>
+            <TableContainer>
+              <Box sx={{
+                pl: { sm: 2 },
+                pr: { xs: 1, sm: 1 },
+                mt: 3,
+                mb: 1
+              }}>
+                <Typography
+                  color="textPrimary"
+                  variant="h3"
+                >
+                  Потребители
               </Typography>
-            </Box>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  {/* <TableCell padding="checkbox">
+              </Box>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedCustomerIds.length === customers.length}
                       color="primary"
@@ -123,81 +121,58 @@ const CustomerListResults = ({ ...rest }) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>
-                    Име
-                </TableCell>
-                  <TableCell>
-                    Имейл
-                </TableCell>
-                  <TableCell>
-                    Роля
-                </TableCell>
-                  <TableCell>
-                    Операции
-                </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {customers.slice(0, limit).map((customer) => (
-                  <TableRow
-                    hover
-                    key={customer.id}
-                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-                  >
-                    {/* <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                        onChange={(event) => handleSelectOne(event, customer.id)}
-                        value="true"
-                      />
-                    </TableCell> */}
                     <TableCell>
-                      <Box
-                        sx={{
-                          alignItems: 'center',
-                          display: 'flex'
-                        }}
-                      >
-                        {/* <Avatar
-                          src={customer.avatarUrl}
-                          sx={{ mr: 2 }}
-                        >
-                          {getInitials(customer.name)}
-                        </Avatar> */}
-                        <Typography
-                          color="textPrimary"
-                          variant="body1"
-                        >
-                          {customer.name}
-                        </Typography>
-                      </Box>
-                    </TableCell>
+                      Име
+                </TableCell>
                     <TableCell>
-                      {customer.email}
-                    </TableCell>
+                      Имейл
+                </TableCell>
                     <TableCell>
-                      {roles[customer.role]}
-                    </TableCell>
-                    <TableCell >
-                        <FontAwesomeIcon icon={TrashIcon} style={{ color: '#f44336', width: '22px', height: '22px', cursor: 'pointer' }} onClick={e => deleteCustomer(customer.id)} />
-                    </TableCell>
+                      Роля
+                </TableCell>
+                    <TableCell>
+                      Операции
+                </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </PerfectScrollbar>
-      <TablePagination
-        component="div"
-        count={customers.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
-    </Card>
+                </TableHead>
+                <TableBody>
+                  {loader ?
+                    <TableRow>
+                      <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="4"><CircularProgress size="30px" /></TableCell>
+                    </TableRow>
+                    :
+                    <>
+                      {customers.length !== 0 ?
+                        <>
+                          {customers.slice(0, limit).map((customer) => (
+
+                            <CustomerListItem customer={customer} openProp={openProp} selectedCustomerProp={selectedCustomerProp} />
+
+                          ))}
+                        </>
+                        :
+                        <TableRow>
+                          <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="4">Няма записи</TableCell>
+                        </TableRow>
+                      }
+                    </>
+                  }
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </PerfectScrollbar>
+        <TablePagination
+          component="div"
+          count={customers.length}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleLimitChange}
+          page={page}
+          rowsPerPage={limit}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      </Card>
+    </CustomerContext.Provider>
   );
 };
 

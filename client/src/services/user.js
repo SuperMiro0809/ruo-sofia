@@ -20,7 +20,7 @@ function destroy(id) {
     return fetch(`http://localhost:8000/api/users/${id}`, {
         method: 'DELETE'
     })
-    .then(res => res.text())
+    .then(res => res.json())
 }
 
 const userServices = {

@@ -28,6 +28,12 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return 'Deleted!';
+        $users = User::all();
+        $res = [
+            'users' => $users,
+            'text' => 'Потребителят е изтрит успешно!'
+        ];
+
+        return $res;
     }
 }
