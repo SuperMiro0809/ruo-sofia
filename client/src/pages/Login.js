@@ -11,11 +11,16 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import FacebookIcon from '../icons/Facebook';
-import GoogleIcon from '../icons/Google';
+import userServices from '../services/user';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const disableButton = (isSubmitting, errors, values) => {
+    if( errors.email || errors.password || !values.email || !values.password) {
+      return true;
+    }
+  }
 
   return (
     <>
@@ -34,15 +39,22 @@ const Login = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
+              email: '',
+              password: ''
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
+              email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
+              password: Yup.string().max(255).required('Паролата е задължителна')
             })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+            onSubmit={(values) => {
+              console.log(values);
+              userServices.login();
+              // userServices.login(values)
+              // .then(data => {
+              //   console.log(data);
+              //   navigate('/app/dashboard', { replace: true });
+              // })
+              // .catch(err => console.log(err))
             }}
           >
             {({
@@ -60,71 +72,21 @@ const Login = () => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    Sign in
+                    Вход
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Sign in on the internal platform
-                  </Typography>
-                </Box>
-                <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box
-                  sx={{
-                    pb: 1,
-                    pt: 3
-                  }}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
+                    Въведете имейл и парола, за да влезете в системата
                   </Typography>
                 </Box>
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
                   helperText={touched.email && errors.email}
-                  label="Email Address"
+                  label="Имейл"
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
@@ -137,7 +99,7 @@ const Login = () => {
                   error={Boolean(touched.password && errors.password)}
                   fullWidth
                   helperText={touched.password && errors.password}
-                  label="Password"
+                  label="Парола"
                   margin="normal"
                   name="password"
                   onBlur={handleBlur}
@@ -149,25 +111,15 @@ const Login = () => {
                 <Box sx={{ py: 2 }}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
+                    disabled={disableButton(isSubmitting, errors, values)}
                     fullWidth
                     size="large"
                     type="submit"
                     variant="contained"
                   >
-                    Sign in now
+                    Влизане
                   </Button>
                 </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don&apos;t have an account?
-                  {' '}
-                  <Link component={RouterLink} to="/register" variant="h6" underline="hover">
-                    Sign up
-                  </Link>
-                </Typography>
               </form>
             )}
           </Formik>
