@@ -20,7 +20,13 @@ import { Formik } from 'formik';
 
 const CustomerAddForm = ({ rest }) => {
     const navigate = useNavigate();
-    
+
+    const disableCreateButton = (isSubmitting, errors, values) => {
+        if(isSubmitting || errors.name || errors.email || errors.password || !values.email || !values.password || !values.role || !values.name) {
+            return true;
+        }
+    }
+
     return (
         <Card {...rest}>
             <PerfectScrollbar>
@@ -28,11 +34,13 @@ const CustomerAddForm = ({ rest }) => {
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
+                                name: '',
                                 email: '',
                                 password: '',
                                 role: ''
                             }}
                             validationSchema={Yup.object().shape({
+                                name: Yup.string().max(255).required('Името е задължително'),
                                 email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
                                 password: Yup.string().max(255).required('Паролата е задължителна'),
                                 role: Yup.string().required('Ролята е задължителна')
@@ -60,6 +68,19 @@ const CustomerAddForm = ({ rest }) => {
                                             Добавяне на потребител
                                         </Typography>
                                     </Box>
+                                    <TextField
+                                        error={Boolean(touched.name && errors.name)}
+                                        fullWidth
+                                        helperText={touched.name && errors.name}
+                                        label="Име"
+                                        margin="normal"
+                                        name="name"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        type="text"
+                                        value={values.name}
+                                        variant="outlined"
+                                    />
                                     <TextField
                                         error={Boolean(touched.email && errors.email)}
                                         fullWidth
@@ -110,7 +131,7 @@ const CustomerAddForm = ({ rest }) => {
                                     <Box sx={{ py: 2 }}>
                                         <Button
                                             color="primary"
-                                            disabled={isSubmitting || errors.email || errors.password || !values.email || !values.password || !values.role}
+                                            disabled={disableCreateButton(isSubmitting, errors, values)}
                                             fullWidth
                                             size="large"
                                             type="submit"

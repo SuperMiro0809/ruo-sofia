@@ -96,13 +96,13 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     />
                   </TableCell> */}
                   <TableCell>
-                    Name
+                    Име
                 </TableCell>
                   <TableCell>
-                    Email
+                    Имейл
                 </TableCell>
                   <TableCell>
-                    Location
+                    Роля
                 </TableCell>
                   <TableCell>
                     Phone
