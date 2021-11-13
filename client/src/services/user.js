@@ -1,12 +1,11 @@
 function getAll() {
-    fetch('http://localhost:8000/api/users')
+    return fetch('http://localhost:8000/api/users')
       .then(res => res.json())
-      .then(data => console.log(data))
 }
 
 function create(data) {
 
-    fetch('http://localhost:8000/api/users', {
+    return fetch('http://localhost:8000/api/users', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -14,12 +13,20 @@ function create(data) {
         }
       })
       .then(res => res.text())
-      .then(data => console.log(data))
 }
 
-const services = {
+function destroy(id) {
+
+    return fetch(`http://localhost:8000/api/users/${id}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.text())
+}
+
+const userServices = {
     getAll,
-    create
+    create,
+    destroy
 }
 
-export default services;
+export default userServices;

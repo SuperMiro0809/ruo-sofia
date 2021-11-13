@@ -24,7 +24,10 @@ class UserController extends Controller
         return 'Creaed!';
     }
 
-    public function destroy() {
+    public function destroy($id) {
+        $user = User::findOrFail($id);
+        $user->delete();
 
+        return 'Deleted!';
     }
 }

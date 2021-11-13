@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -16,12 +16,40 @@ import {
   Typography,
   TableContainer
 } from '@material-ui/core';
-import getInitials from '../../utils/getInitials';
+import {  
+  faTrash as TrashIcon
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import userServices from '../../services/user';
 
-const CustomerListResults = ({ customers, ...rest }) => {
+const CustomerListResults = ({ ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    loadCustomers();
+  }, []);
+
+  let roles = {
+    'Administrator': 'Администратор'
+  };
+
+  const loadCustomers = () => {
+    userServices.getAll()
+    .then(data => {
+      setCustomers(data);
+    })
+  }
+
+  const deleteCustomer = (id) => {
+    userServices.destroy(id)
+    .then(data => {
+      console.log(data);
+      loadCustomers();
+    })
+  }
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -73,7 +101,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
               pr: { xs: 1, sm: 1 },
               mt: 3,
               mb: 1
-             }}>
+            }}>
               <Typography
                 color="textPrimary"
                 variant="h3"
@@ -105,10 +133,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     Роля
                 </TableCell>
                   <TableCell>
-                    Phone
-                </TableCell>
-                  <TableCell>
-                    Registration date
+                    Операции
                 </TableCell>
                 </TableRow>
               </TableHead>
@@ -133,12 +158,12 @@ const CustomerListResults = ({ customers, ...rest }) => {
                           display: 'flex'
                         }}
                       >
-                        <Avatar
+                        {/* <Avatar
                           src={customer.avatarUrl}
                           sx={{ mr: 2 }}
                         >
                           {getInitials(customer.name)}
-                        </Avatar>
+                        </Avatar> */}
                         <Typography
                           color="textPrimary"
                           variant="body1"
@@ -151,13 +176,10 @@ const CustomerListResults = ({ customers, ...rest }) => {
                       {customer.email}
                     </TableCell>
                     <TableCell>
-                      {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                      {roles[customer.role]}
                     </TableCell>
-                    <TableCell>
-                      {customer.phone}
-                    </TableCell>
-                    <TableCell>
-                      {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    <TableCell >
+                        <FontAwesomeIcon icon={TrashIcon} style={{ color: '#f44336', width: '22px', height: '22px', cursor: 'pointer' }} onClick={e => deleteCustomer(customer.id)} />
                     </TableCell>
                   </TableRow>
                 ))}

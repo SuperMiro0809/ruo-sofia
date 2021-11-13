@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import userServices from '../../services/user';
 
 const CustomerAddForm = ({ rest }) => {
     const navigate = useNavigate();
@@ -47,7 +48,11 @@ const CustomerAddForm = ({ rest }) => {
                             })}
                             onSubmit={(values) => {
                                 console.log(values)
-                                //navigate('/app/users', { replace: true });
+                                userServices.create(values)
+                                .then(data => {
+                                    console.log(data);
+                                    navigate('/app/users', { replace: true });
+                                })
                             }}
                         >
                             {({
