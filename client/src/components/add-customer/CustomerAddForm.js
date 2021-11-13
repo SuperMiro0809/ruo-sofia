@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -18,8 +19,10 @@ import {
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import userServices from '../../services/user';
+import MеssageContext from '../../contexts/MessageContext';
 
 const CustomerAddForm = ({ rest }) => {
+    const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
 
     const disableCreateButton = (isSubmitting, errors, values) => {
@@ -51,7 +54,12 @@ const CustomerAddForm = ({ rest }) => {
                                 userServices.create(values)
                                 .then(data => {
                                     console.log(data);
+                                    messageContext[1]({ status: 'success', text: data })
                                     navigate('/app/users', { replace: true });
+                                    const interval = setInterval(function () {
+                                        messageContext[1]('');
+                                        clearInterval(interval);
+                                    }, 2000)
                                 })
                             }}
                         >

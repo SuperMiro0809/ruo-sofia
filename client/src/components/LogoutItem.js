@@ -1,8 +1,16 @@
 import { Button } from '@material-ui/core';
 import { faSignOutAlt as SignOutAltIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import userServices from '../services/user';
 
 const LogoutItem = () => {
+    const logout = () => {
+        userServices.logout()
+        .then(() => {
+            console.log('Logged Out')
+        })
+    }
+
     return (
         <Button
             sx={{
@@ -17,6 +25,7 @@ const LogoutItem = () => {
                     mr: 1
                 }
             }}
+            onClick={logout}
         >
             <FontAwesomeIcon style={{ width: '20px', height: '20px' }} icon={SignOutAltIcon} />
             <span>

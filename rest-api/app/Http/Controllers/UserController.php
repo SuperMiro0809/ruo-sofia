@@ -22,7 +22,7 @@ class UserController extends Controller
         $user->email = $request->email;
 
         $user->save();
-        return 'Creaed!';
+        return 'Потребителят е добавен успешно!';
     }
 
     public function customLogin(Request $request)
@@ -34,10 +34,10 @@ class UserController extends Controller
    
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return 'Success';
+            return response('Success', 200);
         }
   
-        //return redirect("login")->withSuccess('Login details are not valid');
+        return response('Грешен имейл или парола', 401);
     }
 
     public function destroy($id) {

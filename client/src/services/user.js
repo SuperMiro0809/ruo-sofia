@@ -34,14 +34,33 @@ function login(data) {
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         }
       })
-      .then(res => res.text())
+      .then(res => {
+          if(res.status === 200) {
+              return res.text();
+          }else if(res.status === 401) {
+              throw new Error('Грешен имейл или парола');
+          }
+      })
+}
+
+function logout() {
+    return fetch('http://localhost:8000/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        }
+    })
+    .then(res => res.text())
 }
 
 const userServices = {
     getAll,
     create,
     destroy,
-    login
+    login,
+    logout
 }
 
 export default userServices;

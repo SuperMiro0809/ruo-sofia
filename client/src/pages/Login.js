@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
@@ -12,9 +13,11 @@ import {
   Typography
 } from '@material-ui/core';
 import userServices from '../services/user';
+import MessageContext from '../contexts/MessageContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const messageContext = useContext(MessageContext);
 
   const disableButton = (isSubmitting, errors, values) => {
     if(isSubmitting || errors.email || errors.password || !values.email || !values.password) {
@@ -46,11 +49,19 @@ const Login = () => {
               email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
               password: Yup.string().max(255).required('Паролата е задължителна')
             })}
-            onSubmit={(values) => {
+            onSubmit={(values, { setSubmitting }) => {
               console.log(values);
               userServices.login(values)
               .then(() => {
                 navigate('/app/dashboard', { replace: true });
+              })
+              .catch(err => {
+                messageContext[1]({ status: 'error', text: err.message });
+                setSubmitting(false);
+                const interval = setInterval(function () {
+                  messageContext[1]('');
+                  clearInterval(interval);
+                }, 2000)
               })
             }}
           >
