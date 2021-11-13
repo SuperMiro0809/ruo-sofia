@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const disableButton = (isSubmitting, errors, values) => {
-    if( errors.email || errors.password || !values.email || !values.password) {
+    if(isSubmitting || errors.email || errors.password || !values.email || !values.password) {
       return true;
     }
   }
@@ -48,13 +48,10 @@ const Login = () => {
             })}
             onSubmit={(values) => {
               console.log(values);
-              userServices.login();
-              // userServices.login(values)
-              // .then(data => {
-              //   console.log(data);
-              //   navigate('/app/dashboard', { replace: true });
-              // })
-              // .catch(err => console.log(err))
+              userServices.login(values)
+              .then(() => {
+                navigate('/app/dashboard', { replace: true });
+              })
             }}
           >
             {({

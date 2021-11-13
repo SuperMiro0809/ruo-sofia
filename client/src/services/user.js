@@ -23,13 +23,9 @@ function destroy(id) {
     .then(res => res.json())
 }
 
-function login() {
-    let data = {
-        email: 'zevs8@abv.bg',
-        password: '12345678'
-    };
+function login(data) {
 
-    fetch('http://localhost:8000/api/login', {
+    return fetch('http://localhost:8000/api/login', {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: 'include',
@@ -39,9 +35,6 @@ function login() {
         }
       })
       .then(res => res.text())
-      .then(data => {
-          console.log(data);
-      })
 }
 
 const userServices = {
