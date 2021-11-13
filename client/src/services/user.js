@@ -23,10 +23,32 @@ function destroy(id) {
     .then(res => res.json())
 }
 
+function login() {
+    let data = {
+        email: 'zevs8@abv.bg',
+        password: '12345678'
+    };
+
+    fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        }
+      })
+      .then(res => res.text())
+      .then(data => {
+          console.log(data);
+      })
+}
+
 const userServices = {
     getAll,
     create,
-    destroy
+    destroy,
+    login
 }
 
 export default userServices;

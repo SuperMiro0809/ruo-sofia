@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -22,6 +23,21 @@ class UserController extends Controller
 
         $user->save();
         return 'Creaed!';
+    }
+
+    public function customLogin(Request $request)
+    {
+        // $request->validate([
+        //     'email' => 'required',
+        //     'password' => 'required',
+        // ]);
+   
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            return 'Success';
+        }
+  
+        //return redirect("login")->withSuccess('Login details are not valid');
     }
 
     public function destroy($id) {
