@@ -1,9 +1,9 @@
 const Logo = (props) => (
   <img
     alt="Logo"
-    src="/static/ruo-logo.png"
+    src="/static/MicrosoftTeams-image.png"
     {...props}
-    height="50px"
+    height="75px"
   />
 );
 

@@ -1,0 +1,13 @@
+.Header {
+
+    .information-wrapper {
+        display: flex;
+        height: 40px;
+        align-items: center;
+
+        .information-text {
+            padding: 0 24px;
+            font-size: 15px;
+        }
+    }
+}

@@ -19,7 +19,7 @@ const DashboardLayoutWrapper = styled('div')(
     display: 'flex',
     flex: '1 1 auto',
     overflow: 'hidden',
-    paddingTop: 64,
+    paddingTop: 169, //150, 183
     [theme.breakpoints.up('lg')]: {
       paddingLeft: 256
     }
