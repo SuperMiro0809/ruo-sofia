@@ -2,12 +2,17 @@ import { Button } from '@material-ui/core';
 import { faSignOutAlt as SignOutAltIcon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import userServices from '../services/user';
+import { useNavigate } from 'react-router-dom';
 
 const LogoutItem = () => {
+    let navigate = useNavigate();
+
     const logout = () => {
         userServices.logout()
-        .then(() => {
-            console.log('Logged Out')
+        .then((data) => {
+            console.log(data);
+            localStorage.removeItem('token');
+            navigate('/login', { replace: true });
         })
     }
 

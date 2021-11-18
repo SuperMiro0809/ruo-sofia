@@ -28,7 +28,7 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::group([
     'middleware' => 'api'
 ], function ($router) {
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/login', [UserController::class, 'login']);
     Route::get('/profile', [UserController::class, 'userProfile']);
 });

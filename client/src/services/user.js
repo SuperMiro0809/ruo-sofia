@@ -46,12 +46,12 @@ function profile() {
 }
 
 function logout() {
-    return fetch(`${services.url}/logout`, {
+    return fetch(`${services.url}/logout?token=${localStorage.getItem('token')}`, {
         method: 'POST',
         credentials: 'include',
         headers: services.header2
     })
-    .then(res => res.text())
+    .then(res => res.json())
 }
 
 const userServices = {

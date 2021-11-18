@@ -58,6 +58,12 @@ class UserController extends Controller
         return $res;
     }
 
+    public function logout() {
+        auth()->logout();
+
+        return response()->json(['message' => 'User successfully signed out']);
+    }
+
     public function userProfile() {
         return response()->json(auth()->user());
     }
