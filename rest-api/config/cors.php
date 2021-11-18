@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:3000'],
+    'allowed_origins' => ['http://192.168.0.161:3000', 'http://localhost:3000'],
 
     'allowed_origins_patterns' => [],
 

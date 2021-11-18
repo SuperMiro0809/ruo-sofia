@@ -50,9 +50,10 @@ const Login = () => {
               password: Yup.string().max(255).required('Паролата е задължителна')
             })}
             onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
               userServices.login(values)
-              .then(() => {
+              .then(data => {
+                console.log(data);
+                localStorage.setItem('token', data.access_token);
                 navigate('/app/dashboard', { replace: true });
               })
               .catch(err => {

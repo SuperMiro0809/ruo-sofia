@@ -17,7 +17,8 @@ const CustomerListItem = ({ customer, openProp, selectedCustomerProp, ...rest })
     let roles = {
         'Administrator': 'Администратор',
         'Qualifications': 'Квалификации',
-        'Education': 'Образование'
+        'Education': 'Образование',
+        'Member': 'Потребител'
     };
 
     const openModal = (id) => {

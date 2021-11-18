@@ -1,23 +1,23 @@
+import services from './index';
+
 function getAll() {
-    return fetch('http://localhost:8000/api/users')
+    return fetch(`${services.url}/users`)
       .then(res => res.json())
 }
 
 function create(data) {
 
-    return fetch('http://localhost:8000/api/users', {
+    return fetch(`${services.url}/users`, {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        headers: services.header2
       })
       .then(res => res.text())
 }
 
 function destroy(id) {
 
-    return fetch(`http://localhost:8000/api/users/${id}`, {
+    return fetch(`${services.url}/users/${id}`, {
         method: 'DELETE'
     })
     .then(res => res.json())
@@ -25,32 +25,31 @@ function destroy(id) {
 
 function login(data) {
 
-    return fetch('http://localhost:8000/api/login', {
+    return fetch(`${services.url}/login`, {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:3000',
-        }
+        headers: services.header2
       })
       .then(res => {
           if(res.status === 200) {
-              return res.text();
+              return res.json();
           }else if(res.status === 401) {
               throw new Error('Грешен имейл или парола');
           }
       })
 }
 
+function profile() {
+    return fetch(`${services.url}/profile?token=${localStorage.getItem('token')}`)
+    .then(res => res.json())
+}
+
 function logout() {
-    return fetch('http://localhost:8000/api/logout', {
+    return fetch(`${services.url}/logout`, {
         method: 'POST',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:3000',
-        }
+        headers: services.header2
     })
     .then(res => res.text())
 }
@@ -60,6 +59,7 @@ const userServices = {
     create,
     destroy,
     login,
+    profile,
     logout
 }
 

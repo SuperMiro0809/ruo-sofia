@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -24,12 +24,7 @@ import {
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
 import LogoutItem from './LogoutItem'; 
-
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
-};
+import userServices from '../services/user';
 
 const items = [
   {
@@ -42,26 +37,11 @@ const items = [
     icon: UsersIcon,
     title: 'Потребители'
   },
-  // {
-  //   href: '/app/products',
-  //   icon: ShoppingBagIcon,
-  //   title: 'Products'
-  // },
   {
     href: '/app/account',
     icon: UserCogIcon,
     title: 'Профил'
   },
-  // {
-  //   href: '/app/settings',
-  //   icon: SettingsIcon,
-  //   title: 'Settings'
-  // },
-  // {
-  //   href: '/login',
-  //   icon: LockIcon,
-  //   title: 'Login'
-  // }
 ];
 
 const dropDownQualifications = {
@@ -104,13 +84,29 @@ const dropDownEducation = {
 }
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
+  let [user, setUser] = useState({ name: '', role: '' }); 
   const location = useLocation();
 
+  const roles = {
+    'Administrator': 'Администратор',
+    'Qualifications': 'Квалификации',
+    'Education': 'Образование',
+    'Member': 'Потребител'
+  };
+  
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
+    getUser();
   }, [location.pathname]);
+
+  const getUser = () => {
+    userServices.profile()
+    .then(data => {
+      setUser(data);
+    })
+  }
 
   const content = (
     <Box
@@ -128,7 +124,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           p: 2
         }}
       >
-        <Avatar
+        {/* <Avatar
           component={RouterLink}
           src={user.avatar}
           sx={{
@@ -137,7 +133,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             height: 64
           }}
           to="/app/account"
-        />
+        /> */}
         <Typography
           color="textPrimary"
           variant="h5"
@@ -148,7 +144,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           color="textSecondary"
           variant="body2"
         >
-          {user.jobTitle}
+          {roles[user.role]}
         </Typography>
       </Box>
       <Divider />
