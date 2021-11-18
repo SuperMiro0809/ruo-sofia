@@ -40,25 +40,26 @@ const CustomerListItem = ({ customer, openProp, selectedCustomerProp, ...rest })
           />
         </TableCell> */}
             <TableCell>
-                <Box
+                {/* <Box
                     sx={{
                         alignItems: 'center',
                         display: 'flex'
                     }}
                 >
-                    {/* <Avatar
+                    <Avatar
               src={customer.avatarUrl}
               sx={{ mr: 2 }}
             >
               {getInitials(customer.name)}
-            </Avatar> */}
+            </Avatar>
                     <Typography
                         color="textPrimary"
                         variant="body1"
                     >
                         {customer.name}
                     </Typography>
-                </Box>
+                </Box> */}
+                {customer.name}
             </TableCell>
             <TableCell>
                 {customer.email}

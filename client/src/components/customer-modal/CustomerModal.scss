@@ -10,6 +10,11 @@
     .button-wrapper {
         float: right;
         margin-top: 5px;
+
+        .modal-button:hover {
+            color: white;
+            background-color: #124682 !important;
+        }
     }
 
     .close-icon {

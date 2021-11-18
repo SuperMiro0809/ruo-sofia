@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
@@ -10,14 +10,15 @@ import {
   Grid,
   Link,
   TextField,
-  Typography
+  Typography,
+  Alert
 } from '@material-ui/core';
 import userServices from '../services/user';
 import MessageContext from '../contexts/MessageContext';
 
 const Login = () => {
   const navigate = useNavigate();
-  const messageContext = useContext(MessageContext);
+  const [message, setMessage] = useState();
 
   const disableButton = (isSubmitting, errors, values) => {
     if(isSubmitting || errors.email || errors.password || !values.email || !values.password) {
@@ -57,10 +58,10 @@ const Login = () => {
                 navigate('/app/dashboard', { replace: true });
               })
               .catch(err => {
-                messageContext[1]({ status: 'error', text: err.message });
+                setMessage(err.message)
                 setSubmitting(false);
                 const interval = setInterval(function () {
-                  messageContext[1]('');
+                  setMessage('');
                   clearInterval(interval);
                 }, 2000)
               })
@@ -91,6 +92,11 @@ const Login = () => {
                     Въведете имейл и парола, за да влезете в системата
                   </Typography>
                 </Box>
+                {message && 
+                  <Box sx={{ mb: 1 }}>
+                    <Alert severity="error">{message}</Alert>
+                  </Box>
+                }
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
