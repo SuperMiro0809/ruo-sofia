@@ -31,7 +31,7 @@ const App = () => {
         console.log(data);
         localStorage.setItem('token', data.access_token);
       })
-    }, 3600000);
+    }, 3599000);
 
     if (!localStorage.getItem('token')) {
       console.log('logged out')
