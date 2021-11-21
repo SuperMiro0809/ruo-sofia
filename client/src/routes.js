@@ -10,7 +10,8 @@ import NotFound from './pages/NotFound';
 import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
-import TeacherList from './pages/Teacher';
+import TeacherList from './pages/TeacherList';
+import ProtocolList from './pages/ProtocolList';
 import AdminRoute from './hoc/isAdmin';
 
 const routes = [
@@ -24,6 +25,7 @@ const routes = [
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
       { path: 'teachers', element: <TeacherList /> },
+      { path: 'protocols', element: <ProtocolList /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

@@ -23,6 +23,7 @@ const App = () => {
           setUser(data);
         }
       })
+      console.log('User')
   }, [jsonUser])
 
   return (

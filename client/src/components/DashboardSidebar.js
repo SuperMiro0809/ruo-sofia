@@ -56,7 +56,7 @@ const dropDownQualifications = {
       title: 'Учители'
     },
     {
-      href: '/app/teachers-protokol',
+      href: '/app/protocols',
       icon: FileContractIcon,
       title: 'Генериране на протокол'
     },
