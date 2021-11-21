@@ -14,10 +14,11 @@ import {
   Alert
 } from '@material-ui/core';
 import userServices from '../services/user';
-import MessageContext from '../contexts/MessageContext';
+import UserContext from '../contexts/UserContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const userContext = useContext(UserContext);
   const [message, setMessage] = useState();
 
   const disableButton = (isSubmitting, errors, values) => {
@@ -53,7 +54,7 @@ const Login = () => {
             onSubmit={(values, { setSubmitting }) => {
               userServices.login(values)
               .then(data => {
-                console.log(data);
+                userContext[1](data.user);
                 localStorage.setItem('token', data.access_token);
                 navigate('/app/dashboard', { replace: true });
               })

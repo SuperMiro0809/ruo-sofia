@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -13,18 +13,20 @@ import {
 import {
   faGlasses as GlassesIcon,
   faPrint as PrintIcon,
-  faUserGraduate as UserGraduateIcon,
   faGraduationCap as GraduationCapIcon,
   faFileContract as FileContractIcon,
   faPollH as PollHIcon,
   faUsers as UsersIcon,
   faUserCog as UserCogIcon,
-  faSignal as SignalIcon
+  faSignal as SignalIcon,
+  faStar as StarIcon,
+  faUserGraduate as UserGraduateIcon,
+  faBookReader as BookReaderIcon
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
 import LogoutItem from './LogoutItem'; 
-import userServices from '../services/user';
+import UserContext from '../contexts/UserContext';
 
 const items = [
   {
@@ -45,7 +47,7 @@ const items = [
 ];
 
 const dropDownQualifications = {
-  icon: PollHIcon,
+  icon: StarIcon,
   title: 'Квалификации',
   elements: [
     {
@@ -67,7 +69,7 @@ const dropDownQualifications = {
 }
 
 const dropDownEducation = {
-  icon: GraduationCapIcon,
+  icon: BookReaderIcon,
   title: 'Образование',
   elements: [
     {
@@ -84,8 +86,8 @@ const dropDownEducation = {
 }
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
-  let [user, setUser] = useState({ name: '', role: '' }); 
   const location = useLocation();
+  const [user] = useContext(UserContext);
 
   const roles = {
     'Administrator': 'Администратор',
@@ -98,15 +100,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-    getUser();
   }, [location.pathname]);
-
-  const getUser = () => {
-    userServices.profile()
-    .then(data => {
-      setUser(data);
-    })
-  }
 
   const content = (
     <Box
