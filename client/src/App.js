@@ -1,3 +1,4 @@
+import './App.scss';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { useRoutes } from 'react-router-dom';
 import { ThemeProvider, StyledEngineProvider } from '@material-ui/core';

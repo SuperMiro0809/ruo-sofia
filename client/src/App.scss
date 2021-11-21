@@ -1,0 +1,9 @@
+table {
+    th:not(:first-child) {
+        text-align: center;
+    }
+
+    td:not(:first-child) {
+        text-align: center;
+    }
+}
