@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
   Box,
   Button,
@@ -7,77 +7,80 @@ import {
   CardHeader,
   Divider,
   Grid,
-  TextField
+  TextField,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  FormHelperText
 } from '@material-ui/core';
-
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
+import UserContext from '../../contexts/UserContext';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 
 const AccountProfileDetails = (props) => {
-  const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
+  const [user] = useContext(UserContext);
 
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      {...props}
+    <Formik
+      initialValues={{
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }}
+      validationSchema={Yup.object().shape({
+        name: Yup.string().max(255).required('Името е задължително'),
+        email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
+        role: Yup.string().required('Ролята е задължителна')
+      })}
+      onSubmit={(values) => {
+        console.log(values)
+      }}
     >
-      <Card>
-        <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
-        />
-        <Divider />
-        <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
+      {({
+        errors,
+        handleBlur,
+        handleChange,
+        handleSubmit,
+        isSubmitting,
+        touched,
+        values
+      }) => (
+        <form
+          autoComplete="off"
+          noValidate
+          {...props}
+          onSubmit={handleSubmit}
+        >
+          <Card>
+            <CardHeader
+              subheader="Информацията може да бъде редактирана"
+              title="Профил"
+            />
+            <Divider />
+            <CardContent>
+              <Grid
+                container
+                spacing={3}
+              >
+                <Grid
+                  item
+                  md={12}
+                  xs={12}
+                >
+                  <TextField
+                    fullWidth
+                    label="Име"
+                    name="name"
+                    onChange={handleChange}
+                    required
+                    value={values.name}
+                    variant="outlined"
+                  />
+                </Grid>
+                {/* <Grid
               item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
+              md={12}
               xs={12}
             >
               <TextField
@@ -89,23 +92,23 @@ const AccountProfileDetails = (props) => {
                 value={values.lastName}
                 variant="outlined"
               />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
+            </Grid> */}
+                <Grid
+                  item
+                  md={12}
+                  xs={12}
+                >
+                  <TextField
+                    fullWidth
+                    label="Имейл"
+                    name="email"
+                    onChange={handleChange}
+                    required
+                    value={values.email}
+                    variant="outlined"
+                  />
+                </Grid>
+                {/* <Grid
               item
               md={6}
               xs={12}
@@ -119,8 +122,8 @@ const AccountProfileDetails = (props) => {
                 value={values.phone}
                 variant="outlined"
               />
-            </Grid>
-            <Grid
+            </Grid> */}
+                {/* <Grid
               item
               md={6}
               xs={12}
@@ -134,52 +137,57 @@ const AccountProfileDetails = (props) => {
                 value={values.country}
                 variant="outlined"
               />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-              >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
+            </Grid> */}
+                <Grid
+                  item
+                  md={12}
+                  xs={12}
+                >
+                  <FormControl
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(touched.role && errors.role)}
+                    sx={{ marginTop: '0px' }}
                   >
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-          </Grid>
-        </CardContent>
-        <Divider />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            p: 2
-          }}
-        >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Save details
+                    <InputLabel id="demo-simple-select-label">Роля</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={values.role}
+                      label="Роля"
+                      name="role"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem value={"Administrator"}>Администратор</MenuItem>
+                      <MenuItem value={"Qualifications"}>Квалификации</MenuItem>
+                      <MenuItem value={"Education"}>Образование</MenuItem>
+                      <MenuItem value={"Member"}>Потребител</MenuItem>
+                    </Select>
+                    <FormHelperText>{touched.role && errors.role}</FormHelperText>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </CardContent>
+            <Divider />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                p: 2
+              }}
+            >
+              <Button
+                color="primary"
+                variant="contained"
+              >
+                Запазване
           </Button>
-        </Box>
-      </Card>
-    </form>
+            </Box>
+          </Card>
+        </form>
+      )}
+    </Formik>
   );
 };
 
