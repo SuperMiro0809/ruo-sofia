@@ -45,6 +45,16 @@ function profile() {
     .then(res => res.json())
 }
 
+function editUser(data) {
+    return fetch(`${services.url}/users/${data.id}?token=${localStorage.getItem('token')}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: services.header2,
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+}
+
 function logout() {
     return fetch(`${services.url}/logout?token=${localStorage.getItem('token')}`, {
         method: 'POST',
@@ -69,6 +79,7 @@ const userServices = {
     destroy,
     login,
     profile,
+    editUser,
     logout,
     refresh
 }

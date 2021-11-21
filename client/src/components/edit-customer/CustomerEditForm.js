@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
     Box,
@@ -21,12 +19,12 @@ import { Formik } from 'formik';
 import userServices from '../../services/user';
 import MеssageContext from '../../contexts/MessageContext';
 
-const CustomerAddForm = ({ rest }) => {
+const CustomerEditForm = ({ customer, ...rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
 
     const disableCreateButton = (isSubmitting, errors, values) => {
-        if(isSubmitting || errors.name || errors.email || errors.password || !values.email || !values.password || !values.role || !values.name) {
+        if(isSubmitting || errors.name || errors.email || !values.email || !values.role || !values.name) {
             return true;
         }
     }
@@ -38,23 +36,20 @@ const CustomerAddForm = ({ rest }) => {
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
-                                name: '',
-                                email: '',
-                                password: '',
-                                role: ''
+                                name: customer.name,
+                                email: customer.email,
+                                role: customer.role
                             }}
                             validationSchema={Yup.object().shape({
                                 name: Yup.string().max(255).required('Името е задължително'),
                                 email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
-                                password: Yup.string().max(255).required('Паролата е задължителна'),
                                 role: Yup.string().required('Ролята е задължителна')
                             })}
                             onSubmit={(values) => {
-                                console.log(values)
-                                userServices.create(values)
+                                userServices.editUser({id: customer.id, ...values})
                                 .then(data => {
                                     console.log(data);
-                                    messageContext[1]({ status: 'success', text: data })
+                                    messageContext[1]({ status: 'success', text: data.message })
                                     navigate('/app/users', { replace: true });
                                     const interval = setInterval(function () {
                                         messageContext[1]('');
@@ -78,7 +73,7 @@ const CustomerAddForm = ({ rest }) => {
                                             color="textPrimary"
                                             variant="h3"
                                         >
-                                            Добавяне на потребител
+                                            Редактиране на потребител
                                         </Typography>
                                     </Box>
                                     <TextField
@@ -105,19 +100,6 @@ const CustomerAddForm = ({ rest }) => {
                                         onChange={handleChange}
                                         type="email"
                                         value={values.email}
-                                        variant="outlined"
-                                    />
-                                    <TextField
-                                        error={Boolean(touched.password && errors.password)}
-                                        fullWidth
-                                        helperText={touched.password && errors.password}
-                                        label="Парола"
-                                        margin="normal"
-                                        name="password"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        type="password"
-                                        value={values.password}
                                         variant="outlined"
                                     />
                                     <FormControl 
@@ -151,7 +133,7 @@ const CustomerAddForm = ({ rest }) => {
                                             type="submit"
                                             variant="contained"
                                         >
-                                            Добави
+                                            Редактирай
                                         </Button>
                                     </Box>
                                 </form>
@@ -164,4 +146,4 @@ const CustomerAddForm = ({ rest }) => {
     );
 };
 
-export default CustomerAddForm;
+export default CustomerEditForm;

@@ -1,0 +1,43 @@
+.CustomerListItem {
+    .trash-icon, 
+    .edit-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .trash-icon {
+        color: #f44336;
+    }
+
+    .edit-icon {
+        color: #124682;
+    }
+
+    .edit-icon-wrapper,
+    .trash-icon-wrapper {
+        padding: 0;
+        vertical-align: initial;
+    }
+
+    .edit-icon-wrapper {
+        margin-left: 10px;
+    }
+    
+    .trash-icon-wrapper {
+        margin-right: 10px;
+    }
+
+    .trash-icon-wrapper:hover {
+        background-color: transparent;
+        .trash-icon {
+            color: darkred;
+        }
+    }
+
+    .edit-icon-wrapper:hover  {
+        background-color: transparent;
+        .edit-icon {
+            color: #0C315B;
+        }
+    }
+}

@@ -4,6 +4,7 @@ import MainLayout from './components/MainLayout';
 import Account from './pages/Account';
 import CustomerList from './pages/CustomerList';
 import CustomerAdd from './pages/CustomerAdd';
+import CustomerEdit from './pages/CustomerEdit';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -22,6 +23,7 @@ const routes = [
       { path: 'account', element: <Account /> },
       { path: 'users', element: <AdminRoute component={CustomerList} /> },
       { path: 'users/add', element: <AdminRoute component={CustomerAdd} /> },
+      { path: 'users/edit', element: <AdminRoute component={CustomerEdit} /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
       { path: 'teachers', element: <TeacherList /> },

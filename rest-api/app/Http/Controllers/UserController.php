@@ -73,6 +73,18 @@ class UserController extends Controller
         return response()->json(auth()->user());
     }
 
+    public function editUser(Request $request, $id) {
+        $user = User::findOrFail($id);
+
+        $user->name = $request->name;
+        $user->role = $request->role;
+        $user->email = $request->email;
+
+        $user->save();
+
+        return response()->json(['message' => 'Потребителят е редактиран успешно!']);
+    }
+
     protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,
