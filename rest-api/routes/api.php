@@ -29,6 +29,7 @@ Route::group([
     'middleware' => 'api'
 ], function ($router) {
     Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/refresh', [UserController::class, 'refresh']);
     Route::post('/login', [UserController::class, 'login']);
     Route::get('/profile', [UserController::class, 'userProfile']);
 });

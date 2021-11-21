@@ -19,11 +19,26 @@ const App = () => {
   useEffect(() => {
     userServices.profile()
       .then(data => {
+        console.log(data);
         if (data.name) {
           setUser(data);
         }
+    })
+
+    const interval = setInterval(() => {
+      userServices.refresh()
+      .then(data => {
+        console.log(data);
+        localStorage.setItem('token', data.access_token);
       })
-      console.log('User')
+    }, 3600000);
+
+    if (!localStorage.getItem('token')) {
+      console.log('logged out')
+      clearInterval(interval);
+    }
+    // console.log('User')
+    //return () => clearInterval(interval);
   }, [jsonUser])
 
   return (

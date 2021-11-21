@@ -54,13 +54,23 @@ function logout() {
     .then(res => res.json())
 }
 
+function refresh() {
+    return fetch(`${services.url}/refresh?token=${localStorage.getItem('token')}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: services.header2
+    })
+    .then(res => res.json())
+}
+
 const userServices = {
     getAll,
     create,
     destroy,
     login,
     profile,
-    logout
+    logout,
+    refresh
 }
 
 export default userServices;

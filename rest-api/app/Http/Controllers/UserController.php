@@ -65,6 +65,10 @@ class UserController extends Controller
         return response()->json(['message' => 'User successfully signed out']);
     }
 
+    public function refresh() {
+        return $this->createNewToken(auth()->refresh());
+    }
+
     public function userProfile() {
         return response()->json(auth()->user());
     }
