@@ -58,7 +58,7 @@ const dropDownQualifications = {
     {
       href: '/app/protocols',
       icon: FileContractIcon,
-      title: 'Генериране на протокол'
+      title: 'Протоколи'
     },
     {
       href: '/app/teachers-certificate',

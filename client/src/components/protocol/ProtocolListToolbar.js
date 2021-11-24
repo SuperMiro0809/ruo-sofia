@@ -8,6 +8,7 @@ import {
     SvgIcon
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 const ProtocolListToolbar = (props) => {
     return (
@@ -21,8 +22,10 @@ const ProtocolListToolbar = (props) => {
                 <Button>Import</Button>
                 <Button sx={{ mx: 1 }}>Export</Button>
                 <Button
+                    component={RouterLink}
                     color="primary"
                     variant="contained"
+                    to="/app/protocols/add"
                 >
                     Генерирай протокол
                 </Button>

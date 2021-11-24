@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import Settings from './pages/Settings';
 import TeacherList from './pages/TeacherList';
 import ProtocolList from './pages/ProtocolList';
+import ProtocolAdd from './pages/ProtocolAdd';
 import AdminRoute from './hoc/isAdmin';
 
 const routes = [
@@ -28,6 +29,7 @@ const routes = [
       { path: 'products', element: <ProductList /> },
       { path: 'teachers', element: <TeacherList /> },
       { path: 'protocols', element: <ProtocolList /> },
+      { path: 'protocols/add', element: <ProtocolAdd /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

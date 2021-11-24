@@ -9,7 +9,7 @@ const ProtocolList = () => {
   return (
     <>
       <Helmet>
-        <title>Потребители</title>
+        <title>Протоколи</title>
       </Helmet>
       <Box
         sx={{
