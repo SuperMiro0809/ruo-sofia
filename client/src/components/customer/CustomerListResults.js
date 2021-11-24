@@ -176,8 +176,4 @@ const CustomerListResults = ({ ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired
-};
-
 export default CustomerListResults;

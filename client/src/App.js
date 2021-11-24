@@ -17,21 +17,16 @@ const App = () => {
   const jsonUser = JSON.stringify(user);
 
   useEffect(() => {
-    userServices.profile()
-      .then(data => {
-        console.log(data);
-        if (data.name) {
-          setUser(data);
-        }
-    })
+    getUser();
 
     const interval = setInterval(() => {
       userServices.refresh()
       .then(data => {
         console.log(data);
         localStorage.setItem('token', data.access_token);
+        getUser();
       })
-    }, 3599000);
+    }, 3598000);
 
     if (!localStorage.getItem('token')) {
       console.log('logged out')
@@ -40,6 +35,16 @@ const App = () => {
     // console.log('User')
     //return () => clearInterval(interval);
   }, [jsonUser])
+
+  const getUser = () => {
+    userServices.profile()
+    .then(data => {
+      console.log(data);
+      if (data.name) {
+        setUser(data);
+      }
+  })
+  }
 
   return (
     <StyledEngineProvider injectFirst>
