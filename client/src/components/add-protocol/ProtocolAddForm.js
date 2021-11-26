@@ -1,3 +1,4 @@
+import './ProtocolAddForm.scss';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -14,31 +15,74 @@ import {
     MenuItem,
     InputLabel,
     FormControl,
-    FormHelperText
+    FormHelperText,
+    InputAdornment,
+    Fab,
+    Divider,
+    ListItemButton,
+    ListItemText,
+    Collapse
 } from '@material-ui/core';
-import { 
+import {
     DatePicker,
     LocalizationProvider
 } from '@material-ui/lab';
+import {
+    Add as AddIcon,
+    Remove as RemoveIcon,
+    ExpandLess,
+    ExpandMore,
+    OpenInBrowser
+} from '@material-ui/icons';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, FieldArray, getIn } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 
 const ProtocolAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const [date, setDate] = useState(null);
+    const [openArr, setOpenArr] = useState([0]);
+
+    const applicationSchema = {
+        number: '',
+        ruoNumber: '',
+        firstName: '',
+        middleName: '',
+        lastName: '',
+        approve: '',
+        notApprove: ''
+    }
+
+    const open = (index) => {
+        if(openArr.includes(index)) {
+            let i = openArr.indexOf(index);
+            let arr = [];
+            for(let j = 0; j < openArr.length; j++) {
+                if(j != i) {
+                    arr.push(openArr[j]);
+                }
+            }
+            // if(arr.length === 0) {
+            //     arr.push(0);
+            // }
+            setOpenArr(arr);
+        }else {
+            let arr = [index, ...openArr];
+            setOpenArr(arr);
+        }
+    };
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         if (isSubmitting || errors.name || errors.email || errors.password || !values.email || !values.password || !values.role || !values.name) {
             return true;
         }
-    }
+    };
 
     return (
-        <Card {...rest}>
+        <Card {...rest} className="ProtocolAddForm">
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <Container maxWidth="1050">
@@ -46,13 +90,33 @@ const ProtocolAddForm = ({ rest }) => {
                             initialValues={{
                                 number: '',
                                 about: '',
-                                president: ''
+                                president: '',
+                                members: [''],
+                                applications: [
+                                    {
+                                        number: '',
+                                        ruoNumber: '',
+                                        firstName: '',
+                                        middleName: '',
+                                        lastName: '',
+                                        approve: '',
+                                        notApprove: ''
+                                    }
+                                ],
+                                'test.test': '',
                             }}
                             validationSchema={Yup.object().shape({
-                                // name: Yup.string().max(255).required('Името е задължително'),
-                                // email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
-                                // password: Yup.string().max(255).required('Паролата е задължителна'),
-                                // role: Yup.string().required('Ролята е задължителна')
+                                number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
+                                about: Yup.string().required('Относно е задължително'),
+                                president: Yup.string().required('Председателят е задължителен'),
+                                members: Yup.array().of(Yup.string().required('Членът е задължителен')),
+                                applications: Yup.array().of(Yup.object().shape({
+                                    number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
+                                    ruoNumber: Yup.number().required('Входящият номер в РУО е задължителен').typeError('Трябва да въведете число'),
+                                    firstName: Yup.string().required('Името е задължително'),
+                                    middleName: Yup.string().required('Презимето е задължително'),
+                                    lastName: Yup.string().required('Фамилията е задължителна'),
+                                }))
                             })}
                             onSubmit={(values) => {
                                 const data = { date, ...values };
@@ -89,6 +153,9 @@ const ProtocolAddForm = ({ rest }) => {
                                         type="text"
                                         value={values.name}
                                         variant="outlined"
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">№</InputAdornment>
+                                        }}
                                     />
                                     <LocalizationProvider locale={bg} dateAdapter={AdapterDateFns}>
                                         <DatePicker
@@ -97,39 +164,271 @@ const ProtocolAddForm = ({ rest }) => {
                                             value={date}
                                             onChange={(newValue) => {
                                                 setDate(newValue)
-                                            }}                                      
-                                            renderInput={(params) => 
-                                                <TextField 
-                                                    margin="normal" 
-                                                    onBlur={handleBlur} 
+                                            }}
+                                            renderInput={(params) =>
+                                                <TextField
+                                                    margin="normal"
+                                                    onBlur={handleBlur}
                                                     fullWidth
-                                                    {...params} 
+                                                    {...params}
                                                 />
                                             }
                                         />
                                     </LocalizationProvider>
-                                    {/* <FormControl
+                                    <TextField
+                                        error={Boolean(touched.about && errors.about)}
+                                        fullWidth
+                                        helperText={touched.about && errors.about}
+                                        label="Относно"
+                                        margin="normal"
+                                        name="about"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        type="text"
+                                        value={values.about}
+                                        variant="outlined"
+                                        multiline
+                                        rows={3}
+                                    />
+                                    <FormControl
                                         fullWidth
                                         margin="normal"
-                                        error={Boolean(touched.role && errors.role)}
+                                        error={Boolean(touched.president && errors.president)}
                                     >
-                                        <InputLabel id="demo-simple-select-label">Роля</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Председател</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            value={values.role}
-                                            label="Роля"
-                                            name="role"
+                                            value={values.president}
+                                            label="Президент"
+                                            name="president"
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                         >
-                                            <MenuItem value={"Administrator"}>Администратор</MenuItem>
-                                            <MenuItem value={"Qualifications"}>Квалификации</MenuItem>
-                                            <MenuItem value={"Education"}>Образование</MenuItem>
-                                            <MenuItem value={"Member"}>Потребител</MenuItem>
+                                            <MenuItem value={"pOne"}>Президент 1</MenuItem>
+                                            <MenuItem value={"pTwo"}>Президент 2</MenuItem>
+                                            <MenuItem value={"pThree"}>Президент 3</MenuItem>
+                                            <MenuItem value={"pFour"}>Президент 4</MenuItem>
                                         </Select>
-                                        <FormHelperText>{touched.role && errors.role}</FormHelperText>
-                                    </FormControl> */}
+                                        <FormHelperText>{touched.president && errors.president}</FormHelperText>
+                                    </FormControl>
+                                    <FieldArray
+                                        name="members"
+                                        render={arrayHelpers => (
+                                            <>
+                                                {values.members.map((member, index) => (
+                                                    <Box
+                                                        key={index}
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center'
+                                                        }}
+                                                    >
+                                                        <FormControl
+                                                            fullWidth
+                                                            margin="normal"
+                                                            error={Boolean(touched.members && errors.members)}
+                                                            sx={values.members.length - 1 == index ? { mb: 2 } : { mb: 1 }}
+                                                        >
+                                                            <InputLabel id="demo-simple-select-label">{`Член ${index + 1}`}</InputLabel>
+                                                            <Select
+                                                                label="Членове"
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                name={`members.${index}`}
+                                                                value={values.members[index]}
+                                                            >
+                                                                <MenuItem value={"mOne"}>Член 1</MenuItem>
+                                                                <MenuItem value={"mTwo"}>Член 2</MenuItem>
+                                                                <MenuItem value={"mThree"}>Член 3</MenuItem>
+                                                                <MenuItem value={"mFour"}>Член 4</MenuItem>
+                                                            </Select>
+                                                            {/* <FormHelperText>{touched.members && errors.members ? errors.members[index] : ''}</FormHelperText> */}
+                                                        </FormControl>
+                                                        {index == 0 ? (
+                                                            <div style={{ marginTop: '16px', marginBottom: values.members.length - 1 == index ? '16px' : '8px' }}>
+                                                                <Fab onClick={() => arrayHelpers.push('')} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="add">
+                                                                    <AddIcon />
+                                                                </Fab>
+                                                            </div>
+                                                        ) : (
+                                                                <div style={{ marginTop: '16px', marginBottom: values.members.length - 1 == index ? '16px' : '8px' }}>
+                                                                    <Fab onClick={() => arrayHelpers.remove(index)} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="remove">
+                                                                        <RemoveIcon />
+                                                                    </Fab>
+                                                                </div>
+                                                            )}
+                                                    </Box>
+                                                ))}
+                                            </>
+                                        )}
+                                    />
+                                    <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
+                                        <Typography
+                                            color="textPrimary"
+                                            variant="h4"
+                                        >
+                                            Добавяне на заявление
+                                        </Typography>
+                                    </Box>
+                                    <FieldArray
+                                        name="applications"
+                                        render={arrayHelpers => (
+                                            <>
+                                                {values.applications.map((application, index) => (
+                                                    <div key={index}>
+                                                        <Box className="expand-wrapper">
+                                                            <ListItemButton className="expand-button" sx={{ ml: 2, mb: !openArr.includes(index) ? 2 : 0 }} onClick={() => open(index)}>
+                                                                {!openArr.includes(index) ? <ExpandLess /> : <ExpandMore />}
+                                                                <ListItemText primary="Заявление" />
+                                                            </ListItemButton>
+                                                            <Box className="expand-options" sx={{ mb: !openArr.includes(index) ? 2 : 0 }}>
+                                                                <Fab onClick={() => arrayHelpers.push(applicationSchema)} size="small" color="primary" aria-label="add">
+                                                                    <AddIcon />
+                                                                </Fab>
+                                                                <Fab onClick={() => arrayHelpers.remove(index)} disabled={values.applications.length == 1} sx={{ ml: 1 }} size="small" color="primary" aria-label="remove">
+                                                                    <RemoveIcon />
+                                                                </Fab>
+                                                            </Box>
+                                                        </Box>
+                                                        <Collapse in={openArr.includes(index)} timeout="auto" unmountOnExit>
+                                                            <Box sx={{ ml: 2 }}>
+                                                                <TextField
+                                                                    error={Boolean(
+                                                                        getIn(touched, `applications.${index}.number`) &&
+                                                                        getIn(errors, `applications.${index}.number`)
+                                                                    )}
+                                                                    fullWidth
+                                                                    helperText={
+                                                                        getIn(touched, `applications.${index}.number`) &&
+                                                                        getIn(errors, `applications.${index}.number`)
+                                                                    }
+                                                                    label="Номер"
+                                                                    margin="normal"
+                                                                    name={`applications.${index}.number`}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values.applications[index].number}
+                                                                    variant="outlined"
+                                                                    InputProps={{
+                                                                        startAdornment: <InputAdornment position="start">№</InputAdornment>
+                                                                    }}
+                                                                />
+                                                                <TextField
+                                                                    error={Boolean(
+                                                                        getIn(touched, `applications.${index}.ruoNumber`) &&
+                                                                        getIn(errors, `applications.${index}.ruoNumber`)
+                                                                    )}
+                                                                    fullWidth
+                                                                    helperText={
+                                                                        getIn(touched, `applications.${index}.ruoNumber`) &&
+                                                                        getIn(errors, `applications.${index}.ruoNumber`)
+                                                                    }
+                                                                    label="Входящ номер в РУО"
+                                                                    margin="normal"
+                                                                    name={`applications.${index}.ruoNumber`}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values.applications[index].ruoNumber}
+                                                                    variant="outlined"
+                                                                    InputProps={{
+                                                                        startAdornment: <InputAdornment position="start">№</InputAdornment>
+                                                                    }}
+                                                                />
+                                                                <TextField
+                                                                    error={Boolean(
+                                                                        getIn(touched, `applications.${index}.firstName`) &&
+                                                                        getIn(errors, `applications.${index}.firstName`)
+                                                                    )}
+                                                                    fullWidth
+                                                                    helperText={
+                                                                        getIn(touched, `applications.${index}.firstName`) &&
+                                                                        getIn(errors, `applications.${index}.firstName`)
+                                                                    }
+                                                                    label="Име"
+                                                                    margin="normal"
+                                                                    name={`applications.${index}.firstName`}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values.applications[index].firstName}
+                                                                    variant="outlined"
+                                                                />
+                                                                <TextField
+                                                                    error={Boolean(
+                                                                        getIn(touched, `applications.${index}.middleName`) &&
+                                                                        getIn(errors, `applications.${index}.middleName`)
+                                                                    )}
+                                                                    fullWidth
+                                                                    helperText={
+                                                                        getIn(touched, `applications.${index}.middleName`) &&
+                                                                        getIn(errors, `applications.${index}.middleName`)
+                                                                    }
+                                                                    label="Презиме"
+                                                                    margin="normal"
+                                                                    name={`applications.${index}.middleName`}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values.applications[index].middleName}
+                                                                    variant="outlined"
+                                                                />
+                                                                <TextField
+                                                                    error={Boolean(
+                                                                        getIn(touched, `applications.${index}.lastName`) &&
+                                                                        getIn(errors, `applications.${index}.lastName`)
+                                                                    )}
+                                                                    fullWidth
+                                                                    helperText={
+                                                                        getIn(touched, `applications.${index}.lastName`) &&
+                                                                        getIn(errors, `applications.${index}.lastName`)
+                                                                    }
+                                                                    label="Фамилия"
+                                                                    margin="normal"
+                                                                    name={`applications.${index}.lastName`}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values.applications[index].lastName}
+                                                                    variant="outlined"
+                                                                />
+                                                                <TextField
+                                                                    fullWidth
+                                                                    label="Предложение за признаване"
+                                                                    margin="normal"
+                                                                    name={`applications.${index}.approve`}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values.applications[index].approve}
+                                                                    variant="outlined"
+                                                                    multiline
+                                                                    rows={3}
+                                                                />
+                                                                <TextField
+                                                                    fullWidth
+                                                                    label="Отказ за признаване"
+                                                                    margin="normal"
+                                                                    name={`applications.${index}.notApprove`}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values.applications[index].notApprove}
+                                                                    variant="outlined"
+                                                                    multiline
+                                                                    rows={3}
+                                                                />
+                                                            </Box>
+                                                        </Collapse>
+                                                    </div>
+                                                ))}
+                                            </>
+                                        )}
+                                    />
+
+                                    <Divider />
                                     <Box sx={{ py: 2 }}>
                                         <Button
                                             color="primary"
@@ -139,7 +438,7 @@ const ProtocolAddForm = ({ rest }) => {
                                             type="submit"
                                             variant="contained"
                                         >
-                                            Генерираре
+                                            Генериране
                                         </Button>
                                     </Box>
                                 </form>
