@@ -57,19 +57,16 @@ const ProtocolAddForm = ({ rest }) => {
     }
 
     const open = (index) => {
-        if(openArr.includes(index)) {
+        if (openArr.includes(index)) {
             let i = openArr.indexOf(index);
             let arr = [];
-            for(let j = 0; j < openArr.length; j++) {
-                if(j != i) {
+            for (let j = 0; j < openArr.length; j++) {
+                if (j != i) {
                     arr.push(openArr[j]);
                 }
             }
-            // if(arr.length === 0) {
-            //     arr.push(0);
-            // }
             setOpenArr(arr);
-        }else {
+        } else {
             let arr = [index, ...openArr];
             setOpenArr(arr);
         }
@@ -103,7 +100,15 @@ const ProtocolAddForm = ({ rest }) => {
                                         notApprove: ''
                                     }
                                 ],
-                                'test.test': '',
+                                // 'application-0': {
+                                //     number: '',
+                                //     ruoNumber: '',
+                                //     firstName: '',
+                                //     middleName: '',
+                                //     lastName: '',
+                                //     approve: '',
+                                //     notApprove: ''
+                                // }
                             }}
                             validationSchema={Yup.object().shape({
                                 number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
@@ -122,6 +127,8 @@ const ProtocolAddForm = ({ rest }) => {
                                 const data = { date, ...values };
                                 console.log(data)
                             }}
+                            validateOnBlur={true}
+                            validateOnChange={false}
                         >
                             {({
                                 errors,
@@ -293,6 +300,17 @@ const ProtocolAddForm = ({ rest }) => {
                                                         </Box>
                                                         <Collapse in={openArr.includes(index)} timeout="auto" unmountOnExit>
                                                             <Box sx={{ ml: 2 }}>
+                                                                {/* <TextField
+                                                                    fullWidth
+                                                                    label="test"
+                                                                    margin="normal"
+                                                                    name="['test.test']"
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleChange}
+                                                                    type="text"
+                                                                    value={values['test.test']}
+                                                                    variant="outlined"
+                                                                /> */}
                                                                 <TextField
                                                                     error={Boolean(
                                                                         getIn(touched, `applications.${index}.number`) &&
@@ -306,10 +324,12 @@ const ProtocolAddForm = ({ rest }) => {
                                                                     label="Номер"
                                                                     margin="normal"
                                                                     name={`applications.${index}.number`}
+                                                                    //name={`application-${index}.number`}
                                                                     onBlur={handleBlur}
                                                                     onChange={handleChange}
                                                                     type="text"
                                                                     value={values.applications[index].number}
+                                                                    //value={values[`application-${index}`].number}
                                                                     variant="outlined"
                                                                     InputProps={{
                                                                         startAdornment: <InputAdornment position="start">№</InputAdornment>
@@ -327,11 +347,13 @@ const ProtocolAddForm = ({ rest }) => {
                                                                     }
                                                                     label="Входящ номер в РУО"
                                                                     margin="normal"
+                                                                    // name={`application-${index}.ruoNumber`}
                                                                     name={`applications.${index}.ruoNumber`}
                                                                     onBlur={handleBlur}
                                                                     onChange={handleChange}
                                                                     type="text"
                                                                     value={values.applications[index].ruoNumber}
+                                                                    //value={values[`application-${index}`].ruoNumber}
                                                                     variant="outlined"
                                                                     InputProps={{
                                                                         startAdornment: <InputAdornment position="start">№</InputAdornment>
@@ -350,10 +372,12 @@ const ProtocolAddForm = ({ rest }) => {
                                                                     label="Име"
                                                                     margin="normal"
                                                                     name={`applications.${index}.firstName`}
+                                                                    // name={`application-${index}.firstName`}
                                                                     onBlur={handleBlur}
                                                                     onChange={handleChange}
                                                                     type="text"
                                                                     value={values.applications[index].firstName}
+                                                                    //value={values[`application-${index}`].firstName}
                                                                     variant="outlined"
                                                                 />
                                                                 <TextField
@@ -369,10 +393,12 @@ const ProtocolAddForm = ({ rest }) => {
                                                                     label="Презиме"
                                                                     margin="normal"
                                                                     name={`applications.${index}.middleName`}
+                                                                    // name={`application-${index}.middleName`}
                                                                     onBlur={handleBlur}
                                                                     onChange={handleChange}
                                                                     type="text"
                                                                     value={values.applications[index].middleName}
+                                                                    //value={values[`application-${index}`].middleName}
                                                                     variant="outlined"
                                                                 />
                                                                 <TextField
@@ -388,10 +414,12 @@ const ProtocolAddForm = ({ rest }) => {
                                                                     label="Фамилия"
                                                                     margin="normal"
                                                                     name={`applications.${index}.lastName`}
+                                                                    //name={`application-${index}.lastName`}
                                                                     onBlur={handleBlur}
                                                                     onChange={handleChange}
                                                                     type="text"
                                                                     value={values.applications[index].lastName}
+                                                                    //value={values[`application-${index}`].lastName}
                                                                     variant="outlined"
                                                                 />
                                                                 <TextField
@@ -399,10 +427,12 @@ const ProtocolAddForm = ({ rest }) => {
                                                                     label="Предложение за признаване"
                                                                     margin="normal"
                                                                     name={`applications.${index}.approve`}
+                                                                    //name={`application-${index}.approve`}
                                                                     onBlur={handleBlur}
                                                                     onChange={handleChange}
                                                                     type="text"
                                                                     value={values.applications[index].approve}
+                                                                    //value={values[`application-${index}`].approve}
                                                                     variant="outlined"
                                                                     multiline
                                                                     rows={3}
@@ -412,10 +442,12 @@ const ProtocolAddForm = ({ rest }) => {
                                                                     label="Отказ за признаване"
                                                                     margin="normal"
                                                                     name={`applications.${index}.notApprove`}
+                                                                    // name={`application-${index}.notApprove`}
                                                                     onBlur={handleBlur}
                                                                     onChange={handleChange}
                                                                     type="text"
                                                                     value={values.applications[index].notApprove}
+                                                                    //value={values[`application-${index}`].notApprove}
                                                                     variant="outlined"
                                                                     multiline
                                                                     rows={3}
