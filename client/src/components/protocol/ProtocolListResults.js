@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -16,11 +16,19 @@ import {
   Typography
 } from '@material-ui/core';
 import getInitials from '../../utils/getInitials';
+import protocolServices from '../../services/protocol';
 
 const ProtocolListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    protocolServices.getAll()
+    .then(data => {
+      console.log(data);
+    })
+  }, [])
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;

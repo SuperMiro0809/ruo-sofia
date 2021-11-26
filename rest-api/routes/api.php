@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProtocolController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -34,3 +35,5 @@ Route::group([
     Route::get('/profile', [UserController::class, 'userProfile']);
     Route::put('/users/{id}', [UserController::class, 'editUser']);
 });
+
+Route::get('/protocols', [ProtocolController::class, 'index']);
