@@ -14,9 +14,18 @@ function create(data) {
         .then(res => res.json())
 }
 
+function destroy(id) {
+
+    return fetch(`${services.url}/protocols/${id}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+}
+
 const protocolServices = {
     getAll,
-    create
+    create,
+    destroy
 }
 
 export default protocolServices;

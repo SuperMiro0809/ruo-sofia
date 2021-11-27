@@ -48,4 +48,18 @@ class ProtocolController extends Controller
 
         return response()->json(['message' => 'Created']);
     }
+
+    public function destroy($id) {
+        $protocol = Protocol::findOrFail($id);
+        $applications = $protocol->applications['application_ids'];
+        
+        foreach ($applications as $aId) {
+            $application = Application::findOrFail($aId);
+            $application->delete();
+        }
+
+        $protocol->delete();
+
+        return response()->json(['message' => 'Deleted']);
+    }
 }

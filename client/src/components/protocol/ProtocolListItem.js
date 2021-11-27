@@ -18,10 +18,10 @@ import {
     Delete as DeleteIcon
 } from '@material-ui/icons';
 
-const ProtocolListItem = ({ protocol, openProp, selectedCustomerProp, ...rest }) => {
+const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest }) => {
     const openModal = (id) => {
         openProp.setOpen(true);
-        selectedCustomerProp.setSelectedCustomer(id);
+        selectedProtocolProp.setSelectedProtocol(id);
     }
 
     return (

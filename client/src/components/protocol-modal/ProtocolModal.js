@@ -8,8 +8,7 @@ import {
 import {
     Close as CloseIcon
 } from '@material-ui/icons';
-import userServices from '../../services/user';
-import CustomerContext from '../../contexts/CustomerContext';
+import protocolServices from '../../services/protocol';
 import MessageContext from '../../contexts/MessageContext';
 
 const style = {
@@ -18,16 +17,15 @@ const style = {
     p: 3
 };
 
-const CustomerModal = ({ openProp, selectedCustomerProp, ...rest }) => {
-    const customerContext = useContext(CustomerContext);
+const ProtocolModal = ({ openProp, selectedProtocolProp, ...rest }) => {
     const messageContext = useContext(MessageContext);
 
     const deleteCustomer = () => {
-        userServices.destroy(selectedCustomerProp.selectedCustomer)
+        protocolServices.destroy(selectedProtocolProp.selectedProtocol)
         .then(data => {
           closeModal();
-          messageContext[1]({ status: 'success', text: data.text })
-          customerContext[1](data.users);
+          console.log(data);
+          messageContext[1]({ status: 'success', text: 'Протоколът е изтрит успешно!' })
           const interval = setInterval(function () {
             messageContext[1]('');
             clearInterval(interval);
@@ -36,7 +34,7 @@ const CustomerModal = ({ openProp, selectedCustomerProp, ...rest }) => {
     }
 
     const closeModal = () => {
-        selectedCustomerProp.setSelectedCustomer(0);
+        selectedProtocolProp.setSelectedProtocol(0);
         openProp.setOpen(false);
     }
 
@@ -51,7 +49,7 @@ const CustomerModal = ({ openProp, selectedCustomerProp, ...rest }) => {
                     <CloseIcon className="close-icon" onClick={closeModal} />
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Сигурни ли сте, че желаете да изтриете този потребител?
+                    Сигурни ли сте, че желаете да изтриете този протокол?
                 </Typography>
                 <Box className="button-wrapper">
                     <Button className="modal-button" onClick={closeModal}>Не</Button>
@@ -62,4 +60,4 @@ const CustomerModal = ({ openProp, selectedCustomerProp, ...rest }) => {
     );
 }
 
-export default CustomerModal;
+export default ProtocolModal;

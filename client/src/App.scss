@@ -7,3 +7,36 @@ table {
         text-align: center;
     }
 }
+
+.Modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    outline: none;
+    border-radius: 6px;
+
+    .button-wrapper {
+        float: right;
+        margin-top: 5px;
+
+        .modal-button:hover {
+            color: white;
+            background-color: #124682 !important;
+        }
+    }
+
+    .close-icon {
+        font-size: 23px;
+        float: right;
+        color: #6b778c;
+        cursor: pointer;
+    }
+
+    .close-icon:hover {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}

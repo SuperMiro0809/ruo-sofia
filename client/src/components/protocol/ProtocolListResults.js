@@ -14,9 +14,9 @@ import {
   Typography,
   CircularProgress
 } from '@material-ui/core';
-import getInitials from '../../utils/getInitials';
 import ProtocolListItem from './ProtocolListItem';
 import protocolServices from '../../services/protocol';
+import ProtocolModal from '../protocol-modal/ProtocolModal';
 
 const ProtocolListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -24,10 +24,15 @@ const ProtocolListResults = ({ customers, ...rest }) => {
   const [page, setPage] = useState(0);
   const [protocols, setProtocols] = useState([]);
   const [loader, setLoader] = useState(true);
+  let [open, setOpen] = useState(false);
+  const [selectedProtocol, setSelectedProtocol] = useState(0);
+
+  let openProp = { open, setOpen };
+  let selectedProtocolProp = { selectedProtocol, setSelectedProtocol }
 
   useEffect(() => {
     getProtocols();
-  }, [])
+  }, [open])
 
   const getProtocols = () => {
     protocolServices.getAll()
@@ -80,6 +85,7 @@ const ProtocolListResults = ({ customers, ...rest }) => {
 
   return (
     <Card {...rest}>
+      <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -126,7 +132,7 @@ const ProtocolListResults = ({ customers, ...rest }) => {
                   {protocols.length !== 0 ?
                     <>
                       {protocols.slice(0, limit).map((protocol) => (
-                        <ProtocolListItem key={protocol.id} protocol={protocol} />
+                        <ProtocolListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp}/>
                       ))}
                     </>
                     :
