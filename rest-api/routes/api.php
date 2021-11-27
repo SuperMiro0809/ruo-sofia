@@ -37,3 +37,4 @@ Route::group([
 });
 
 Route::get('/protocols', [ProtocolController::class, 'index']);
+Route::post('/protocols', [ProtocolController::class, 'store']);

@@ -15,7 +15,10 @@ class CreateProtocolsTable extends Migration
     {
         Schema::create('protocols', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('application_id');
+            // $table->unsignedBigInteger('application_id');
+            $table->json('applications');
+            $application_id = DB::connection()->getQueryGrammar()->wrap('applications->application_id');
+            $table->unsignedBigInteger('application_id')->storedAs($application_id);
             $table->timestamps();
             $table->integer('number');
             $table->date('date');
@@ -23,7 +26,7 @@ class CreateProtocolsTable extends Migration
             $table->string('president');
             $table->json('members');
 
-           $table->foreign('application_id')->references('id')->on('applications')->onUpdate('cascade')->onDelete('cascade');
+           $table->foreign('application_id')->references('id')->on('applications');
         });
     }
 
