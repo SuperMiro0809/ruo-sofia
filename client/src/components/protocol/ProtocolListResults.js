@@ -12,7 +12,8 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  CircularProgress
+  CircularProgress,
+  TableContainer
 } from '@material-ui/core';
 import ProtocolListItem from './ProtocolListItem';
 import protocolServices from '../../services/protocol';
@@ -88,10 +89,24 @@ const ProtocolListResults = ({ customers, ...rest }) => {
       <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {/* <TableCell padding="checkbox">
+          <TableContainer>
+            <Box sx={{
+              pl: { sm: 2 },
+              pr: { xs: 1, sm: 1 },
+              mt: 3,
+              mb: 1
+            }}>
+              <Typography
+                color="textPrimary"
+                variant="h3"
+              >
+                Протоколи
+              </Typography>
+            </Box>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
                     color="primary"
@@ -102,48 +117,50 @@ const ProtocolListResults = ({ customers, ...rest }) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell> */}
-                <TableCell>
-                  Номер
+                  <TableCell />
+                  <TableCell style={{ textAlign: 'left' }}>
+                    Номер
                 </TableCell>
-                <TableCell>
-                  Дата
+                  <TableCell>
+                    Дата
                 </TableCell>
-                <TableCell>
-                  Относно
+                  <TableCell>
+                    Относно
                 </TableCell>
-                <TableCell>
-                  Председател
+                  <TableCell>
+                    Председател
                 </TableCell>
-                <TableCell>
-                  Членове
+                  <TableCell>
+                    Членове
                 </TableCell>
-                <TableCell>
-                  Операции
+                  <TableCell>
+                    Операции
                 </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {loader ?
-                <TableRow>
-                  <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6"><CircularProgress size="30px" /></TableCell>
                 </TableRow>
-                :
-                <>
-                  {protocols.length !== 0 ?
-                    <>
-                      {protocols.slice(0, limit).map((protocol) => (
-                        <ProtocolListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp}/>
-                      ))}
-                    </>
-                    :
-                    <TableRow>
-                          <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6">Няма записи</TableCell>
-                    </TableRow>
-                  }
-                </>
-              }
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {loader ?
+                  <TableRow>
+                    <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6"><CircularProgress size="30px" /></TableCell>
+                  </TableRow>
+                  :
+                  <>
+                    {protocols.length !== 0 ?
+                      <>
+                        {protocols.slice(0, limit).map((protocol) => (
+                          <ProtocolListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
+                        ))}
+                      </>
+                      :
+                      <TableRow>
+                        <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6">Няма записи</TableCell>
+                      </TableRow>
+                    }
+                  </>
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
       </PerfectScrollbar>
       <TablePagination
