@@ -19,8 +19,6 @@ const ProtocolListToolbar = (props) => {
                     justifyContent: 'flex-end'
                 }}
             >
-                <Button>Import</Button>
-                <Button sx={{ mx: 1 }}>Export</Button>
                 <Button
                     component={RouterLink}
                     color="primary"
@@ -48,7 +46,7 @@ const ProtocolListToolbar = (props) => {
                                         </InputAdornment>
                                     )
                                 }}
-                                placeholder="Търси учител"
+                                placeholder="Търси протокол"
                                 variant="outlined"
                             />
                         </Box>

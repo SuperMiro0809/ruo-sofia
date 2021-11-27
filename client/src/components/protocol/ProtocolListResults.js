@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -13,54 +11,64 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
+  CircularProgress
 } from '@material-ui/core';
 import getInitials from '../../utils/getInitials';
+import ProtocolListItem from './ProtocolListItem';
 import protocolServices from '../../services/protocol';
 
 const ProtocolListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [protocols, setProtocols] = useState([]);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
-    protocolServices.getAll()
-    .then(data => {
-      console.log(data);
-    })
+    getProtocols();
   }, [])
 
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+  const getProtocols = () => {
+    protocolServices.getAll()
+      .then(data => {
+        console.log(data);
+        setProtocols(data);
+        setLoader(false);
+      })
+  }
 
-    if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
+  // const handleSelectAll = (event) => {
+  //   let newSelectedCustomerIds;
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  //   if (event.target.checked) {
+  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
+  //   } else {
+  //     newSelectedCustomerIds = [];
+  //   }
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
 
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
+  // const handleSelectOne = (event, id) => {
+  //   const selectedIndex = selectedCustomerIds.indexOf(id);
+  //   let newSelectedCustomerIds = [];
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  //   if (selectedIndex === -1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+  //   } else if (selectedIndex === 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
+  //       selectedCustomerIds.slice(0, selectedIndex),
+  //       selectedCustomerIds.slice(selectedIndex + 1)
+  //     );
+  //   }
+
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -89,71 +97,45 @@ const ProtocolListResults = ({ customers, ...rest }) => {
                   />
                 </TableCell> */}
                 <TableCell>
-                  Име
+                  Номер
                 </TableCell>
                 <TableCell>
-                  Рожденна дата
+                  Дата
                 </TableCell>
                 <TableCell>
-                  Град
+                  Относно
                 </TableCell>
                 <TableCell>
-                  Месторабота
+                  Председател
                 </TableCell>
                 <TableCell>
-                  Registration date
+                  Членове
+                </TableCell>
+                <TableCell>
+                  Операции
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
-                <TableRow
-                  hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-                >
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
-                      value="true"
-                    />
-                  </TableCell> */}
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      <Avatar
-                        src={customer.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    {customer.email}
-                  </TableCell>
-                  <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell>
-                  <TableCell>
-                    {customer.phone}
-                  </TableCell>
-                  <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
-                  </TableCell>
+              {loader ?
+                <TableRow>
+                  <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6"><CircularProgress size="30px" /></TableCell>
                 </TableRow>
-              ))}
+                :
+                <>
+                  {protocols.length !== 0 ?
+                    <>
+                      {protocols.slice(0, limit).map((protocol) => (
+                        <ProtocolListItem key={protocol.id} protocol={protocol} />
+                      ))}
+                    </>
+                    :
+                    <TableRow>
+                          <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6">Няма записи</TableCell>
+                    </TableRow>
+                  }
+                </>
+              }
             </TableBody>
           </Table>
         </Box>
