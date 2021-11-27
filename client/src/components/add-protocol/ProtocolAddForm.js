@@ -73,9 +73,52 @@ const ProtocolAddForm = ({ rest }) => {
     };
 
     const disableCreateButton = (isSubmitting, errors, values) => {
-        if (isSubmitting || errors.name || errors.email || errors.password || !values.email || !values.password || !values.role || !values.name) {
+        for (let key in values) {
+            if (!values[key]) {
+                return true;
+            }
+        }
+
+        for (let i = 0; i < values.members.length; i++) {
+            if(!values.members[i]) {
+                return true;
+            }
+        }
+
+        for (let i = 0; i < values.applications.length; i++) {
+            for (let key in values.applications[i]) {
+                if (!values.applications[i][key]) {
+                    return true;
+                }
+            }
+        }
+
+        for (let key in errors) {
+            if (errors[key]) {
+                return true;
+            }
+        }
+
+        if (errors['applications']) {
+            // for (let i = 0; i < values.applications.length; i++) {
+            //     for (let key in values.applications[i]) {
+            //         if (errors.applications[i][key]) {
+            //             return true;
+            //         }
+            //     }
+            // }
             return true;
         }
+
+        if (errors['members']) {
+            return true;
+        }
+
+        if (isSubmitting) {
+            return true;
+        }
+
+        return false;
     };
 
     return (
@@ -123,9 +166,14 @@ const ProtocolAddForm = ({ rest }) => {
                                     lastName: Yup.string().required('Фамилията е задължителна'),
                                 }))
                             })}
-                            onSubmit={(values) => {
-                                const data = { date, ...values };
-                                console.log(data)
+                            onSubmit={(values, { setSubmitting }) => {
+                                if(!values) {
+                                    console.log('Error');
+                                    setSubmitting(false);
+                                }else {
+                                    const data = { date, ...values };
+                                    console.log(data)
+                                }
                             }}
                             validateOnBlur={true}
                             validateOnChange={false}
@@ -464,7 +512,7 @@ const ProtocolAddForm = ({ rest }) => {
                                     <Box sx={{ py: 2 }}>
                                         <Button
                                             color="primary"
-                                            // disabled={disableCreateButton(isSubmitting, errors, values)}
+                                            disabled={disableCreateButton(isSubmitting, errors, values)}
                                             fullWidth
                                             size="large"
                                             type="submit"
