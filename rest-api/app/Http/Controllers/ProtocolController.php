@@ -42,7 +42,7 @@ class ProtocolController extends Controller
         $protocol->about = $request->about;
         $protocol->president = $request->president;
         $protocol->members = json_encode($request->members);
-        $protocol->applications()->attach($ids);
+        $protocol->application()->attach($ids);
 
         $protocol->save();
 

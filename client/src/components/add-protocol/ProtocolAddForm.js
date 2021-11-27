@@ -39,6 +39,7 @@ import { bg } from 'date-fns/locale';
 import * as Yup from 'yup';
 import { Formik, FieldArray, getIn } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
+import protocolServices from '../../services/protocol';
 
 const ProtocolAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
@@ -171,8 +172,18 @@ const ProtocolAddForm = ({ rest }) => {
                                     console.log('Error');
                                     setSubmitting(false);
                                 }else {
-                                    const data = { date, ...values };
-                                    console.log(data)
+                                    const formatedDate = moment(date).format('YYYY/MM/DD');
+                                    const data = { date: formatedDate, ...values };
+                                    console.log(data);
+                                    protocolServices.create(data)
+                                    .then(r => {
+                                        messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });
+                                        navigate('/app/protocols', { replace: true });
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 2000)
+                                    })
                                 }
                             }}
                             validateOnBlur={true}
