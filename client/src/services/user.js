@@ -45,6 +45,18 @@ function profile() {
     .then(res => res.json())
 }
 
+function avatar(data) {
+    return fetch(`${services.url}/profile/avatar?token=${localStorage.getItem('token')}`, {
+        method: 'POST',
+        body: data,
+        headers: {
+            //"Content-Type": "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
+            //'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryLSJ94HSMRnoF7dBI'
+        }
+    })
+    .then(res => res.json())
+}
+
 function editUser(data) {
     return fetch(`${services.url}/users/${data.id}?token=${localStorage.getItem('token')}`, {
         method: 'PUT',
@@ -79,6 +91,7 @@ const userServices = {
     destroy,
     login,
     profile,
+    avatar,
     editUser,
     logout,
     refresh

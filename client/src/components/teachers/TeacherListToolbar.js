@@ -19,9 +19,16 @@ const TeacherListToolbar = (props) => {
                     justifyContent: 'flex-end'
                 }}
             >
-                <Button>Import</Button>
-                <Button sx={{ mx: 1 }}>Export</Button>
                 <Button
+                    component={RouterLink}
+                    color="primary"
+                    variant="contained"
+                    to="/app/teachers/add"
+                >
+                    Добави заявление
+                </Button>
+                <Button
+                    sx={{ mx: 1 }}
                     component={RouterLink}
                     color="primary"
                     variant="contained"

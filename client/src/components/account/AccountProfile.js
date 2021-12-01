@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import moment from 'moment';
 import {
   Avatar,
@@ -10,7 +10,9 @@ import {
   Divider,
   Typography
 } from '@material-ui/core';
+import { styled } from '@material-ui/styles';
 import UserContext from '../../contexts/UserContext';
+import userServices from '../../services/user';
 
 let roles = {
   'Administrator': 'Администратор',
@@ -19,11 +21,32 @@ let roles = {
   'Member': 'Потребител'
 };
 
+const Input = styled('input')({
+  display: 'none',
+});
+
 const AccountProfile = (props) => {
   const userContext = useContext(UserContext);
+  const [selectedFile, setSelectedFile] = useState();
   const [user] = userContext;
 
-  return(
+  const handleChange = (event) => {
+    //setSelectedFile(event.target.files[0]);
+    const body = new FormData();
+    body.append('avatar', event.target.files[0]);
+    console.log(selectedFile);
+    event.target.value = "";
+    userServices.avatar(body)
+    .then(data => {
+      console.log(data);
+    })
+  }
+
+  const handleSubmit = () => {
+    console.log(selectedFile);
+  }
+
+  return (
     <Card {...props}>
       <CardContent>
         <Box
@@ -63,16 +86,15 @@ const AccountProfile = (props) => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button
-          color="primary"
-          fullWidth
-          variant="text"
-        >
-          Upload picture
-        </Button>
+        <label htmlFor="contained-button-file" style={{ width: '100%' }}>
+          <Input accept="image/*" id="contained-button-file" type="file" onChange={handleChange}/>
+          <Button variant="text" fullWidth component="span">
+            Качи снимка
+          </Button>
+        </label>
       </CardActions>
     </Card>
   );
-} 
+}
 
 export default AccountProfile;

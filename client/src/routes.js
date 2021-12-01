@@ -36,6 +36,15 @@ const routes = [
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
+//   {
+//     path: 'users',
+//     element: <DashboardLayout />,
+//     children: [
+//       { path: '/', element: <AdminRoute component={CustomerList} /> },
+//       { path: 'add', element: <AdminRoute component={CustomerAdd} /> },
+//       { path: 'edit', element: <AdminRoute component={CustomerEdit} /> },
+//     ]
+//  },
   {
     path: '/',
     element: <MainLayout />,

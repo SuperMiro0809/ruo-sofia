@@ -33,6 +33,7 @@ Route::group([
     Route::post('/refresh', [UserController::class, 'refresh']);
     Route::post('/login', [UserController::class, 'login']);
     Route::get('/profile', [UserController::class, 'userProfile']);
+    Route::post('/profile/avatar', [UserController::class, 'uploadAvatar']);
     Route::put('/users/{id}', [UserController::class, 'editUser']);
 });
 

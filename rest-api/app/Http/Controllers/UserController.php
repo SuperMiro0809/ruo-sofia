@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use JWTAuth;
 use Validator;
 
@@ -83,6 +84,12 @@ class UserController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Потребителят е редактиран успешно!']);
+    }
+
+    public function uploadAvatar(Request $request) {
+        $path = $request->file('avatar')->store('public/avatars');
+
+        return response()->json(['message' => 'File Uploaded', 'path' => $path]);
     }
 
     protected function createNewToken($token){
