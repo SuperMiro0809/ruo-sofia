@@ -27,6 +27,7 @@ import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
 import LogoutItem from './LogoutItem'; 
 import UserContext from '../contexts/UserContext';
+import services from '../services';
 
 const items = [
   {
@@ -120,7 +121,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       >
         <Avatar
           component={RouterLink}
-          src={user.avatar}
+          src={`${services.assets}/avatars/${user.avatar}`}
           sx={{
             cursor: 'pointer',
             width: 64,

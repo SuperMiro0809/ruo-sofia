@@ -88,8 +88,19 @@ class UserController extends Controller
 
     public function uploadAvatar(Request $request) {
         $path = $request->file('avatar')->store('public/avatars');
+        $pieces = explode("/", $path);
+        $filename = $pieces[count($pieces) - 1];
 
-        return response()->json(['message' => 'File Uploaded', 'path' => $path]);
+        $userId = auth()->user()->id;
+        $user = User::findOrFail($userId);
+        if ($user->avatar) {
+            Storage::delete('/public/avatars/' . $user->avatar);
+        }
+
+        $user->avatar = $filename;
+
+        $user->save();
+        return response()->json(['message' => 'Successfully uploaded!', 'path' => $filename, 'user' => $user]);
     }
 
     protected function createNewToken($token){

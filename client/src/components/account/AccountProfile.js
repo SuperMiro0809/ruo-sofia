@@ -12,7 +12,9 @@ import {
 } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
 import UserContext from '../../contexts/UserContext';
+import MessageContext from '../../contexts/MessageContext';
 import userServices from '../../services/user';
+import services from '../../services';
 
 let roles = {
   'Administrator': 'Администратор',
@@ -27,8 +29,9 @@ const Input = styled('input')({
 
 const AccountProfile = (props) => {
   const userContext = useContext(UserContext);
+  const messageContext = useContext(MessageContext);
   const [selectedFile, setSelectedFile] = useState();
-  const [user] = userContext;
+  const [user, setUser] = userContext;
 
   const handleChange = (event) => {
     //setSelectedFile(event.target.files[0]);
@@ -37,9 +40,14 @@ const AccountProfile = (props) => {
     console.log(selectedFile);
     event.target.value = "";
     userServices.avatar(body)
-    .then(data => {
-      console.log(data);
-    })
+      .then(data => {
+        setUser(data.user);
+        messageContext[1]({ status: 'success', text: 'Профилната снимка е променена успешно!' });
+        const interval = setInterval(function () {
+          messageContext[1]('');
+          clearInterval(interval);
+        }, 2000)
+      })
   }
 
   const handleSubmit = () => {
@@ -57,7 +65,8 @@ const AccountProfile = (props) => {
           }}
         >
           <Avatar
-            src={user.avatar}
+            src={`${services.assets}/avatars/${user.avatar}`}
+            size={200}
             sx={{
               height: 100,
               width: 100
@@ -87,7 +96,7 @@ const AccountProfile = (props) => {
       <Divider />
       <CardActions>
         <label htmlFor="contained-button-file" style={{ width: '100%' }}>
-          <Input accept="image/*" id="contained-button-file" type="file" onChange={handleChange}/>
+          <Input accept="image/*" id="contained-button-file" type="file" onChange={handleChange} />
           <Button variant="text" fullWidth component="span">
             Качи снимка
           </Button>
