@@ -83,7 +83,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json(['message' => 'Потребителят е редактиран успешно!']);
+        return response()->json(['message' => 'Потребителят е редактиран успешно!', 'user' => $user]);
     }
 
     public function uploadAvatar(Request $request) {
