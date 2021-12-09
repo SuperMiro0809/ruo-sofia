@@ -14,6 +14,7 @@ import {
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
+import teacherServices from '../../services/teacher';
 
 const TeacherAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
@@ -51,15 +52,27 @@ const TeacherAddForm = ({ rest }) => {
                             }}
                             validationSchema={Yup.object().shape({
                                 egn: Yup.number()
-                                    .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val.toString().length === 10)
+                                    .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
                                     .typeError('ЕГН-то трябва да съдържа само цифри')
                                     .required('ЕГН-то е задължително'),
                                 firstName: Yup.string().max(255).required('Името е задължително'),
                                 middleName: Yup.string().max(255).required('Презимето е задължително'),
                                 lastName: Yup.string().max(255).required('Фамилията е задължителна'),
                             })}
-                            onSubmit={(values) => {
-                                console.log(values)
+                            onSubmit={(values, { setSubmitting }) => {
+                                teacherServices.create(values)
+                                .then(data => {
+                                    console.log(data);
+                                    messageContext[1]({ status: 'success', text: 'Учителят е добавен успешно' });
+                                    navigate('/app/teachers', { replace: true });
+                                    const interval = setInterval(function () {
+                                        messageContext[1]('');
+                                        clearInterval(interval);
+                                    }, 2000)
+                                })
+                                .catch(err => {
+                                    setSubmitting(false);
+                                })
                             }}
                         >
                             {({

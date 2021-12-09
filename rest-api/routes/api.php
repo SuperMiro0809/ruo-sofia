@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProtocolController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -40,3 +41,7 @@ Route::group([
 Route::get('/protocols', [ProtocolController::class, 'index']);
 Route::post('/protocols', [ProtocolController::class, 'store']);
 Route::delete('/protocols/{id}', [ProtocolController::class, 'destroy']);
+
+Route::get('/teachers', [TeacherController::class, 'index']);
+Route::post('/teachers', [TeacherController::class, 'store']);
+Route::get('/teachers/{egn}', [TeacherController::class, 'teacher']);

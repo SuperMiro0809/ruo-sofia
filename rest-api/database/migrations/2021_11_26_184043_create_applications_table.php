@@ -15,12 +15,15 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
+            $table->string('adress');
+            $table->string('tel');
+            $table->json('workplace');
+            $table->json('education');
+            $table->json('diploma');
             $table->string('number');
             $table->string('ruoNumber');
-            $table->string('firstName');
-            $table->string('middleName');
-            $table->string('lastName');
             $table->string('approve');
             $table->string('notApprove');
         });

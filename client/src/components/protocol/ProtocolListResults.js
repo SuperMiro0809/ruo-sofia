@@ -141,7 +141,7 @@ const ProtocolListResults = ({ customers, ...rest }) => {
               <TableBody>
                 {loader ?
                   <TableRow>
-                    <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6"><CircularProgress size="30px" /></TableCell>
+                    <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="7"><CircularProgress size="30px" /></TableCell>
                   </TableRow>
                   :
                   <>
@@ -153,7 +153,7 @@ const ProtocolListResults = ({ customers, ...rest }) => {
                       </>
                       :
                       <TableRow>
-                        <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6">Няма записи</TableCell>
+                        <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="7">Няма записи</TableCell>
                       </TableRow>
                     }
                   </>

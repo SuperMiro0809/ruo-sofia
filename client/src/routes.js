@@ -15,6 +15,7 @@ import TeacherList from './pages/TeacherList';
 import TeacherAdd from './pages/TeacherAdd';
 import ProtocolList from './pages/ProtocolList';
 import ProtocolAdd from './pages/ProtocolAdd';
+import ApplicationAdd from './pages/ApplicationAdd';
 import AdminRoute from './hoc/isAdmin';
 
 const routes = [
@@ -30,6 +31,7 @@ const routes = [
       { path: 'products', element: <ProductList /> },
       { path: 'teachers', element: <TeacherList /> },
       { path: 'teachers/add', element: <TeacherAdd /> },
+      { path: 'applications/add', element: <ApplicationAdd /> },
       { path: 'protocols', element: <ProtocolList /> },
       { path: 'protocols/add', element: <ProtocolAdd /> },
       { path: 'settings', element: <Settings /> },

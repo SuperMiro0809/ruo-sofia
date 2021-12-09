@@ -23,7 +23,7 @@ const TeacherListToolbar = (props) => {
                     component={RouterLink}
                     color="primary"
                     variant="contained"
-                    to="/app/teachers/add"
+                    to="/app/applications/add"
                 >
                     Добави заявление
                 </Button>
