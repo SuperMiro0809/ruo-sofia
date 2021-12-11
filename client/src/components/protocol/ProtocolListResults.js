@@ -19,8 +19,7 @@ import ProtocolListItem from './ProtocolListItem';
 import protocolServices from '../../services/protocol';
 import ProtocolModal from '../protocol-modal/ProtocolModal';
 
-const ProtocolListResults = ({ customers, ...rest }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+const ProtocolListResults = (props) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [protocols, setProtocols] = useState([]);
@@ -85,7 +84,7 @@ const ProtocolListResults = ({ customers, ...rest }) => {
   };
 
   return (
-    <Card {...rest}>
+    <Card {...props}>
       <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -165,7 +164,7 @@ const ProtocolListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={protocols.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

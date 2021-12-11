@@ -17,13 +17,31 @@ function create(data) {
 function getByEgn(egn) {
     return fetch(`${services.url}/teachers/${egn}`)
         .then(res => res.json())
+}
 
+function addApplication(data) {
+    return fetch(`${services.url}/teachers/applications`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: services.header2
+    })
+        .then(res => res.json())
+}
+
+function destroy(id) {
+    return fetch(`${services.url}/teachers/${id}`, {
+        method: 'DELETE',
+        headers: services.header2
+    })
+        .then(res => res.json())
 }
 
 const teacherServices = {
     getAll,
     create,
     getByEgn,
+    addApplication,
+    destroy
 }
 
 export default teacherServices;

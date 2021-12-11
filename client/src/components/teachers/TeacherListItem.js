@@ -25,11 +25,11 @@ import {
     KeyboardArrowUp as KeyboardArrowUpIcon
 } from '@material-ui/icons';
 
-const TeacherListItem = ({ teacher, openProp, selectedProtocolProp, ...rest }) => {
+const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) => {
     const [open, setOpen] = useState(false);
     const openModal = (id) => {
         openProp.setOpen(true);
-        selectedProtocolProp.setSelectedProtocol(id);
+        selectedTeacherProp.setSelectedTeacher(id);
     }
 
     return (
@@ -73,11 +73,11 @@ const TeacherListItem = ({ teacher, openProp, selectedProtocolProp, ...rest }) =
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Номер</TableCell>
-                                        <TableCell>Входящ номер в РУО</TableCell>
-                                        <TableCell>Име</TableCell>
-                                        <TableCell>Предложение за признаване</TableCell>
-                                        <TableCell>Отказ за признаване</TableCell>
+                                        <TableCell>Aдрес</TableCell>
+                                        <TableCell>Телефон</TableCell>
+                                        <TableCell>Месторабота</TableCell>
+                                        <TableCell>Образование</TableCell>
+                                        <TableCell>Диплома</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -86,19 +86,19 @@ const TeacherListItem = ({ teacher, openProp, selectedProtocolProp, ...rest }) =
                                             {teacher.application.map((application) => (
                                                 <TableRow key={application.id}>
                                                     <TableCell component="th" scope="row">
-                                                        № {application.number}
+                                                        № {application.adress}
                                                     </TableCell>
                                                     <TableCell>
-                                                        № {application.ruoNumber}
+                                                        № {application.tel}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {`${application.firstName} ${application.middleName} ${application.lastName}`}
+                                                        {`${application.workplace.place}, гр. ${application.workplace.city}, обл. ${application.workplace.area}, на длъжност ${application.workplace.position}`}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {application.approve}
+                                                        {`Завършил(а) ${application.education.school}, гр. ${application.education.city}, ${application.education.qualification}, ${application.education.degree}`}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {application.notApprove}
+                                                        {`№ ${application.diploma.number}, от ${application.diploma.from}`}
                                                     </TableCell>
                                                 </TableRow>
                                             ))}

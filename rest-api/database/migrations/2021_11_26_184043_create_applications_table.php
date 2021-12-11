@@ -22,10 +22,10 @@ class CreateApplicationsTable extends Migration
             $table->json('workplace');
             $table->json('education');
             $table->json('diploma');
-            $table->string('number');
-            $table->string('ruoNumber');
-            $table->string('approve');
-            $table->string('notApprove');
+            $table->string('number')->nullable();
+            $table->string('ruoNumber')->nullable();
+            $table->string('approve')->nullable();
+            $table->string('notApprove')->nullable();
         });
     }
 

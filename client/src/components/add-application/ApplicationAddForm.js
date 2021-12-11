@@ -145,9 +145,21 @@ const TeachersAddForm = ({ rest }) => {
                                     from: Yup.string().max(255).required('Учебното заведение е задължително')
                                 })
                             })}
-                            onSubmit={(values) => {
+                            onSubmit={(values, { setSubmitting }) => {
                                 let data = teacher ? { teacherId, ...values } : values;
-                                console.log(data);
+                                teacherServices.addApplication(data)
+                                .then(res => {
+                                    console.log(res);
+                                    messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' })
+                                    navigate('/app/teachers', { replace: true });
+                                    const interval = setInterval(function () {
+                                        messageContext[1]('');
+                                        clearInterval(interval);
+                                    }, 2000)
+                                })
+                                .catch(err => {
+                                    setSubmitting(false);
+                                })
                             }}
                         >
                             {({

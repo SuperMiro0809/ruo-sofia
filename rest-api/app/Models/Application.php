@@ -14,4 +14,8 @@ class Application extends Model
         // return $this->belongsToJson('App\Protocol', 'application_id', 'id');
         return $this->hasManyJson('App\Protocol', 'applications->application_ids');
     }
+
+    public function teacher() {
+        return $this->belongsTo('App\Models\Application', 'teacher_id');
+    }
 }

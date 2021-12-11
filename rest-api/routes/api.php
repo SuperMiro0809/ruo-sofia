@@ -36,6 +36,7 @@ Route::group([
     Route::get('/profile', [UserController::class, 'userProfile']);
     Route::post('/profile/avatar', [UserController::class, 'uploadAvatar']);
     Route::put('/users/{id}', [UserController::class, 'editUser']);
+
 });
 
 Route::get('/protocols', [ProtocolController::class, 'index']);
@@ -45,3 +46,5 @@ Route::delete('/protocols/{id}', [ProtocolController::class, 'destroy']);
 Route::get('/teachers', [TeacherController::class, 'index']);
 Route::post('/teachers', [TeacherController::class, 'store']);
 Route::get('/teachers/{egn}', [TeacherController::class, 'teacher']);
+Route::post('/teachers/applications', [TeacherController::class, 'addApplication']);
+Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);

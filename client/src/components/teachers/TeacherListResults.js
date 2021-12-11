@@ -19,18 +19,18 @@ import {
 } from '@material-ui/core';
 import TeacherListItem from './TeacherListItem';
 import teacherServices from '../../services/teacher';
+import TeacherModal from '../teacher-modal/TeacherModal';
 
-const CustomerListResults = ({ customers, ...rest }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+const TeacherListResults = (props) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [teachers, setTeachers] = useState();
+  const [teachers, setTeachers] = useState([]);
   const [loader, setLoader] = useState(true);
   let [open, setOpen] = useState(false);
-  const [selectedProtocol, setSelectedProtocol] = useState(0);
+  const [selectedTeacher, setSelectedTeacher] = useState(0);
 
   let openProp = { open, setOpen };
-  let selectedProtocolProp = { selectedProtocol, setSelectedProtocol }
+  let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher }
 
   useEffect(() => {
     getTeachers();
@@ -39,6 +39,14 @@ const CustomerListResults = ({ customers, ...rest }) => {
   const getTeachers = () => {
     teacherServices.getAll()
       .then(data => {
+        data.forEach(el => {
+          el.application.forEach(appl => {
+            appl.workplace = JSON.parse(appl.workplace);
+            appl.education = JSON.parse(appl.education);
+            appl.diploma = JSON.parse(appl.diploma);
+          })
+        })
+
         setTeachers(data);
         setLoader(false);
         console.log(data);
@@ -86,7 +94,8 @@ const CustomerListResults = ({ customers, ...rest }) => {
   };
 
   return (
-    <Card {...rest}>
+    <Card {...props}>
+      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp}/>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
@@ -141,7 +150,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     {teachers.length !== 0 ?
                       <>
                         {teachers.slice(0, limit).map((teacher) => (
-                          <TeacherListItem key={teacher.id} teacher={teacher} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
+                          <TeacherListItem key={teacher.id} teacher={teacher} openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
                         ))}
                       </>
                       :
@@ -158,7 +167,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={teachers.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -169,8 +178,4 @@ const CustomerListResults = ({ customers, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired
-};
-
-export default CustomerListResults;
+export default TeacherListResults;
