@@ -1,4 +1,10 @@
 .ProtocolListItem {
+    .button-with-icon {
+        span {
+            margin: 0 0 4px 0;
+        }
+    }
+
     .trash-icon, 
     .edit-icon {
         font-size: 32px;

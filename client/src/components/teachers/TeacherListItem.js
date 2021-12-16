@@ -15,7 +15,8 @@ import {
     Collapse,
     Table,
     TableHead,
-    TableBody
+    TableBody,
+    Button
 } from '@material-ui/core';
 import {
     Print as PrintIcon,
@@ -40,19 +41,20 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                 sx={{ '& > *': { borderBottom: 'unset' } }}
             >
                 <TableCell>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
-                    >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
+                    {`${teacher.firstName} ${teacher.middleName} ${teacher.lastName}`}
                 </TableCell>
                 <TableCell>
                     {teacher.egn}
                 </TableCell>
                 <TableCell>
-                    {`${teacher.firstName} ${teacher.middleName} ${teacher.lastName}`}
+                    <Button
+                        variant="text"
+                        onClick={() => setOpen(!open)}
+                        endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        className="button-with-icon"
+                    >
+                        Виж заявления
+                    </Button>
                 </TableCell>
                 <TableCell>
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(teacher.id)}>
@@ -86,10 +88,10 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                                             {teacher.application.map((application) => (
                                                 <TableRow key={application.id}>
                                                     <TableCell component="th" scope="row">
-                                                        № {application.adress}
+                                                        {application.adress}
                                                     </TableCell>
                                                     <TableCell>
-                                                        № {application.tel}
+                                                        {application.tel}
                                                     </TableCell>
                                                     <TableCell>
                                                         {`${application.workplace.place}, гр. ${application.workplace.city}, обл. ${application.workplace.area}, на длъжност ${application.workplace.position}`}

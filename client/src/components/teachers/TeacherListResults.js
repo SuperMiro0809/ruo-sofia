@@ -127,13 +127,13 @@ const TeacherListResults = (props) => {
                   />
                 </TableCell> */}
                   <TableCell>
-                    Заявления
+                    Име
                 </TableCell>
                   <TableCell>
                     ЕГН
                 </TableCell>
-                  <TableCell>
-                    Име
+                <TableCell>
+                    Заявления
                 </TableCell>
                   <TableCell>
                     Операции
