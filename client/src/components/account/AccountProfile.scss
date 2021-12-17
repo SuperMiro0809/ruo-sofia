@@ -1,0 +1,14 @@
+.AccountProfile {
+    .avatar-badge {
+        .MuiBadge-badge {
+            cursor: pointer;
+            color: white;
+            height: 31px;
+            border-radius: 50%;
+        }
+
+        .MuiBadge-badge:hover svg {
+            filter: brightness(0.5);
+        }
+    }
+}

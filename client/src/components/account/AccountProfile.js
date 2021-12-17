@@ -1,3 +1,4 @@
+import './AccountProfile.scss';
 import { useContext, useState } from 'react';
 import moment from 'moment';
 import {
@@ -8,8 +9,12 @@ import {
   CardActions,
   CardContent,
   Divider,
-  Typography
+  Typography,
+  Badge
 } from '@material-ui/core';
+import {
+  Close as CloseIcon
+} from '@material-ui/icons'
 import { styled } from '@material-ui/styles';
 import UserContext from '../../contexts/UserContext';
 import MessageContext from '../../contexts/MessageContext';
@@ -50,12 +55,20 @@ const AccountProfile = (props) => {
       })
   }
 
-  const handleSubmit = () => {
-    console.log(selectedFile);
+  const removeImage = () => {
+    userServices.deleteAvatar()
+      .then(data => {
+        setUser(data.user);
+        messageContext[1]({ status: 'success', text: 'Профилната снимка е премахната успешно!' });
+        const interval = setInterval(function () {
+          messageContext[1]('');
+          clearInterval(interval);
+        }, 2000)
+      })
   }
 
   return (
-    <Card {...props}>
+    <Card {...props} className="AccountProfile">
       <CardContent>
         <Box
           sx={{
@@ -64,14 +77,26 @@ const AccountProfile = (props) => {
             flexDirection: 'column'
           }}
         >
-          <Avatar
-            src={`${services.assets}/avatars/${user.avatar}`}
-            size={200}
-            sx={{
-              height: 100,
-              width: 100
-            }}
-          />
+          {user.avatar ?
+            <Badge badgeContent={<CloseIcon sx={{ fontSize: '20px' }} onClick={removeImage} />} overlap="circular" color="error" className="avatar-badge">
+              <Avatar
+                src={`${services.assets}/avatars/${user.avatar}`}
+                size={200}
+                sx={{
+                  height: 100,
+                  width: 100
+                }}
+              />
+            </Badge>
+            :
+            <Avatar
+              size={200}
+              sx={{
+                height: 100,
+                width: 100
+              }}
+            />
+          }
           <Typography
             color="textPrimary"
             gutterBottom

@@ -57,6 +57,13 @@ function avatar(data) {
     .then(res => res.json())
 }
 
+function deleteAvatar() {
+    return fetch(`${services.url}/profile/avatar?token=${localStorage.getItem('token')}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+}
+
 function editUser(data) {
     return fetch(`${services.url}/users/${data.id}?token=${localStorage.getItem('token')}`, {
         method: 'PUT',
@@ -92,6 +99,7 @@ const userServices = {
     login,
     profile,
     avatar,
+    deleteAvatar,
     editUser,
     logout,
     refresh

@@ -35,6 +35,7 @@ Route::group([
     Route::post('/login', [UserController::class, 'login']);
     Route::get('/profile', [UserController::class, 'userProfile']);
     Route::post('/profile/avatar', [UserController::class, 'uploadAvatar']);
+    Route::delete('/profile/avatar', [UserController::class, 'deleteAvatar']);
     Route::put('/users/{id}', [UserController::class, 'editUser']);
 
 });

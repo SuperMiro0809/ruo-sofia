@@ -103,6 +103,16 @@ class UserController extends Controller
         return response()->json(['message' => 'Successfully uploaded!', 'path' => $filename, 'user' => $user]);
     }
 
+    public function deleteAvatar() {
+        $userId = auth()->user()->id;
+        $user = User::findOrFail($userId);
+        Storage::delete('/public/avatars/' . $user->avatar);
+        $user->avatar = '';
+        $user->save();
+
+        return response()->json(['message' => 'Successfully deleted!', 'user' => $user]);
+    }
+
     protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,
