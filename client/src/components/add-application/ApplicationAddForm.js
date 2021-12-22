@@ -16,7 +16,10 @@ import {
     FormControl,
     FormHelperText,
     InputAdornment,
-    CircularProgress
+    CircularProgress,
+    Checkbox,
+    FormControlLabel,
+    FormGroup
 } from '@material-ui/core';
 import {
     Check as CheckIcon,
@@ -24,6 +27,12 @@ import {
 } from '@material-ui/icons';
 import * as Yup from 'yup';
 import { Formik, getIn } from 'formik';
+import {
+    DatePicker,
+    LocalizationProvider
+} from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { bg } from 'date-fns/locale';
 import MеssageContext from '../../contexts/MessageContext';
 import teacherServices from '../../services/teacher';
 
@@ -33,10 +42,20 @@ const TeachersAddForm = ({ rest }) => {
     const [teacher, setTeacher] = useState(false);
     const [teacherId, setTeacherId] = useState();
     const [search, setSearch] = useState(false);
+    const [date, setDate] = useState(null);
 
     const disableCreateButton = (isSubmitting, errors, values) => {
+        let qualification = values.qualification;
+        for(let i = 0; i < qualification.length; i++) {
+            if(qualification[i] === 'участие в обучение') {
+                if(!values.manage || !values.eik) {
+                    return true;
+                }
+            }
+        }
+
         for (let key in values) {
-            if (!values[key]) {
+            if (!values[key] && key != 'manage' && key != 'eik') {
                 return true;
             }
         }
@@ -69,7 +88,7 @@ const TeachersAddForm = ({ rest }) => {
             return true;
         }
 
-        if(isSubmitting) {
+        if (isSubmitting) {
             return true;
         }
 
@@ -97,6 +116,7 @@ const TeachersAddForm = ({ rest }) => {
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
+                                ruoNumber: '',
                                 egn: '',
                                 adress: '',
                                 tel: '',
@@ -120,9 +140,13 @@ const TeachersAddForm = ({ rest }) => {
                                 diploma: {
                                     number: '',
                                     from: ''
-                                }
+                                },
+                                qualification: [],
+                                manage: '',
+                                eik: ''
                             }}
                             validationSchema={Yup.object().shape({
+                                ruoNumber: Yup.number().required('Входящият номер в РУО е задължителен').typeError('Трябва да въведете число'),
                                 egn: Yup.number()
                                     .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
                                     .typeError('ЕГН-то трябва да съдържа само цифри')
@@ -147,6 +171,19 @@ const TeachersAddForm = ({ rest }) => {
                             })}
                             onSubmit={(values, { setSubmitting }) => {
                                 let data = teacher ? { teacherId, ...values } : values;
+                                const formatedDate = moment(date).format('YYYY/MM/DD');
+                                data = { date: formatedDate, ...data };
+
+                                if(!data.qualification.includes('участие в обучение')) {
+                                    if(data.eik) {
+                                        data.eik = '';
+                                    }
+                                    if(data.manage) {
+                                        data.manage = '';
+                                    }
+                                }
+
+                                console.log(data);
                                 teacherServices.addApplication(data)
                                 .then(res => {
                                     console.log(res);
@@ -181,6 +218,40 @@ const TeachersAddForm = ({ rest }) => {
                                             Добавяне на заявление
                                         </Typography>
                                     </Box>
+                                    <TextField
+                                        error={Boolean(touched.ruoNumber && errors.ruoNumber)}
+                                        fullWidth
+                                        helperText={touched.ruoNumber && errors.ruoNumber}
+                                        label="Входящ номер в РУО"
+                                        margin="normal"
+                                        name="ruoNumber"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        type="text"
+                                        value={values.ruoNumber}
+                                        variant="outlined"
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">№</InputAdornment>
+                                        }}
+                                    />
+                                    <LocalizationProvider locale={bg} dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            inputFormat="dd/MM/yyyy"
+                                            label="Дата"
+                                            value={date}
+                                            onChange={(newValue) => {
+                                                setDate(newValue)
+                                            }}
+                                            renderInput={(params) =>
+                                                <TextField
+                                                    margin="normal"
+                                                    onBlur={handleBlur}
+                                                    fullWidth
+                                                    {...params}
+                                                />
+                                            }
+                                        />
+                                    </LocalizationProvider>
                                     <TextField
                                         error={Boolean(touched.egn && errors.egn)}
                                         fullWidth
@@ -380,7 +451,7 @@ const TeachersAddForm = ({ rest }) => {
                                                 <MenuItem value={"Старши учител"}>Старши учител</MenuItem>
                                                 <MenuItem value={"Главен учител"}>Главен учител</MenuItem>
                                             </Select>
-                                            <FormHelperText>{ getIn(touched, 'workplace.position') && getIn(errors, 'workplace.position')}</FormHelperText>
+                                            <FormHelperText>{getIn(touched, 'workplace.position') && getIn(errors, 'workplace.position')}</FormHelperText>
                                         </FormControl>
                                     </Box>
                                     <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
@@ -519,6 +590,78 @@ const TeachersAddForm = ({ rest }) => {
                                             value={values.diploma.from}
                                             variant="outlined"
                                         />
+                                    </Box>
+                                    <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
+                                        <Typography
+                                            color="textPrimary"
+                                            variant="h4"
+                                        >
+                                            Признаване на квалификационни кредити чрез:
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ ml: 2 }}>
+                                        <FormGroup>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        name="qualification"
+                                                        value="участие в обучение"
+                                                        onChange={handleChange}
+                                                    />
+                                                }
+                                                label="участие в обучение"
+                                            />
+                                            {values.qualification.includes("участие в обучение") &&
+                                                <>
+                                                    <TextField
+                                                        error={Boolean(touched.manage && errors.manage)}
+                                                        fullWidth
+                                                        helperText={touched.manage && errors.manage}
+                                                        label="Проведено от"
+                                                        margin="normal"
+                                                        name="manage"
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        type="text"
+                                                        value={values.manage}
+                                                        variant="outlined"
+                                                    />
+                                                    <TextField
+                                                        error={Boolean(touched.eik && errors.eik)}
+                                                        fullWidth
+                                                        helperText={touched.eik && errors.eik}
+                                                        label="ЕИК по регистър/БУЛСТАТ"
+                                                        margin="normal"
+                                                        name="eik"
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        type="text"
+                                                        value={values.eik}
+                                                        variant="outlined"
+                                                    />
+                                                </>
+                                            }
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        name="qualification"
+                                                        value="подготовка и представяне на доклад или научно съобщение за резултати от проучвания, изследователска и творческа дейност или на презентация за споделяне на добри, иновативни практики на конференция, конкурс, семинар, практикум и др."
+                                                        onChange={handleChange}
+                                                    />
+                                                }
+                                                label="подготовка и представяне на доклад или научно съобщение за резултати от проучвания, изследователска и творческа дейност или на презентация за споделяне на добри, иновативни практики на конференция, конкурс, семинар, практикум и др."
+                                            />
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        name="qualification"
+                                                        value="научна или методическа публикация в периодично издание"
+                                                        onChange={handleChange}
+                                                    />
+                                                }
+                                                label="научна или методическа публикация в периодично издание"
+                                            />
+                                        </FormGroup>
                                     </Box>
                                     <Box sx={{ py: 2 }}>
                                         <Button

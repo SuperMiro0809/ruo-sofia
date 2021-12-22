@@ -75,6 +75,8 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell>Входящ номер</TableCell>
+                                        <TableCell>Дата</TableCell>
                                         <TableCell>Aдрес</TableCell>
                                         <TableCell>Телефон</TableCell>
                                         <TableCell>Месторабота</TableCell>
@@ -87,6 +89,12 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                                         <>
                                             {teacher.application.map((application) => (
                                                 <TableRow key={application.id}>
+                                                    <TableCell>
+                                                        № {application.ruoNumber}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {moment(application.date).format('DD/MM/YYYY')}
+                                                    </TableCell>
                                                     <TableCell component="th" scope="row">
                                                         {application.adress}
                                                     </TableCell>
@@ -107,7 +115,7 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                                         </>
                                         :
                                         <TableRow>
-                                            <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="5">Няма записи</TableCell>
+                                            <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="7">Няма записи</TableCell>
                                         </TableRow>
                                     }
                                 </TableBody>

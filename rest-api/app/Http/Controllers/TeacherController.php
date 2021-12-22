@@ -43,6 +43,8 @@ class TeacherController extends Controller
         $application = new Application();
         $application->adress = $request->adress;
         $application->tel = $request->tel;
+        $application->ruoNumber = $request->ruoNumber;
+        $application->date = $request->date;
         $application->workplace = json_encode($request->workplace);
         $application->education = json_encode($request->education);
         $application->diploma = json_encode($request->diploma);

@@ -138,7 +138,7 @@ const CustomerAddForm = ({ rest }) => {
                                             <MenuItem value={"Administrator"}>Администратор</MenuItem>
                                             <MenuItem value={"Qualifications"}>Квалификации</MenuItem>
                                             <MenuItem value={"Education"}>Образование</MenuItem>
-                                            <MenuItem value={"Member"}>Потребител</MenuItem>
+                                            <MenuItem value={"Member"}>Началник отдел</MenuItem>
                                         </Select>
                                         <FormHelperText>{touched.role && errors.role}</FormHelperText>
                                     </FormControl>
