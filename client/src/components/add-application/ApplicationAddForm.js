@@ -19,7 +19,9 @@ import {
     CircularProgress,
     Checkbox,
     FormControlLabel,
-    FormGroup
+    FormGroup,
+    Tooltip,
+    Zoom
 } from '@material-ui/core';
 import {
     Check as CheckIcon,
@@ -282,9 +284,13 @@ const TeachersAddForm = ({ rest }) => {
                                                             :
                                                             <>
                                                                 {touched.egn && teacher ?
-                                                                    <CheckIcon sx={{ color: "rgb(76, 175, 80)" }} />
+                                                                    <Tooltip TransitionComponent={Zoom} open={teacher} title="Учителят е въведен" arrow>
+                                                                        <CheckIcon sx={{ color: "rgb(76, 175, 80)" }} />
+                                                                    </Tooltip>
                                                                     :
-                                                                    <CloseIcon sx={{ color: "rgb(239, 83, 80)" }} />
+                                                                    <Tooltip TransitionComponent={Zoom} open={!teacher} title="Учителят не е въведен" arrow>
+                                                                        <CloseIcon sx={{ color: "rgb(239, 83, 80)" }} />
+                                                                    </Tooltip>
                                                                 }
                                                             </>
 
