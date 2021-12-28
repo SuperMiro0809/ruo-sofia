@@ -277,13 +277,13 @@ const TeachersAddForm = ({ rest }) => {
                                         variant="outlined"
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end">
-                                                {touched.egn &&
+                                                {values.egn.length === 10 &&
                                                     <>
                                                         {search ?
                                                             <CircularProgress size="28px" />
                                                             :
                                                             <>
-                                                                {touched.egn && teacher ?
+                                                                {teacher ?
                                                                     <Tooltip TransitionComponent={Zoom} open={teacher} title="Учителят е въведен" arrow>
                                                                         <CheckIcon sx={{ color: "rgb(76, 175, 80)" }} />
                                                                     </Tooltip>
