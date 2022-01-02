@@ -5,7 +5,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
-    Avatar,
     Box,
     Checkbox,
     TableCell,
@@ -15,7 +14,8 @@ import {
     Collapse,
     Table,
     TableHead,
-    TableBody
+    TableBody,
+    Button
 } from '@material-ui/core';
 import {
     Print as PrintIcon,
@@ -39,15 +39,6 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                 className="ProtocolListItem"
                 sx={{ '& > *': { borderBottom: 'unset' } }}
             >
-                <TableCell>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
-                    >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell>
                 <TableCell style={{ textAlign: 'left' }}>
                     № {protocol.number}
                 </TableCell>
@@ -62,6 +53,16 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                 </TableCell>
                 <TableCell>
                     {JSON.parse(protocol.members).join(', ')}
+                </TableCell>
+                <TableCell>
+                    <Button
+                        variant="text"
+                        onClick={() => setOpen(!open)}
+                        endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        className="button-with-icon"
+                    >
+                        Виж заявления
+                    </Button>
                 </TableCell>
                 <TableCell>
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(protocol.id)}>

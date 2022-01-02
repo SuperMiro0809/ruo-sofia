@@ -116,7 +116,6 @@ const ProtocolListResults = (props) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell> */}
-                  <TableCell />
                   <TableCell style={{ textAlign: 'left' }}>
                     Номер
                 </TableCell>
@@ -132,7 +131,10 @@ const ProtocolListResults = (props) => {
                   <TableCell>
                     Членове
                 </TableCell>
-                  <TableCell>
+                <TableCell>
+                    Заявления
+                </TableCell>
+                <TableCell>
                     Операции
                 </TableCell>
                 </TableRow>
