@@ -35,7 +35,9 @@ class TeacherController extends Controller
 
     public function teacher($egn) {
         $teacher = Teacher::where('egn', $egn)->get();
-
+        foreach ($teacher as $t) {
+            $t->application;
+        }
         return $teacher;
     }
 

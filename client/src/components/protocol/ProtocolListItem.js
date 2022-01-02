@@ -93,22 +93,22 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {protocol.application.map((application) => (
+                                    {protocol.application.map((application, index) => (
                                         <TableRow key={application.id}>
                                             <TableCell component="th" scope="row">
-                                                № {application.number}
+                                                № {index + 1}
                                             </TableCell>
                                             <TableCell>
                                                 № {application.ruoNumber}
                                             </TableCell>
                                             <TableCell>
-                                                {`${application.firstName} ${application.middleName} ${application.lastName}`}
+                                                {`${application.teacher.firstName} ${application.teacher.middleName} ${application.teacher.lastName}`}
                                             </TableCell>
                                             <TableCell>
-                                                {application.approve}
+                                                {application.approve ? application.approve : '-'}
                                             </TableCell>
                                             <TableCell>
-                                                {application.notApprove}
+                                                {application.notApprove ? application.notApprove : '-'}
                                             </TableCell>
                                         </TableRow>
                                     ))}

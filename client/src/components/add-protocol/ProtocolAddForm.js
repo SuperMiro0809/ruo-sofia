@@ -92,6 +92,7 @@ const ProtocolAddForm = ({ rest }) => {
                         <Formik
                             initialValues={{
                                 number: '',
+                                date: '',
                                 about: '',
                                 president: '',
                                 members: [''],
@@ -99,41 +100,45 @@ const ProtocolAddForm = ({ rest }) => {
                                     {
                                         egn: '',
                                         teacherId: '',
+                                        application: '',
                                         approve: '',
                                         notApprove: ''
                                     }
                                 ],
                             }}
                             validationSchema={Yup.object().shape({
-                                // number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
-                                // about: Yup.string().required('Относно е задължително'),
-                                // president: Yup.string().required('Председателят е задължителен'),
-                                // members: Yup.array().of(Yup.string().required('Членът е задължителен')),
-                                // applications: Yup.array().of(Yup.object().shape({
-
-                                // }))
+                                number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
+                                date: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна'),
+                                about: Yup.string().required('Относно е задължително'),
+                                president: Yup.string().required('Председателят е задължителен'),
+                                members: Yup.array().of(Yup.string().required('Членът е задължителен')),
+                                applications: Yup.array().of(Yup.object().shape({
+                                    egn: Yup.number()
+                                    .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
+                                    .typeError('ЕГН-то трябва да съдържа само цифри')
+                                    .required('ЕГН-то е задължително'),
+                                    application: Yup.string().required('Заявлението е задължително')
+                                }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
                                 if (!values) {
                                     console.log('Error');
                                     setSubmitting(false);
                                 } else {
-                                    const formatedDate = moment(date).format('YYYY/MM/DD');
-                                    const data = { date: formatedDate, ...values };
-                                    console.log(data);
-                                    // protocolServices.create(data)
-                                    //     .then(r => {
-                                    //         messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });
-                                    //         navigate('/app/protocols', { replace: true });
-                                    //         const interval = setInterval(function () {
-                                    //             messageContext[1]('');
-                                    //             clearInterval(interval);
-                                    //         }, 2000)
-                                    //     })
+                                    console.log(values);
+                                    protocolServices.create(values)
+                                        .then(r => {
+                                            messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });
+                                            navigate('/app/protocols', { replace: true });
+                                            const interval = setInterval(function () {
+                                                messageContext[1]('');
+                                                clearInterval(interval);
+                                            }, 2000)
+                                        })
                                 }
                             }}
-                            validateOnBlur={true}
-                            validateOnChange={false}
+                            validateOnBlur={false}
+                            validateOnChange={true}
                         >
                             {({
                                 errors,
@@ -176,15 +181,20 @@ const ProtocolAddForm = ({ rest }) => {
                                             label="Дата"
                                             value={date}
                                             onChange={(newValue) => {
+                                                setFieldValue('date', moment(newValue).format('YYYY/MM/DD'))
                                                 setDate(newValue)
                                             }}
-                                            renderInput={(params) =>
-                                                <TextField
+                                            renderInput={(params) => {
+                                                params.error = Boolean(touched.date && errors.date);
+                                                return (<TextField
+                                                    name="date"
+                                                    helperText={touched.date && errors.date}
                                                     margin="normal"
                                                     onBlur={handleBlur}
                                                     fullWidth
                                                     {...params}
-                                                />
+                                                />)
+                                            }
                                             }
                                         />
                                     </LocalizationProvider>

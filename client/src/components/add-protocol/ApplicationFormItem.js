@@ -9,7 +9,12 @@ import {
     Collapse,
     CircularProgress,
     Tooltip,
-    Zoom
+    Zoom,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText
 } from '@material-ui/core';
 import {
     Add as AddIcon,
@@ -26,6 +31,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
     const [open, setOpen] = useState(true);
     const [search, setSearch] = useState(false);
     const [teacher, setTeacher] = useState();
+    const [applications, setApplications] = useState([]);
     const application = props.application;
     const index = props.index;
     const arrayHelpers = props.arrayHelpers;
@@ -39,6 +45,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
     const applicationSchema = {
         egn: '',
         teacherId: '',
+        application: '',
         approve: '',
         notApprove: ''
     }
@@ -55,6 +62,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                 setSearch(false);
                 if (data.length === 1) {
                     setTeacher(true);
+                    setApplications(data[0].application);
                     setFieldValue(`applications.${index}.teacherId`, data[0].id);
                 } else {
                     setTeacher(false);
@@ -90,9 +98,15 @@ const ApplicationFormItem = ({ props }, ...rest) => {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <Box sx={{ ml: 2 }}>
                     <TextField
-                        //error={Boolean(touched.egn && errors.egn)}
+                        error={Boolean(
+                            getIn(touched, `applications.${index}.egn`) && 
+                            getIn(errors, `applications.${index}.egn`)
+                        )}
                         fullWidth
-                        //helperText={touched.egn && errors.egn}
+                        helperText={
+                            getIn(touched, `applications.${index}.egn`) && 
+                            getIn(errors, `applications.${index}.egn`)
+                        }
                         label="ЕГН"
                         margin="normal"
                         name={`applications.${index}.egn`}
@@ -134,6 +148,29 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                             </InputAdornment>
                         }}
                     />
+                    {applications.length > 0 &&
+                        <FormControl
+                            fullWidth
+                            margin="normal"
+                            error={Boolean(getIn(touched, `applications.${index}.application`) && getIn(errors, `applications.${index}.application`))}
+                        >
+                            <InputLabel id="demo-simple-select-label">Заявления</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={values.applications[index].application}
+                                label="Заявления"
+                                name={`applications.${index}.application`}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            >
+                                {applications.map((application, index) => (
+                                    <MenuItem key={index} value={application.id}>Заявление № {application.ruoNumber}</MenuItem>
+                                ))}
+                            </Select>
+                            <FormHelperText>{getIn(touched, `applications.${index}.application`) && getIn(errors, `applications.${index}.application`)}</FormHelperText>
+                        </FormControl>
+                    }
                     <TextField
                         fullWidth
                         label="Предложение за признаване"

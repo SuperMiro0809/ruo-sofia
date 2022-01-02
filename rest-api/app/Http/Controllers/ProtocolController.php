@@ -13,6 +13,9 @@ class ProtocolController extends Controller
 
         foreach ($protocols as $p) {
             $p->application;
+            foreach($p->application as $a) {
+                $a->teacher;
+            }
         }
         return $protocols;
     }
@@ -22,13 +25,13 @@ class ProtocolController extends Controller
         $ids = [];
 
         foreach ($request->applications as $appl=>$appl_value) {
-            $application = new Application();
+            $application = Application::findOrFail($appl_value["application"]);
 
-            $application->number = $appl_value["number"];
-            $application->ruoNumber = $appl_value["ruoNumber"];
-            $application->firstName = $appl_value["firstName"];
-            $application->middleName = $appl_value["middleName"];
-            $application->lastName = $appl_value["lastName"];
+            // $application->number = $appl_value["number"];
+            // $application->ruoNumber = $appl_value["ruoNumber"];
+            // $application->firstName = $appl_value["firstName"];
+            // $application->middleName = $appl_value["middleName"];
+            // $application->lastName = $appl_value["lastName"];
             $application->approve = $appl_value["approve"];
             $application->notApprove = $appl_value["notApprove"];
 
