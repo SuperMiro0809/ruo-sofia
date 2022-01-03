@@ -1,0 +1,53 @@
+.ProtocolPDF {
+    .main {
+        .title-wrapper {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .members {
+            margin: 0 1.25cm;
+        }
+
+        .above-table-text {
+            text-indent: 1.25cm;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table {
+            table-layout: fixed;
+            width: 100%;
+
+            th {
+                text-align: center;
+                font-weight: bold;
+                padding: 15px;
+                vertical-align: top;
+                width: 30%;
+            }
+
+            td {
+                text-align: left;
+                padding: 0 10px;
+                width: 30%;
+                word-wrap: break-word;
+            }
+
+            td:nth-child(1),
+            th:nth-child(1) {
+                width: 5%;
+            }
+        }
+
+        .bottom-table-text {
+            margin-bottom: 20px;
+            p {
+                text-indent: 1.25cm;
+            }
+        }
+    }
+}

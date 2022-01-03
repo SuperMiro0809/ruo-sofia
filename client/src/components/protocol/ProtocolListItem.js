@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useRef} from 'react';
 import './ProtocolListItem.scss';
 import { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -24,8 +24,11 @@ import {
     KeyboardArrowDown as KeyboardArrowDownIcon,
     KeyboardArrowUp as KeyboardArrowUpIcon
 } from '@material-ui/icons';
+import ProtocolPDF from '../protocol-pdf/ProtocolPDF';
+import ReactToPrint from 'react-to-print';
 
 const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest }) => {
+    const print = React.useRef();
     const [open, setOpen] = useState(false);
     const openModal = (id) => {
         openProp.setOpen(true);
@@ -34,6 +37,9 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
 
     return (
         <React.Fragment>
+            <div style={{display: 'none'}}>
+                <ProtocolPDF protocol={protocol} ref={print} style={{display: 'none'}}/>
+            </div>
             <TableRow
                 hover
                 className="ProtocolListItem"
@@ -71,9 +77,15 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                     <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/users/edit" state={{ protocol: protocol }}>
                         <EditIcon className="edit-icon" />
                     </IconButton>
-                    <IconButton className="print-icon-wrapper" color="success">
-                        <PrintIcon className="print-icon" />
-                    </IconButton>
+                    <ReactToPrint
+                        content={() => print.current}
+                        trigger={() => (
+                            <IconButton className="print-icon-wrapper" color="success">
+                                <PrintIcon className="print-icon" />
+                            </IconButton>
+                        )}
+                    />
+
                 </TableCell>
             </TableRow>
             <TableRow>
