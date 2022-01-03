@@ -66,15 +66,6 @@ const ProtocolPDF = React.forwardRef(({protocol}, ref) => {
                                 ))}
                             </ol>
                     </article>
-                    <article className="members" style={{fontWeight: 'bold'}}>
-                            <p><b>Председател: </b>{protocol.president} ........................</p>
-                            <b>Членове:</b>
-                            <ol style={{marginLeft: '15px'}}>
-                                {JSON.parse(protocol.members).map((member, index) => (
-                                    <li key={index}>{member} ........................</li>
-                                ))}
-                            </ol>
-                    </article>
                 </div>
             </div>
             <style type="text/css" media="print">{"\
