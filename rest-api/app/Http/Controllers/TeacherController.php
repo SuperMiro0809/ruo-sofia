@@ -93,4 +93,17 @@ class TeacherController extends Controller
 
         return response()->json(['message' => 'Deleted']);
     }
+
+    public function edit(Request $request, $id) {
+        $teacher = Teacher::findOrFail($id);
+
+        $teacher->egn = $request->egn;
+        $teacher->firstName = $request->firstName;
+        $teacher->middleName = $request->middleName;
+        $teacher->lastName = $request->lastName;
+
+        $teacher->save();
+
+        return response()->json(['message' => 'Edited']);
+    }
 }

@@ -36,12 +36,22 @@ function destroy(id) {
         .then(res => res.json())
 }
 
+function edit(data) {
+    return fetch(`${services.url}/teachers/${data.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: services.header2
+    })
+    .then(res => res.json())
+}
+
 const teacherServices = {
     getAll,
     create,
     getByEgn,
     addApplication,
-    destroy
+    destroy,
+    edit
 }
 
 export default teacherServices;

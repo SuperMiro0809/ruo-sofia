@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import Settings from './pages/Settings';
 import TeacherList from './pages/TeacherList';
 import TeacherAdd from './pages/TeacherAdd';
+import TeacherEdit from './pages/TeacherEdit';
 import ProtocolList from './pages/ProtocolList';
 import ProtocolAdd from './pages/ProtocolAdd';
 import ApplicationAdd from './pages/ApplicationAdd';
@@ -31,6 +32,7 @@ const routes = [
       { path: 'products', element: <ProductList /> },
       { path: 'teachers', element: <TeacherList /> },
       { path: 'teachers/add', element: <TeacherAdd /> },
+      { path: 'teachers/edit', element: <TeacherEdit /> },
       { path: 'applications/add', element: <ApplicationAdd /> },
       { path: 'protocols', element: <ProtocolList /> },
       { path: 'protocols/add', element: <ProtocolAdd /> },

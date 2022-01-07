@@ -60,7 +60,7 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(teacher.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/users/edit" state={{ teacher: teacher }}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/teachers/edit" state={{ teacher: teacher }}>
                         <EditIcon className="edit-icon" />
                     </IconButton>
                 </TableCell>

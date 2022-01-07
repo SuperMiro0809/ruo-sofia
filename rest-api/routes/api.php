@@ -49,3 +49,4 @@ Route::post('/teachers', [TeacherController::class, 'store']);
 Route::get('/teachers/{egn}', [TeacherController::class, 'teacher']);
 Route::post('/teachers/applications', [TeacherController::class, 'addApplication']);
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
+Route::put('/teachers/{id}', [TeacherController::class, 'edit']);
