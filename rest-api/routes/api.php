@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProtocolController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CommitteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,3 +51,6 @@ Route::get('/teachers/{egn}', [TeacherController::class, 'teacher']);
 Route::post('/teachers/applications', [TeacherController::class, 'addApplication']);
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 Route::put('/teachers/{id}', [TeacherController::class, 'edit']);
+
+Route::get('/committe', [CommitteController::class, 'index']);
+Route::put('/committe', [CommitteController::class, 'save']);

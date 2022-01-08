@@ -17,6 +17,7 @@ import TeacherEdit from './pages/TeacherEdit';
 import ProtocolList from './pages/ProtocolList';
 import ProtocolAdd from './pages/ProtocolAdd';
 import ApplicationAdd from './pages/ApplicationAdd';
+import CommitteList from './pages/CommitteList';
 import AdminRoute from './hoc/isAdmin';
 
 const routes = [
@@ -36,6 +37,7 @@ const routes = [
       { path: 'applications/add', element: <ApplicationAdd /> },
       { path: 'protocols', element: <ProtocolList /> },
       { path: 'protocols/add', element: <ProtocolAdd /> },
+      { path: 'settings/committe', element: <CommitteList /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

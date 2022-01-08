@@ -21,7 +21,9 @@ import {
   faSignal as SignalIcon,
   faStar as StarIcon,
   faUserGraduate as UserGraduateIcon,
-  faBookReader as BookReaderIcon
+  faBookReader as BookReaderIcon,
+  faCog as SettingsIcon,
+  faUserFriends as CommitteIcon
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
@@ -82,6 +84,18 @@ const dropDownEducation = {
       href: '/app/students-certificate',
       icon: PrintIcon,
       title: 'Удостоверение за завършен клас'
+    }
+  ]
+}
+
+const dropDownSettings = {
+  icon: SettingsIcon,
+  title: 'Настройки',
+  elements: [
+    {
+      href: '/app/settings/committe',
+      icon: CommitteIcon,
+      title: 'Комисия'
     }
   ]
 }
@@ -155,6 +169,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           ))}
           <DropDownMenu {...dropDownQualifications}/>
           <DropDownMenu {...dropDownEducation}/>
+          <DropDownMenu {...dropDownSettings}/>
           <LogoutItem />
         </List>
       </Box>
