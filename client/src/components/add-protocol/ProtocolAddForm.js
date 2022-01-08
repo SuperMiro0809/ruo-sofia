@@ -326,7 +326,7 @@ const ProtocolAddForm = ({ rest }) => {
                                     <Box sx={{ py: 2 }}>
                                         <Button
                                             color="primary"
-                                            //disabled={disableCreateButton(isSubmitting, errors, values)}
+                                            disabled={disableCreateButton(isSubmitting, errors, values)}
                                             fullWidth
                                             size="large"
                                             type="submit"

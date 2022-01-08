@@ -62,10 +62,15 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                 setSearch(false);
                 if (data.length === 1) {
                     setTeacher(true);
-                    setApplications(data[0].application);
+                    const applicationData = data[0].application.filter(appl => !appl.approve && !appl.notApprove);
+                    setApplications(applicationData);
+                    if(applicationData.length === 0) {
+                        setFieldValue(`applications.${index}.application`, '');
+                    }
                     setFieldValue(`applications.${index}.teacherId`, data[0].id);
                 } else {
                     setTeacher(false);
+                    setApplications([]);
                     setFieldValue(`applications.${index}.teacherId`, '');
                 }
             })
@@ -170,6 +175,9 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                             </Select>
                             <FormHelperText>{getIn(touched, `applications.${index}.application`) && getIn(errors, `applications.${index}.application`)}</FormHelperText>
                         </FormControl>
+                    }
+                    {applications.length == 0 && teacher &&
+                        <FormHelperText sx={{ fontSize: '15px' }} error={true}>*Към избрания учител няма заявления или всички са включени към протoкол</FormHelperText>
                     }
                     <TextField
                         fullWidth
