@@ -35,12 +35,21 @@ import { Formik, FieldArray, getIn } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import protocolServices from '../../services/protocol';
 import ApplicationFormItem from './ApplicationFormItem';
+import committeServices from '../../services/committe';
 
 const ProtocolAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const scrollTo = useRef(null);
     const [date, setDate] = useState(null);
+    const [committe, setCommitte] = useState({ president: '', members: [] });
+
+    useEffect(() => {
+        committeServices.getAll()
+        .then(data => {
+            setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
+        })
+    }, [])
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for (let key in values) {
@@ -137,8 +146,8 @@ const ProtocolAddForm = ({ rest }) => {
                                         })
                                 }
                             }}
-                            validateOnBlur={false}
-                            validateOnChange={true}
+                            validateOnBlur={true}
+                            validateOnChange={false}
                         >
                             {({
                                 errors,
@@ -228,10 +237,7 @@ const ProtocolAddForm = ({ rest }) => {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                         >
-                                            <MenuItem value={"pOne"}>Президент 1</MenuItem>
-                                            <MenuItem value={"pTwo"}>Президент 2</MenuItem>
-                                            <MenuItem value={"pThree"}>Президент 3</MenuItem>
-                                            <MenuItem value={"pFour"}>Президент 4</MenuItem>
+                                            <MenuItem value={committe.president}>{committe.president}</MenuItem>
                                         </Select>
                                         <FormHelperText>{touched.president && errors.president}</FormHelperText>
                                     </FormControl>
@@ -260,11 +266,10 @@ const ProtocolAddForm = ({ rest }) => {
                                                                 onBlur={handleBlur}
                                                                 name={`members.${index}`}
                                                                 value={values.members[index]}
-                                                            >
-                                                                <MenuItem value={"mOne"}>Член 1</MenuItem>
-                                                                <MenuItem value={"mTwo"}>Член 2</MenuItem>
-                                                                <MenuItem value={"mThree"}>Член 3</MenuItem>
-                                                                <MenuItem value={"mFour"}>Член 4</MenuItem>
+                                                            >   
+                                                                {committe.members.map((member, index) => (
+                                                                    <MenuItem key={index} value={member}>{member}</MenuItem>
+                                                                ))}
                                                             </Select>
                                                             {/* <FormHelperText>{touched.members && errors.members ? errors.members[index] : ''}</FormHelperText> */}
                                                         </FormControl>
