@@ -1,0 +1,25 @@
+.TeacherCertificateListItem {
+    .print-icon {
+        font-size: 32px;
+    }
+
+    .print-icon {
+        color: #696969;
+    }
+
+    .print-icon-wrapper {
+        padding: 0;
+        vertical-align: initial;
+    }
+
+    .print-icon-wrapper {
+        margin-left: 10px;
+    }
+
+    .print-icon-wrapper:hover {
+        background-color: transparent;
+        .print-icon {
+            filter: brightness(0.5);
+        }
+    }
+}

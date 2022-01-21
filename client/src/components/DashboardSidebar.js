@@ -64,7 +64,7 @@ const dropDownQualifications = {
       title: 'Протоколи'
     },
     {
-      href: '/app/teachers-certificate',
+      href: '/app/teachers/certificate',
       icon: PrintIcon,
       title: 'Издаване на удостоверение'
     }

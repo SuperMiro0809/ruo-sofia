@@ -66,7 +66,7 @@ const ProtocolAddForm = ({ rest }) => {
 
         for (let i = 0; i < values.applications.length; i++) {
             for (let key in values.applications[i]) {
-                if (!values.applications[i][key]) {
+                if (!values.applications[i][key] && key != 'approve' && key != 'notApprove') {
                     return true;
                 }
             }

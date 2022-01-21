@@ -1,17 +1,12 @@
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
-import TeacherEditForm from '../components/edit-teacher/TeacherEditForm';
-import TeacherEditToolbar from '../components/edit-teacher/TeacherEditToolbar';
+import TeachersCertificateListResult from '../components/teachers-certificate/TeachersCertificateListResult';
 
 const TeacherEdit = () => {
-    const location = useLocation();
-    const { teacher } = location.state;
-
     return (
         <>
             <Helmet>
-                <title>Редактирай учител</title>
+                <title>Удостоверения - Учител</title>
             </Helmet>
             <Box
                 sx={{
@@ -21,9 +16,8 @@ const TeacherEdit = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <TeacherEditToolbar />
                     <Box sx={{ pt: 3 }}>
-                        <TeacherEditForm teacher={teacher}/>
+                        <TeachersCertificateListResult />
                     </Box>
                 </Container>
             </Box>
