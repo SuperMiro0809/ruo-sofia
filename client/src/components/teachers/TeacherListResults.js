@@ -130,7 +130,7 @@ const TeacherListResults = (props) => {
                     Име
                 </TableCell>
                   <TableCell>
-                    ЕГН
+                    Дата на раждане
                 </TableCell>
                 <TableCell>
                     Заявления

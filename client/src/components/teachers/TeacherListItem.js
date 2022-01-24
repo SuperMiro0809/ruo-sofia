@@ -44,7 +44,7 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                     {`${teacher.firstName} ${teacher.middleName} ${teacher.lastName}`}
                 </TableCell>
                 <TableCell>
-                    {teacher.egn}
+                    {moment(teacher.dateOfBirth).format('DD/MM/YYYY')}
                 </TableCell>
                 <TableCell>
                     <Button

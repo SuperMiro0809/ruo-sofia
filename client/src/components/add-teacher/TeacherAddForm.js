@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -15,10 +15,17 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import teacherServices from '../../services/teacher';
+import {
+    DatePicker,
+    LocalizationProvider
+} from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { bg } from 'date-fns/locale';
 
 const TeacherAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
+    const [date, setDate] = useState(null);
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for(let key in values) {
@@ -45,21 +52,19 @@ const TeacherAddForm = ({ rest }) => {
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
-                                egn: '',
+                                dateOfBirth: '',
                                 firstName: '',
                                 middleName: '',
                                 lastName: ''
                             }}
                             validationSchema={Yup.object().shape({
-                                egn: Yup.number()
-                                    .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
-                                    .typeError('ЕГН-то трябва да съдържа само цифри')
-                                    .required('ЕГН-то е задължително'),
+                                dateOfBirth: Yup.date().required('Датата на раждане е задължителна').typeError('Датата не е валидна'),
                                 firstName: Yup.string().max(255).required('Името е задължително'),
                                 middleName: Yup.string().max(255).required('Презимето е задължително'),
                                 lastName: Yup.string().max(255).required('Фамилията е задължителна'),
                             })}
                             onSubmit={(values, { setSubmitting }) => {
+                                console.log(values);
                                 teacherServices.create(values)
                                 .then(data => {
                                     console.log(data);
@@ -82,7 +87,8 @@ const TeacherAddForm = ({ rest }) => {
                                 handleSubmit,
                                 isSubmitting,
                                 touched,
-                                values
+                                values,
+                                setFieldValue
                             }) => (
                                 <form onSubmit={handleSubmit}>
                                     <Box sx={{ mb: 3, mt: 3 }}>
@@ -93,19 +99,29 @@ const TeacherAddForm = ({ rest }) => {
                                             Добавяне на учител
                                         </Typography>
                                     </Box>
-                                    <TextField
-                                        error={Boolean(touched.egn && errors.egn)}
-                                        fullWidth
-                                        helperText={touched.egn && errors.egn}
-                                        label="ЕГН"
-                                        margin="normal"
-                                        name="egn"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        type="text"
-                                        value={values.egn}
-                                        variant="outlined"
-                                    />
+                                    <LocalizationProvider locale={bg} dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            inputFormat="dd/MM/yyyy"
+                                            label="Дата на раждане"
+                                            value={date}
+                                            onChange={(newValue) => {
+                                                setFieldValue('dateOfBirth', moment(newValue).format('YYYY/MM/DD'))
+                                                setDate(newValue)
+                                            }}
+                                            renderInput={(params) => {
+                                                params.error = Boolean(touched.dateOfBirth && errors.dateOfBirth);
+                                                return (<TextField
+                                                    name="dateOfBirth"
+                                                    helperText={touched.dateOfBirth && errors.dateOfBirth}
+                                                    margin="normal"
+                                                    onBlur={handleBlur}
+                                                    fullWidth
+                                                    {...params}
+                                                />)
+                                            }
+                                            }
+                                        />
+                                    </LocalizationProvider>
                                     <TextField
                                         error={Boolean(touched.firstName && errors.firstName)}
                                         fullWidth

@@ -22,7 +22,7 @@ class TeacherController extends Controller
         $teacher = new Teacher();
 
         $applications = [];
-        $teacher->egn = $request->egn;
+        $teacher->dateOfBirth = $request->dateOfBirth;
         $teacher->firstName = $request->firstName;
         $teacher->middleName = $request->middleName;
         $teacher->lastName = $request->lastName;
