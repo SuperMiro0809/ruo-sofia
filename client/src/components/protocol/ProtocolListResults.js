@@ -148,7 +148,7 @@ const ProtocolListResults = (props) => {
                   <>
                     {protocols.length !== 0 ?
                       <>
-                        {protocols.slice(0, limit).map((protocol) => (
+                        {protocols.slice(page * limit, page * limit + limit).map((protocol) => (
                           <ProtocolListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
                         ))}
                       </>

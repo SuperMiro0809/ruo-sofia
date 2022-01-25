@@ -145,7 +145,7 @@ const TeacherCertificateListResult = (props) => {
                   <>
                     {teachers.length !== 0 ?
                       <>
-                        {teachers.slice(0, limit).map((teacher) => (
+                        {teachers.slice(page * limit, page * limit + limit).map((teacher) => (
                           <TeacherCertificateListItem key={teacher.id} teacher={teacher} />
                         ))}
                       </>

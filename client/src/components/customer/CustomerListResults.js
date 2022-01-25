@@ -144,7 +144,7 @@ const CustomerListResults = ({ ...rest }) => {
                     <>
                       {customers.length !== 0 ?
                         <>
-                          {customers.slice(0, limit).map((customer) => (
+                          {customers.slice(page * limit, page * limit + limit).map((customer) => (
 
                             <CustomerListItem key={customer.id} customer={customer} openProp={openProp} selectedCustomerProp={selectedCustomerProp} />
 
