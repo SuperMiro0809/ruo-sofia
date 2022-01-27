@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -21,12 +21,9 @@ import {
     FormControlLabel,
     FormGroup,
     Tooltip,
-    Zoom
+    Zoom,
+    Autocomplete
 } from '@material-ui/core';
-import {
-    Check as CheckIcon,
-    Close as CloseIcon
-} from '@material-ui/icons';
 import * as Yup from 'yup';
 import { Formik, getIn } from 'formik';
 import {
@@ -37,27 +34,91 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 import MеssageContext from '../../contexts/MessageContext';
 import teacherServices from '../../services/teacher';
+import ApplicationsFormItem from './ApplicationsFormItem';
+import { createFilterOptions } from '@material-ui/core/Autocomplete';
 
-const TeachersAddForm = ({ rest }) => {
+
+const ApplicationsAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
+    const [teacherOptions, setTeacherOptions] = useState([]);
     const [teacher, setTeacher] = useState(false);
     const [teacherId, setTeacherId] = useState();
     const [search, setSearch] = useState(false);
     const [date, setDate] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const filterOptions = createFilterOptions({
+        matchFrom: 'any',
+        limit: 10
+    })
+
+    useEffect(() => {
+        teacherServices.getAll()
+            .then(data => {
+                let arr = []
+
+                data.forEach((th) => {
+                    arr.push({ label: `${th.firstName} ${th.middleName} ${th.lastName} - ${moment(th.dateOfBirth).format('DD/MM/YYYY')}`, id: th.id, firstLetter: th.firstName[0].toUpperCase() });
+                })
+
+                setTeacherOptions(arr);
+                setLoading(false);
+            })
+    }, [])
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         let qualification = values.qualification;
-        for(let i = 0; i < qualification.length; i++) {
-            if(qualification[i] === 'участие в обучение') {
-                if(!values.manage || !values.eik) {
-                    return true;
+        if (qualification.length === 0) {
+            return true;
+        }
+
+        if (qualification.includes('teachings')) {
+            for (let i = 0; i < values.teaching.length; i++) {
+                const teaching = values.teaching[i];
+                for (let key in teaching) {
+                    if (!teaching[key]) {
+                        return true;
+                    }
                 }
+            }
+
+            if(errors['teaching']) {
+                return true;
+            }
+        }
+
+        if (qualification.includes('reports')) {
+            for (let i = 0; i < values.report.length; i++) {
+                const report = values.report[i];
+                for (let key in report) {
+                    if (!report[key]) {
+                        return true;
+                    }
+                }
+            }
+
+            if(errors['report']) {
+                return true;
+            }
+        }
+
+        if (qualification.includes('publications')) {
+            for (let i = 0; i < values.publication.length; i++) {
+                const publication = values.publication[i];
+                for (let key in publication) {
+                    if (!publication[key]) {
+                        return true;
+                    }
+                }
+            }
+
+            if(errors['publication']) {
+                return true;
             }
         }
 
         for (let key in values) {
-            if (!values[key] && key != 'manage' && key != 'eik') {
+            if (!values[key]) {
                 return true;
             }
         }
@@ -119,14 +180,8 @@ const TeachersAddForm = ({ rest }) => {
                         <Formik
                             initialValues={{
                                 ruoNumber: '',
-                                egn: '',
                                 adress: '',
                                 tel: '',
-                                teacher: {
-                                    firstName: '',
-                                    middleName: '',
-                                    lastName: ''
-                                },
                                 workplace: {
                                     place: '',
                                     city: '',
@@ -144,15 +199,12 @@ const TeachersAddForm = ({ rest }) => {
                                     from: ''
                                 },
                                 qualification: [],
-                                manage: '',
-                                eik: ''
+                                teaching: [],
+                                report: [],
+                                publication: []
                             }}
                             validationSchema={Yup.object().shape({
                                 ruoNumber: Yup.number().required('Входящият номер в РУО е задължителен').typeError('Трябва да въведете число'),
-                                egn: Yup.number()
-                                    .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
-                                    .typeError('ЕГН-то трябва да съдържа само цифри')
-                                    .required('ЕГН-то е задължително'),
                                 adress: Yup.string().max(255).required('Адресът е задължителен'),
                                 workplace: Yup.object().shape({
                                     place: Yup.string().max(255).required('Местоработата е задължителна'),
@@ -169,36 +221,61 @@ const TeachersAddForm = ({ rest }) => {
                                 diploma: Yup.object().shape({
                                     number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
                                     from: Yup.string().max(255).required('Учебното заведение е задължително')
-                                })
+                                }),
+                                teaching: Yup.array().of(Yup.object().shape({
+                                    institution: Yup.string().max(255).required('Проведено от е задълбително'),
+                                    startDate: Yup.date().required('Началната дата е задължителна').typeError('Датата не е валидна'),
+                                    endDate: Yup.date().required('Крайната дата е задължителна').typeError('Датата не е валидна')
+                                        .min(
+                                            Yup.ref('startDate'),
+                                            'Крайната дата не може да е преди началната'
+                                        ),
+                                    eik: Yup.string().max(255).required('ЕИК/БУЛСТАТ е задължителен'),
+                                    lessonHours: Yup.string().max(255).required('Академичните часове са задължителни'),
+                                    theme: Yup.string().max(255).required('Темата е задължителна')
+                                })),
+                                report: Yup.array().of(Yup.object().shape({
+                                    institution: Yup.string().max(255).required('Проведено от е задълбително'),
+                                    startDate: Yup.date().required('Началната дата е задължителна').typeError('Датата не е валидна'),
+                                    endDate: Yup.date().required('Крайната дата е задължителна').typeError('Датата не е валидна')
+                                    .min(
+                                        Yup.ref('startDate'),
+                                        'Крайната дата не може да е преди началната'
+                                    ),
+                                    lessonHours: Yup.string().max(255).required('Академичните часове са задължителни'),
+                                    theme: Yup.string().max(255).required('Темата е задължителна')
+                                })),
+                                publication: Yup.array().of(Yup.object().shape({
+                                    institution: Yup.string().max(255).required('Проведено от е задълбително'),
+                                    startDate: Yup.date().required('Началната дата е задължителна').typeError('Датата не е валидна'),
+                                    endDate: Yup.date().required('Крайната дата е задължителна').typeError('Датата не е валидна')
+                                        .min(
+                                            Yup.ref('startDate'),
+                                            'Крайната дата не може да е преди началната'
+                                        ),
+                                    theme: Yup.string().max(255).required('Темата е задължителна'),
+                                    published: Yup.string().max(255).required('Къде е публикувано е задължително')
+                                }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
                                 let data = teacher ? { teacherId, ...values } : values;
                                 const formatedDate = moment(date).format('YYYY/MM/DD');
                                 data = { date: formatedDate, ...data };
 
-                                if(!data.qualification.includes('участие в обучение')) {
-                                    if(data.eik) {
-                                        data.eik = '';
-                                    }
-                                    if(data.manage) {
-                                        data.manage = '';
-                                    }
-                                }
-
                                 console.log(data);
-                                teacherServices.addApplication(data)
-                                .then(res => {
-                                    console.log(res);
-                                    messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' })
-                                    navigate('/app/teachers', { replace: true });
-                                    const interval = setInterval(function () {
-                                        messageContext[1]('');
-                                        clearInterval(interval);
-                                    }, 2000)
-                                })
-                                .catch(err => {
-                                    setSubmitting(false);
-                                })
+                                // teacherServices.addApplication(data)
+                                //     .then(res => {
+                                //         console.log(res);
+                                //         messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' })
+                                //         navigate('/app/teachers', { replace: true });
+                                //         const interval = setInterval(function () {
+                                //             messageContext[1]('');
+                                //             clearInterval(interval);
+                                //         }, 2000)
+                                //     })
+                                //     .catch(err => {
+                                //         setSubmitting(false);
+                                //     })
                             }}
                         >
                             {({
@@ -220,6 +297,23 @@ const TeachersAddForm = ({ rest }) => {
                                             Добавяне на заявление
                                         </Typography>
                                     </Box>
+                                    <Autocomplete
+                                        fullWidth
+                                        onChange={(event, newValue) => {
+                                            console.log(newValue);
+                                            if (newValue != null) {
+                                                setTeacher(true);
+                                                setTeacherId(newValue.id);
+                                            }
+                                        }}
+                                        filterOptions={filterOptions}
+                                        disablePortal
+                                        id="teacher"
+                                        options={teacherOptions.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+                                        groupBy={(option) => option.firstLetter}
+                                        loading={loading}
+                                        renderInput={(params) => <TextField {...params} label="Учител" margin="normal" />}
+                                    />
                                     <TextField
                                         error={Boolean(touched.ruoNumber && errors.ruoNumber)}
                                         fullWidth
@@ -254,7 +348,7 @@ const TeachersAddForm = ({ rest }) => {
                                             }
                                         />
                                     </LocalizationProvider>
-                                    <TextField
+                                    {/* <TextField
                                         error={Boolean(touched.egn && errors.egn)}
                                         fullWidth
                                         helperText={touched.egn && errors.egn}
@@ -299,9 +393,9 @@ const TeachersAddForm = ({ rest }) => {
                                                 }
                                             </InputAdornment>
                                         }}
-                                    />
+                                    /> */}
 
-                                    <TextField
+                                    {/* <TextField
                                         error={Boolean(touched.firstName && errors.firstName)}
                                         fullWidth
                                         helperText={touched.firstName && errors.firstName}
@@ -342,7 +436,7 @@ const TeachersAddForm = ({ rest }) => {
                                         value={values.teacher.lastName}
                                         variant="outlined"
                                         disabled={teacher}
-                                    />
+                                    /> */}
                                     <TextField
                                         error={Boolean(touched.adress && errors.adress)}
                                         fullWidth
@@ -606,68 +700,18 @@ const TeachersAddForm = ({ rest }) => {
                                         </Typography>
                                     </Box>
                                     <Box sx={{ ml: 2 }}>
-                                        <FormGroup>
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        name="qualification"
-                                                        value="участие в обучение"
-                                                        onChange={handleChange}
-                                                    />
+                                        <ApplicationsFormItem
+                                            props={
+                                                {
+                                                    errors,
+                                                    setFieldValue,
+                                                    handleBlur,
+                                                    handleChange,
+                                                    touched,
+                                                    values
                                                 }
-                                                label="участие в обучение"
-                                            />
-                                            {values.qualification.includes("участие в обучение") &&
-                                                <>
-                                                    <TextField
-                                                        error={Boolean(touched.manage && errors.manage)}
-                                                        fullWidth
-                                                        helperText={touched.manage && errors.manage}
-                                                        label="Проведено от"
-                                                        margin="normal"
-                                                        name="manage"
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        type="text"
-                                                        value={values.manage}
-                                                        variant="outlined"
-                                                    />
-                                                    <TextField
-                                                        error={Boolean(touched.eik && errors.eik)}
-                                                        fullWidth
-                                                        helperText={touched.eik && errors.eik}
-                                                        label="ЕИК по регистър/БУЛСТАТ"
-                                                        margin="normal"
-                                                        name="eik"
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        type="text"
-                                                        value={values.eik}
-                                                        variant="outlined"
-                                                    />
-                                                </>
                                             }
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        name="qualification"
-                                                        value="подготовка и представяне на доклад или научно съобщение за резултати от проучвания, изследователска и творческа дейност или на презентация за споделяне на добри, иновативни практики на конференция, конкурс, семинар, практикум и др."
-                                                        onChange={handleChange}
-                                                    />
-                                                }
-                                                label="подготовка и представяне на доклад или научно съобщение за резултати от проучвания, изследователска и творческа дейност или на презентация за споделяне на добри, иновативни практики на конференция, конкурс, семинар, практикум и др."
-                                            />
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        name="qualification"
-                                                        value="научна или методическа публикация в периодично издание"
-                                                        onChange={handleChange}
-                                                    />
-                                                }
-                                                label="научна или методическа публикация в периодично издание"
-                                            />
-                                        </FormGroup>
+                                        />
                                     </Box>
                                     <Box sx={{ py: 2 }}>
                                         <Button
@@ -691,4 +735,4 @@ const TeachersAddForm = ({ rest }) => {
     );
 };
 
-export default TeachersAddForm;
+export default ApplicationsAddForm;

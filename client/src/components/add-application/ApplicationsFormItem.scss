@@ -1,0 +1,20 @@
+.ApplicationsFormItem {
+    .expand-button {
+        padding-left: 0;
+        padding: 10px 0;
+    }
+
+    .expand-button:hover {
+        background-color: transparent;
+    }
+
+    .expand-wrapper {
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        display: flex;
+        align-items: center;
+    }
+
+    .expand-options {
+        padding: 10px 0;
+    }
+}
