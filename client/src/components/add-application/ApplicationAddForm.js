@@ -158,19 +158,19 @@ const ApplicationsAddForm = ({ rest }) => {
         return false;
     }
 
-    const findByEgn = (egn, setFieldValue) => {
-        teacherServices.getByEgn(egn)
-            .then(data => {
-                setSearch(false);
-                if (data.length === 1) {
-                    setTeacher(true);
-                    setTeacherId(data[0].id);
-                    setFieldValue('teacher.firstName', data[0].firstName);
-                    setFieldValue('teacher.middleName', data[0].middleName);
-                    setFieldValue('teacher.lastName', data[0].lastName);
-                }
-            })
-    }
+    // const findByEgn = (egn, setFieldValue) => {
+    //     teacherServices.getByEgn(egn)
+    //         .then(data => {
+    //             setSearch(false);
+    //             if (data.length === 1) {
+    //                 setTeacher(true);
+    //                 setTeacherId(data[0].id);
+    //                 setFieldValue('teacher.firstName', data[0].firstName);
+    //                 setFieldValue('teacher.middleName', data[0].middleName);
+    //                 setFieldValue('teacher.lastName', data[0].lastName);
+    //             }
+    //         })
+    // }
 
     return (
         <Card {...rest}>
@@ -206,6 +206,7 @@ const ApplicationsAddForm = ({ rest }) => {
                             validationSchema={Yup.object().shape({
                                 ruoNumber: Yup.number().required('Входящият номер в РУО е задължителен').typeError('Трябва да въведете число'),
                                 adress: Yup.string().max(255).required('Адресът е задължителен'),
+                                tel: Yup.string().matches(/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/, 'Телефонният номер не е валиден').required('Телефонният номер е задължителен'),
                                 workplace: Yup.object().shape({
                                     place: Yup.string().max(255).required('Местоработата е задължителна'),
                                     city: Yup.string().max(255).required('Градът е задължителен'),
@@ -230,8 +231,8 @@ const ApplicationsAddForm = ({ rest }) => {
                                             Yup.ref('startDate'),
                                             'Крайната дата не може да е преди началната'
                                         ),
-                                    eik: Yup.string().max(255).required('ЕИК/БУЛСТАТ е задължителен'),
-                                    lessonHours: Yup.string().max(255).required('Академичните часове са задължителни'),
+                                    eik: Yup.number().max(255).required('ЕИК/БУЛСТАТ е задължителен').typeError('ЕИК/БУЛСТАТ трябва да съдържа само цифри'),
+                                    lessonHours: Yup.number().max(255).required('Академичните часове са задължителни').typeError('Академичните часове трябва да са число'),
                                     theme: Yup.string().max(255).required('Темата е задължителна')
                                 })),
                                 report: Yup.array().of(Yup.object().shape({
@@ -242,7 +243,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                         Yup.ref('startDate'),
                                         'Крайната дата не може да е преди началната'
                                     ),
-                                    lessonHours: Yup.string().max(255).required('Академичните часове са задължителни'),
+                                    lessonHours: Yup.number().max(255).required('Академичните часове са задължителни').typeError('Академичните часове трябва да са число'),
                                     theme: Yup.string().max(255).required('Темата е задължителна')
                                 })),
                                 publication: Yup.array().of(Yup.object().shape({
@@ -263,20 +264,23 @@ const ApplicationsAddForm = ({ rest }) => {
                                 data = { date: formatedDate, ...data };
 
                                 console.log(data);
-                                // teacherServices.addApplication(data)
-                                //     .then(res => {
-                                //         console.log(res);
-                                //         messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' })
-                                //         navigate('/app/teachers', { replace: true });
-                                //         const interval = setInterval(function () {
-                                //             messageContext[1]('');
-                                //             clearInterval(interval);
-                                //         }, 2000)
-                                //     })
-                                //     .catch(err => {
-                                //         setSubmitting(false);
-                                //     })
+                                teacherServices.addApplication(data)
+                                    .then(res => {
+                                        console.log(res);
+                                        messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' })
+                                        navigate('/app/teachers', { replace: true });
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 2000)
+                                    })
+                                    .catch(err => {
+                                        setSubmitting(false);
+                                    })
                             }}
+                            
+                            validateOnBlur={true}
+                            validateOnChange={false}
                         >
                             {({
                                 errors,

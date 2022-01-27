@@ -23,7 +23,7 @@ class CreateApplicationsTable extends Migration
             $table->json('workplace');
             $table->json('education');
             $table->json('diploma');
-            $table->string('ruoNumber')->nullable();
+            $table->string('ruoNumber')->nullable()->unique();
         });
     }
 

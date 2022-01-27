@@ -17,12 +17,13 @@ class CreatePublicationsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('institution');
-            $table->string('period');
+            $table->date('startDate');
+            $table->date('endDate');
             $table->string('theme');
             $table->string('published');
-            $table->string('approve');
-            $table->string('notApprove');
-            $table->integer('credits');
+            $table->string('approve')->nullable();
+            $table->string('notApprove')->nullable();
+            $table->integer('credits')->nullable();
             $table->unsignedBigInteger('teacher_id');
             $table->unsignedBigInteger('application_id');
         });
