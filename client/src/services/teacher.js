@@ -19,6 +19,11 @@ function getByEgn(egn) {
         .then(res => res.json())
 }
 
+function getApplication(id) {
+    return fetch(`${services.url}/teachers/applications/${id}`)
+        .then(res => res.json())
+}
+
 function addApplication(data) {
     return fetch(`${services.url}/teachers/applications`, {
         method: 'POST',
@@ -49,6 +54,7 @@ const teacherServices = {
     getAll,
     create,
     getByEgn,
+    getApplication,
     addApplication,
     destroy,
     edit

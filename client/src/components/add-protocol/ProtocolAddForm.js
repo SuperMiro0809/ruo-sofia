@@ -46,10 +46,24 @@ const ProtocolAddForm = ({ rest }) => {
 
     useEffect(() => {
         committeServices.getAll()
-        .then(data => {
-            setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
-        })
-    }, [])
+            .then(data => {
+                setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
+            })
+    }, []);
+
+    const applicationElementsValidation = (values, mode, i) => {
+        for (let j = 0; j < values.applications[i][mode].length; j++) {
+            if (values.applications[i][mode][j].approve) {
+                if (!values.applications[i][mode][j].credits) {
+                    return true;
+                }
+            } else {
+                if (!values.applications[i][mode][j].notApprove) {
+                    return true;
+                }
+            }
+        }
+    }
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for (let key in values) {
@@ -66,9 +80,19 @@ const ProtocolAddForm = ({ rest }) => {
 
         for (let i = 0; i < values.applications.length; i++) {
             for (let key in values.applications[i]) {
-                if (!values.applications[i][key] && key != 'approve' && key != 'notApprove') {
+                if (!values.applications[i][key]) {
                     return true;
                 }
+            }
+
+            if(applicationElementsValidation(values, 'teachings', i)) {
+                return true;
+            }
+            if(applicationElementsValidation(values, 'reports', i)) {
+                return true;
+            }
+            if(applicationElementsValidation(values, 'publications', i)) {
+                return true;
             }
         }
 
@@ -107,11 +131,13 @@ const ProtocolAddForm = ({ rest }) => {
                                 members: [''],
                                 applications: [
                                     {
-                                        egn: '',
-                                        teacherId: '',
+                                        ruoNumberOut: '',
+                                        dateOut: '',
+                                        teacher: '',
                                         application: '',
-                                        approve: '',
-                                        notApprove: ''
+                                        teachings: [],
+                                        reports: [],
+                                        publications: []
                                     }
                                 ],
                             }}
@@ -122,11 +148,20 @@ const ProtocolAddForm = ({ rest }) => {
                                 president: Yup.string().required('Председателят е задължителен'),
                                 members: Yup.array().of(Yup.string().required('Членът е задължителен')),
                                 applications: Yup.array().of(Yup.object().shape({
-                                    egn: Yup.number()
-                                    .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
-                                    .typeError('ЕГН-то трябва да съдържа само цифри')
-                                    .required('ЕГН-то е задължително'),
-                                    application: Yup.string().required('Заявлението е задължително')
+                                    ruoNumberOut: Yup.number().required('Изходящият номер е задължителен').typeError('Трябва да въведете число'),
+                                    dateOut: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна'),
+                                    application: Yup.string().required('Заявлението е задължително'),
+                                    teacher: Yup.string().required('Учителят е задължителен'),
+                                    teachings: Yup.array().of(Yup.object().shape({
+                                        credits: Yup.number().when('approve', (approve) => {
+                                            if (approve) {
+                                                return Yup.number()
+                                                    .positive('Квалификационните кредити трябва да са положително число')
+                                                    .integer('Квалификационните кредити трябва да са цяло число')
+                                                    .required('Квалификационните кредити са задължителни');
+                                            }
+                                        }),
+                                    }))
                                 }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
@@ -266,7 +301,7 @@ const ProtocolAddForm = ({ rest }) => {
                                                                 onBlur={handleBlur}
                                                                 name={`members.${index}`}
                                                                 value={values.members[index]}
-                                                            >   
+                                                            >
                                                                 {committe.members.map((member, index) => (
                                                                     <MenuItem key={index} value={member}>{member}</MenuItem>
                                                                 ))}
@@ -304,7 +339,7 @@ const ProtocolAddForm = ({ rest }) => {
                                         render={arrayHelpers => (
                                             <>
                                                 {values.applications.map((application, index) => (
-                                                    <ApplicationFormItem 
+                                                    <ApplicationFormItem
                                                         key={index}
                                                         props={
                                                             {
@@ -319,7 +354,7 @@ const ProtocolAddForm = ({ rest }) => {
                                                                 values,
                                                                 scrollTo
                                                             }
-                                                        } 
+                                                        }
                                                     />
                                                 ))}
                                             </>

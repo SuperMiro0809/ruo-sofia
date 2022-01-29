@@ -16,6 +16,7 @@ class CreateApplicationsTable extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('date');
+            $table->date('dateOut')->nullable();
             $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
             $table->string('adress');
@@ -23,7 +24,9 @@ class CreateApplicationsTable extends Migration
             $table->json('workplace');
             $table->json('education');
             $table->json('diploma');
-            $table->string('ruoNumber')->nullable()->unique();
+            $table->string('ruoNumber')->unique();
+            $table->string('ruoNumberOut')->nullable()->unique();
+            $table->boolean('inProtocol')->default(false);
         });
     }
 

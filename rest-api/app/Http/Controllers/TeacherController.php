@@ -48,6 +48,18 @@ class TeacherController extends Controller
         return $teacher;
     }
 
+    public function getApplication($id) {
+        $application_teachings = Application::find($id)->teaching;
+        $application_reports = Application::find($id)->report;
+        $application_publications = Application::find($id)->publication;
+
+        return response()->json([
+            "teachings" => $application_teachings,
+            "reports" => $application_reports,
+            "publications" => $application_publications
+        ]);
+    }
+
     public function addApplication(Request $request) {
         $application = new Application();
         $application->adress = $request->adress;
