@@ -1,11 +1,19 @@
 .TeacherCertificatePDF {
-    padding: 60px;
+    padding: 80px;
+    background-repeat: no-repeat;
+    background-size: 730px 1070px;
+    height: 1070px;
 
+    img {
+        height: 500px;
+        width: 500px;
+    }
     header {
         font-size: 10pt;
-
+        letter-spacing: 1.5px;
         p:last-child {
             font-size: 9pt;
+            letter-spacing: -1px;
         }
     }
 
@@ -35,6 +43,15 @@
             p:last-child {
                 text-indent: 1.25cm;
             }
+        }
+    }
+
+    footer {
+        margin-top: 30px;
+
+        .chief {
+            margin-top: 20px;
+            text-align: right;
         }
     }
 }

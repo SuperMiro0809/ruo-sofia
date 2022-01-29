@@ -14,12 +14,18 @@ class TeacherController extends Controller
 {
     public function index() {
         $teachers = Teacher::all();
-        $teachers1 = DB::table('teachers')
-            ->join('applications', 'teachers.id', '=', 'applications.teacher_id')
-            ->get();
+        // $teachers1 = DB::table('teachers')
+        //     ->join('applications', 'teachers.id', '=', 'applications.teacher_id')
+        //     ->get();
 
         foreach ($teachers as $t) {
             $t->application;
+
+            foreach($t->application as $a) {
+                $a->teaching;
+                $a->report;
+                $a->publication;
+            }
         }
 
         return $teachers;

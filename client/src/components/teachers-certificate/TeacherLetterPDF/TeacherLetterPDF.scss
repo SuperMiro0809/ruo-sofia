@@ -1,0 +1,38 @@
+.TeacherLetterPDF {
+    header {
+        font-size: 12pt;
+        letter-spacing: 2px;
+        p:last-child {
+            font-size: 8pt;
+            letter-spacing: -1px;
+        }
+    }
+
+    .top {
+        margin-top: 30px;
+
+        .to {
+            margin-top: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+
+    main {
+        margin-top: 40px;
+
+        .introduction {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .letter {
+            margin-top: 20px;
+            text-indent: 1.25cm;
+        }
+    }
+
+    footer {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+}

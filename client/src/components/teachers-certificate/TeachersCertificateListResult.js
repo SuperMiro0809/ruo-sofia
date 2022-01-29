@@ -33,32 +33,16 @@ const TeacherCertificateListResult = (props) => {
   const getTeachers = () => {
     teacherServices.getAll()
       .then(data => {
-        const teacherData = [];
 
         for(let i = 0; i < data.length; i++) {
-          let teacherEl = {
-            egn: data[i].egn,
-            firstName: data[i].firstName,
-            middleName: data[i].middleName,
-            lastName: data[i].lastName,
-            application: []
-          }
-
           for(let j = 0; j < data[i].application.length; j++) {
-            if(data[i].application[j].approve || data[i].application[j].notApprove) {
-              data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
-              data[i].application[j].education = JSON.parse(data[i].application[j].education);
-              data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
-              teacherEl.application.push(data[i].application[j]);
-            }
-          }
-
-          if(teacherEl.application.length > 0) {
-            teacherData.push(teacherEl);
+            data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
+            data[i].application[j].education = JSON.parse(data[i].application[j].education);
+            data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
           }
         }
 
-        setTeachers(teacherData);
+        setTeachers(data);
         setLoader(false);
         console.log(data);
       })
@@ -129,7 +113,7 @@ const TeacherCertificateListResult = (props) => {
                     Име
                 </TableCell>
                   <TableCell>
-                    ЕГН
+                    Дата на раждане
                 </TableCell>
                 <TableCell>
                     Удостоверения

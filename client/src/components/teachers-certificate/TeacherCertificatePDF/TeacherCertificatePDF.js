@@ -2,10 +2,11 @@ import React from 'react';
 import './TeacherCertificatePDF.scss';
 import moment from 'moment';
 
-const TeacherCertificatePDF = React.forwardRef(({ teacher, index }, ref) => {
+const TeacherCertificatePDF = React.forwardRef(({ teacher, index, application, el }, ref) => {
+
     return (
         <>
-            <div ref={ref} className="TeacherCertificatePDF pdf">
+            <div ref={ref} className="TeacherCertificatePDF pdf" style={{ backgroundImage: 'url(/static/images/certificate_border.png)' }}>
                 <header>
                     <p>МИНИСТЕРСТВО НА ОБРАЗОВАНИЕТО И НАУКАТА</p>
                     <p>РЕГИОНАЛНО УПРАВЛЕНИЕ НА ОБРАЗОВАНИЕТО – СОФИЯ-ГРАД</p>
@@ -20,7 +21,7 @@ const TeacherCertificatePDF = React.forwardRef(({ teacher, index }, ref) => {
                     <p>за признаване на квалификационни кредити</p>
                 </section>
                 <section className="subtitle">
-                    <p>регистрационен № {teacher.application[index].ruoNumber}/{moment(teacher.application[index].date).format('DD.MM.YYYY')} г.</p>
+                    <p>регистрационен № {application.ruoNumberOut}/{moment(application.dateOut).format('DD.MM.YYYY')} г.</p>
                 </section>
                 <section className="main-info">
                     <article className="name">
@@ -28,12 +29,20 @@ const TeacherCertificatePDF = React.forwardRef(({ teacher, index }, ref) => {
                         <p>(име, презиме, фамилия)</p>
                     </article>
                     <article className="workplace">
-                        <p>на длъжност - {teacher.application[index].workplace.position}</p>
-                        <p>месторабота - {teacher.application[index].workplace.place}</p>
-                        <p>гр. (с.) {teacher.application[index].workplace.city}, обл. {teacher.application[index].workplace.area}</p>
+                        <p>на длъжност - {application.workplace.position}</p>
+                        <p>месторабота - {application.workplace.place}</p>
+                        <p>гр. (с.) {application.workplace.city}, обл. {application.workplace.area}</p>
                     </article>
                     <p>е участвал(а) в териотично обучение</p>
+                    <p>проведено от {el.institution}</p>
+                    <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г. с продължителност {el.lessonHours} академични часа</p>
+                    <p>на тема {el.theme}</p>
+                    <p>за което са признати {el.credits} квалификационен кредит.</p>
                 </section>
+                <footer>
+                    <p>Началник на Регионално управление на образованието - гр. София……………….</p>
+                    <p class="chief">(д-р Ваня Кастрева)</p>
+                </footer>
             </div>
         </>
     )

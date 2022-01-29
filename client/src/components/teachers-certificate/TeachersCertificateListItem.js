@@ -23,11 +23,9 @@ import {
     KeyboardArrowDown as KeyboardArrowDownIcon,
     KeyboardArrowUp as KeyboardArrowUpIcon
 } from '@material-ui/icons';
-import ReactToPrint from 'react-to-print';
-import TeacherCertificatePDF from './TeacherCertificatePDF';
+import TeacherCertificateInnerTableItem from './TeacherCertificateInnerTableItem';
 
 const TeacherCertificateListItem = ({ teacher, ...rest }) => {
-    const print = React.useRef();
     const [open, setOpen] = useState(false);
 
     return (
@@ -40,7 +38,7 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                     {`${teacher.firstName} ${teacher.middleName} ${teacher.lastName}`}
                 </TableCell>
                 <TableCell>
-                    {teacher.egn}
+                    {moment(teacher.dateOfBirth).format('DD/MM/YYYY')}
                 </TableCell>
                 <TableCell>
                     <Button
@@ -63,8 +61,8 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Входящ номер</TableCell>
-                                        <TableCell>Дата</TableCell>
+                                        <TableCell>Изходящ номер</TableCell>
+                                        <TableCell>Изходяща дата</TableCell>
                                         <TableCell>Предложение за признаване</TableCell>
                                         <TableCell>Отказ за признаване</TableCell>
                                         <TableCell>Операции</TableCell>
@@ -74,33 +72,32 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                     {teacher.application.length != 0 ?
                                         <>
                                             {teacher.application.map((application, index) => (
-                                                <TableRow key={application.id}>
-                                                    <TableCell>
-                                                        № {application.ruoNumber}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {moment(application.date).format('DD/MM/YYYY')}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {application.approve}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {application.notApprove ? application.notApprove : '-'}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <ReactToPrint
-                                                            content={() => print.current}
-                                                            trigger={() => (
-                                                                <IconButton className="print-icon-wrapper">
-                                                                    <PrintIcon className="print-icon" />
-                                                                </IconButton>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <div style={{ display: 'none' }}>
-                                                        <TeacherCertificatePDF teacher={teacher} index={index} ref={print} style={{ display: 'none' }} />
-                                                    </div>
-                                                </TableRow>
+                                                <>
+                                                    {application.teaching.map((teaching, tIndex) => (
+                                                       <TeacherCertificateInnerTableItem
+                                                            el={teaching}
+                                                            application={application}
+                                                            teacher={teacher}
+                                                            index={index}
+                                                       />
+                                                    ))}
+                                                    {application.report.map((report, rIndex) => (
+                                                       <TeacherCertificateInnerTableItem
+                                                            el={report}
+                                                            application={application}
+                                                            teacher={teacher}
+                                                            index={index}
+                                                       />
+                                                    ))}
+                                                    {application.publication.map((publication, pIndex) => (
+                                                       <TeacherCertificateInnerTableItem
+                                                            el={publication}
+                                                            application={application}
+                                                            teacher={teacher}
+                                                            index={index}
+                                                       />
+                                                    ))}
+                                                </>
                                             ))}
                                         </>
                                         :
