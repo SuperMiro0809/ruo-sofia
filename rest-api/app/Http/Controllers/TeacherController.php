@@ -162,7 +162,7 @@ class TeacherController extends Controller
     public function edit(Request $request, $id) {
         $teacher = Teacher::findOrFail($id);
 
-        $teacher->egn = $request->egn;
+        $teacher->dateOfBirth = $request->dateOfBirth;
         $teacher->firstName = $request->firstName;
         $teacher->middleName = $request->middleName;
         $teacher->lastName = $request->lastName;
