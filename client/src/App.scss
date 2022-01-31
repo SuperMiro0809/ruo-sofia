@@ -60,3 +60,12 @@ table {
 
     margin: 0.85cm;
 }
+
+@media print {
+    html, body {
+        border: 1px solid white;
+        height: 99%;
+        page-break-after: avoid;
+        page-break-before: avoid;
+    }
+}
