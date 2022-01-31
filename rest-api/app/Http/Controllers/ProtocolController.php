@@ -18,6 +18,9 @@ class ProtocolController extends Controller
             $p->application;
             foreach($p->application as $a) {
                 $a->teacher;
+                $a->teaching;
+                $a->report;
+                $a->publication;
             }
         }
         return $protocols;
@@ -32,7 +35,7 @@ class ProtocolController extends Controller
             $application->ruoNumberOut = $appl_value["ruoNumberOut"];
             $application->dateOut = $appl_value["dateOut"];
             $application->inProtocol = true;
-            
+
             $application->save();
             $id = $application->id;
             $ids[] = $id;

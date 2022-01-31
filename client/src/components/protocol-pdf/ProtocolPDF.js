@@ -3,7 +3,7 @@ import './ProtocolPDF.scss';
 import PDFHeader from '../pdf/PDFHeader';
 import moment from 'moment';
 
-const ProtocolPDF = React.forwardRef(({protocol}, ref) => {
+const ProtocolPDF = React.forwardRef(({protocol, formText}, ref) => {
     return (
         <>
             <div ref={ref} className="ProtocolPDF pdf">
@@ -47,8 +47,8 @@ const ProtocolPDF = React.forwardRef(({protocol}, ref) => {
                                     <td>{index + 1}</td>
                                     <td>{application.ruoNumber}</td>
                                     <td>{`${application.teacher.firstName} ${application.teacher.middleName} ${application.teacher.lastName}`}</td>
-                                    <td>{application.approve}</td>
-                                    <td>{application.notApprove}</td>
+                                    <td>{formText(application, "approve")}</td>
+                                    <td>{formText(application, "notApprove")}</td>
                                 </tr>
                             ))}
                         </tbody>

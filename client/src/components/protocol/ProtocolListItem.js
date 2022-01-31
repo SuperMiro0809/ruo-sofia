@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import './ProtocolListItem.scss';
 import { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -35,10 +35,34 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
         selectedProtocolProp.setSelectedProtocol(id);
     }
 
+    const formText = (application, mode) => {
+        const textArr = [];
+
+        for (let th of application.teaching) {
+            if (th[mode]) {
+                textArr.push(th[mode]);
+            }
+        }
+
+        for (let rp of application.report) {
+            if (rp[mode]) {
+                textArr.push(rp[mode]);
+            }
+        }
+
+        for (let publ of application.publication) {
+            if (publ[mode]) {
+                textArr.push(publ[mode]);
+            }
+        }
+
+        return textArr.join(" ");
+    }
+
     return (
         <React.Fragment>
-            <div style={{display: 'none'}}>
-                <ProtocolPDF protocol={protocol} ref={print} style={{display: 'none'}}/>
+            <div style={{ display: 'none' }}>
+                <ProtocolPDF protocol={protocol} formText={formText} ref={print} style={{ display: 'none' }} />
             </div>
             <TableRow
                 hover
@@ -106,25 +130,30 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {protocol.application.map((application, index) => (
-                                        <TableRow key={application.id}>
-                                            <TableCell component="th" scope="row">
-                                                № {index + 1}
-                                            </TableCell>
-                                            <TableCell>
-                                                № {application.ruoNumber}
-                                            </TableCell>
-                                            <TableCell>
-                                                {`${application.teacher.firstName} ${application.teacher.middleName} ${application.teacher.lastName}`}
-                                            </TableCell>
-                                            <TableCell>
-                                                {application.approve ? application.approve : '-'}
-                                            </TableCell>
-                                            <TableCell>
-                                                {application.notApprove ? application.notApprove : '-'}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                    {protocol.application.map((application, index) => {
+                                        const approve = formText(application, "approve");
+                                        const notApprove = formText(application, "notApprove");
+
+                                        return (
+                                            <TableRow key={application.id}>
+                                                <TableCell component="th" scope="row">
+                                                    № {index + 1}
+                                                </TableCell>
+                                                <TableCell>
+                                                    № {application.ruoNumber}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {`${application.teacher.firstName} ${application.teacher.middleName} ${application.teacher.lastName}`}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {approve ? approve : '-'}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {notApprove ? notApprove : '-'}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
                                 </TableBody>
                             </Table>
                         </Box>
