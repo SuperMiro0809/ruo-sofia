@@ -2,7 +2,7 @@ import React from 'react';
 import './TeacherCertificatePDF.scss';
 import moment from 'moment';
 
-const TeacherCertificatePDF = React.forwardRef(({ teacher, index, application, el }, ref) => {
+const TeacherCertificatePDF = React.forwardRef(({ teacher, index, application, el, mode }, ref) => {
 
     return (
         <>
@@ -33,11 +33,35 @@ const TeacherCertificatePDF = React.forwardRef(({ teacher, index, application, e
                         <p>месторабота - {application.workplace.place}</p>
                         <p>гр. (с.) {application.workplace.city}, обл. {application.workplace.area}</p>
                     </article>
-                    <p>е участвал(а) в териотично обучение</p>
-                    <p>проведено от {el.institution}</p>
-                    <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г. с продължителност {el.lessonHours} академични часа</p>
-                    <p>на тема {el.theme}</p>
-                    <p>за което са признати {el.credits} квалификационен кредит.</p>
+                    {mode === "teaching" &&
+                        <>
+                            <p>е участвал(а) в териотично обучение</p>
+                            <p>проведено от {el.institution}</p>
+                            <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г. с продължителност {el.lessonHours} академични часа</p>
+                            <p>на тема {el.theme}</p>
+                        </>
+                    }
+                    {mode === "report" &&
+                        <>
+                            <p>e подготвил(а) и представил(а) доклад или научно съобщение</p>
+                            <p>проведено от {el.institution}</p>
+                            <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г. с продължителност {el.lessonHours} академични часа</p>
+                            <p>на тема {el.theme}</p>
+                        </>
+                    }
+                    {mode === "publication" &&
+                        <>
+                            <p>е публикувал(а) научна или методическа публикация в периодично издание</p>
+                            <p>проведено от {el.institution}</p>
+                            <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г.</p>
+                            <p>на тема {el.theme}</p>
+                            <p>публикувано на {el.published}</p>
+                        </>
+                    }
+                    {el.credits == 1 ?
+                        <p>за което са признати {el.credits} квалификационен кредит.</p> :
+                        <p>за което са признати {el.credits} квалификационни кредита.</p>
+                    }
                 </section>
                 <footer>
                     <p>Началник на Регионално управление на образованието - гр. София……………….</p>

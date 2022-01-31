@@ -12,7 +12,7 @@ import ReactToPrint from 'react-to-print';
 import TeacherCertificatePDF from './TeacherCertificatePDF/TeacherCertificatePDF';
 import TeacherLetterPDF from './TeacherLetterPDF/TeacherLetterPDF';
 
-const TeacherCertificateInnerTableItem = ({ el, application, teacher, index }) => {
+const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mode }) => {
     const print = React.useRef();
 
     return (
@@ -41,7 +41,7 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index }) =
             </TableCell>
             {el.approve ?
                 <div style={{ display: 'none' }}>
-                    <TeacherCertificatePDF teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
+                    <TeacherCertificatePDF mode={mode} teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
                 </div>
                 :
                 <div style={{ display: 'none' }}>
