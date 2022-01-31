@@ -33,18 +33,32 @@ const TeacherCertificateListResult = (props) => {
   const getTeachers = () => {
     teacherServices.getAll()
       .then(data => {
+        const teacherData = [];
 
         for(let i = 0; i < data.length; i++) {
-          for(let j = 0; j < data[i].application.length; j++) {
-            data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
-            data[i].application[j].education = JSON.parse(data[i].application[j].education);
-            data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
+          let teacherEl = {
+            dateOfBirth: data[i].dateOfBirth,
+            firstName: data[i].firstName,
+            middleName: data[i].middleName,
+            lastName: data[i].lastName,
+            application: []
           }
+
+          for(let j = 0; j < data[i].application.length; j++) {
+            if(data[i].application[j].inProtocol) {
+              data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
+              data[i].application[j].education = JSON.parse(data[i].application[j].education);
+              data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
+              teacherEl.application.push(data[i].application[j]);
+            }
+          }
+
+          teacherData.push(teacherEl);
         }
 
-        setTeachers(data);
+        setTeachers(teacherData);
         setLoader(false);
-        console.log(data);
+        console.log(teacherData);
       })
   }
 

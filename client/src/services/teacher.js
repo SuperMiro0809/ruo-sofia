@@ -30,7 +30,13 @@ function addApplication(data) {
         body: JSON.stringify(data),
         headers: services.header2
     })
-        .then(res => res.json())
+        .then(res => {
+            if(res.status === 200) {
+                return res.json();
+            }else if(res.status === 409) {
+                throw new Error('Вече е въведено заявление с този входящ номер');
+            }
+        })
 }
 
 function destroy(id) {

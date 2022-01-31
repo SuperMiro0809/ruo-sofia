@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\Teacher;
 use App\Models\Application;
@@ -78,7 +79,19 @@ class TeacherController extends Controller
         
         if (isset($request->teacherId)) {
             $application->teacher_id = $request->teacherId;
-            $application->save();
+
+            try {
+                $application->save();
+            } catch(\Exception $e) {
+                $errorCode = $e->errorInfo[1];
+                
+                if($errorCode == 1062){
+                    return response()->json([
+                        'message'=>'Dublicate key'
+                    ], 409);
+                }
+            }
+
             $application_id = $application->id;
             
             $teacher = Teacher::findOrFail($request->teacherId);

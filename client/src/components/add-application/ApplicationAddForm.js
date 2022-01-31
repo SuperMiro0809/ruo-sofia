@@ -275,6 +275,11 @@ const ApplicationsAddForm = ({ rest }) => {
                                         }, 2000)
                                     })
                                     .catch(err => {
+                                        messageContext[1]({ status: 'error', text: err.message })
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 3000)
                                         setSubmitting(false);
                                     })
                             }}
