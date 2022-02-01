@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -14,6 +15,7 @@ import committeServices from '../../services/committe';
 import MessageContext from '../../contexts/MessageContext';
 
 const CommitteListResult = ({ ...rest }) => {
+  const navigate = useNavigate();
   const messageContext = useContext(MessageContext);
   const [committe, setCommitte] = useState({ president: '', members: ['', '', '', ''] });
 
@@ -25,6 +27,11 @@ const CommitteListResult = ({ ...rest }) => {
     committeServices.getAll()
       .then(data => {
         setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
+      })
+      .catch(err => {
+        if (err.message === 'Unauthorized') {
+          navigate('/login');
+        }
       })
   }
 
@@ -77,6 +84,9 @@ const CommitteListResult = ({ ...rest }) => {
                     setSubmitting(false);
                   })
                   .catch(err => {
+                    if (err.message === 'Unauthorized') {
+                      navigate('/login');
+                    }
                     setSubmitting(false);
                   })
               }}

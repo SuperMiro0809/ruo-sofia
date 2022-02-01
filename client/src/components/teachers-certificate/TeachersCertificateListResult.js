@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -21,6 +22,7 @@ import teacherServices from '../../services/teacher';
 import TeacherCertificateListItem from './TeachersCertificateListItem';
 
 const TeacherCertificateListResult = (props) => {
+  const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [teachers, setTeachers] = useState([]);
@@ -35,7 +37,7 @@ const TeacherCertificateListResult = (props) => {
       .then(data => {
         const teacherData = [];
 
-        for(let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           let teacherEl = {
             dateOfBirth: data[i].dateOfBirth,
             firstName: data[i].firstName,
@@ -44,8 +46,8 @@ const TeacherCertificateListResult = (props) => {
             application: []
           }
 
-          for(let j = 0; j < data[i].application.length; j++) {
-            if(data[i].application[j].inProtocol) {
+          for (let j = 0; j < data[i].application.length; j++) {
+            if (data[i].application[j].inProtocol) {
               data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
               data[i].application[j].education = JSON.parse(data[i].application[j].education);
               data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
@@ -59,6 +61,11 @@ const TeacherCertificateListResult = (props) => {
         setTeachers(teacherData);
         setLoader(false);
         console.log(teacherData);
+      })
+      .catch(err => {
+        if (err.message === 'Unauthorized') {
+          navigate('/login');
+        }
       })
   }
 
@@ -129,7 +136,7 @@ const TeacherCertificateListResult = (props) => {
                   <TableCell>
                     Дата на раждане
                 </TableCell>
-                <TableCell>
+                  <TableCell>
                     Удостоверения
                 </TableCell>
                 </TableRow>

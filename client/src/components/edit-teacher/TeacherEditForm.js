@@ -22,25 +22,25 @@ import {
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 
-const TeacherEditForm = ({teacher, ...rest }) => {
+const TeacherEditForm = ({ teacher, ...rest }) => {
     const [date, setDate] = useState(teacher.dateOfBirth);
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
 
     const disableCreateButton = (isSubmitting, errors, values) => {
-        for(let key in values) {
-            if(!values[key]) {
+        for (let key in values) {
+            if (!values[key]) {
                 return true
             }
         }
 
-        for(let key in errors) {
-            if(errors[key]) {
+        for (let key in errors) {
+            if (errors[key]) {
                 return true;
             }
         }
 
-        if(isSubmitting) {
+        if (isSubmitting) {
             return true;
         }
     }
@@ -66,17 +66,20 @@ const TeacherEditForm = ({teacher, ...rest }) => {
                             onSubmit={(values, { setSubmitting }) => {
                                 values.id = teacher.id;
                                 teacherServices.edit(values)
-                                .then(data => {
-                                    messageContext[1]({ status: 'success', text: 'Учителят е редактиран успешно' });
-                                    navigate('/app/teachers', { replace: true });
-                                    const interval = setInterval(function () {
-                                        messageContext[1]('');
-                                        clearInterval(interval);
-                                    }, 2000)
-                                })
-                                .catch(err => {
-                                    setSubmitting(false);
-                                })
+                                    .then(data => {
+                                        messageContext[1]({ status: 'success', text: 'Учителят е редактиран успешно' });
+                                        navigate('/app/teachers', { replace: true });
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 2000)
+                                    })
+                                    .catch(err => {
+                                        if (err.message === 'Unauthorized') {
+                                            navigate('/login');
+                                        }
+                                        setSubmitting(false);
+                                    })
                             }}
                         >
                             {({

@@ -36,7 +36,7 @@ import protocolServices from '../../services/protocol';
 import committeServices from '../../services/committe';
 import ProtocolEditFormItem from './ProtocolEditFormItem';
 
-const ProtocolAddForm = ({protocol,  ...rest }) => {
+const ProtocolAddForm = ({ protocol, ...rest }) => {
     console.log(protocol);
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
@@ -45,7 +45,7 @@ const ProtocolAddForm = ({protocol,  ...rest }) => {
     const [committe, setCommitte] = useState({ president: '', members: [] });
     const applications = [];
 
-    for(let i = 0; i < protocol.application.length; i++) {
+    for (let i = 0; i < protocol.application.length; i++) {
         let appl = {
             ruoNumberOut: protocol.application[i].ruoNumberOut,
             dateOut: protocol.application[i].dateOut,
@@ -63,6 +63,11 @@ const ProtocolAddForm = ({protocol,  ...rest }) => {
         committeServices.getAll()
             .then(data => {
                 setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
+            })
+            .catch(err => {
+                if(err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
             })
     }, []);
 
@@ -101,13 +106,13 @@ const ProtocolAddForm = ({protocol,  ...rest }) => {
                 }
             }
 
-            if(applicationElementsValidation(values, 'teachings', i)) {
+            if (applicationElementsValidation(values, 'teachings', i)) {
                 return true;
             }
-            if(applicationElementsValidation(values, 'reports', i)) {
+            if (applicationElementsValidation(values, 'reports', i)) {
                 return true;
             }
-            if(applicationElementsValidation(values, 'publications', i)) {
+            if (applicationElementsValidation(values, 'publications', i)) {
                 return true;
             }
         }
@@ -186,6 +191,9 @@ const ProtocolAddForm = ({protocol,  ...rest }) => {
                                             }, 2000)
                                         })
                                         .catch(err => {
+                                            if (err.message === 'Unauthorized') {
+                                                navigate('/login');
+                                            }
                                             setSubmitting(false);
                                         })
                                 }

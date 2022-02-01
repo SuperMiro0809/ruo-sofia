@@ -64,6 +64,11 @@ const ApplicationsAddForm = ({ rest }) => {
                 setTeacherOptions(arr);
                 setLoading(false);
             })
+            .catch(err => {
+                if(err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
     }, [])
 
     const disableCreateButton = (isSubmitting, errors, values) => {
@@ -82,7 +87,7 @@ const ApplicationsAddForm = ({ rest }) => {
                 }
             }
 
-            if(errors['teaching']) {
+            if (errors['teaching']) {
                 return true;
             }
         }
@@ -97,7 +102,7 @@ const ApplicationsAddForm = ({ rest }) => {
                 }
             }
 
-            if(errors['report']) {
+            if (errors['report']) {
                 return true;
             }
         }
@@ -112,7 +117,7 @@ const ApplicationsAddForm = ({ rest }) => {
                 }
             }
 
-            if(errors['publication']) {
+            if (errors['publication']) {
                 return true;
             }
         }
@@ -239,10 +244,10 @@ const ApplicationsAddForm = ({ rest }) => {
                                     institution: Yup.string().max(255).required('Проведено от е задълбително'),
                                     startDate: Yup.date().required('Началната дата е задължителна').typeError('Датата не е валидна'),
                                     endDate: Yup.date().required('Крайната дата е задължителна').typeError('Датата не е валидна')
-                                    .min(
-                                        Yup.ref('startDate'),
-                                        'Крайната дата не може да е преди началната'
-                                    ),
+                                        .min(
+                                            Yup.ref('startDate'),
+                                            'Крайната дата не може да е преди началната'
+                                        ),
                                     lessonHours: Yup.number().max(255).required('Академичните часове са задължителни').typeError('Академичните часове трябва да са число'),
                                     theme: Yup.string().max(255).required('Темата е задължителна')
                                 })),
@@ -275,6 +280,9 @@ const ApplicationsAddForm = ({ rest }) => {
                                         }, 2000)
                                     })
                                     .catch(err => {
+                                        if (err.message === 'Unauthorized') {
+                                            navigate('/login');
+                                        }
                                         messageContext[1]({ status: 'error', text: err.message })
                                         const interval = setInterval(function () {
                                             messageContext[1]('');
@@ -283,7 +291,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                         setSubmitting(false);
                                     })
                             }}
-                            
+
                             validateOnBlur={true}
                             validateOnChange={false}
                         >

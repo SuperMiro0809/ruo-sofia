@@ -2,7 +2,13 @@ import services from './index';
 
 function getAll() {
     return fetch(`${services.url}/protocols?token=${localStorage.getItem('token')}`)
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function create(data) {
@@ -11,7 +17,13 @@ function create(data) {
         body: JSON.stringify(data),
         headers: services.header2
     })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function destroy(id) {
@@ -19,7 +31,13 @@ function destroy(id) {
     return fetch(`${services.url}/protocols/${id}?token=${localStorage.getItem('token')}`, {
         method: 'DELETE'
     })
-    .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function edit(data, id) {
@@ -29,7 +47,13 @@ function edit(data, id) {
         body: JSON.stringify(data),
         headers: services.header2
     })
-    .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 const protocolServices = {

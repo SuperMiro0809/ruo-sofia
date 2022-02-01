@@ -28,19 +28,19 @@ const TeacherAddForm = ({ rest }) => {
     const [date, setDate] = useState(null);
 
     const disableCreateButton = (isSubmitting, errors, values) => {
-        for(let key in values) {
-            if(!values[key]) {
+        for (let key in values) {
+            if (!values[key]) {
                 return true
             }
         }
 
-        for(let key in errors) {
-            if(errors[key]) {
+        for (let key in errors) {
+            if (errors[key]) {
                 return true;
             }
         }
 
-        if(isSubmitting) {
+        if (isSubmitting) {
             return true;
         }
     }
@@ -66,18 +66,21 @@ const TeacherAddForm = ({ rest }) => {
                             onSubmit={(values, { setSubmitting }) => {
                                 console.log(values);
                                 teacherServices.create(values)
-                                .then(data => {
-                                    console.log(data);
-                                    messageContext[1]({ status: 'success', text: 'Учителят е добавен успешно' });
-                                    navigate('/app/teachers', { replace: true });
-                                    const interval = setInterval(function () {
-                                        messageContext[1]('');
-                                        clearInterval(interval);
-                                    }, 2000)
-                                })
-                                .catch(err => {
-                                    setSubmitting(false);
-                                })
+                                    .then(data => {
+                                        console.log(data);
+                                        messageContext[1]({ status: 'success', text: 'Учителят е добавен успешно' });
+                                        navigate('/app/teachers', { replace: true });
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 2000)
+                                    })
+                                    .catch(err => {
+                                        if (err.message === 'Unauthorized') {
+                                            navigate('/login');
+                                        }
+                                        setSubmitting(false);
+                                    })
                             }}
                         >
                             {({

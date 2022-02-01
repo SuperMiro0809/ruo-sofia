@@ -2,7 +2,13 @@ import services from './index';
 
 function getAll() {
     return fetch(`${services.url}/teachers?token=${localStorage.getItem('token')}`)
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function create(data) {
@@ -11,17 +17,35 @@ function create(data) {
         body: JSON.stringify(data),
         headers: services.header2
     })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function getByEgn(egn) {
     return fetch(`${services.url}/teachers/${egn}?token=${localStorage.getItem('token')}`)
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function getApplication(id) {
     return fetch(`${services.url}/teachers/applications/${id}?token=${localStorage.getItem('token')}`)
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function addApplication(data) {
@@ -31,9 +55,9 @@ function addApplication(data) {
         headers: services.header2
     })
         .then(res => {
-            if(res.status === 200) {
+            if (res.status === 200) {
                 return res.json();
-            }else if(res.status === 409) {
+            } else if (res.status === 409) {
                 throw new Error('Вече е въведено заявление с този входящ номер');
             }
         })
@@ -44,7 +68,13 @@ function destroy(id) {
         method: 'DELETE',
         headers: services.header2
     })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function edit(data) {
@@ -53,7 +83,13 @@ function edit(data) {
         body: JSON.stringify(data),
         headers: services.header2
     })
-    .then(res => res.json())
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 const teacherServices = {

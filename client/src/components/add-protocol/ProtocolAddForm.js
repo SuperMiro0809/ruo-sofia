@@ -49,6 +49,11 @@ const ProtocolAddForm = ({ rest }) => {
             .then(data => {
                 setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
             })
+            .catch(err => {
+                if(err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
     }, []);
 
     const applicationElementsValidation = (values, mode, i) => {
@@ -178,6 +183,11 @@ const ProtocolAddForm = ({ rest }) => {
                                                 messageContext[1]('');
                                                 clearInterval(interval);
                                             }, 2000)
+                                        })
+                                        .catch(err => {
+                                            if(err.message === 'Unauthorized') {
+                                                navigate('/login');
+                                            }
                                         })
                                 }
                             }}

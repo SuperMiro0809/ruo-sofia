@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -20,6 +21,7 @@ import protocolServices from '../../services/protocol';
 import ProtocolModal from '../protocol-modal/ProtocolModal';
 
 const ProtocolListResults = (props) => {
+  const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [protocols, setProtocols] = useState([]);
@@ -41,6 +43,11 @@ const ProtocolListResults = (props) => {
         setProtocols(data);
         setLoader(false);
       })
+      .catch(err => {
+        if(err.message === 'Unauthorized') {
+            navigate('/login');
+        }
+    })
   }
 
   // const handleSelectAll = (event) => {

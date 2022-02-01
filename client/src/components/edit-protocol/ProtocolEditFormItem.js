@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import {
     Box,
@@ -40,6 +41,7 @@ import ApplicationsApplyItem from '../add-protocol/ApplicationApplyItem';
 
 
 const ProtocolEditFormItem = ({ protocol, props }, ...rest) => {
+    const navigate = useNavigate();
     const application = props.application;
     const index = props.index;
     const teacherFromProtocol = protocol.application[index].teacher;
@@ -97,6 +99,11 @@ const ProtocolEditFormItem = ({ protocol, props }, ...rest) => {
                     setTeacherOptions(arr);
                     setLoading(false);
                 })
+                .catch(err => {
+                    if(err.message === 'Unauthorized') {
+                        navigate('/login');
+                    }
+                })
         }
         if (values.applications.length > 1) {
             scrollTo.current.scrollIntoView({ behavior: 'smooth' })
@@ -123,6 +130,11 @@ const ProtocolEditFormItem = ({ protocol, props }, ...rest) => {
         teacherServices.getApplication(id)
             .then(data => {
                 setSelectedApplication(data);
+            })
+            .catch(err => {
+                if(err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
             })
     }
 

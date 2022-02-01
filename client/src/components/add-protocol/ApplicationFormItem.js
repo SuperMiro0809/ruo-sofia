@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import {
     Box,
@@ -96,6 +97,11 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                     setTeacherOptions(arr);
                     setLoading(false);
                 })
+                .catch(err => {
+                    if(err.message === 'Unauthorized') {
+                        navigate('/login');
+                    }
+                })
         }
         if (values.applications.length > 1) {
             scrollTo.current.scrollIntoView({ behavior: 'smooth' })
@@ -123,6 +129,11 @@ const ApplicationFormItem = ({ props }, ...rest) => {
             .then(data => {
                 console.log(data);
                 setSelectedApplication(data);
+            })
+            .catch(err => {
+                if(err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
             })
     }
 

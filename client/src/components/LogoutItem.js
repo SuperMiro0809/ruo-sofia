@@ -18,6 +18,11 @@ const LogoutItem = () => {
             localStorage.removeItem('token');
             navigate('/login', { replace: true });
         })
+        .catch(err => {
+            if(err.message === 'Unauthorized') {
+                navigate('/login');
+            }
+        })
     }
 
     return (

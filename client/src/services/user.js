@@ -131,13 +131,7 @@ function refresh() {
         credentials: 'include',
         headers: services.header2
     })
-    .then(res => {
-          if(res.status === 200) {
-              return res.json();
-          }else if(res.status === 401) {
-              throw new Error('Unauthorized');
-          }
-      })
+    .then(res => res.json())
 }
 
 const userServices = {

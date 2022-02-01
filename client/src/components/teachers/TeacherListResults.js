@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -22,6 +23,7 @@ import teacherServices from '../../services/teacher';
 import TeacherModal from '../teacher-modal/TeacherModal';
 
 const TeacherListResults = (props) => {
+  const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [teachers, setTeachers] = useState([]);
@@ -50,6 +52,11 @@ const TeacherListResults = (props) => {
         setTeachers(data);
         setLoader(false);
         console.log(data);
+      })
+      .catch(err => {
+        if (err.message === 'Unauthorized') {
+          navigate('/login');
+        }
       })
   }
 
@@ -95,7 +102,7 @@ const TeacherListResults = (props) => {
 
   return (
     <Card {...props}>
-      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp}/>
+      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
@@ -132,7 +139,7 @@ const TeacherListResults = (props) => {
                   <TableCell>
                     Дата на раждане
                 </TableCell>
-                <TableCell>
+                  <TableCell>
                     Заявления
                 </TableCell>
                   <TableCell>
