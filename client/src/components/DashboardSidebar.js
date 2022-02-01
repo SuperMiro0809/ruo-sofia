@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -27,7 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
-import LogoutItem from './LogoutItem'; 
+import LogoutItem from './LogoutItem';
 import UserContext from '../contexts/UserContext';
 import services from '../services';
 
@@ -103,6 +104,7 @@ const dropDownSettings = {
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const [user] = useContext(UserContext);
+  const [routes, setRoutes] = useState(items);
 
   const roles = {
     'Administrator': 'Администратор',
@@ -110,11 +112,18 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     'Education': 'Образование',
     'Member': 'Потребител'
   };
-  
+
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
+
+    if (user.role != 'Administrator') {
+      setRoutes(items.filter(item => item.href != '/app/users'));
+    } else {
+      setRoutes(items);
+    }
+
   }, [location.pathname]);
 
   const content = (
@@ -125,56 +134,62 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         height: '100%'
       }}
     >
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          p: 2
-        }}
-      >
-        <Avatar
-          component={RouterLink}
-          src={`${services.assets}/avatars/${user.avatar}`}
+      <PerfectScrollbar>
+        <Box
           sx={{
-            cursor: 'pointer',
-            width: 64,
-            height: 64
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            p: 2
           }}
-          to="/app/account"
-        />
-        <Typography
-          color="textPrimary"
-          variant="h5"
         >
-          {user.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {roles[user.role]}
-        </Typography>
-      </Box>
-      <Divider />
-      <Box sx={{ p: 2 }}>
-        <List>
-          {items.map((item) => (
-            <NavItem
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-            />
-          ))}
-          <DropDownMenu {...dropDownQualifications}/>
-          <DropDownMenu {...dropDownEducation}/>
-          <DropDownMenu {...dropDownSettings}/>
-          <LogoutItem />
-        </List>
-      </Box>
+          <Avatar
+            component={RouterLink}
+            src={`${services.assets}/avatars/${user.avatar}`}
+            sx={{
+              cursor: 'pointer',
+              width: 64,
+              height: 64
+            }}
+            to="/app/account"
+          />
+          <Typography
+            color="textPrimary"
+            variant="h5"
+          >
+            {user.name}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body2"
+          >
+            {roles[user.role]}
+          </Typography>
+        </Box>
+        <Divider />
+        <Box sx={{ p: 2 }}>
+          <List>
+            {routes.map((item) => (
+              <NavItem
+                href={item.href}
+                key={item.title}
+                title={item.title}
+                icon={item.icon}
+              />
+            ))}
+            {user.role !== "Education" &&
+              <DropDownMenu {...dropDownQualifications} />
+            }
+            {user.role !== "Qualifications" &&
+              <DropDownMenu {...dropDownEducation} />
+            }
+            <DropDownMenu {...dropDownSettings} />
+            <LogoutItem />
+          </List>
+        </Box>
+      </PerfectScrollbar>
       <Box sx={{ flexGrow: 1 }} />
-    </Box>
+    </Box >
   );
 
   return (
@@ -203,7 +218,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             sx: {
               width: 256,
               top: 169, //150, 183
-              height: 'calc(100% - 64px)'
+              height: 'calc(100% - 169px)'
             }
           }}
         >
