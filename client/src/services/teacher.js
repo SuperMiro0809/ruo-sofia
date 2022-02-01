@@ -1,12 +1,12 @@
 import services from './index';
 
 function getAll() {
-    return fetch(`${services.url}/teachers`)
+    return fetch(`${services.url}/teachers?token=${localStorage.getItem('token')}`)
         .then(res => res.json())
 }
 
 function create(data) {
-    return fetch(`${services.url}/teachers`, {
+    return fetch(`${services.url}/teachers?token=${localStorage.getItem('token')}`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: services.header2
@@ -15,17 +15,17 @@ function create(data) {
 }
 
 function getByEgn(egn) {
-    return fetch(`${services.url}/teachers/${egn}`)
+    return fetch(`${services.url}/teachers/${egn}?token=${localStorage.getItem('token')}`)
         .then(res => res.json())
 }
 
 function getApplication(id) {
-    return fetch(`${services.url}/teachers/applications/${id}`)
+    return fetch(`${services.url}/teachers/applications/${id}?token=${localStorage.getItem('token')}`)
         .then(res => res.json())
 }
 
 function addApplication(data) {
-    return fetch(`${services.url}/teachers/applications`, {
+    return fetch(`${services.url}/teachers/applications?token=${localStorage.getItem('token')}`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: services.header2
@@ -40,7 +40,7 @@ function addApplication(data) {
 }
 
 function destroy(id) {
-    return fetch(`${services.url}/teachers/${id}`, {
+    return fetch(`${services.url}/teachers/${id}?token=${localStorage.getItem('token')}`, {
         method: 'DELETE',
         headers: services.header2
     })
@@ -48,7 +48,7 @@ function destroy(id) {
 }
 
 function edit(data) {
-    return fetch(`${services.url}/teachers/${data.id}`, {
+    return fetch(`${services.url}/teachers/${data.id}?token=${localStorage.getItem('token')}`, {
         method: 'PUT',
         body: JSON.stringify(data),
         headers: services.header2

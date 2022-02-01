@@ -1,26 +1,44 @@
 import services from './index';
 
 function getAll() {
-    return fetch(`${services.url}/users`)
-      .then(res => res.json())
+    return fetch(`${services.url}/users?token=${localStorage.getItem('token')}`)
+      .then(res => {
+          if(res.status === 200) {
+              return res.json();
+          }else if(res.status === 401) {
+              throw new Error('Unauthorized');
+          }
+      })
 }
 
 function create(data) {
 
-    return fetch(`${services.url}/users`, {
+    return fetch(`${services.url}/users?token=${localStorage.getItem('token')}`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: services.header2
       })
-      .then(res => res.text())
+      .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 function destroy(id) {
 
-    return fetch(`${services.url}/users/${id}`, {
+    return fetch(`${services.url}/users/${id}?token=${localStorage.getItem('token')}`, {
         method: 'DELETE'
     })
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 function login(data) {
@@ -54,14 +72,26 @@ function avatar(data) {
             //'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryLSJ94HSMRnoF7dBI'
         }
     })
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 function deleteAvatar() {
     return fetch(`${services.url}/profile/avatar?token=${localStorage.getItem('token')}`, {
         method: 'DELETE'
     })
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 function editUser(data) {
@@ -71,7 +101,13 @@ function editUser(data) {
         headers: services.header2,
         body: JSON.stringify(data)
     })
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 function logout() {
@@ -80,7 +116,13 @@ function logout() {
         credentials: 'include',
         headers: services.header2
     })
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 function refresh() {
@@ -89,7 +131,13 @@ function refresh() {
         credentials: 'include',
         headers: services.header2
     })
-    .then(res => res.json())
+    .then(res => {
+          if(res.status === 200) {
+              return res.json();
+          }else if(res.status === 401) {
+              throw new Error('Unauthorized');
+          }
+      })
 }
 
 const userServices = {

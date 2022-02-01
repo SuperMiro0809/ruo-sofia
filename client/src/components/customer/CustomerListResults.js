@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -24,6 +25,7 @@ import CustomerListItem from './CustomerListItem';
 import CustomerModal from '../customer-modal/CustomerModal';
 
 const CustomerListResults = ({ ...rest }) => {
+  const navigate = useNavigate();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -45,6 +47,11 @@ const CustomerListResults = ({ ...rest }) => {
         setCustomers(data);
         setLoader(false);
       })
+      .catch(err => {
+        if(err.message === 'Unauthorized') {
+            navigate('/login');
+        }
+    })
   }
 
   // const handleSelectAll = (event) => {

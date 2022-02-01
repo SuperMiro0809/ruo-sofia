@@ -61,6 +61,11 @@ const CustomerAddForm = ({ rest }) => {
                                         clearInterval(interval);
                                     }, 2000)
                                 })
+                                .catch(err => {
+                                    if(err.message === 'Unauthorized') {
+                                        navigate('/login');
+                                    }
+                                })
                             }}
                         >
                             {({

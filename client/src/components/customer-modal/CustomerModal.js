@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Box,
     Modal,
@@ -19,6 +20,7 @@ const style = {
 };
 
 const CustomerModal = ({ openProp, selectedCustomerProp, ...rest }) => {
+    const navigate = useNavigate();
     const customerContext = useContext(CustomerContext);
     const messageContext = useContext(MessageContext);
 
@@ -32,6 +34,11 @@ const CustomerModal = ({ openProp, selectedCustomerProp, ...rest }) => {
             messageContext[1]('');
             clearInterval(interval);
           }, 2000)
+        })
+        .catch(err => {
+            if(err.message === 'Unauthorized') {
+                navigate('/login');
+            }
         })
     }
 
