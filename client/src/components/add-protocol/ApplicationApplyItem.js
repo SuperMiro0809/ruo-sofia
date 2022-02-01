@@ -14,7 +14,7 @@ import {
 } from '@material-ui/icons';
 import ApplicationsApplyForm from './ApplicationApplyForm';
 
-const ApplicationsApplyItem = ({ props, type, mode }, ...rest) => {
+const ApplicationsApplyItem = ({ props, type, mode, edit }, ...rest) => {
     const [open, setOpen] = useState(true);
     const el = props.el;
     const index = props.index;
@@ -26,8 +26,10 @@ const ApplicationsApplyItem = ({ props, type, mode }, ...rest) => {
     const scheme = props.scheme;
 
     useEffect(() => {
-        scheme.id = el.id;
-        elArrayHelpers.push(scheme);
+        if(!edit) {
+            scheme.id = el.id;
+            elArrayHelpers.push(scheme);
+        }
     }, []);
 
     return (

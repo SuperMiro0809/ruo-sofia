@@ -36,20 +36,21 @@ import {
 } from '@material-ui/icons';
 import { getIn, FieldArray } from 'formik';
 import teacherServices from '../../services/teacher';
-import ApplicationsApplyItem from './ApplicationApplyItem';
+import ApplicationsApplyItem from '../add-protocol/ApplicationApplyItem';
 
 
-const ApplicationFormItem = ({ props }, ...rest) => {
-    const [open, setOpen] = useState(true);
-    const [search, setSearch] = useState(false);
-    const [teacher, setTeacher] = useState();
-    const [applications, setApplications] = useState([]);
-    const [selectedApplication, setSelectedApplication] = useState();
-    const [loading, setLoading] = useState(true);
-    const [teacherOptions, setTeacherOptions] = useState([]);
-    const [date, setDate] = useState(null);
+const ProtocolEditFormItem = ({ protocol, props }, ...rest) => {
     const application = props.application;
     const index = props.index;
+    const teacherFromProtocol = protocol.application[index].teacher;
+    const [open, setOpen] = useState(true);
+    const [search, setSearch] = useState(false);
+    const [teacher, setTeacher] = useState(!!application.teacher);
+    const [applications, setApplications] = useState([]);
+    const [selectedApplication, setSelectedApplication] = useState(application);
+    const [loading, setLoading] = useState(true);
+    const [teacherOptions, setTeacherOptions] = useState([]);
+    const [date, setDate] = useState(application.dateOut);
     const arrayHelpers = props.arrayHelpers;
     const errors = props.errors;
     const setFieldValue = props.setFieldValue;
@@ -121,7 +122,6 @@ const ApplicationFormItem = ({ props }, ...rest) => {
     const selectApplication = (id) => {
         teacherServices.getApplication(id)
             .then(data => {
-                console.log(data);
                 setSelectedApplication(data);
             })
     }
@@ -141,14 +141,14 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                     {!open ? <ExpandLess /> : <ExpandMore />}
                     <ListItemText primary="Заявление" />
                 </ListItemButton>
-                <Box className="expand-options" sx={{ mb: !open ? 2 : 0 }}>
+                {/* <Box className="expand-options" sx={{ mb: !open ? 2 : 0 }}>
                     <Fab onClick={() => addApplication()} size="small" color="primary" aria-label="add">
                         <AddIcon />
                     </Fab>
                     <Fab onClick={() => removeApplication()} disabled={values.applications.length == 1} sx={{ ml: 1 }} size="small" color="primary" aria-label="remove">
                         <RemoveIcon />
                     </Fab>
-                </Box>
+                </Box> */}
             </Box>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <Box sx={{ ml: 2 }}>
@@ -204,6 +204,8 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                         />
                     </LocalizationProvider>
                     <Autocomplete
+                        disabled
+                        value={`${teacherFromProtocol.firstName} ${teacherFromProtocol.middleName} ${teacherFromProtocol.lastName} - ${moment(teacherFromProtocol.dateOfBirth).format('DD/MM/YYYY')}`}
                         fullWidth
                         onChange={(event, newValue) => {
                             selectTeacher(newValue);
@@ -259,10 +261,18 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                         </FormControl>
                     }
 
-                    {applications.length == 0 && teacher &&
+                    {applications.length == 0 && teacher && !selectedApplication &&
                         <FormHelperText sx={{ fontSize: '15px' }} error={true}>*Към избрания учител няма заявления или всички са включени към протoкол</FormHelperText>
                     }
 
+                    <Box sx={{ mb: 1, mt: 1, ml: 1 }}>
+                        <Typography
+                            color="textPrimary"
+                            variant="h4"
+                        >
+                            Заявление № {application.ruoNumber}/{moment(application.date).format('DD.MM.YYYY')} г.
+                        </Typography>
+                    </Box>
                     {selectedApplication &&
                         <Box>
                             {selectedApplication.teachings.length != 0 &&
@@ -282,6 +292,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                                                 <ApplicationsApplyItem
                                                     key={tIndex}
                                                     mode="teachings"
+                                                    edit={true}
                                                     type={`Обучение на тема ${teaching.theme}, проведено от ${teaching.institution} от ${moment(teaching.startDate).format('DD.MM.YYYY')} до ${moment(teaching.endDate).format('DD.MM.YYYY')} г. за ${teaching.lessonHours} ак. часа`}
                                                     props={{
                                                         el: teaching,
@@ -313,6 +324,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                                                 <ApplicationsApplyItem
                                                     key={rIndex}
                                                     mode="reports"
+                                                    edit={true}
                                                     type={`Доклад, научно съобщение или преззентация на тема ${report.theme}, проведено от ${report.institution} от ${moment(report.startDate).format('DD.MM.YYYY')} до ${moment(report.endDate).format('DD.MM.YYYY')} г. за ${report.lessonHours} ак. часа`}
                                                     props={{
                                                         el: report,
@@ -344,6 +356,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                                                 <ApplicationsApplyItem
                                                     key={pIndex}
                                                     mode="publications"
+                                                    edit={true}
                                                     type={`Публикация на тема ${publication.theme}, проведена от ${publication.institution} от ${moment(publication.startDate).format('DD.MM.YYYY')} до ${moment(publication.endDate).format('DD.MM.YYYY')} г., публикувана на ${publication.published}`}
                                                     props={{
                                                         el: publication,
@@ -366,4 +379,4 @@ const ApplicationFormItem = ({ props }, ...rest) => {
     );
 }
 
-export default ApplicationFormItem;
+export default ProtocolEditFormItem;

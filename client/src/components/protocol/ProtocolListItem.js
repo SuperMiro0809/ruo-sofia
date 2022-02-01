@@ -98,7 +98,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(protocol.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/users/edit" state={{ protocol: protocol }}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/protocols/edit" state={{ protocol: protocol }}>
                         <EditIcon className="edit-icon" />
                     </IconButton>
                     <ReactToPrint

@@ -96,4 +96,55 @@ class ProtocolController extends Controller
 
         return response()->json(['message' => 'Deleted']);
     }
+
+    public function edit(Request $request, $id) {
+        $protocol = Protocol::findOrFail($id);
+        $protocol->number = $request->number;
+        $protocol->date = $request->date;
+        $protocol->about = $request->about;
+        $protocol->president = $request->president;
+        $protocol->members = json_encode($request->members);
+
+        foreach ($request->applications as $appl=>$appl_value) {
+            $application = Application::findOrFail($appl_value["application"]);
+            $application->ruoNumberOut = $appl_value["ruoNumberOut"];
+            $application->dateOut = $appl_value["dateOut"];
+
+            $application->save();
+
+            foreach($appl_value["teachings"] as $th=>$th_val) {
+                $th_id = $th_val["id"];
+                $teaching = Teaching::find($th_id);
+                $teaching->approve = $th_val["approve"];
+                $teaching->notApprove = $th_val["notApprove"];
+                $teaching->credits = $th_val["credits"];
+
+                $teaching->save();
+            }
+
+            foreach($appl_value["reports"] as $rp=>$rp_val) {
+                $rp_id = $rp_val["id"];
+                $report = Report::find($rp_id);
+                $report->approve = $rp_val["approve"];
+                $report->notApprove = $rp_val["notApprove"];
+                $report->credits = $rp_val["credits"];
+
+                $report->save();
+            }
+
+            foreach($appl_value["publications"] as $pbl=>$pbl_val) {
+                $pbl_id = $pbl_val["id"];
+                $publication = Publication::find($pbl_id);
+                $publication->approve = $pbl_val["approve"];
+                $publication->notApprove = $pbl_val["notApprove"];
+                $publication->credits = $pbl_val["credits"];
+
+                $publication->save();
+            }
+        }
+
+        $protocol->save();
+
+        return response()->json(['message' => 'Edited']);
+    }
 }

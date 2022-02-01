@@ -1,4 +1,3 @@
-import './ProtocolAddForm.scss';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -34,15 +33,31 @@ import * as Yup from 'yup';
 import { Formik, FieldArray, getIn } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import protocolServices from '../../services/protocol';
-import ApplicationFormItem from './ApplicationFormItem';
 import committeServices from '../../services/committe';
+import ProtocolEditFormItem from './ProtocolEditFormItem';
 
-const ProtocolAddForm = ({ rest }) => {
+const ProtocolAddForm = ({protocol,  ...rest }) => {
+    console.log(protocol);
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const scrollTo = useRef(null);
-    const [date, setDate] = useState(null);
+    const [date, setDate] = useState(protocol.date);
     const [committe, setCommitte] = useState({ president: '', members: [] });
+    const applications = [];
+
+    for(let i = 0; i < protocol.application.length; i++) {
+        let appl = {
+            ruoNumberOut: protocol.application[i].ruoNumberOut,
+            dateOut: protocol.application[i].dateOut,
+            teacher: protocol.application[i].teacher_id,
+            application: protocol.application[i].id,
+            teachings: protocol.application[i].teaching,
+            reports: protocol.application[i].report,
+            publications: protocol.application[i].publication
+        }
+
+        applications.push(appl);
+    }
 
     useEffect(() => {
         committeServices.getAll()
@@ -52,6 +67,7 @@ const ProtocolAddForm = ({ rest }) => {
     }, []);
 
     const applicationElementsValidation = (values, mode, i) => {
+        console.log(values.applications[i][mode]);
         for (let j = 0; j < values.applications[i][mode].length; j++) {
             if (values.applications[i][mode][j].approve) {
                 if (!values.applications[i][mode][j].credits) {
@@ -124,22 +140,12 @@ const ProtocolAddForm = ({ rest }) => {
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
-                                number: '',
-                                date: '',
-                                about: '',
-                                president: '',
-                                members: [''],
-                                applications: [
-                                    {
-                                        ruoNumberOut: '',
-                                        dateOut: '',
-                                        teacher: '',
-                                        application: '',
-                                        teachings: [],
-                                        reports: [],
-                                        publications: []
-                                    }
-                                ],
+                                number: protocol.number,
+                                date: protocol.date,
+                                about: protocol.about,
+                                president: protocol.president,
+                                members: JSON.parse(protocol.members),
+                                applications: applications
                             }}
                             validationSchema={Yup.object().shape({
                                 number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
@@ -170,14 +176,17 @@ const ProtocolAddForm = ({ rest }) => {
                                     setSubmitting(false);
                                 } else {
                                     console.log(values);
-                                    protocolServices.create(values)
+                                    protocolServices.edit(values, protocol.id)
                                         .then(r => {
-                                            messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });
+                                            messageContext[1]({ status: 'success', text: 'Протоколът е редактиран успешно!' });
                                             navigate('/app/protocols', { replace: true });
                                             const interval = setInterval(function () {
                                                 messageContext[1]('');
                                                 clearInterval(interval);
                                             }, 2000)
+                                        })
+                                        .catch(err => {
+                                            setSubmitting(false);
                                         })
                                 }
                             }}
@@ -339,8 +348,9 @@ const ProtocolAddForm = ({ rest }) => {
                                         render={arrayHelpers => (
                                             <>
                                                 {values.applications.map((application, index) => (
-                                                    <ApplicationFormItem
+                                                    <ProtocolEditFormItem
                                                         key={index}
+                                                        protocol={protocol}
                                                         props={
                                                             {
                                                                 application,
@@ -372,7 +382,7 @@ const ProtocolAddForm = ({ rest }) => {
                                             type="submit"
                                             variant="contained"
                                         >
-                                            Генериране
+                                            Редактиране
                                         </Button>
                                     </Box>
                                 </form>
