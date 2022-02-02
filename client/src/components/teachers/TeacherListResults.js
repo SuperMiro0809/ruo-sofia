@@ -22,7 +22,7 @@ import TeacherListItem from './TeacherListItem';
 import teacherServices from '../../services/teacher';
 import TeacherModal from '../teacher-modal/TeacherModal';
 
-const TeacherListResults = (props) => {
+const TeacherListResults = ({search}, ...props) => {
   const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -35,11 +35,12 @@ const TeacherListResults = (props) => {
   let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher }
 
   useEffect(() => {
+    setLoader(true);
     getTeachers();
-  }, [open])
+  }, [open, search])
 
   const getTeachers = () => {
-    teacherServices.getAll()
+    teacherServices.getAll(search)
       .then(data => {
         data.forEach(el => {
           el.application.forEach(appl => {
@@ -59,38 +60,6 @@ const TeacherListResults = (props) => {
         }
       })
   }
-
-  // const handleSelectAll = (event) => {
-  //   let newSelectedCustomerIds;
-
-  //   if (event.target.checked) {
-  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
-  //   } else {
-  //     newSelectedCustomerIds = [];
-  //   }
-
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
-
-  // const handleSelectOne = (event, id) => {
-  //   const selectedIndex = selectedCustomerIds.indexOf(id);
-  //   let newSelectedCustomerIds = [];
-
-  //   if (selectedIndex === -1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
-  //       selectedCustomerIds.slice(0, selectedIndex),
-  //       selectedCustomerIds.slice(selectedIndex + 1)
-  //     );
-  //   }
-
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -122,17 +91,6 @@ const TeacherListResults = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell> */}
                   <TableCell>
                     Име
                 </TableCell>

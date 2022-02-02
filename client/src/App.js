@@ -21,11 +21,11 @@ const App = () => {
 
     const interval = setInterval(() => {
       userServices.refresh()
-      .then(data => {
-        console.log(data);
-        localStorage.setItem('token', data.access_token);
-        getUser();
-      })
+        .then(data => {
+          console.log(data);
+          localStorage.setItem('token', data.access_token);
+          getUser();
+        })
     }, 3598000);
 
     if (!localStorage.getItem('token')) {
@@ -38,12 +38,12 @@ const App = () => {
 
   const getUser = () => {
     userServices.profile()
-    .then(data => {
-      console.log(data);
-      if (data.name) {
-        setUser(data);
-      }
-  })
+      .then(data => {
+        console.log(data);
+        if (data.name) {
+          setUser(data);
+        }
+      })
   }
 
   return (

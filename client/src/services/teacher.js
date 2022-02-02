@@ -1,7 +1,12 @@
 import services from './index';
 
-function getAll() {
-    return fetch(`${services.url}/teachers?token=${localStorage.getItem('token')}`)
+function getAll(fullName) {
+    let url = `${services.url}/teachers?token=${localStorage.getItem('token')}`;
+    if(fullName) {
+        url += `&fullName=${fullName}`;
+    }
+    
+    return fetch(url)
         .then(res => {
             if (res.status === 200) {
                 return res.json();

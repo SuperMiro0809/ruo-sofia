@@ -13,11 +13,9 @@ use App\Models\Publication;
 
 class TeacherController extends Controller
 {
-    public function index() {
-        $teachers = Teacher::all();
-        // $teachers1 = DB::table('teachers')
-        //     ->join('applications', 'teachers.id', '=', 'applications.teacher_id')
-        //     ->get();
+    public function index(Request $request) {
+        $fullName = $request->query('fullName', '');
+        $teachers = Teacher::where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $fullName)->get();
 
         foreach ($teachers as $t) {
             $t->application;

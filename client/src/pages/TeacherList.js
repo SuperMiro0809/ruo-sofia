@@ -1,10 +1,13 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import TeacherListResults from '../components/teachers/TeacherListResults';
 import TeacherListToolbar from '../components/teachers/TeacherListToolbar';
-import customers from '../__mocks__/customers';
+import teacherServices from '../services/teacher';
 
 const TeacherList = () => {
+    const [search, setSearch] = useState(null);
+
     return (
         <>
             <Helmet>
@@ -18,9 +21,9 @@ const TeacherList = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <TeacherListToolbar />
+                    <TeacherListToolbar setSearch={setSearch}/>
                     <Box sx={{ pt: 3 }}>
-                        <TeacherListResults customers={customers} />
+                        <TeacherListResults search={search} />
                     </Box>
                 </Container>
             </Box>

@@ -53,9 +53,9 @@ const routes = [
           { path: 'add', element: <TeacherAdd /> },
           { path: 'edit', element: <TeacherEdit /> },
           { path: 'certificate', element: <TeacherCertificate /> },
+          { path: 'application', element: <ApplicationAdd /> }
         ]
       },
-      { path: 'applications/add', element: <RoleRoute role="Qualifications" component={ApplicationAdd} /> },
       {
         path: 'protocols',
         element: <RoleRoute role="Qualifications" component={Layout} />,
