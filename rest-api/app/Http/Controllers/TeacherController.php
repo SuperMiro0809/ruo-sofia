@@ -162,6 +162,17 @@ class TeacherController extends Controller
         
         foreach ($applications as $aId) {
             $application = Application::findOrFail($aId);
+
+            $application->teaching->each(function($teaching) {
+                $teaching->delete();
+            });
+            $application->report->each(function($report) {
+                $report->delete();
+            });
+            $application->publication->each(function($publication) {
+                $publication->delete();
+            });
+
             $application->delete();
         }
 

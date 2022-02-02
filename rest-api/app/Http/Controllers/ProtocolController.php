@@ -89,7 +89,31 @@ class ProtocolController extends Controller
         
         foreach ($applications as $aId) {
             $application = Application::findOrFail($aId);
-            $application->delete();
+            $application->inProtocol = false;
+
+            $application->teaching->each(function($teaching) {
+                $teaching->approve = null;
+                $teaching->notApprove = null;
+                $teaching->credits = null;
+
+                $teaching->save();
+            });
+            $application->report->each(function($report) {
+                $report->approve = null;
+                $report->notApprove = null;
+                $report->credits = null;
+
+                $report->save();
+            });
+            $application->publication->each(function($publication) {
+                $publication->approve = null;
+                $publication->notApprove = null;
+                $publication->credits = null;
+
+                $publication->save();
+            });
+
+            $application->save();
         }
 
         $protocol->delete();
