@@ -236,7 +236,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                             Yup.ref('startDate'),
                                             'Крайната дата не може да е преди началната'
                                         ),
-                                    eik: Yup.number().max(255).required('ЕИК/БУЛСТАТ е задължителен').typeError('ЕИК/БУЛСТАТ трябва да съдържа само цифри'),
+                                    eik: Yup.number().required('ЕИК/БУЛСТАТ е задължителен').typeError('ЕИК/БУЛСТАТ трябва да съдържа само цифри'),
                                     lessonHours: Yup.number().max(255).required('Академичните часове са задължителни').typeError('Академичните часове трябва да са число'),
                                     theme: Yup.string().max(255).required('Темата е задължителна')
                                 })),
@@ -282,13 +282,14 @@ const ApplicationsAddForm = ({ rest }) => {
                                     .catch(err => {
                                         if (err.message === 'Unauthorized') {
                                             navigate('/login');
+                                        }else {
+                                            messageContext[1]({ status: 'error', text: err.message })
+                                            const interval = setInterval(function () {
+                                                messageContext[1]('');
+                                                clearInterval(interval);
+                                            }, 3000)
+                                            setSubmitting(false);
                                         }
-                                        messageContext[1]({ status: 'error', text: err.message })
-                                        const interval = setInterval(function () {
-                                            messageContext[1]('');
-                                            clearInterval(interval);
-                                        }, 3000)
-                                        setSubmitting(false);
                                     })
                             }}
 

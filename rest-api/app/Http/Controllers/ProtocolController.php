@@ -36,7 +36,20 @@ class ProtocolController extends Controller
             $application->dateOut = $appl_value["dateOut"];
             $application->inProtocol = true;
 
-            $application->save();
+            try {
+                $application->save();
+            } catch(\Exception $e) {
+                $errorCode = $e->errorInfo[1];
+                
+                if($errorCode == 1062){
+                    $time = strtotime($application->date);
+                    $applDate = date("d.m.Y", $time);
+                    return response()->json([
+                        'message'=> "Заявление $application->ruoNumber/$applDate - изходящият номер вече е въведен!"
+                    ], 409);
+                }
+            }
+            
             $id = $application->id;
             $ids[] = $id;
 
@@ -78,7 +91,17 @@ class ProtocolController extends Controller
         $protocol->members = json_encode($request->members);
         $protocol->application()->attach($ids);
 
-        $protocol->save();
+        try {
+            $protocol->save();
+        } catch(\Exception $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            if($errorCode == 1062){
+                return response()->json([
+                    'message'=>'Вече е въведен протокол с този номер!'
+                ], 409);
+            }
+        }
 
         return response()->json(['message' => 'Created']);
     }

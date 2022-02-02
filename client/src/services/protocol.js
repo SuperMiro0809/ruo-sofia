@@ -22,6 +22,8 @@ function create(data) {
                 return res.json();
             } else if (res.status === 401) {
                 throw new Error('Unauthorized');
+            } else if (res.status === 409) {
+                return res.json().then(r => { throw new Error(r.message) })
             }
         })
 }

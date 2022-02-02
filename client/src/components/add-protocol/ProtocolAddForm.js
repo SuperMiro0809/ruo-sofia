@@ -50,7 +50,7 @@ const ProtocolAddForm = ({ rest }) => {
                 setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
             })
             .catch(err => {
-                if(err.message === 'Unauthorized') {
+                if (err.message === 'Unauthorized') {
                     navigate('/login');
                 }
             })
@@ -90,13 +90,13 @@ const ProtocolAddForm = ({ rest }) => {
                 }
             }
 
-            if(applicationElementsValidation(values, 'teachings', i)) {
+            if (applicationElementsValidation(values, 'teachings', i)) {
                 return true;
             }
-            if(applicationElementsValidation(values, 'reports', i)) {
+            if (applicationElementsValidation(values, 'reports', i)) {
                 return true;
             }
-            if(applicationElementsValidation(values, 'publications', i)) {
+            if (applicationElementsValidation(values, 'publications', i)) {
                 return true;
             }
         }
@@ -185,8 +185,15 @@ const ProtocolAddForm = ({ rest }) => {
                                             }, 2000)
                                         })
                                         .catch(err => {
-                                            if(err.message === 'Unauthorized') {
+                                            if (err.message === 'Unauthorized') {
                                                 navigate('/login');
+                                            } else {
+                                                messageContext[1]({ status: 'error', text: err.message });
+                                                const interval = setInterval(function () {
+                                                    messageContext[1]('');
+                                                    clearInterval(interval);
+                                                }, 3000)
+                                                setSubmitting(false);
                                             }
                                         })
                                 }

@@ -20,7 +20,7 @@ class CreateProtocolsTable extends Migration
             $application_id = DB::connection()->getQueryGrammar()->wrap('applications->application_id');
             $table->unsignedBigInteger('application_id')->storedAs($application_id);
             $table->timestamps();
-            $table->integer('number');
+            $table->integer('number')->unique();
             $table->date('date');
             $table->string('about');
             $table->string('president');

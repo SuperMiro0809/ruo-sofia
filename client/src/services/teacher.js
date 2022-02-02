@@ -5,7 +5,7 @@ function getAll(fullName) {
     if(fullName) {
         url += `&fullName=${fullName}`;
     }
-    
+
     return fetch(url)
         .then(res => {
             if (res.status === 200) {
@@ -63,7 +63,7 @@ function addApplication(data) {
             if (res.status === 200) {
                 return res.json();
             } else if (res.status === 409) {
-                throw new Error('Вече е въведено заявление с този входящ номер');
+                throw new Error('Вече е въведено заявление с този входящ номер!');
             }
         })
 }
