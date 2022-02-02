@@ -187,6 +187,7 @@ const AccountProfileDetails = (props) => {
                   >
                     <InputLabel id="demo-simple-select-label">Роля</InputLabel>
                     <Select
+                      disabled
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={values.role}
