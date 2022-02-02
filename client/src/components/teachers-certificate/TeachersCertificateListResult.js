@@ -1,13 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import moment from 'moment';
+import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -18,88 +13,11 @@ import {
   TableContainer,
   CircularProgress
 } from '@material-ui/core';
-import teacherServices from '../../services/teacher';
 import TeacherCertificateListItem from './TeachersCertificateListItem';
 
-const TeacherCertificateListResult = (props) => {
-  const navigate = useNavigate();
+const TeacherCertificateListResult = ({teachers, loader}, ...props) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [teachers, setTeachers] = useState([]);
-  const [loader, setLoader] = useState(true);
-
-  useEffect(() => {
-    getTeachers();
-  }, [open])
-
-  const getTeachers = () => {
-    teacherServices.getAll()
-      .then(data => {
-        const teacherData = [];
-
-        for (let i = 0; i < data.length; i++) {
-          let teacherEl = {
-            dateOfBirth: data[i].dateOfBirth,
-            firstName: data[i].firstName,
-            middleName: data[i].middleName,
-            lastName: data[i].lastName,
-            application: []
-          }
-
-          for (let j = 0; j < data[i].application.length; j++) {
-            if (data[i].application[j].inProtocol) {
-              data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
-              data[i].application[j].education = JSON.parse(data[i].application[j].education);
-              data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
-              teacherEl.application.push(data[i].application[j]);
-            }
-          }
-
-          teacherData.push(teacherEl);
-        }
-
-        setTeachers(teacherData);
-        setLoader(false);
-        console.log(teacherData);
-      })
-      .catch(err => {
-        if (err.message === 'Unauthorized') {
-          navigate('/login');
-        }
-      })
-  }
-
-  // const handleSelectAll = (event) => {
-  //   let newSelectedCustomerIds;
-
-  //   if (event.target.checked) {
-  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
-  //   } else {
-  //     newSelectedCustomerIds = [];
-  //   }
-
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
-
-  // const handleSelectOne = (event, id) => {
-  //   const selectedIndex = selectedCustomerIds.indexOf(id);
-  //   let newSelectedCustomerIds = [];
-
-  //   if (selectedIndex === -1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
-  //       selectedCustomerIds.slice(0, selectedIndex),
-  //       selectedCustomerIds.slice(selectedIndex + 1)
-  //     );
-  //   }
-
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);

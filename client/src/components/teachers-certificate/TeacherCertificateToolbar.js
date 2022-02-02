@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './TeacherListToolbar.scss';
+import './TeacherCertificateToolbar.scss';
 import {
     Box,
     Button,
@@ -11,46 +11,23 @@ import {
     Grid
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
-import { NavLink as RouterLink } from 'react-router-dom';
 
-const TeacherListToolbar = ({setSearch}, ...props) => {
-    const [value, setValue] = useState('');
+const TeacherCertificateToolbar = ({ getTeachers, setLoader }, ...props) => {
+    const [search, setSearch] = useState('');
 
     const handleSearch = () => {
-        setSearch(value);
+        setLoader(true);
+        getTeachers(search);
     }
 
     const handleReset = () => {
-        setValue('');
         setSearch('');
+        setLoader(true);
+        getTeachers();
     }
 
     return (
-        <Box {...props} className="TeacherListToolbar">
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-                }}
-            >
-                <Button
-                    component={RouterLink}
-                    color="primary"
-                    variant="contained"
-                    to="/app/teachers/application"
-                >
-                    Добави заявление
-                </Button>
-                <Button
-                    sx={{ mx: 1 }}
-                    component={RouterLink}
-                    color="primary"
-                    variant="contained"
-                    to="/app/teachers/add"
-                >
-                    Добави учител
-                </Button>
-            </Box>
+        <Box {...props} className="TeacherCertificateToolbar">
             <Box sx={{ mt: 3 }}>
                 <Card>
                     <CardContent>
@@ -60,9 +37,9 @@ const TeacherListToolbar = ({setSearch}, ...props) => {
                                     fullWidth
                                     sx={{ height: '100%' }}
                                     size="small"
-                                    value={value}
+                                    value={search}
                                     onChange={event => {
-                                        setValue(event.currentTarget.value);
+                                        setSearch(event.currentTarget.value);
                                     }}
                                     InputProps={{
                                         startAdornment: (
@@ -91,7 +68,7 @@ const TeacherListToolbar = ({setSearch}, ...props) => {
                                     Търси
                                 </Button>
                             </Grid>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={4} className="wrapper">
                                 <Button
                                     className="reset-button"
                                     fullWidth
@@ -110,4 +87,4 @@ const TeacherListToolbar = ({setSearch}, ...props) => {
     )
 }
 
-export default TeacherListToolbar;
+export default TeacherCertificateToolbar;
