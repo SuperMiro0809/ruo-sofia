@@ -1,6 +1,6 @@
 import './App.scss';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, useNavigate } from 'react-router-dom';
 import { ThemeProvider, StyledEngineProvider } from '@material-ui/core';
 import GlobalStyles from './components/GlobalStyles';
 import theme from './theme';
@@ -11,6 +11,7 @@ import UserContext from './contexts/UserContext';
 import userServices from './services/user';
 
 const App = () => {
+  const navigate = useNavigate();
   const content = useRoutes(routes);
   const [message, setMessage] = useState();
   const [user, setUser] = useState({});
@@ -26,22 +27,28 @@ const App = () => {
           localStorage.setItem('token', data.access_token);
           getUser();
         })
+        .catch(err => {
+          if (err.message === 'Unauthorized') {
+            navigate('/login');
+          }
+        })
     }, 3598000);
 
     if (!localStorage.getItem('token')) {
       console.log('logged out')
       clearInterval(interval);
     }
-    // console.log('User')
-    //return () => clearInterval(interval);
   }, [jsonUser])
 
   const getUser = () => {
     userServices.profile()
       .then(data => {
         console.log(data);
-        if (data.name) {
-          setUser(data);
+        setUser(data);
+      })
+      .catch(err => {
+        if (err.message === 'Unauthorized') {
+          navigate('/login');
         }
       })
   }

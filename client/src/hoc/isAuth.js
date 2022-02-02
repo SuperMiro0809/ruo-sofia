@@ -8,8 +8,11 @@ const AuthRoute = ({ component: Component, ...rest }) => {
     useEffect(() => {
         userServices.profile()
         .then(data => {
-            if(!data.name) {
-                navigate('/login');
+
+        })
+        .catch(err => {
+            if (err.message === 'Unauthorized') {
+              navigate('/login');
             }
         })
     }, [])

@@ -12,6 +12,11 @@ const NotAuthRoute = ({ component: Component, ...rest }) => {
                 navigate(-1);
             }
         })
+        .catch(err => {
+            if (err.message === 'Unauthorized') {
+              navigate('/login');
+            }
+        })
     }, [])
 
     return <Component />

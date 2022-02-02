@@ -60,7 +60,13 @@ function login(data) {
 
 function profile() {
     return fetch(`${services.url}/profile?token=${localStorage.getItem('token')}`)
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 function avatar(data) {
@@ -131,7 +137,13 @@ function refresh() {
         credentials: 'include',
         headers: services.header2
     })
-    .then(res => res.json())
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
 }
 
 const userServices = {
