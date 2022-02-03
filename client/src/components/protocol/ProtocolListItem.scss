@@ -1,60 +1,81 @@
 .ProtocolListItem {
-    .trash-icon, 
-    .edit-icon,
-    .print-icon {
-        font-size: 32px;
-    }
-
-    .trash-icon {
-        color: #f44336;
-    }
-
-    .edit-icon {
-        color: #124682;
-    }
-
-    .print-icon {
-        color: #696969;
-    }
-
-    .edit-icon-wrapper,
-    .trash-icon-wrapper,
-    .print-icon-wrapper {
-        padding: 0;
-        vertical-align: initial;
-    }
-
-    .edit-icon-wrapper {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-    
-    .trash-icon-wrapper {
-        margin-right: 10px;
-    }
-
-    .print-icon-wrapper {
-        margin-left: 10px;
-    }
-
-    .trash-icon-wrapper:hover {
-        background-color: transparent;
-        .trash-icon {
-            filter: brightness(0.5);
-        }
-    }
-
-    .edit-icon-wrapper:hover  {
-        background-color: transparent;
-        .edit-icon {
-            filter: brightness(0.5);
-        }
-    }
-
-    .print-icon-wrapper:hover {
-        background-color: transparent;
+    .column-options {
+        .trash-icon, 
+        .edit-icon,
         .print-icon {
-            filter: brightness(0.5);
+            font-size: 32px;
+        }
+
+        .word-icon {
+            font-size: 28px;
+        }
+
+        .trash-icon {
+            color: #f44336;
+        }
+
+        .edit-icon {
+            color: #124682;
+        }
+
+        .print-icon {
+            color: #696969;
+        }
+
+        .word-icon {
+            color: #1675c2
+        }
+
+        .edit-icon-wrapper,
+        .trash-icon-wrapper,
+        .print-icon-wrapper,
+        .word-icon-wrapper {
+            padding: 0;
+        }
+
+        .edit-icon-wrapper {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        .trash-icon-wrapper {
+            margin-right: 10px;
+        }
+
+        .print-icon-wrapper {
+            margin-left: 10px;
+        }
+
+        .word-icon-wrapper {
+            margin-left: 23px;
+        }
+
+        .trash-icon-wrapper:hover {
+            background-color: transparent;
+            .trash-icon {
+                filter: brightness(0.5);
+            }
+        }
+
+        .edit-icon-wrapper:hover  {
+            background-color: transparent;
+            .edit-icon {
+                filter: brightness(0.5);
+            }
+        }
+
+        .print-icon-wrapper:hover {
+            background-color: transparent;
+            .print-icon {
+                filter: brightness(0.5);
+            }
+        }
+
+        .word-icon-wrapper:hover {
+            background-color: transparent;
+            .word-icon {
+                filter: brightness(0.5);
+            }
         }
     }
 }

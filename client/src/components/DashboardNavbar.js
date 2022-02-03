@@ -30,7 +30,6 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
       <Box className="information-wrapper">
           <Typography className="information-text">ул. "Антим I" №17</Typography>
           <Typography className="information-text">02/ 935 6050</Typography>
-          <Typography className="information-text">02/ 988 3937</Typography>
           <Typography className="information-text">rio_sofia_grad@mon.bg</Typography>
       </Box>
       <Toolbar sx={{ bgcolor: 'white' }}>

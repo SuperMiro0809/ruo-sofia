@@ -6,6 +6,11 @@ table {
     td:not(:first-child) {
         text-align: center;
     }
+
+    .column-options {
+        display: flex;
+        justify-content: center;
+    }
 }
 
 .Modal {
@@ -59,6 +64,11 @@ table {
     }
 
     margin: 0.85cm;
+
+    .top-level {
+        text-align: right;
+        margin-bottom: 30px;
+    }
 }
 
 @media print {

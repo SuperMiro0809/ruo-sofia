@@ -7,6 +7,10 @@ const TeacherLetterPDF = React.forwardRef(({ teacher, index, application, el }, 
     return (
         <>
             <div ref={ref} className="TeacherLetterPDF pdf">
+                <div className="top-level">
+                    <p>Класификация на информацията:</p>
+                    <p>Ниво 2, [TLP-AMBER]</p>
+                </div>
                 <header>
                     <p>МИНИСТЕРСТВО НА ОБРАЗОВАНИЕТО И НАУКАТА</p>
                     <p>РЕГИОНАЛНО УПРАВЛЕНИЕ НА ОБРАЗОВАНИЕТО – СОФИЯ-ГРАД</p>

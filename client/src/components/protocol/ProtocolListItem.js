@@ -24,6 +24,10 @@ import {
     KeyboardArrowDown as KeyboardArrowDownIcon,
     KeyboardArrowUp as KeyboardArrowUpIcon
 } from '@material-ui/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faFileWord as WordFileIcon
+} from '@fortawesome/free-solid-svg-icons';
 import ProtocolPDF from '../protocol-pdf/ProtocolPDF';
 import ReactToPrint from 'react-to-print';
 
@@ -57,6 +61,10 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
         }
 
         return textArr.join(" ");
+    }
+
+    const generateWord = () => {
+        console.log('in progress');
     }
 
     return (
@@ -94,7 +102,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                         Виж заявления
                     </Button>
                 </TableCell>
-                <TableCell>
+                <TableCell className="column-options">
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(protocol.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
@@ -109,7 +117,9 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                             </IconButton>
                         )}
                     />
-
+                    <IconButton className="word-icon-wrapper" onClick={e => generateWord()}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>

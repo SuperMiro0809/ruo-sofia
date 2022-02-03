@@ -7,6 +7,10 @@ const ProtocolPDF = React.forwardRef(({protocol, formText}, ref) => {
     return (
         <>
             <div ref={ref} className="ProtocolPDF pdf">
+                <div className="top-level">
+                    <p>Класификация на информацията:</p>
+                    <p>Ниво 2, [TLP-AMBER]</p>
+                </div>
                 <PDFHeader />
                 <div className="main">
                     <section className="title-wrapper">
