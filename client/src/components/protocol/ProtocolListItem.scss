@@ -2,12 +2,13 @@
     .column-options {
         .trash-icon, 
         .edit-icon,
-        .print-icon {
+        .print-icon,
+        .preview-icon {
             font-size: 32px;
         }
 
         .word-icon {
-            font-size: 28px;
+            font-size: 32px;
         }
 
         .trash-icon {
@@ -26,20 +27,16 @@
             color: #1675c2
         }
 
-        .edit-icon-wrapper,
-        .trash-icon-wrapper,
-        .print-icon-wrapper,
-        .word-icon-wrapper {
-            padding: 0;
+        .preview-icon {
+            color: #0e94ff;
         }
 
-        .edit-icon-wrapper {
+        .trash-icon-wrapper {
             margin-left: 10px;
-            margin-right: 10px;
         }
         
-        .trash-icon-wrapper {
-            margin-right: 10px;
+        .edit-icon-wrapper {
+            margin-left: 10px;
         }
 
         .print-icon-wrapper {
@@ -47,7 +44,7 @@
         }
 
         .word-icon-wrapper {
-            margin-left: 23px;
+            margin-left: 10px;
         }
 
         .trash-icon-wrapper:hover {
@@ -74,6 +71,13 @@
         .word-icon-wrapper:hover {
             background-color: transparent;
             .word-icon {
+                filter: brightness(0.5);
+            }
+        }
+
+        .preview-icon-wrapper:hover {
+            background-color: transparent;
+            .preview-icon {
                 filter: brightness(0.5);
             }
         }

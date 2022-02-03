@@ -37,7 +37,7 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
         <React.Fragment>
             <TableRow
                 hover
-                className="ProtocolListItem"
+                className="TeacherListItem"
                 sx={{ '& > *': { borderBottom: 'unset' } }}
             >
                 <TableCell>

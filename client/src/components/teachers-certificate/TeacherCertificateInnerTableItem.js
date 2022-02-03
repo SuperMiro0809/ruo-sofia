@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     TableRow,
     TableCell,
-    IconButton
+    IconButton,
+    Modal,
+    Box,
+    Typography
 } from '@material-ui/core';
 import {
-    Print as PrintIcon
+    Print as PrintIcon,
+    RemoveRedEyeSharp as PreviewIcon,
+    Close as CloseIcon
 } from '@material-ui/icons';
 import moment from 'moment';
 import ReactToPrint from 'react-to-print';
 import TeacherCertificatePDF from './TeacherCertificatePDF/TeacherCertificatePDF';
 import TeacherLetterPDF from './TeacherLetterPDF/TeacherLetterPDF';
 
+const style = {
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 3,
+    width: 'auto'
+};
+
 const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mode }) => {
+    const [openPreview, setOpenPreview] = useState(false);
     const print = React.useRef();
 
     return (
@@ -30,6 +43,9 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mod
                 {el.notApprove ? el.notApprove : '-'}
             </TableCell>
             <TableCell>
+                <IconButton className="preview-icon-wrapper" color="primary" onClick={() => setOpenPreview(true)}>
+                    <PreviewIcon className="preview-icon" />
+                </IconButton>
                 <ReactToPrint
                     content={() => print.current}
                     trigger={() => (
@@ -48,6 +64,21 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mod
                     <TeacherLetterPDF teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
                 </div>
             }
+            <Modal
+                open={openPreview}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className="PreviewModal Modal">
+                    <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
+                        <CloseIcon className="close-icon" onClick={() => setOpenPreview(false)} />
+                    </Typography>
+                    {el.approve ?
+                        <TeacherCertificatePDF mode={mode} teacher={teacher} application={application} el={el} index={index} /> :
+                        <TeacherLetterPDF teacher={teacher} application={application} el={el} index={index} />
+                    }
+                </Box>
+            </Modal>
         </TableRow>
     );
 }
