@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import TeachersCertificateListResult from '../components/teachers-certificate/TeachersCertificateListResult';
@@ -6,6 +7,7 @@ import TeacherCertificateToolbar from '../components/teachers-certificate/Teache
 import teacherServices from '../services/teacher';
 
 const TeacherEdit = () => {
+    const navigate = useNavigate();
     const [teachers, setTeachers] = useState([]);
     const [loader, setLoader] = useState(true);
 
