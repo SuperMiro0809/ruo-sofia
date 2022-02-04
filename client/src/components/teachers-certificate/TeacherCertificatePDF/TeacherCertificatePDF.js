@@ -65,7 +65,7 @@ const TeacherCertificatePDF = React.forwardRef(({ teacher, index, application, e
                 </section>
                 <footer>
                     <p>Началник на Регионално управление на образованието - гр. София……………….</p>
-                    <p class="chief">(д-р Ваня Кастрева)</p>
+                    <p className="chief">(д-р Ваня Кастрева)</p>
                 </footer>
             </div>
         </>

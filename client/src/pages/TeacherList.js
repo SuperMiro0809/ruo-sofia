@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import TeacherListResults from '../components/teachers/TeacherListResults';
 import TeacherListToolbar from '../components/teachers/TeacherListToolbar';
-import teacherServices from '../services/teacher';
 
 const TeacherList = () => {
     const [search, setSearch] = useState(null);
+    const [teachers, setTeachers] = useState([]);
 
     return (
         <>
@@ -21,9 +21,9 @@ const TeacherList = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <TeacherListToolbar setSearch={setSearch}/>
+                    <TeacherListToolbar setSearch={setSearch} teachers={teachers} />
                     <Box sx={{ pt: 3 }}>
-                        <TeacherListResults search={search} />
+                        <TeacherListResults search={search} teachers={teachers} setTeachers={setTeachers} />
                     </Box>
                 </Container>
             </Box>

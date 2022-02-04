@@ -22,11 +22,10 @@ import TeacherListItem from './TeacherListItem';
 import teacherServices from '../../services/teacher';
 import TeacherModal from '../teacher-modal/TeacherModal';
 
-const TeacherListResults = ({search}, ...props) => {
+const TeacherListResults = ({search, teachers, setTeachers}, ...props) => {
   const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [teachers, setTeachers] = useState([]);
   const [loader, setLoader] = useState(true);
   let [open, setOpen] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState(0);

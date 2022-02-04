@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './TeacherListToolbar.scss';
 import {
     Box,
@@ -10,10 +10,17 @@ import {
     SvgIcon,
     Grid
 } from '@material-ui/core';
+import {
+    FileDownload as ExportIcon
+} from '@material-ui/icons';
 import { Search as SearchIcon } from 'react-feather';
 import { NavLink as RouterLink } from 'react-router-dom';
+import TeachersExcelDocument from './ExcelDocument/TeachersExcelDocument';
+import ReactExport from "react-export-excel";
 
-const TeacherListToolbar = ({setSearch}, ...props) => {
+const ExcelFile = ReactExport.ExcelFile;
+
+const TeacherListToolbar = ({setSearch, teachers}, ...props) => {
     const [value, setValue] = useState('');
 
     const handleSearch = () => {
@@ -33,7 +40,9 @@ const TeacherListToolbar = ({setSearch}, ...props) => {
                     justifyContent: 'flex-end'
                 }}
             >
+                <TeachersExcelDocument teachers={teachers}/>
                 <Button
+                    sx={{ ml: 1 }}
                     component={RouterLink}
                     color="primary"
                     variant="contained"
