@@ -68,12 +68,6 @@ const ApplicationFormItem = ({ props }, ...rest) => {
         reports: [],
         publications: []
     };
-    const scheme = {
-        id: '',
-        credits: '',
-        approve: '',
-        notApprove: ''
-    };
     const filterOptions = createFilterOptions({
         matchFrom: 'any',
         limit: 10
@@ -298,7 +292,6 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                                                         el: teaching,
                                                         elArrayHelpers: tArrayHelpers,
                                                         elIndex: tIndex,
-                                                        scheme,
                                                         ...props
                                                     }}
                                                 />
@@ -329,7 +322,6 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                                                         el: report,
                                                         elArrayHelpers: rArrayHelpers,
                                                         elIndex: rIndex,
-                                                        scheme,
                                                         ...props
                                                     }}
                                                 />
@@ -360,7 +352,6 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                                                         el: publication,
                                                         elArrayHelpers: pArrayHelpers,
                                                         elIndex: pIndex,
-                                                        scheme,
                                                         ...props
                                                     }}
                                                 />

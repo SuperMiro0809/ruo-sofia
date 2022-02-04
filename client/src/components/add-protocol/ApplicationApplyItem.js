@@ -23,11 +23,15 @@ const ApplicationsApplyItem = ({ props, type, mode, edit }, ...rest) => {
     const setFieldValue = props.setFieldValue;
     const values = props.values;
     const scrollTo = props.scrollTo;
-    const scheme = props.scheme;
 
     useEffect(() => {
         if(!edit) {
-            scheme.id = el.id;
+            const scheme = {
+                id: el.id,
+                credits: '',
+                approve: '',
+                notApprove: ''
+            };
             elArrayHelpers.push(scheme);
         }
     }, []);
