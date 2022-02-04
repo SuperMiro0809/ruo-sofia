@@ -163,20 +163,6 @@ const ApplicationsAddForm = ({ rest }) => {
         return false;
     }
 
-    // const findByEgn = (egn, setFieldValue) => {
-    //     teacherServices.getByEgn(egn)
-    //         .then(data => {
-    //             setSearch(false);
-    //             if (data.length === 1) {
-    //                 setTeacher(true);
-    //                 setTeacherId(data[0].id);
-    //                 setFieldValue('teacher.firstName', data[0].firstName);
-    //                 setFieldValue('teacher.middleName', data[0].middleName);
-    //                 setFieldValue('teacher.lastName', data[0].lastName);
-    //             }
-    //         })
-    // }
-
     return (
         <Card {...rest}>
             <PerfectScrollbar>

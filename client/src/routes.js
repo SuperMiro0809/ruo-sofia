@@ -12,7 +12,8 @@ import Settings from './pages/Settings';
 import TeacherList from './pages/TeacherList';
 import TeacherAdd from './pages/TeacherAdd';
 import TeacherEdit from './pages/TeacherEdit';
-import TeacherCertificate from './pages/TeacherCertificate'
+import TeacherCertificate from './pages/TeacherCertificate';
+import TeacherReference from './pages/TeacherReference';
 import ProtocolList from './pages/ProtocolList';
 import ProtocolAdd from './pages/ProtocolAdd';
 import ProtocolEdit from './pages/ProtocolEdit';
@@ -53,7 +54,8 @@ const routes = [
           { path: 'add', element: <TeacherAdd /> },
           { path: 'edit', element: <TeacherEdit /> },
           { path: 'certificate', element: <TeacherCertificate /> },
-          { path: 'application', element: <ApplicationAdd /> }
+          { path: 'application', element: <ApplicationAdd /> },
+          { path: 'reference', element: <TeacherReference /> }
         ]
       },
       {

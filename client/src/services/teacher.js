@@ -31,17 +31,6 @@ function create(data) {
         })
 }
 
-function getByEgn(egn) {
-    return fetch(`${services.url}/teachers/${egn}?token=${localStorage.getItem('token')}`)
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
-            } else if (res.status === 401) {
-                throw new Error('Unauthorized');
-            }
-        })
-}
-
 function getApplication(id) {
     return fetch(`${services.url}/teachers/applications/${id}?token=${localStorage.getItem('token')}`)
         .then(res => {
@@ -97,14 +86,25 @@ function edit(data) {
         })
 }
 
+function getCertificates() {
+    return fetch(`${services.url}/teachers/certificates?token=${localStorage.getItem('token')}`)
+    .then(res => {
+        if (res.status === 200) {
+            return res.json();
+        } else if (res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
+}
+
 const teacherServices = {
     getAll,
     create,
-    getByEgn,
     getApplication,
     addApplication,
     destroy,
-    edit
+    edit,
+    getCertificates
 }
 
 export default teacherServices;

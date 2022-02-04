@@ -45,14 +45,6 @@ class TeacherController extends Controller
         return response()->json(['message' => 'Created']);
     }
 
-    public function teacher($egn) {
-        $teacher = Teacher::where('egn', $egn)->get();
-        foreach ($teacher as $t) {
-            $t->application;
-        }
-        return $teacher;
-    }
-
     public function getApplication($id) {
         $application_teachings = Application::find($id)->teaching;
         $application_reports = Application::find($id)->report;
@@ -192,5 +184,42 @@ class TeacherController extends Controller
         $teacher->save();
 
         return response()->json(['message' => 'Edited']);
+    }
+
+    public function certificates() {
+        $certificates = [];
+
+        $teachings = DB::table('teachers')
+            ->join('applications', 'applications.teacher_id', '=', 'teachers.id')
+            ->join('teachings', 'teachings.application_id', '=', 'applications.id')
+            ->whereNull('teachings.notApprove')
+            ->where('applications.inProtocol', '=', '1')
+            ->get();
+
+        $reports = DB::table('teachers')
+            ->join('applications', 'applications.teacher_id', '=', 'teachers.id')
+            ->join('reports', 'reports.application_id', '=', 'applications.id')
+            ->whereNull('reports.notApprove')
+            ->where('applications.inProtocol', '=', '1')
+            ->get();
+
+        $publications = DB::table('teachers')
+            ->join('applications', 'applications.teacher_id', '=', 'teachers.id')
+            ->join('publications', 'publications.application_id', '=', 'applications.id')
+            ->whereNull('publications.notApprove')
+            ->where('applications.inProtocol', '=', '1')
+            ->get();
+
+        foreach($teachings as $teaching) {
+            $certificates[] = $teaching;
+        }
+        foreach($reports as $report) {
+            $certificates[] = $report;
+        }
+        foreach($publications as $publication) {
+            $certificates[] = $publication;
+        }
+        
+        return $certificates;
     }
 }

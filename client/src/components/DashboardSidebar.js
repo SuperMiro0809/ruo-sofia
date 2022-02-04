@@ -14,9 +14,7 @@ import {
 import {
   faGlasses as GlassesIcon,
   faPrint as PrintIcon,
-  faGraduationCap as GraduationCapIcon,
   faFileContract as FileContractIcon,
-  faPollH as PollHIcon,
   faUsers as UsersIcon,
   faUserCog as UserCogIcon,
   faSignal as SignalIcon,
@@ -24,7 +22,8 @@ import {
   faUserGraduate as UserGraduateIcon,
   faBookReader as BookReaderIcon,
   faCog as SettingsIcon,
-  faUserFriends as CommitteIcon
+  faUserFriends as CommitteIcon,
+  faChartBar as ReferenceIcon,
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
@@ -68,6 +67,11 @@ const dropDownQualifications = {
       href: '/app/teachers/certificate',
       icon: PrintIcon,
       title: 'Издаване на удостоверение'
+    },
+    {
+      href: '/app/teachers/reference',
+      icon: ReferenceIcon,
+      title: 'Справки'
     }
   ]
 }

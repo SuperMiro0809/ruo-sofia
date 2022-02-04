@@ -45,11 +45,11 @@ Route::group([
 
     Route::get('/teachers', [TeacherController::class, 'index']);
     Route::post('/teachers', [TeacherController::class, 'store']);
-    Route::get('/teachers/{egn}', [TeacherController::class, 'teacher']);
     Route::get('/teachers/applications/{id}', [TeacherController::class, 'getApplication']);
     Route::post('/teachers/applications', [TeacherController::class, 'addApplication']);
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
     Route::put('/teachers/{id}', [TeacherController::class, 'edit']);
+    Route::get('/teachers/certificates', [TeacherController::class, 'certificates']);
 
     Route::get('/committe', [CommitteController::class, 'index']);
     Route::put('/committe', [CommitteController::class, 'save']);
