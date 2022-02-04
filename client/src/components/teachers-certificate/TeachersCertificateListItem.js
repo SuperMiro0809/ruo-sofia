@@ -75,6 +75,7 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                                 <>
                                                     {application.teaching.map((teaching, tIndex) => (
                                                        <TeacherCertificateInnerTableItem
+                                                            key={`${tIndex}_${new Date().getTime()}`}
                                                             mode="teaching"
                                                             el={teaching}
                                                             application={application}
@@ -84,6 +85,7 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                                     ))}
                                                     {application.report.map((report, rIndex) => (
                                                        <TeacherCertificateInnerTableItem
+                                                            key={`${rIndex}_${new Date().getTime()}`}
                                                             mode="report"
                                                             el={report}
                                                             application={application}
@@ -93,6 +95,7 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                                     ))}
                                                     {application.publication.map((publication, pIndex) => (
                                                        <TeacherCertificateInnerTableItem
+                                                            key={`${pIndex}_${new Date().getTime()}`}
                                                             mode="publication"
                                                             el={publication}
                                                             application={application}

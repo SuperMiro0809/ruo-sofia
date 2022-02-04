@@ -29,7 +29,7 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mod
     const print = React.useRef();
 
     return (
-        <TableRow key={el.id}>
+        <TableRow>
             <TableCell>
                 № {application.ruoNumberOut}
             </TableCell>
