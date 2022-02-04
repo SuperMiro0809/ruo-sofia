@@ -7,7 +7,8 @@ import TeachersReferencesToolbar from '../components/teachers-references/Teacher
 import teacherServices from '../services/teacher';
 
 const TeacherReference = () => {
-    const [search, setSearch] = useState(null);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [teachers, setTeachers] = useState([]);
     const [mode, setMode] = useState('protocols');
     const [loader, setLoader] = useState(true);
@@ -15,7 +16,7 @@ const TeacherReference = () => {
     useEffect(() => {
         setLoader(true);
         if(mode === 'certificates') {
-            teacherServices.getCertificates()
+            teacherServices.getCertificates(startDate, endDate)
             .then(data => {
                 for(let i = 0; i < data.length; i++) {
                     data[i].fullName = `${data[i].firstName} ${data[i].middleName} ${data[i].lastName}`;
@@ -33,7 +34,7 @@ const TeacherReference = () => {
         }else {
 
         }
-    }, [mode]);
+    }, [mode, startDate, endDate]);
 
     return (
         <>
@@ -48,7 +49,7 @@ const TeacherReference = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <TeachersReferencesToolbar setSearch={setSearch} teachers={teachers} mode={mode} />
+                    <TeachersReferencesToolbar setStartDate={setStartDate} setEndDate={setEndDate} teachers={teachers} mode={mode} />
                     <Box sx={{ pt: 3 }} className="TeachersReferencesResults">
                         <TeachersReferencesResults loader={loader} teachers={teachers} setTeachers={setTeachers} mode={mode} setMode={setMode} />
                     </Box>

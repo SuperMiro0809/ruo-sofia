@@ -186,7 +186,9 @@ class TeacherController extends Controller
         return response()->json(['message' => 'Edited']);
     }
 
-    public function certificates() {
+    public function certificates(Request $request) {
+        $from = date($request->query('startDate', '1999-01-01'));
+        $to = date($request->query('endDate', '2300-01-01'));
         $certificates = [];
 
         $teachings = DB::table('teachers')
@@ -194,6 +196,7 @@ class TeacherController extends Controller
             ->join('teachings', 'teachings.application_id', '=', 'applications.id')
             ->whereNull('teachings.notApprove')
             ->where('applications.inProtocol', '=', '1')
+            ->whereBetween('applications.dateOut', [$from, $to])
             ->get();
 
         $reports = DB::table('teachers')
@@ -201,6 +204,7 @@ class TeacherController extends Controller
             ->join('reports', 'reports.application_id', '=', 'applications.id')
             ->whereNull('reports.notApprove')
             ->where('applications.inProtocol', '=', '1')
+            ->whereBetween('applications.dateOut', [$from, $to])
             ->get();
 
         $publications = DB::table('teachers')
@@ -208,6 +212,7 @@ class TeacherController extends Controller
             ->join('publications', 'publications.application_id', '=', 'applications.id')
             ->whereNull('publications.notApprove')
             ->where('applications.inProtocol', '=', '1')
+            ->whereBetween('applications.dateOut', [$from, $to])
             ->get();
 
         foreach($teachings as $teaching) {

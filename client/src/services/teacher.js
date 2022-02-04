@@ -86,8 +86,13 @@ function edit(data) {
         })
 }
 
-function getCertificates() {
-    return fetch(`${services.url}/teachers/certificates?token=${localStorage.getItem('token')}`)
+function getCertificates(startDate, endDate) {
+    let url = `${services.url}/teachers/certificates?token=${localStorage.getItem('token')}`;
+    if(startDate && endDate) {
+        url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+
+    return fetch(url)
     .then(res => {
         if (res.status === 200) {
             return res.json();

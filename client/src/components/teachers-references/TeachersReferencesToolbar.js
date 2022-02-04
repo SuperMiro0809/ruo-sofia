@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import {
     Box,
     Button,
@@ -21,17 +22,31 @@ import { bg } from 'date-fns/locale';
 import CertificateExcelDocument from './References/Certificates/CertificateExcelDocument';
 
 
-const TeacherListToolbar = ({ setSearch, teachers, mode }, ...props) => {
-    const [value, setValue] = useState('');
+const TeacherListToolbar = ({ setStartDate, setEndDate, teachers, mode }, ...props) => {
     const [date, setDate] = useState([null, null]);
 
     const handleSearch = () => {
-        setSearch(value);
+        setStartDate(moment(date[0]).format('YYYY-MM-DD'));
+        setEndDate(moment(date[1]).format('YYYY-MM-DD'));
     }
 
     const handleReset = () => {
-        setValue('');
-        setSearch('');
+        setDate([null, null]);
+        setStartDate(null);
+        setEndDate(null);
+    }
+
+    const disableButton = ([startDate, endDate]) => {
+        if(!startDate || !endDate) {
+            return true;
+        }
+
+        if(new Date(startDate) > new Date(endDate)) {
+            return true;
+        }
+
+
+        return false;
     }
 
     return (
@@ -57,7 +72,7 @@ const TeacherListToolbar = ({ setSearch, teachers, mode }, ...props) => {
                 <Card>
                     <CardContent>
                         <Grid container spacing={1}>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={6}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns} locale={bg}>
                                     <DateRangePicker
                                         startText="От"
@@ -76,9 +91,10 @@ const TeacherListToolbar = ({ setSearch, teachers, mode }, ...props) => {
                                     />
                                 </LocalizationProvider>
                             </Grid>
-                            <Grid item xs={12} lg={4} >
+                            <Grid item xs={12} lg={3} >
                                 <Button
                                     fullWidth
+                                    disabled={disableButton(date)}
                                     onClick={handleSearch}
                                     sx={{ height: '100%' }}
                                     color="primary"
@@ -87,7 +103,7 @@ const TeacherListToolbar = ({ setSearch, teachers, mode }, ...props) => {
                                     Търси
                                 </Button>
                             </Grid>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={3}>
                                 <Button
                                     className="reset-button"
                                     fullWidth
