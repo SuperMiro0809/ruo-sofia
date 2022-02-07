@@ -3,48 +3,53 @@ import {
     TableHead,
     TableBody,
     TableRow,
-    TableCell
+    TableCell,
+    CircularProgress
 } from '@material-ui/core';
+import ProtocolsReferenceItem from './ProtocolsReferenceItem';
 
-const ProtocolsReference = ({protocols}) => {
+const ProtocolsReference = ({protocols, loader, page, limit}) => {
     return (
         <Table>
             <TableHead>
                 <TableRow>
                     <TableCell>
-                        Име
-                </TableCell>
+                        Номер
+                    </TableCell>
                     <TableCell>
-                        Дата на раждане
-                </TableCell>
+                        Дата
+                    </TableCell>
                     <TableCell>
-                        Заявления
-                </TableCell>
+                        Относно
+                    </TableCell>
                     <TableCell>
-                        Операции
-                </TableCell>
+                        Председател
+                    </TableCell>
+                    <TableCell>
+                        Членове
+                    </TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {/* {loader ?
+                {loader ?
                   <TableRow>
-                    <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="4"><CircularProgress size="30px" /></TableCell>
+                    <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="5"><CircularProgress size="30px" /></TableCell>
                   </TableRow>
                   :
                   <>
-                    {teachers.length !== 0 ?
+                    {protocols.length !== 0 ?
                       <>
-                        {teachers.slice(page * limit, page * limit + limit).map((teacher) => (
-                          <TeacherListItem key={teacher.id} teacher={teacher} openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
+                        {protocols.slice(page * limit, page * limit + limit).map((protocol, index) => (
+                          <ProtocolsReferenceItem key={index} protocol={protocol} />
                         ))}
                       </>
                       :
                       <TableRow>
-                        <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="4">Няма записи</TableCell>
+                        <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="5">Няма записи</TableCell>
                       </TableRow>
                     }
                   </>
-                } */}
+                }
             </TableBody>
         </Table>
     );

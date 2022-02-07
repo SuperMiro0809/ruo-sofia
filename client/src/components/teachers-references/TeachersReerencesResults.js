@@ -25,7 +25,7 @@ import teacherServices from '../../services/teacher';
 import ProtocolsReference from './References/Protocols/ProtocolsReference';
 import CertificatesReferene from './References/Certificates/CertificatesReference';
 
-const TeachersReferencesResults = ({ loader, teachers, setTeachers, mode, setMode }, ...props) => {
+const TeachersReferencesResults = ({ loader, data, mode, setMode }, ...props) => {
   const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -33,34 +33,6 @@ const TeachersReferencesResults = ({ loader, teachers, setTeachers, mode, setMod
     protocols: 'Протоколи',
     certificates: 'Удостоверения'
   }
-
-
-  // useEffect(() => {
-  //   setLoader(true);
-  //   getTeachers();
-  // }, [open, search])
-
-  // const getTeachers = () => {
-  //   teacherServices.getAll(search)
-  //     .then(data => {
-  //       data.forEach(el => {
-  //         el.application.forEach(appl => {
-  //           appl.workplace = JSON.parse(appl.workplace);
-  //           appl.education = JSON.parse(appl.education);
-  //           appl.diploma = JSON.parse(appl.diploma);
-  //         })
-  //       })
-
-  //       setTeachers(data);
-  //       setLoader(false);
-  //       console.log(data);
-  //     })
-  //     .catch(err => {
-  //       if (err.message === 'Unauthorized') {
-  //         navigate('/login');
-  //       }
-  //     })
-  // }
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -102,15 +74,15 @@ const TeachersReferencesResults = ({ loader, teachers, setTeachers, mode, setMod
               </Typography>
               </Box>
               {mode === 'protocols' ?
-                <ProtocolsReference loader={loader} protocols={teachers} page={page} limit={limit}/> :
-                <CertificatesReferene loader={loader} certificates={teachers} page={page} limit={limit}/>
+                <ProtocolsReference loader={loader} protocols={data} page={page} limit={limit}/> :
+                <CertificatesReferene loader={loader} certificates={data} page={page} limit={limit}/>
               }
             </TableContainer>
           </Box>
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={teachers.length}
+          count={data.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

@@ -49,8 +49,8 @@ const CertificatesReferene = ({ certificates, loader, page, limit }) => {
                   <>
                     {certificates.length !== 0 ?
                       <>
-                        {certificates.slice(page * limit, page * limit + limit).map((certificate) => (
-                            <CertificatesReferenceItem key={certificate.id} certificate={certificate} />
+                        {certificates.slice(page * limit, page * limit + limit).map((certificate, index) => (
+                            <CertificatesReferenceItem key={index} certificate={certificate} />
                         ))}
                       </>
                       :

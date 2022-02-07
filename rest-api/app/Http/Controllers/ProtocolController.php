@@ -11,8 +11,13 @@ use App\Models\Publication;
 
 class ProtocolController extends Controller
 {
-    public function index() {
-        $protocols = Protocol::all();
+    public function index(Request $request) {
+        $from = date($request->query('startDate', '1999-01-01'));
+        $to = date($request->query('endDate', '2300-01-01'));
+
+        $protocols = Protocol::select("*")
+            ->whereBetween('date', [$from, $to])
+            ->get();
 
         foreach ($protocols as $p) {
             $p->application;

@@ -20,9 +20,10 @@ import {
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 import CertificateExcelDocument from './References/Certificates/CertificateExcelDocument';
+import ProtocolExcelDocumnet from './References/Protocols/ProtocolExcelDocument';
 
 
-const TeacherListToolbar = ({ setStartDate, setEndDate, teachers, mode }, ...props) => {
+const TeacherListToolbar = ({ setStartDate, setEndDate, data, mode }, ...props) => {
     const [date, setDate] = useState([null, null]);
 
     const handleSearch = () => {
@@ -58,14 +59,8 @@ const TeacherListToolbar = ({ setStartDate, setEndDate, teachers, mode }, ...pro
                 }}
             >
                 {mode === "certificates" ?
-                    <CertificateExcelDocument certificates={teachers} /> :
-                    <Button
-                        color="success"
-                        variant="contained"
-                        startIcon={<ExportIcon />}
-                    >
-                        Експорт към Excel
-                    </Button>
+                    <CertificateExcelDocument certificates={data} /> :
+                    <ProtocolExcelDocumnet protocols={data} />
                 }
             </Box>
             <Box sx={{ mt: 3 }}>

@@ -1,7 +1,12 @@
 import services from './index';
 
-function getAll() {
-    return fetch(`${services.url}/protocols?token=${localStorage.getItem('token')}`)
+function getAll(startDate, endDate) {
+    let url = `${services.url}/protocols?token=${localStorage.getItem('token')}`;
+    if(startDate && endDate) {
+        url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+
+    return fetch(url)
         .then(res => {
             if (res.status === 200) {
                 return res.json();
