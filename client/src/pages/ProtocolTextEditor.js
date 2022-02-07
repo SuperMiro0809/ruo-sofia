@@ -1,12 +1,12 @@
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
-import ProtocolEditForm from '../components/edit-protocol/ProtocolEditForm';
-import ProtocolEditToolbar from '../components/edit-protocol/ProtocolEditToolbar';
+import ProtocolTextEditorResult from '../components/protocol-text-editor/ProtocolTextEditorResult';
+import ProtocolTextEditorToolbar from '../components/protocol-text-editor/ProtocolTextEditorToolbar';
 
-const ProtocolEdit = () => {
+const ProtocolTextEditor = () => {
     const location = useLocation();
-    const { protocol } = location.state;
+    const { content } = location.state;
 
     return (
         <>
@@ -21,9 +21,9 @@ const ProtocolEdit = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <ProtocolEditToolbar />
+                    <ProtocolTextEditorToolbar />
                     <Box sx={{ pt: 3 }}>
-                        <ProtocolEditForm protocol={protocol}/>
+                        <ProtocolTextEditorResult content={content}/>
                     </Box>
                 </Container>
             </Box>
@@ -31,4 +31,4 @@ const ProtocolEdit = () => {
     );
 }
 
-export default ProtocolEdit;
+export default ProtocolTextEditor;

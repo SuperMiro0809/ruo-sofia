@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './ProtocolListItem.scss';
-import { useState, useEffect, useContext } from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -45,7 +45,12 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
     const print = React.useRef();
     const [open, setOpen] = useState(false);
     const [openPreview, setOpenPreview] = useState(false);
-    
+    const [textEditorContent, setTextEditorContent] = useState('');
+
+    useEffect(() => {
+        setTextEditorContent(ReactDOMServer.renderToString(<ProtocolPDF protocol={protocol} formText={formText} />))
+    }, [])
+
     const openModal = (id) => {
         openProp.setOpen(true);
         selectedProtocolProp.setSelectedProtocol(id);
@@ -144,7 +149,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                             </IconButton>
                         )}
                     />
-                    <IconButton className="word-icon-wrapper" onClick={e => generateWord()}>
+                    <IconButton className="word-icon-wrapper" component={RouterLink} to="/app/protocols/text-editor" state={{ content: textEditorContent }}>
                         <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
                     </IconButton>
                 </TableCell>

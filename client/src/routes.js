@@ -17,6 +17,7 @@ import TeacherReference from './pages/TeacherReference';
 import ProtocolList from './pages/ProtocolList';
 import ProtocolAdd from './pages/ProtocolAdd';
 import ProtocolEdit from './pages/ProtocolEdit';
+import ProtocolTextEditor from './pages/ProtocolTextEditor';
 import ApplicationAdd from './pages/ApplicationAdd';
 import CommitteList from './pages/CommitteList';
 import RoleRoute from './hoc/isRole';
@@ -65,6 +66,7 @@ const routes = [
           { path: '', element: <ProtocolList /> },
           { path: 'add', element: <ProtocolAdd /> },
           { path: 'edit', element: <ProtocolEdit /> },
+          { path: 'text-editor', element: <ProtocolTextEditor /> }
         ]
       },
       { path: 'settings/committe', element: <CommitteList /> },
