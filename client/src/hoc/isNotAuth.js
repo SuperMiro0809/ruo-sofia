@@ -1,23 +1,29 @@
-import { Component, useEffect } from 'react';
+import { Component, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userServices from '../services/user';
+import UserContext from '../contexts/UserContext';
 
 const NotAuthRoute = ({ component: Component, ...rest }) => {
     const navigate = useNavigate();
+    const userContext = useContext(UserContext);
 
-    useEffect(() => {
-        userServices.profile()
-        .then(data => {
-            if(data.name) {
-                navigate(-1);
-            }
-        })
-        .catch(err => {
-            if (err.message === 'Unauthorized') {
-              navigate('/login');
-            }
-        })
-    }, [])
+    if(userContext[0]) {
+        navigate(-1);
+    }
+
+    // useEffect(() => {
+    //     userServices.profile()
+    //     .then(data => {
+    //         if(data.name) {
+    //             navigate(-1);
+    //         }
+    //     })
+    //     .catch(err => {
+    //         if (err.message === 'Unauthorized') {
+    //           navigate('/login');
+    //         }
+    //     })
+    // }, [])
 
     return <Component />
 }
