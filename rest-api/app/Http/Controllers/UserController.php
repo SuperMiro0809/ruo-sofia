@@ -12,8 +12,17 @@ use Validator;
 
 class UserController extends Controller
 {
-    public function index() {
-        $users = User::all();
+    public function index(Request $request) {
+        $name = $request->query('name', '');
+        $email = $request->query('email', '');
+        $role = $request->query('role', '');
+
+        $users = User::select('*')
+            ->where('name', 'regexp', $name)
+            ->where('email', 'regexp', $email)
+            ->where('role','regexp', $role)
+            ->get();
+        
         return $users;
     }
 

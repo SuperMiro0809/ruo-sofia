@@ -1,7 +1,18 @@
 import services from './index';
 
-function getAll() {
-    return fetch(`${services.url}/users?token=${localStorage.getItem('token')}`)
+function getAll({name, email, role}) {
+    let url = `${services.url}/users?token=${localStorage.getItem('token')}`;
+    if(name) {
+        url += `&name=${name}`;
+    }
+    if(email) {
+        url += `&email=${email}`;
+    }
+    if(role) {
+        url += `&role=${role}`;
+    }
+
+    return fetch(url)
       .then(res => {
           if(res.status === 200) {
               return res.json();

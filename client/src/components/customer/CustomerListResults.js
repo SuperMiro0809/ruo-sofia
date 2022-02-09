@@ -24,9 +24,8 @@ import CustomerContext from '../../contexts/CustomerContext';
 import CustomerListItem from './CustomerListItem';
 import CustomerModal from '../customer-modal/CustomerModal';
 
-const CustomerListResults = ({ ...rest }) => {
+const CustomerListResults = ({ name, email, role }, ...rest) => {
   const navigate = useNavigate();
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [customers, setCustomers] = useState([]);
@@ -38,11 +37,12 @@ const CustomerListResults = ({ ...rest }) => {
   let selectedCustomerProp = { selectedCustomer, setSelectedCustomer }
 
   useEffect(() => {
+    setLoader(true);
     loadCustomers();
-  }, []);
+  }, [name, email, role]);
 
   const loadCustomers = () => {
-    userServices.getAll()
+    userServices.getAll({ name, email, role })
       .then(data => {
         setCustomers(data);
         setLoader(false);
@@ -53,38 +53,6 @@ const CustomerListResults = ({ ...rest }) => {
         }
     })
   }
-
-  // const handleSelectAll = (event) => {
-  //   let newSelectedCustomerIds;
-
-  //   if (event.target.checked) {
-  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
-  //   } else {
-  //     newSelectedCustomerIds = [];
-  //   }
-
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
-
-  // const handleSelectOne = (event, id) => {
-  //   const selectedIndex = selectedCustomerIds.indexOf(id);
-  //   let newSelectedCustomerIds = [];
-
-  //   if (selectedIndex === -1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
-  //       selectedCustomerIds.slice(0, selectedIndex),
-  //       selectedCustomerIds.slice(selectedIndex + 1)
-  //     );
-  //   }
-
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -117,17 +85,6 @@ const CustomerListResults = ({ ...rest }) => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.length === customers.length}
-                      color="primary"
-                      indeterminate={
-                        selectedCustomerIds.length > 0
-                        && selectedCustomerIds.length < customers.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell> */}
                     <TableCell>
                       Име
                 </TableCell>
