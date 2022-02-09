@@ -20,7 +20,7 @@ import ProtocolListItem from './ProtocolListItem';
 import protocolServices from '../../services/protocol';
 import ProtocolModal from '../protocol-modal/ProtocolModal';
 
-const ProtocolListResults = ({number}, ...props) => {
+const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
   const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -37,10 +37,10 @@ const ProtocolListResults = ({number}, ...props) => {
       setLoader(true);
     }
     getProtocols();
-  }, [open, number])
+  }, [open, number, startDate, endDate])
 
   const getProtocols = () => {
-    protocolServices.getAll({number})
+    protocolServices.getAll({number, startDate, endDate})
       .then(data => {
         console.log(data);
         setProtocols(data);

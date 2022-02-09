@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import moment from 'moment';
 import {
     Box,
     Button,
@@ -11,17 +12,39 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import { NavLink as RouterLink } from 'react-router-dom';
+import {
+    DateRangePicker,
+    LocalizationProvider
+} from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { bg } from 'date-fns/locale';
 
-const ProtocolListToolbar = ({ setNumber }, ...props) => {
+const ProtocolListToolbar = ({ setNumber, setStartDate, setEndDate }, ...props) => {
     const [value, setValue] = useState();
+    const [date, setDate] = useState([null, null]);
 
     const handleSearch = () => {
-        setNumber(value)
+        setNumber(value);
+        if(date[0] && date[1]) {
+            setStartDate(moment(date[0]).format('YYYY-MM-DD'));
+            setEndDate(moment(date[1]).format('YYYY-MM-DD'));
+        }
     }
 
     const handleReset = () => {
         setValue('');
         setNumber('');
+        setDate([null, null]);
+        setStartDate(null);
+        setEndDate(null);
+    }
+
+    const disableButton = ([startDate, endDate]) => {
+        if(new Date(startDate) > new Date(endDate)) {
+            return true;
+        }
+
+        return false;
     }
 
     return (
@@ -45,7 +68,7 @@ const ProtocolListToolbar = ({ setNumber }, ...props) => {
                 <Card>
                     <CardContent>
                         <Grid container spacing={1}>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={2}>
                                 <TextField
                                     fullWidth
                                     sx={{ height: '100%' }}
@@ -70,8 +93,28 @@ const ProtocolListToolbar = ({ setNumber }, ...props) => {
                                     variant="outlined"
                                 />
                             </Grid>
-                            <Grid item xs={12} lg={4} >
+                            <Grid item xs={12} lg={4}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns} locale={bg}>
+                                    <DateRangePicker
+                                        startText="От"
+                                        endText="До"
+                                        value={date}
+                                        onChange={(newValue) => {
+                                            setDate(newValue);
+                                        }}
+                                        renderInput={(startProps, endProps) => (
+                                            <React.Fragment>
+                                                <TextField {...startProps} size="small" fullWidth />
+                                                <Box sx={{ mx: 2 }}> - </Box>
+                                                <TextField {...endProps} size="small" fullWidth />
+                                            </React.Fragment>
+                                        )}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={12} lg={3} >
                                 <Button
+                                    disabled={disableButton(date)}
                                     fullWidth
                                     onClick={handleSearch}
                                     sx={{ height: '100%' }}
@@ -81,7 +124,7 @@ const ProtocolListToolbar = ({ setNumber }, ...props) => {
                                     Търси
                                 </Button>
                             </Grid>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={3}>
                                 <Button
                                     className="reset-button"
                                     fullWidth

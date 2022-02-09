@@ -7,6 +7,8 @@ import customers from '../__mocks__/customers';
 
 const ProtocolList = () => {
   const [number, setNumber] = useState();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   return (
     <>
@@ -21,9 +23,9 @@ const ProtocolList = () => {
         }}
       >
         <Container maxWidth={false}>
-          <ProtocolListToolbar setNumber={setNumber}/>
+          <ProtocolListToolbar setNumber={setNumber} setStartDate={setStartDate} setEndDate={setEndDate}/>
           <Box sx={{ pt: 3 }}>
-            <ProtocolListResults number={number}/>
+            <ProtocolListResults number={number} startDate={startDate} endDate={endDate}/>
           </Box>
         </Container>
       </Box>
