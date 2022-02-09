@@ -29,10 +29,12 @@ import {
 } from '@material-ui/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faFileWord as WordFileIcon
+    faFileWord as WordFileIcon,
+    faEdit as TextEditorIcon
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolPDF from '../protocol-pdf/ProtocolPDF';
 import ReactToPrint from 'react-to-print';
+import ProtocolTextEditorResult from '../protocol-text-editor/ProtocolTextEditorResult';
 
 const style = {
     bgcolor: 'background.paper',
@@ -46,6 +48,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
     const [open, setOpen] = useState(false);
     const [openPreview, setOpenPreview] = useState(false);
     const [textEditorContent, setTextEditorContent] = useState('');
+    const [openTextEditor, setOpenTextEditor] = useState(false);
 
     useEffect(() => {
         setTextEditorContent(ReactDOMServer.renderToString(<ProtocolPDF protocol={protocol} formText={formText} />))
@@ -101,6 +104,18 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                     <ProtocolPDF protocol={protocol} formText={formText} />
                 </Box>
             </Modal>
+            {/* <Modal
+                open={openTextEditor}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style} className="PreviewModal Modal">
+                    <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
+                        <CloseIcon className="close-icon" onClick={() => setOpenTextEditor(false)} />
+                    </Typography>
+                    <ProtocolTextEditorResult content={textEditorContent} setContent={setTextEditorContent}/>
+                </Box>
+            </Modal> */}
             <TableRow
                 hover
                 className="ProtocolListItem"
@@ -149,9 +164,15 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                             </IconButton>
                         )}
                     />
-                    <IconButton className="word-icon-wrapper" component={RouterLink} to="/app/protocols/text-editor" state={{ content: textEditorContent }}>
+                    {/* <IconButton className="word-icon-wrapper">
                         <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
-                    </IconButton>
+                    </IconButton> */}
+                    {/* <IconButton className="text-edit-icon-wrapper" component={RouterLink} to="/app/protocols/text-editor" state={{ content: textEditorContent }}>
+                        <FontAwesomeIcon icon={TextEditorIcon} className="text-edit-icon" />
+                    </IconButton> */}
+                    {/* <IconButton className="text-edit-icon-wrapper" onClick={() => setOpenTextEditor(true)}>
+                        <FontAwesomeIcon icon={TextEditorIcon} className="text-edit-icon" />
+                    </IconButton> */}
                 </TableCell>
             </TableRow>
             <TableRow>

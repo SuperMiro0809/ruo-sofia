@@ -3,12 +3,13 @@
         .trash-icon, 
         .edit-icon,
         .print-icon,
-        .preview-icon {
+        .preview-icon,
+        .word-icon {
             font-size: 32px;
         }
 
-        .word-icon {
-            font-size: 32px;
+        .text-edit-icon {
+            font-size: 26px;
         }
 
         .trash-icon {
@@ -31,6 +32,10 @@
             color: #0e94ff;
         }
 
+        .text-edit-icon {
+            color: #F28C28;
+        }
+
         .trash-icon-wrapper {
             margin-left: 10px;
         }
@@ -44,6 +49,10 @@
         }
 
         .word-icon-wrapper {
+            margin-left: 10px;
+        }
+
+        .text-edit-icon-wrapper {
             margin-left: 10px;
         }
 
@@ -78,6 +87,13 @@
         .preview-icon-wrapper:hover {
             background-color: transparent;
             .preview-icon {
+                filter: brightness(0.5);
+            }
+        }
+
+        .text-edit-icon-wrapper:hover {
+            background-color: transparent;
+            .text-edit-icon {
                 filter: brightness(0.5);
             }
         }
