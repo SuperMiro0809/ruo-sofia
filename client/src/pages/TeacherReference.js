@@ -37,7 +37,7 @@ const TeacherReference = () => {
                     }
                 })
         } else {
-            protocolServices.getAll(startDate, endDate)
+            protocolServices.getAll({startDate, endDate})
                 .then(data => {
                     data.forEach((protocol, index) => {
                         data[index].membersString = JSON.parse(protocol.members).join(', ');

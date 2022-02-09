@@ -34,7 +34,9 @@ const TeacherListResults = ({search, teachers, setTeachers}, ...props) => {
   let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher }
 
   useEffect(() => {
-    setLoader(true);
+    if(!open) {
+      setLoader(true);
+    }
     getTeachers();
   }, [open, search])
 

@@ -14,9 +14,11 @@ class ProtocolController extends Controller
     public function index(Request $request) {
         $from = date($request->query('startDate', '1999-01-01'));
         $to = date($request->query('endDate', '2300-01-01'));
+        $number = $request->query('number', '');
 
         $protocols = Protocol::select("*")
             ->whereBetween('date', [$from, $to])
+            ->where('number', 'regexp', $number)
             ->get();
 
         foreach ($protocols as $p) {

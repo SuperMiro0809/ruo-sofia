@@ -6,6 +6,8 @@ import ProtocolListToolbar from '../components/protocol/ProtocolListToolbar';
 import customers from '../__mocks__/customers';
 
 const ProtocolList = () => {
+  const [number, setNumber] = useState();
+
   return (
     <>
       <Helmet>
@@ -19,9 +21,9 @@ const ProtocolList = () => {
         }}
       >
         <Container maxWidth={false}>
-          <ProtocolListToolbar />
+          <ProtocolListToolbar setNumber={setNumber}/>
           <Box sx={{ pt: 3 }}>
-            <ProtocolListResults customers={customers}/>
+            <ProtocolListResults number={number}/>
           </Box>
         </Container>
       </Box>
