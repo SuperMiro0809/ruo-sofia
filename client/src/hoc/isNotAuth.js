@@ -6,9 +6,11 @@ import UserContext from '../contexts/UserContext';
 const NotAuthRoute = ({ component: Component, ...rest }) => {
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
-
-    if(userContext[0]) {
+    
+    if(userContext[0].name) {
         navigate(-1);
+        
+        return null;
     }
 
     // useEffect(() => {

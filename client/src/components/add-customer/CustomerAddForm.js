@@ -50,11 +50,10 @@ const CustomerAddForm = ({ rest }) => {
                                 role: Yup.string().required('Ролята е задължителна')
                             })}
                             onSubmit={(values) => {
-                                console.log(values)
                                 userServices.create(values)
                                 .then(data => {
                                     console.log(data);
-                                    messageContext[1]({ status: 'success', text: data })
+                                    messageContext[1]({ status: 'success', text: data.message });
                                     navigate('/app/users', { replace: true });
                                     const interval = setInterval(function () {
                                         messageContext[1]('');

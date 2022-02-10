@@ -6,9 +6,11 @@ import UserContext from '../contexts/UserContext';
 const AuthRoute = ({ component: Component, ...rest }) => {
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
-
-    if(!userContext[0]) {
+    
+    if(!userContext[0].name) {
         navigate('/login');
+
+        return null;
     }
     // useEffect(() => {
     //     userServices.profile()

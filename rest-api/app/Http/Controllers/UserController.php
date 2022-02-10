@@ -35,7 +35,7 @@ class UserController extends Controller
         $user->email = $request->email;
 
         $user->save();
-        return 'Потребителят е добавен успешно!';
+        return response()->json(['message' => 'Потребителят е добавен успешно!']);
     }
 
     public function login(Request $request)
