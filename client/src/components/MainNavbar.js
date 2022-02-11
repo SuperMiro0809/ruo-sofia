@@ -20,7 +20,7 @@ const MainNavbar = (props) => {
         <Typography className="information-text">rio_sofia_grad@mon.bg</Typography>
       </Box>
       <Toolbar sx={{ bgcolor: 'white' }}>
-        <RouterLink to="/">
+        <RouterLink to="/login">
           <Logo />
         </RouterLink>
         <Box sx={{ flexGrow: 1 }} />

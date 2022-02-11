@@ -20,6 +20,8 @@ const LogoutItem = () => {
         })
         .catch(err => {
             if(err.message === 'Unauthorized') {
+                userContext[1]({});
+                localStorage.removeItem('token');
                 navigate('/login');
             }
         })
