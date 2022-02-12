@@ -81,9 +81,14 @@ const dropDownEducation = {
   title: 'Образование',
   elements: [
     {
-      href: '/app/students',
+      href: '/app/students-class',
       icon: UserGraduateIcon,
-      title: 'Ученици'
+      title: 'Ученици - Клас'
+    },
+    {
+      href: '/app/students-secondary',
+      icon: UserGraduateIcon,
+      title: 'Ученици - Средно'
     },
     {
       href: '/app/students-certificate',

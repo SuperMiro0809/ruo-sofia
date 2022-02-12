@@ -20,6 +20,9 @@ import ProtocolEdit from './pages/ProtocolEdit';
 import ProtocolTextEditor from './pages/ProtocolTextEditor';
 import ApplicationAdd from './pages/ApplicationAdd';
 import CommitteList from './pages/CommitteList';
+import StudentClassList from './pages/StudentClassList';
+import StudentClassAdd from './pages/StudentClassAdd';
+
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
 import NotAuthRoute from './hoc/isNotAuth';
@@ -67,6 +70,14 @@ const routes = [
           { path: 'add', element: <ProtocolAdd /> },
           { path: 'edit', element: <ProtocolEdit /> },
           { path: 'text-editor', element: <ProtocolTextEditor /> }
+        ]
+      },
+      {
+        path: 'students-class',
+        element: <RoleRoute role="Education" component={Layout}/>,
+        children: [
+          { path: '/', element: <StudentClassList /> },
+          { path: '/add', element: <StudentClassAdd /> }
         ]
       },
       { path: 'settings/committe', element: <CommitteList /> },

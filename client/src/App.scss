@@ -75,6 +75,12 @@ table {
     }
 }
 
+.toolbar {
+    .reset-button:hover {
+        background-color: #757575;
+    }
+}
+
 @media print {
     html, body {
         border: 1px solid white;
