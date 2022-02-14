@@ -26,6 +26,7 @@ import MеssageContext from '../../contexts/MessageContext';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 import SubjectGradeItem from './SubjectGradeItem';
+import studentClassServices from '../../services/student-class';
 
 const StudentsClassAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
@@ -45,23 +46,23 @@ const StudentsClassAddForm = ({ rest }) => {
             }
         }
 
-        if(values.equivalenceExamsDate) {
-            for(let i = 0; i < values.equivalenceExams.length; i++) {
-                for(let key in values.equivalenceExams[i]) {
-                    if(!values.equivalenceExams[i][key]) {
+        if (values.equivalenceExamsDate) {
+            for (let i = 0; i < values.equivalenceExams.length; i++) {
+                for (let key in values.equivalenceExams[i]) {
+                    if (!values.equivalenceExams[i][key]) {
                         return true;
                     }
                 }
             }
 
-            if(errors['equivalenceExams']) {
+            if (errors['equivalenceExams']) {
                 return true;
             }
         }
 
-        for(let i = 0; i < values.grades.length; i++) {
-            for(let key in values.grades[i]) {
-                if(!values.grades[i][key]) {
+        for (let i = 0; i < values.grades.length; i++) {
+            for (let key in values.grades[i]) {
+                if (!values.grades[i][key]) {
                     return true;
                 }
             }
@@ -73,11 +74,11 @@ const StudentsClassAddForm = ({ rest }) => {
             }
         }
 
-        if(errors['grades']) {
+        if (errors['grades']) {
             return true;
         }
 
-        if(isSubmitting) {
+        if (isSubmitting) {
             return true;
         }
 
@@ -155,8 +156,29 @@ const StudentsClassAddForm = ({ rest }) => {
                                     grade: Yup.string().required('Оценката е задължителна')
                                 }))
                             })}
-                            onSubmit={(values) => {
-                                console.log(values);
+                            onSubmit={(values, { setSubmitting }) => {
+                                let data = values;
+                                if (!values.equivalenceExamsDate) {
+                                    data.equivalenceExams = [];
+                                }
+
+                                studentClassServices.create(data)
+                                    .then(r => {
+                                        messageContext[1]({ status: 'success', text: 'Ученикът е добавен успешно!' });
+                                        navigate('/app/students-class', { replace: true });
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 2000)
+                                    })
+                                    .catch(err => {
+                                        setSubmitting(false)
+                                        if (err.message === 'Unauthorized') {
+                                            navigate('/login');
+                                        }
+                                    })
+
+                                console.log(values);;
                             }}
                         >
                             {({
@@ -458,7 +480,12 @@ const StudentsClassAddForm = ({ rest }) => {
                                             label="Срок за полагане на приравнителните изпити"
                                             value={equivalenceExamsDate}
                                             onChange={(newValue) => {
-                                                setFieldValue('equivalenceExamsDate', moment(newValue).format('YYYY/MM/DD'))
+                                                console.log(newValue);
+                                                if(newValue) {
+                                                    setFieldValue('equivalenceExamsDate', moment(newValue).format('YYYY/MM/DD'))
+                                                }else {
+                                                    setFieldValue('equivalenceExamsDate', '');
+                                                }
                                                 setEquivalenceExamsDate(newValue)
                                             }}
                                             renderInput={(params) => {

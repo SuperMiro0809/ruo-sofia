@@ -7,6 +7,7 @@ use App\Http\Controllers\ProtocolController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CommitteController;
+use App\Http\Controllers\StudentClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,9 @@ Route::group([
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
     Route::put('/teachers/{id}', [TeacherController::class, 'edit']);
     Route::get('/teachers/certificates', [TeacherController::class, 'certificates']);
+
+    Route::get('/students-class', [StudentClassController::class, 'index']);
+    Route::post('/students-class', [StudentClassController::class, 'store']);
 
     Route::get('/committe', [CommitteController::class, 'index']);
     Route::put('/committe', [CommitteController::class, 'save']);

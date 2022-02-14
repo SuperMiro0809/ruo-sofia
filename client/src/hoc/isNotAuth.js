@@ -7,25 +7,25 @@ const NotAuthRoute = ({ component: Component, ...rest }) => {
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
     
-    if(userContext[0].name) {
-        navigate(-1);
+    // if(userContext[0].name) {
+    //     navigate(-1);
         
-        return null;
-    }
+    //     return null;
+    // }
 
-    // useEffect(() => {
-    //     userServices.profile()
-    //     .then(data => {
-    //         if(data.name) {
-    //             navigate(-1);
-    //         }
-    //     })
-    //     .catch(err => {
-    //         if (err.message === 'Unauthorized') {
-    //           navigate('/login');
-    //         }
-    //     })
-    // }, [])
+    useEffect(() => {
+        userServices.profile()
+        .then(data => {
+            if(data.name) {
+                navigate(-1);
+            }
+        })
+        .catch(err => {
+            if (err.message === 'Unauthorized') {
+              navigate('/login');
+            }
+        })
+    }, [])
 
     return <Component />
 }
