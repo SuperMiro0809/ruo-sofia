@@ -113,6 +113,11 @@ const ApplicationFormItem = ({ props }, ...rest) => {
         const applicationOptions = teacher.application.filter(appl => !appl.inProtocol);
         setApplications(applicationOptions);
         setFieldValue(`applications.${index}.teacher`, teacher.id);
+        setFieldValue(`applications.${index}.teachings`, []);
+        setFieldValue(`applications.${index}.reports`, []);
+        setFieldValue(`applications.${index}.publications`, []);
+        setSelectedApplication(null);
+        setFieldValue(`applications.${index}.application`, '');
         if (teacher.application.length === 0) {
             setFieldValue(`applications.${index}.application`, '');
         }
