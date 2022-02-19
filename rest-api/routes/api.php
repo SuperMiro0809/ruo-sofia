@@ -8,6 +8,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CommitteController;
 use App\Http\Controllers\StudentClassController;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,8 @@ Route::group([
     Route::get('/students-class/{egn}', [StudentClassController::class, 'findByEgn']);
     Route::delete('/students-class/{id}', [StudentClassController::class, 'destroy']);
     Route::post('/students-class', [StudentClassController::class, 'store']);
+
+    Route::get('/subjects', [SubjectController::class, 'index']);
 
     Route::get('/committe', [CommitteController::class, 'index']);
     Route::put('/committe', [CommitteController::class, 'save']);

@@ -7,15 +7,16 @@ import {
     Select,
     InputLabel,
     MenuItem,
-    Fab
+    Fab,
+    Autocomplete
 } from '@material-ui/core';
 import {
     Add as AddIcon,
     Remove as RemoveIcon
 } from '@material-ui/icons';
-import { getIn }  from 'formik';
+import { getIn } from 'formik';
 
-const SubjectGradeItem = ({ props, mode }) => {
+const SubjectGradeItem = ({ props, mode, subjects }) => {
     const {
         arrayHelpers,
         values,
@@ -25,6 +26,7 @@ const SubjectGradeItem = ({ props, mode }) => {
         index,
         handleBlur,
         handleChange,
+        setFieldValue,
         scrollTo
     } = props;
 
@@ -38,20 +40,31 @@ const SubjectGradeItem = ({ props, mode }) => {
         <Box sx={{ ml: 2 }}>
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} lg={6}>
-                    <TextField
-                        error={Boolean(
-                            getIn(touched, `${mode}.${index}.subjectName`) &&
-                            getIn(errors, `${mode}.${index}.subjectName`)
-                        )}
+                    <Autocomplete
                         fullWidth
-                        label="Предмет"
-                        margin="normal"
-                        name={`${mode}.${index}.subjectName`}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        type="text"
-                        value={values[mode][index].subjectName}
-                        variant="outlined"
+                        onChange={(event, newValue) => {
+                            console.log(newValue);
+                            if(newValue) {
+                                setFieldValue(`${mode}.${index}.subjectName`, newValue.label);
+                            }else {
+                                setFieldValue(`${mode}.${index}.subjectName`, '');
+                            }
+                        }}
+                        disablePortal
+                        options={subjects}
+                        renderInput={(params) => (
+                            <TextField
+                                name={`${mode}.${index}.subjectName`}
+                                error={Boolean(
+                                    getIn(touched, `${mode}.${index}.subjectName`) &&
+                                    getIn(errors, `${mode}.${index}.subjectName`)
+                                )}
+                                onBlur={handleBlur}
+                                {...params}
+                                label="Предмет"
+                                margin="normal"
+                            />
+                        )}
                     />
                 </Grid>
                 <Grid item xs={12} lg={5}>

@@ -9,7 +9,7 @@ import {
 import {
     Close as CloseIcon
 } from '@material-ui/icons';
-import StudetnClassServices from '../../services/student-class';
+import studentClassServices from '../../services/student-class';
 import MessageContext from '../../contexts/MessageContext';
 
 const style = {
@@ -23,7 +23,7 @@ const StudentsClassModal = ({ openProp, selectedStudentProp, studentsDataProp, .
     const messageContext = useContext(MessageContext);
 
     const deleteStudent = () => {
-        StudetnClassServices.destroy(selectedStudentProp.selectedStudent)
+        studentClassServices.destroy(selectedStudentProp.selectedStudent)
         .then(data => {
             studentsDataProp.setStudents(studentsDataProp.students.filter(s => s.id != selectedStudentProp.selectedStudent));
             closeModal();

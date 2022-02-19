@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -35,6 +35,7 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 import SubjectGradeItem from './SubjectGradeItem';
 import studentClassServices from '../../services/student-class';
+import subjectServices from '../../services/subjects';
 
 const StudentsClassAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
@@ -47,8 +48,30 @@ const StudentsClassAddForm = ({ rest }) => {
     const [documentDate, setDocumentDate] = useState(null);
     const [inDate, setInDate] = useState(null);
     const [equivalenceExamsDate, setEquivalenceExamsDate] = useState(null);
+    const [subjects, setSubjects] = useState([]);
     const scrollToEquivalenceExams = useRef(null);
     const scrollToGrades = useRef(null);
+
+    useEffect(() => {
+        subjectServices.getAll()
+        .then(data => {
+            let arr = [];
+
+            data.forEach((subj) => {
+                arr.push({
+                    label: subj.name,
+                    id: subj.id,
+                });
+            })
+            
+            setSubjects(arr);
+        })
+        .catch(err => {
+            if (err.message === 'Unauthorized') {
+                navigate('/login');
+            }
+        })
+    }, [])
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for (let key in values) {
@@ -604,6 +627,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                                             <SubjectGradeItem
                                                                 key={index}
                                                                 mode="equivalenceExams"
+                                                                subjects={subjects}
                                                                 props={
                                                                     {
                                                                         arrayHelpers,
@@ -614,6 +638,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                                                         index,
                                                                         handleBlur,
                                                                         handleChange,
+                                                                        setFieldValue,
                                                                         scrollTo: scrollToEquivalenceExams
                                                                     }
                                                                 }
@@ -641,6 +666,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                                     <SubjectGradeItem
                                                         key={index}
                                                         mode="grades"
+                                                        subjects={subjects}
                                                         props={
                                                             {
                                                                 arrayHelpers,
@@ -651,6 +677,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                                                 index,
                                                                 handleBlur,
                                                                 handleChange,
+                                                                setFieldValue,
                                                                 scrollTo: scrollToGrades
                                                             }
                                                         }

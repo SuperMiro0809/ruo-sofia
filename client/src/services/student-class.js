@@ -50,11 +50,11 @@ function destroy(id) {
     })
 }
 
-const StudetnClassServices = {
+const StudentClassServices = {
     getAll,
     create,
     findByEgn,
     destroy
 }
 
-export default StudetnClassServices;
+export default StudentClassServices;
