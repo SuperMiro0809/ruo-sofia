@@ -15,17 +15,12 @@ class TeacherController extends Controller
 {
     public function index(Request $request) {
         $fullName = $request->query('fullName', '');
-        $teachers = Teacher::where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $fullName)->get();
-
-        foreach ($teachers as $t) {
-            $t->application;
-
-            foreach($t->application as $a) {
-                $a->teaching;
-                $a->report;
-                $a->publication;
-            }
-        }
+        $teachers = Teacher::where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $fullName)
+            ->with('application')
+            ->with('application.teaching')
+            ->with('application.report')
+            ->with('application.publication')
+            ->get();
 
         return $teachers;
     }

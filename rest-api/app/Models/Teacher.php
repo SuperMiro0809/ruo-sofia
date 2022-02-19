@@ -15,6 +15,7 @@ class Teacher extends Model
     ];
 
     public function application() {
-        return $this->belongsToJson('App\Models\Application', 'applications->application_ids');
+        //return $this->belongsToJson('App\Models\Application', 'applications->application_ids');
+        return $this->hasMany('App\Models\Application');
     }
 }
