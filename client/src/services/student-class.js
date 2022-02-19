@@ -26,9 +26,21 @@ function create(data) {
     })
 }
 
+function findByEgn(egn) {
+    return fetch(`${services.url}/students-class/${egn}?token=${localStorage.getItem('token')}`)
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        } 
+    })
+}
+
 const StudetnClassServices = {
     getAll,
-    create
+    create,
+    findByEgn
 }
 
 export default StudetnClassServices;

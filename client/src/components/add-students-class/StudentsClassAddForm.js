@@ -15,7 +15,15 @@ import {
     InputLabel,
     FormControl,
     FormHelperText,
+    InputAdornment,
+    CircularProgress,
+    Tooltip,
+    Zoom
 } from '@material-ui/core';
+import {
+    Check as CheckIcon,
+    Close as CloseIcon
+} from '@material-ui/icons';
 import {
     DatePicker,
     LocalizationProvider
@@ -31,6 +39,9 @@ import studentClassServices from '../../services/student-class';
 const StudentsClassAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
+    const [student, setStudent] = useState(false);
+    const [studentId, setStudentId] = useState();
+    const [search, setSearch] = useState(false);
     const [dateOut, setDateOut] = useState(null);
     const [dateOfBirth, setDateOfBirth] = useState(null);
     const [documentDate, setDocumentDate] = useState(null);
@@ -80,6 +91,37 @@ const StudentsClassAddForm = ({ rest }) => {
 
         if (isSubmitting) {
             return true;
+        }
+
+        return false;
+    }
+
+    const findByEgn = (egn, setFieldValue) => {
+        studentClassServices.findByEgn(egn)
+            .then(data => {
+                setSearch(false);
+                if (data.length === 1) {
+                    const student = data[0];
+                    setStudent(true);
+                    setStudentId(student.id);
+                    setFieldValue('name', student.name);
+                    setDateOfBirth(student.dateOfBirth);
+                    setFieldValue('dateOfBirth', student.dateOfBirth);
+                    setFieldValue('citizenship', student.citizenship);
+                    setFieldValue('school', student.school);
+                    setFieldValue('cityAndCountry', student.cityAndCountry);
+                }
+            })
+            .catch(err => {
+                if (err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
+    }
+
+    const checkIfEgnIsCorrect = (egn) => {
+        if (egn.length === 10 && !isNaN(Number(egn))) {
+            return true
         }
 
         return false;
@@ -161,6 +203,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                 if (!values.equivalenceExamsDate) {
                                     data.equivalenceExams = [];
                                 }
+                                data = student ? { studentId, ...data } : data;
 
                                 studentClassServices.create(data)
                                     .then(r => {
@@ -265,10 +308,51 @@ const StudentsClassAddForm = ({ rest }) => {
                                                 margin="normal"
                                                 name="egn"
                                                 onBlur={handleBlur}
-                                                onChange={handleChange}
+                                                onChange={e => {
+                                                    handleChange(e);
+                                                    const currentEgnValue = e.currentTarget.value;
+
+                                                    if (checkIfEgnIsCorrect(currentEgnValue)) {
+                                                        setSearch(true);
+                                                        findByEgn(currentEgnValue, setFieldValue);
+                                                    } else {
+                                                        setStudent(false);
+                                                        setStudentId(null);
+                                                        setFieldValue('name', '');
+                                                        setDateOfBirth(null);
+                                                        setFieldValue('dateOfBirth', '');
+                                                        setFieldValue('citizenship', '');
+                                                        setFieldValue('school', '');
+                                                        setFieldValue('cityAndCountry', '');
+                                                    }
+                                                }}
                                                 type="text"
                                                 value={values.egn}
                                                 variant="outlined"
+                                                InputProps={{
+                                                    endAdornment: <InputAdornment position="end">
+                                                        {checkIfEgnIsCorrect(values.egn) &&
+                                                            <>
+                                                                {search ?
+                                                                    <CircularProgress size="28px" />
+                                                                    :
+                                                                    <>
+                                                                        {student ?
+                                                                            <Tooltip TransitionComponent={Zoom} open={student} title="Ученикът е въведен" arrow>
+                                                                                <CheckIcon sx={{ color: "rgb(76, 175, 80)" }} />
+                                                                            </Tooltip>
+                                                                            :
+                                                                            <Tooltip TransitionComponent={Zoom} open={!student} title="Ученикът не е въведен" arrow>
+                                                                                <CloseIcon sx={{ color: "rgb(239, 83, 80)" }} />
+                                                                            </Tooltip>
+                                                                        }
+                                                                    </>
+
+                                                                }
+                                                            </>
+                                                        }
+                                                    </InputAdornment>
+                                                }}
                                             />
                                         </Grid>
                                         <Grid item xs={12} lg={6}>
@@ -481,9 +565,9 @@ const StudentsClassAddForm = ({ rest }) => {
                                             value={equivalenceExamsDate}
                                             onChange={(newValue) => {
                                                 console.log(newValue);
-                                                if(newValue) {
+                                                if (newValue) {
                                                     setFieldValue('equivalenceExamsDate', moment(newValue).format('YYYY/MM/DD'))
-                                                }else {
+                                                } else {
                                                     setFieldValue('equivalenceExamsDate', '');
                                                 }
                                                 setEquivalenceExamsDate(newValue)

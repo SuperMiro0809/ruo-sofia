@@ -53,6 +53,7 @@ Route::group([
     Route::get('/teachers/certificates', [TeacherController::class, 'certificates']);
 
     Route::get('/students-class', [StudentClassController::class, 'index']);
+    Route::get('/students-class/{egn}', [StudentClassController::class, 'findByEgn']);
     Route::post('/students-class', [StudentClassController::class, 'store']);
 
     Route::get('/committe', [CommitteController::class, 'index']);

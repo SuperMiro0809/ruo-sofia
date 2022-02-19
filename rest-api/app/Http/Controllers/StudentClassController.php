@@ -10,17 +10,18 @@ use App\Models\StudentClassApplication;
 class StudentClassController extends Controller
 {
     public function index() {
-        $students = StudentClass::all();
-
-        foreach($students as $student) {
-            $student->application;
-        }
+        $students = StudentClass::with('application')->get();
 
         return $students;
     }
 
     public function store(Request $request) {
-        $student = new StudentClass();
+        if(isset($request->studentId)) {
+            $student = StudentClass::find($request->studentId);
+        }else {
+            $student = new StudentClass();
+        }
+
         $student->name = $request->name;
         $student->egn = $request->egn;
         $student->dateOfBirth = $request->dateOfBirth;
@@ -47,6 +48,11 @@ class StudentClassController extends Controller
         $application->save();
 
         return response()->json(['message' => 'Created']);
+    }
 
+    public function findByEgn($egn) {
+        $student = StudentClass::where('egn', $egn)->get();
+
+        return $student;
     }
 }
