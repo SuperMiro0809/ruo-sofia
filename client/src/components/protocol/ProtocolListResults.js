@@ -30,14 +30,15 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
   const [selectedProtocol, setSelectedProtocol] = useState(0);
 
   let openProp = { open, setOpen };
-  let selectedProtocolProp = { selectedProtocol, setSelectedProtocol }
+  let selectedProtocolProp = { selectedProtocol, setSelectedProtocol };
+  let protocolsDataProp = { protocols, setProtocols };
 
   useEffect(() => {
     if(!open) {
       setLoader(true);
     }
     getProtocols();
-  }, [open, number, startDate, endDate])
+  }, [number, startDate, endDate])
 
   const getProtocols = () => {
     protocolServices.getAll({number, startDate, endDate})
@@ -63,7 +64,7 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
 
   return (
     <Card {...props}>
-      <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
+      <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} protocolsDataProp={protocolsDataProp} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>

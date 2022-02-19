@@ -32,13 +32,14 @@ const TeacherListResults = ({search, teachers, setTeachers}, ...props) => {
 
   let openProp = { open, setOpen };
   let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher }
+  let teachersDataProp = { teachers, setTeachers };
 
   useEffect(() => {
     if(!open) {
       setLoader(true);
     }
     getTeachers();
-  }, [open, search])
+  }, [search])
 
   const getTeachers = () => {
     teacherServices.getAll(search)
@@ -72,7 +73,7 @@ const TeacherListResults = ({search, teachers, setTeachers}, ...props) => {
 
   return (
     <Card {...props}>
-      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
+      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} teachersDataProp={teachersDataProp}/>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>

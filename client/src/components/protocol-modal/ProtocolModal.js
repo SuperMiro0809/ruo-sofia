@@ -18,13 +18,14 @@ const style = {
     p: 3
 };
 
-const ProtocolModal = ({ openProp, selectedProtocolProp, ...rest }) => {
+const ProtocolModal = ({ openProp, selectedProtocolProp, protocolsDataProp, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 
     const deleteCustomer = () => {
         protocolServices.destroy(selectedProtocolProp.selectedProtocol)
         .then(data => {
+          protocolsDataProp.setProtocols(protocolsDataProp.protocols.filter(p => p.id != selectedProtocolProp.selectedProtocol));
           closeModal();
           console.log(data);
           messageContext[1]({ status: 'success', text: 'Протоколът е изтрит успешно!' })
