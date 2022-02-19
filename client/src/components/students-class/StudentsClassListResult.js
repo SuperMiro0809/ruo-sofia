@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import StudentsClassListItem from './StudentsClassListItem';
 import studentClassServices from '../../services/student-class';
+import StudentsClassModal from '../students-class-modal/StudentsClassModal';
 
 const TeacherListResults = ({ }, ...props) => {
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ const TeacherListResults = ({ }, ...props) => {
 
     let openProp = { open, setOpen };
     let selectedStudentProp = { selectedStudent: selectedStudent, setSelectedStudent }
+    let studentsDataProp = {students, setStudents};
 
     useEffect(() => {
         if (!open) {
@@ -60,6 +62,7 @@ const TeacherListResults = ({ }, ...props) => {
 
     return (
         <Card {...props}>
+            <StudentsClassModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>

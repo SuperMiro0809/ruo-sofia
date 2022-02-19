@@ -55,4 +55,13 @@ class StudentClassController extends Controller
 
         return $student;
     }
+
+    public function destroy($id) {
+        $student = StudentClass::find($id);
+        
+        $student->application()->delete();
+        $student->delete();
+
+        return response()->json(['message' => 'Deleted']);
+    }
 }

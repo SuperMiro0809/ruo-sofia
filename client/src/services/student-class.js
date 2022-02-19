@@ -37,10 +37,24 @@ function findByEgn(egn) {
     })
 }
 
+function destroy(id) {
+    return fetch(`${services.url}/students-class/${id}?token=${localStorage.getItem('token')}`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            return new Error('Unauthorized');
+        }
+    })
+}
+
 const StudetnClassServices = {
     getAll,
     create,
-    findByEgn
+    findByEgn,
+    destroy
 }
 
 export default StudetnClassServices;
