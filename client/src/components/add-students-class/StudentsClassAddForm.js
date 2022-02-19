@@ -246,61 +246,6 @@ const StudentsClassAddForm = ({ rest }) => {
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} lg={6}>
                                             <TextField
-                                                error={Boolean(touched.registerNumber && errors.registerNumber)}
-                                                fullWidth
-                                                helperText={touched.registerNumber && errors.registerNumber}
-                                                label="Регистрационен №"
-                                                margin="normal"
-                                                name="registerNumber"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                type="text"
-                                                value={values.registerNumber}
-                                                variant="outlined"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} lg={6}>
-                                            <LocalizationProvider locale={bg} dateAdapter={AdapterDateFns}>
-                                                <DatePicker
-                                                    inputFormat="dd/MM/yyyy"
-                                                    label="Дата на издаване"
-                                                    value={dateOut}
-                                                    onChange={(newValue) => {
-                                                        setFieldValue('dateOut', moment(newValue).format('YYYY/MM/DD'))
-                                                        setDateOut(newValue)
-                                                    }}
-                                                    renderInput={(params) => {
-                                                        params.error = Boolean(touched.dateOut && errors.dateOut);
-                                                        return (<TextField
-                                                            name="dateOut"
-                                                            helperText={touched.dateOut && errors.dateOut}
-                                                            margin="normal"
-                                                            onBlur={handleBlur}
-                                                            fullWidth
-                                                            {...params}
-                                                        />)
-                                                    }
-                                                    }
-                                                />
-                                            </LocalizationProvider>
-                                        </Grid>
-                                    </Grid>
-                                    <TextField
-                                        error={Boolean(touched.name && errors.name)}
-                                        fullWidth
-                                        helperText={touched.name && errors.name}
-                                        label="Име"
-                                        margin="normal"
-                                        name="name"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        type="text"
-                                        value={values.name}
-                                        variant="outlined"
-                                    />
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} lg={6}>
-                                            <TextField
                                                 error={Boolean(touched.egn && errors.egn)}
                                                 fullWidth
                                                 helperText={touched.egn && errors.egn}
@@ -381,6 +326,61 @@ const StudentsClassAddForm = ({ rest }) => {
                                             </LocalizationProvider>
                                         </Grid>
                                     </Grid>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} lg={6}>
+                                            <TextField
+                                                error={Boolean(touched.registerNumber && errors.registerNumber)}
+                                                fullWidth
+                                                helperText={touched.registerNumber && errors.registerNumber}
+                                                label="Регистрационен №"
+                                                margin="normal"
+                                                name="registerNumber"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                type="text"
+                                                value={values.registerNumber}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} lg={6}>
+                                            <LocalizationProvider locale={bg} dateAdapter={AdapterDateFns}>
+                                                <DatePicker
+                                                    inputFormat="dd/MM/yyyy"
+                                                    label="Дата на издаване"
+                                                    value={dateOut}
+                                                    onChange={(newValue) => {
+                                                        setFieldValue('dateOut', moment(newValue).format('YYYY/MM/DD'))
+                                                        setDateOut(newValue)
+                                                    }}
+                                                    renderInput={(params) => {
+                                                        params.error = Boolean(touched.dateOut && errors.dateOut);
+                                                        return (<TextField
+                                                            name="dateOut"
+                                                            helperText={touched.dateOut && errors.dateOut}
+                                                            margin="normal"
+                                                            onBlur={handleBlur}
+                                                            fullWidth
+                                                            {...params}
+                                                        />)
+                                                    }
+                                                    }
+                                                />
+                                            </LocalizationProvider>
+                                        </Grid>
+                                    </Grid>
+                                    <TextField
+                                        error={Boolean(touched.name && errors.name)}
+                                        fullWidth
+                                        helperText={touched.name && errors.name}
+                                        label="Име"
+                                        margin="normal"
+                                        name="name"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        type="text"
+                                        value={values.name}
+                                        variant="outlined"
+                                    />
                                     <TextField
                                         error={Boolean(touched.citizenship && errors.citizenship)}
                                         fullWidth
