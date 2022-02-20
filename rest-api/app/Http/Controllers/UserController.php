@@ -96,6 +96,7 @@ class UserController extends Controller
     }
 
     public function uploadAvatar(Request $request) {
+        //$path = $request->file('avatar')->store('avatars', ['disc' => 'public']);
         $path = $request->file('avatar')->store('public/avatars');
         $pieces = explode("/", $path);
         $filename = $pieces[count($pieces) - 1];
@@ -103,6 +104,7 @@ class UserController extends Controller
         $userId = auth()->user()->id;
         $user = User::findOrFail($userId);
         if ($user->avatar) {
+            //Storage::delete('/avatars/' . $user->avatar);
             Storage::delete('/public/avatars/' . $user->avatar);
         }
 
@@ -115,6 +117,7 @@ class UserController extends Controller
     public function deleteAvatar() {
         $userId = auth()->user()->id;
         $user = User::findOrFail($userId);
+        //Storage::delete('/avatars/' . $user->avatar);
         Storage::delete('/public/avatars/' . $user->avatar);
         $user->avatar = '';
         $user->save();

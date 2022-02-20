@@ -1,5 +1,6 @@
 import './AccountProfile.scss';
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import {
   Avatar,
@@ -33,6 +34,7 @@ const Input = styled('input')({
 });
 
 const AccountProfile = (props) => {
+  const navigate = useNavigate();
   const userContext = useContext(UserContext);
   const messageContext = useContext(MessageContext);
   const [selectedFile, setSelectedFile] = useState();
@@ -53,6 +55,11 @@ const AccountProfile = (props) => {
           clearInterval(interval);
         }, 2000)
       })
+      .catch(err => {
+        if (err.message === 'Unauthorized') {
+          navigate('/login');
+        }
+      })
   }
 
   const removeImage = () => {
@@ -64,6 +71,11 @@ const AccountProfile = (props) => {
           messageContext[1]('');
           clearInterval(interval);
         }, 2000)
+      })
+      .catch(err => {
+        if (err.message === 'Unauthorized') {
+            navigate('/login');
+        }
       })
   }
 
