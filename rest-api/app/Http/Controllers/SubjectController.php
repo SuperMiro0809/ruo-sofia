@@ -12,4 +12,13 @@ class SubjectController extends Controller
 
         return $subjects;
     }
+
+    public function save(Request $request) {
+        $subject = new Subject();
+        $subject->name = $request->name;
+
+        $subject->save();
+
+        return response()->json(['message' => 'Created']);
+    }
 }

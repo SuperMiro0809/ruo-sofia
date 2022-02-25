@@ -22,6 +22,7 @@ import ApplicationAdd from './pages/ApplicationAdd';
 import CommitteList from './pages/CommitteList';
 import StudentClassList from './pages/StudentClassList';
 import StudentClassAdd from './pages/StudentClassAdd';
+import SubjectList from './pages/SubjectList';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -80,7 +81,14 @@ const routes = [
           { path: '/add', element: <StudentClassAdd /> }
         ]
       },
-      { path: 'settings/committe', element: <CommitteList /> },
+      { 
+        path: 'settings', 
+        element: <Layout />,
+        children: [
+          { path: '/committe', element: <CommitteList /> },
+          { path: '/subjects', element: <SubjectList /> }
+        ]
+      },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> }
       // { path: 'users', element: <RoleRoute role="Administrator" component={CustomerList} /> },

@@ -106,6 +106,11 @@ const dropDownSettings = {
       href: '/app/settings/committe',
       icon: CommitteIcon,
       title: 'Комисия'
+    },
+    {
+      href: '/app/settings/subjects',
+      icon: CommitteIcon,
+      title: 'Предмети'
     }
   ]
 }

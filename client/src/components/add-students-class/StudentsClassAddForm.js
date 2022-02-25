@@ -36,6 +36,7 @@ import { bg } from 'date-fns/locale';
 import SubjectGradeItem from './SubjectGradeItem';
 import studentClassServices from '../../services/student-class';
 import subjectServices from '../../services/subjects';
+import AddSubjectModal from './AddSubjectModal';
 
 const StudentsClassAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
@@ -49,29 +50,31 @@ const StudentsClassAddForm = ({ rest }) => {
     const [inDate, setInDate] = useState(null);
     const [equivalenceExamsDate, setEquivalenceExamsDate] = useState(null);
     const [subjects, setSubjects] = useState([]);
+    const [openSubjectModal, setOpenSubjectModal] = useState(false);
     const scrollToEquivalenceExams = useRef(null);
     const scrollToGrades = useRef(null);
+    const openSubjectModalProp = { openSubjectModal, setOpenSubjectModal };
 
     useEffect(() => {
         subjectServices.getAll()
-        .then(data => {
-            let arr = [];
+            .then(data => {
+                let arr = [];
 
-            data.forEach((subj) => {
-                arr.push({
-                    label: subj.name,
-                    id: subj.id,
-                });
+                data.forEach((subj) => {
+                    arr.push({
+                        label: subj.name,
+                        id: subj.id,
+                    });
+                })
+
+                setSubjects(arr);
             })
-            
-            setSubjects(arr);
-        })
-        .catch(err => {
-            if (err.message === 'Unauthorized') {
-                navigate('/login');
-            }
-        })
-    }, [])
+            .catch(err => {
+                if (err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
+    }, [openSubjectModal])
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for (let key in values) {
@@ -152,6 +155,7 @@ const StudentsClassAddForm = ({ rest }) => {
 
     return (
         <Card {...rest}>
+            <AddSubjectModal openSubjectModalProp={openSubjectModalProp} />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <Container maxWidth="1050">
@@ -650,13 +654,20 @@ const StudentsClassAddForm = ({ rest }) => {
                                             />
                                         </>
                                     }
-                                    <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
+                                    <Box sx={{ mb: 1, mt: 2, ml: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography
                                             color="textPrimary"
                                             variant="h4"
                                         >
                                             Признати оценки по предмети
                                         </Typography>
+                                        <Button
+                                            color="primary"
+                                            variant="contained"
+                                            onClick={() => setOpenSubjectModal(true)}
+                                        >
+                                            Добaви предмет
+                                        </Button>
                                     </Box>
                                     <FieldArray
                                         name="grades"

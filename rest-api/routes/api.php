@@ -59,6 +59,7 @@ Route::group([
     Route::post('/students-class', [StudentClassController::class, 'store']);
 
     Route::get('/subjects', [SubjectController::class, 'index']);
+    Route::post('/subjects', [SubjectController::class, 'save']);
 
     Route::get('/committe', [CommitteController::class, 'index']);
     Route::put('/committe', [CommitteController::class, 'save']);
