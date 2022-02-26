@@ -9,18 +9,26 @@ import {
     SvgIcon,
     Grid
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
+import { 
+    Search as SearchIcon,
+    User as EgnIcon
+} from 'react-feather';
 import { NavLink as RouterLink } from 'react-router-dom';
 
-const StudentsClassListToolbar = (props) => {
-    const [value, setValue] = useState('');
+const StudentsClassListToolbar = ({ setSearchName, setSearchEgn }, props) => {
+    const [name, setName] = useState('');
+    const [egn, setEgn] = useState('');
 
     const handleSearch = () => {
-
+        setSearchName(name);
+        setSearchEgn(egn);
     }
 
     const handleReset = () => {
-        setValue('');
+        setName('');
+        setEgn('');
+        setSearchName(null);
+        setSearchEgn(null);
     }
 
     return (
@@ -45,14 +53,14 @@ const StudentsClassListToolbar = (props) => {
                 <Card>
                     <CardContent>
                         <Grid container spacing={1}>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={3}>
                                 <TextField
                                     fullWidth
                                     sx={{ height: '100%' }}
                                     size="small"
-                                    value={value}
+                                    value={name}
                                     onChange={event => {
-                                        setValue(event.currentTarget.value);
+                                        setName(event.currentTarget.value);
                                     }}
                                     InputProps={{
                                         startAdornment: (
@@ -70,7 +78,32 @@ const StudentsClassListToolbar = (props) => {
                                     variant="outlined"
                                 />
                             </Grid>
-                            <Grid item xs={12} lg={4} >
+                            <Grid item xs={12} lg={3}>
+                                <TextField
+                                    fullWidth
+                                    sx={{ height: '100%' }}
+                                    size="small"
+                                    value={egn}
+                                    onChange={event => {
+                                        setEgn(event.currentTarget.value);
+                                    }}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SvgIcon
+                                                    fontSize="small"
+                                                    color="action"
+                                                >
+                                                    <EgnIcon />
+                                                </SvgIcon>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    placeholder="ЕГН"
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={3} >
                                 <Button
                                     fullWidth
                                     onClick={handleSearch}
@@ -81,7 +114,7 @@ const StudentsClassListToolbar = (props) => {
                                     Търси
                                 </Button>
                             </Grid>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={3}>
                                 <Button
                                     className="reset-button"
                                     fullWidth

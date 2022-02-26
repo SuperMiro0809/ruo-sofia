@@ -18,7 +18,7 @@ import StudentsClassListItem from './StudentsClassListItem';
 import studentClassServices from '../../services/student-class';
 import StudentsClassModal from '../students-class-modal/StudentsClassModal';
 
-const TeacherListResults = ({ }, ...props) => {
+const TeacherListResults = ({ searchName, searchEgn }, ...props) => {
     const navigate = useNavigate();
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
@@ -36,10 +36,14 @@ const TeacherListResults = ({ }, ...props) => {
             setLoader(true);
         }
         getStudents();
-    }, [])
+    }, [searchName, searchEgn])
 
     const getStudents = () => {
-        studentClassServices.getAll()
+        if(searchName || searchEgn) {
+            setPage(0);
+        }
+
+        studentClassServices.getAll(searchName, searchEgn)
             .then(data => {
                 console.log(data);
                 setStudents(data);

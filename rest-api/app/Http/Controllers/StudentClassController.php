@@ -9,10 +9,16 @@ use App\Models\StudentClassApplication;
 
 class StudentClassController extends Controller
 {
-    public function index() {
-        $students = StudentClass::with('application')->get();
+    public function index(Request $request) {
+        $name = $request->query('name', '');
+        $students = StudentClass::with('application')->where('name', 'regexp', $name);
 
-        return $students;
+        if($request->has('egn')) {
+            $students->where('egn', $request->query('egn'));
+        }
+        $egn = $request->query('egn', '');
+            
+        return $students->get();
     }
 
     public function store(Request $request) {

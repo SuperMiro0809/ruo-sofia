@@ -5,6 +5,8 @@ import StudentsClassListResult from '../components/students-class/StudentsClassL
 import StudentsClassListToolbar from '../components/students-class/StudentsClassListToolbar';
 
 const StudentClassList = () => {
+    const [searchName, setSearchName] = useState(null);
+    const [searchEgn, setSearchEgn] = useState(null);
     return (
         <>
             <Helmet>
@@ -18,9 +20,9 @@ const StudentClassList = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <StudentsClassListToolbar />
+                    <StudentsClassListToolbar setSearchName={setSearchName} setSearchEgn={setSearchEgn}/>
                     <Box sx={{ pt: 3 }}>
-                        <StudentsClassListResult />
+                        <StudentsClassListResult searchName={searchName} searchEgn={searchEgn}/>
                     </Box>
                 </Container>
             </Box>
