@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import SubjectsListResult from '../components/subjects/SubjectsListResult';
+import SubjectsListResult from '../components/subjects/SubjectListResult';
 import SubjectListToolbar from '../components/subjects/SubjectListToolbar';
 
 const SubjectList = () => {
     const [openSubjectModal, setOpenSubjectModal] = useState(false);
+    const [search, setSearch] = useState(null);
     const openSubjectModalProp = { openSubjectModal, setOpenSubjectModal };
 
     return (
@@ -21,9 +22,9 @@ const SubjectList = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <SubjectListToolbar openSubjectModalProp={openSubjectModalProp} />
+                    <SubjectListToolbar openSubjectModalProp={openSubjectModalProp} setSearch={setSearch}/>
                     <Box sx={{ pt: 3 }}>
-                        <SubjectsListResult openSubjectModalProp={openSubjectModalProp} />
+                        <SubjectsListResult openSubjectModalProp={openSubjectModalProp} search={search}/>
                     </Box>
                 </Container>
             </Box>

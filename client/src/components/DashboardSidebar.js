@@ -24,6 +24,7 @@ import {
   faCog as SettingsIcon,
   faUserFriends as CommitteIcon,
   faChartBar as ReferenceIcon,
+  faBook as SubjectIcon
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
@@ -109,7 +110,7 @@ const dropDownSettings = {
     },
     {
       href: '/app/settings/subjects',
-      icon: CommitteIcon,
+      icon: SubjectIcon,
       title: 'Предмети'
     }
   ]

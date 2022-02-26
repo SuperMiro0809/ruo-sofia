@@ -10,12 +10,17 @@ const TeacherEdit = () => {
     const navigate = useNavigate();
     const [teachers, setTeachers] = useState([]);
     const [loader, setLoader] = useState(true);
+    const [page, setPage]= useState(0);
 
     useEffect(() => {
         getTeachers();
     }, []);
 
     const getTeachers = (search) => {
+        if(search) {
+            setPage(0);
+        }
+
         teacherServices.getAll(search)
             .then(data => {
                 const teacherData = [];
@@ -68,7 +73,7 @@ const TeacherEdit = () => {
                     <Box sx={{ pt: 3 }}>
                         <TeacherCertificateToolbar getTeachers={getTeachers} setLoader={setLoader}/>
                         <Box sx={{ pt: 3 }}>
-                            <TeachersCertificateListResult loader={loader} teachers={teachers} />
+                            <TeachersCertificateListResult loader={loader} teachers={teachers} page={page} setPage={setPage} />
                         </Box>
                     </Box>
                 </Container>

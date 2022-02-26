@@ -41,6 +41,9 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
   }, [number, startDate, endDate])
 
   const getProtocols = () => {
+    if(number || startDate || endDate) {
+      setPage(0);
+    }
     protocolServices.getAll({number, startDate, endDate})
       .then(data => {
         console.log(data);

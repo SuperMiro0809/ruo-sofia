@@ -21,12 +21,12 @@ import * as Yup from 'yup';
 import { Formik, FieldArray, getIn } from 'formik';
 import subjectServices from '../../services/subjects';
 import MessageContext from '../../contexts/MessageContext';
-import SubjectListItem from './SubjectsListItem';
+import SubjectListItem from './SubjectListItem';
 import AddSubjectModal from '../subject-modals/AddSubjectModal';
 import DeleteSubjectModal from '../subject-modals/DeleteSubjectModal';
 import EditSubjectModal from '../subject-modals/EditSubjectModal';
 
-const SubjectsListResult = ({openSubjectModalProp, ...rest }) => {
+const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
     const [subjects, setSubjects] = useState([]);
@@ -42,11 +42,14 @@ const SubjectsListResult = ({openSubjectModalProp, ...rest }) => {
 
     useEffect(() => {
         loadSubjects();
-    }, []);
+    }, [search]);
 
     const loadSubjects = () => {
         setLoader(true);
-        subjectServices.getAll()
+        if(search) {
+            setPage(0);
+        }
+        subjectServices.getAll(search)
             .then(data => {
                 setSubjects(data);
                 setLoader(false);

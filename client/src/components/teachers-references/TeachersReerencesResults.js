@@ -25,10 +25,10 @@ import teacherServices from '../../services/teacher';
 import ProtocolsReference from './References/Protocols/ProtocolsReference';
 import CertificatesReferene from './References/Certificates/CertificatesReference';
 
-const TeachersReferencesResults = ({ loader, data, mode, setMode }, ...props) => {
+const TeachersReferencesResults = ({ loader, data, mode, setMode, page, setPage }, ...props) => {
   const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
+
   const modes = {
     protocols: 'Протоколи',
     certificates: 'Удостоверения'

@@ -7,8 +7,9 @@ use App\Models\Subject;
 
 class SubjectController extends Controller
 {
-    public function index() {
-        $subjects = Subject::all();
+    public function index(Request $request) {
+        $name = $request->query('name', '');
+        $subjects = Subject::where('name', 'regexp', $name)->get();
 
         return $subjects;
     }

@@ -16,9 +16,11 @@ const TeacherReference = () => {
     const [protocols, setProtocols] = useState([]);
     const [mode, setMode] = useState('protocols');
     const [loader, setLoader] = useState(true);
+    const [page, setPage] = useState(0);
 
     useEffect(() => {
         setLoader(true);
+        setPage(0);
         if (mode === 'certificates') {
             teacherServices.getCertificates(startDate, endDate)
                 .then(data => {
@@ -68,7 +70,7 @@ const TeacherReference = () => {
                 <Container maxWidth={false}>
                     <TeachersReferencesToolbar setStartDate={setStartDate} setEndDate={setEndDate} data={mode === 'certificates' ? certificates : protocols} mode={mode} />
                     <Box sx={{ pt: 3 }} className="TeachersReferencesResults">
-                        <TeachersReferencesResults loader={loader} data={mode === 'certificates' ? certificates : protocols} mode={mode} setMode={setMode} />
+                        <TeachersReferencesResults loader={loader} data={mode === 'certificates' ? certificates : protocols} mode={mode} setMode={setMode} page={page} setPage={setPage}/>
                     </Box>
                 </Container>
             </Box>

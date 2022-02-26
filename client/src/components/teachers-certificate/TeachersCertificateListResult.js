@@ -15,9 +15,8 @@ import {
 } from '@material-ui/core';
 import TeacherCertificateListItem from './TeachersCertificateListItem';
 
-const TeacherCertificateListResult = ({teachers, loader}, ...props) => {
+const TeacherCertificateListResult = ({teachers, loader, page, setPage}, ...props) => {
   const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);

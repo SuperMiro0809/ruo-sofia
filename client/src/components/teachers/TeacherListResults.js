@@ -22,7 +22,7 @@ import TeacherListItem from './TeacherListItem';
 import teacherServices from '../../services/teacher';
 import TeacherModal from '../teacher-modal/TeacherModal';
 
-const TeacherListResults = ({search, teachers, setTeachers}, ...props) => {
+const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
   const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -35,13 +35,16 @@ const TeacherListResults = ({search, teachers, setTeachers}, ...props) => {
   let teachersDataProp = { teachers, setTeachers };
 
   useEffect(() => {
-    if(!open) {
+    if (!open) {
       setLoader(true);
     }
     getTeachers();
   }, [search])
 
   const getTeachers = () => {
+    if (search) {
+      setPage(0);
+    }
     teacherServices.getAll(search)
       .then(data => {
         data.forEach(el => {
@@ -73,7 +76,7 @@ const TeacherListResults = ({search, teachers, setTeachers}, ...props) => {
 
   return (
     <Card {...props}>
-      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} teachersDataProp={teachersDataProp}/>
+      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} teachersDataProp={teachersDataProp} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
