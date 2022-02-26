@@ -60,6 +60,8 @@ Route::group([
 
     Route::get('/subjects', [SubjectController::class, 'index']);
     Route::post('/subjects', [SubjectController::class, 'save']);
+    Route::delete('/subjects/{id}', [SubjectController::class, 'destroy']);
+    Route::put('/subjects/{id}', [SubjectController::class, 'edit']);
 
     Route::get('/committe', [CommitteController::class, 'index']);
     Route::put('/committe', [CommitteController::class, 'save']);

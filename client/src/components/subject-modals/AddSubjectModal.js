@@ -22,7 +22,7 @@ const style = {
     width: '500px'
 };
 
-const AddSubjectModal = ({ openSubjectModalProp, ...rest }) => {
+const AddSubjectModal = ({ openSubjectModalProp, loadSubjects, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 
@@ -74,6 +74,7 @@ const AddSubjectModal = ({ openSubjectModalProp, ...rest }) => {
                                     clearInterval(interval);
                                 }, 2000)
                                 setSubmitting(false);
+                                loadSubjects();
                                 openSubjectModalProp.setOpenSubjectModal(false);
                             })
                             .catch(err => {

@@ -2,166 +2,138 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Box,
-  Card,
-  Typography,
-  TextField,
-  Button,
-  Container
+    Box,
+    Card,
+    Typography,
+    TextField,
+    Button,
+    Container,
+    TableContainer,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+    TablePagination,
+    CircularProgress
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Formik, FieldArray, getIn } from 'formik';
 import subjectServices from '../../services/subjects';
 import MessageContext from '../../contexts/MessageContext';
+import SubjectListItem from './SubjectsListItem';
+import AddSubjectModal from '../subject-modals/AddSubjectModal';
+import DeleteSubjectModal from '../subject-modals/DeleteSubjectModal';
+import EditSubjectModal from '../subject-modals/EditSubjectModal';
 
-const SubjectsListResult = ({ ...rest }) => {
-  const navigate = useNavigate();
-  const messageContext = useContext(MessageContext);
-  const [subjects, setSubjects] = useState([]);
+const SubjectsListResult = ({openSubjectModalProp, ...rest }) => {
+    const navigate = useNavigate();
+    const messageContext = useContext(MessageContext);
+    const [subjects, setSubjects] = useState([]);
+    const [loader, setLoader] = useState(true);
+    const [page, setPage] = useState(0);
+    const [limit, setLimit] = useState(10);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [selectedSubject, setSelectedSubject] = useState(0);
+    const openDeleteModalProp = { openDeleteModal, setOpenDeleteModal };
+    const openEditModalProp = { openEditModal, setOpenEditModal };
+    const selectedSubjectProp = { selectedSubject, setSelectedSubject };
 
-  useEffect(() => {
-    loadSubjects();
-  }, []);
+    useEffect(() => {
+        loadSubjects();
+    }, []);
 
-  const loadSubjects = () => {
-      subjectServices.getAll()
-          .then(data => {
-            setSubjects(data.map(el => el.name));
-          })
-          .catch(err => {
-              if (err.message === 'Unauthorized') {
-                  navigate('/login');
-              }
-          })
-  }
+    const loadSubjects = () => {
+        setLoader(true);
+        subjectServices.getAll()
+            .then(data => {
+                setSubjects(data);
+                setLoader(false);
+            })
+            .catch(err => {
+                if (err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
+    }
 
-//   const disableCreateButton = (isSubmitting, errors, values) => {
-//     if (!values.president) {
-//       return true;
-//     }
+    const handleLimitChange = (event) => {
+        setLimit(event.target.value);
+    };
 
-//     for (let i = 0; i < values.members.length; i++) {
-//       if (!values.members[i]) {
-//         return true;
-//       }
-//     }
+    const handlePageChange = (event, newPage) => {
+        setPage(newPage);
+    };
 
-//     if (errors['members'] || errors.president) {
-//       return true;
-//     }
-
-//     if (isSubmitting) {
-//       return true;
-//     }
-
-//     return false;
-//   }
-
-  return (
-    <Card {...rest}>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Container maxWidth="1050">
-            <Formik
-              initialValues={{
-                subjects: subjects
-              }}
-              validationSchema={Yup.object().shape({
-                subjects: Yup.array().of(Yup.string().required('Предметът е задължителен')),
-              })}
-              onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-
-                // committeServices.create(values)
-                //   .then(data => {
-                //     messageContext[1]({ status: 'success', text: 'Комисията е запазена успешно' });
-                //     const interval = setInterval(function () {
-                //       messageContext[1]('');
-                //       clearInterval(interval);
-                //     }, 2000)
-                //     setSubmitting(false);
-                //   })
-                //   .catch(err => {
-                //     if (err.message === 'Unauthorized') {
-                //       navigate('/login');
-                //     }
-                //     setSubmitting(false);
-                //   })
-              }}
-              enableReinitialize
-              validateOnBlur={true}
-              validateOnChange={false}
-            >
-              {({
-                errors,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-                touched,
-                values
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  <Box sx={{ mb: 3, mt: 3 }}>
-                    <Typography
-                      color="textPrimary"
-                      variant="h3"
-                    >
-                      Предмети
-                    </Typography>
-                  </Box>
-                  <Box sx={{ ml: 2 }}>
-                    <FieldArray
-                      name="subjects"
-                      render={arrayHelpers => (
-                        <>
-                          {values.subjects.map((subject, index) => (
-                            <TextField
-                              error={Boolean(
-                                getIn(touched, `subjects.${index}`) &&
-                                getIn(errors, `subjects.${index}`)
-                              )}
-                              fullWidth
-                              helperText={
-                                getIn(touched, `subjects.${index}`) &&
-                                getIn(errors, `subjects.${index}`)
-                              }
-                              label="Име"
-                              margin="normal"
-                              name={`subjects.${index}`}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              type="text"
-                              value={values.subjects[index]}
-                              variant="outlined"
-                            />
-                          ))}
-                        </>
-                      )}
-                    >
-
-                    </FieldArray>
-                  </Box>
-                  <Box sx={{ py: 2 }}>
-                    <Button
-                      color="primary"
-                      //disabled={disableCreateButton(isSubmitting, errors, values)}
-                      fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                    >
-                      Запазване
-                    </Button>
-                  </Box>
-                </form>
-              )}
-            </Formik>
-          </Container>
-        </Box>
-      </PerfectScrollbar>
-    </Card>
-  );
+    return (
+        <Card {...rest}>
+            <AddSubjectModal openSubjectModalProp={openSubjectModalProp} loadSubjects={loadSubjects} />
+            <DeleteSubjectModal openDeleteModalProp={openDeleteModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={loadSubjects} />
+            <EditSubjectModal openEditModalProp={openEditModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={loadSubjects} />
+            <PerfectScrollbar>
+                <Box sx={{ minWidth: 1050 }}>
+                    <TableContainer>
+                        <Box sx={{
+                            pl: { sm: 2 },
+                            pr: { xs: 1, sm: 1 },
+                            mt: 3,
+                            mb: 1
+                        }}>
+                            <Typography
+                                color="textPrimary"
+                                variant="h3"
+                            >
+                                Предмети
+                            </Typography>
+                        </Box>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        Име
+                                    </TableCell>
+                                    <TableCell>
+                                        Операции
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {loader ?
+                                    <TableRow>
+                                        <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="2"><CircularProgress size="30px" /></TableCell>
+                                    </TableRow>
+                                    :
+                                    <>
+                                        {subjects.length !== 0 ?
+                                            <>
+                                                {subjects.slice(page * limit, page * limit + limit).map((subject, index) => (
+                                                    <SubjectListItem key={index} subject={subject} openDeleteModalProp={openDeleteModalProp} selectedSubjectProp={selectedSubjectProp} openEditModalProp={openEditModalProp} />
+                                                ))}
+                                            </>
+                                            :
+                                            <TableRow>
+                                                <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="2">Няма записи</TableCell>
+                                            </TableRow>
+                                        }
+                                    </>
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
+            </PerfectScrollbar>
+            <TablePagination
+                component="div"
+                count={subjects.length}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleLimitChange}
+                page={page}
+                rowsPerPage={limit}
+                rowsPerPageOptions={[5, 10, 25]}
+            />
+        </Card>
+    );
 };
 
 export default SubjectsListResult;

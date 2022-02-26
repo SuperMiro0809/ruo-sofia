@@ -1,0 +1,36 @@
+.SubjectListItem {
+    .trash-icon, 
+    .edit-icon {
+        font-size: 32px;
+    }
+
+    .trash-icon {
+        color: #f44336;
+    }
+
+    .edit-icon {
+        color: #124682;
+    }
+
+    .edit-icon-wrapper,
+    .trash-icon-wrapper {
+        padding: 0;
+        vertical-align: initial;
+    }
+
+    .edit-icon-wrapper {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .trash-icon-wrapper {
+        margin-right: 10px;
+    }
+
+    .trash-icon-wrapper:hover {
+        background-color: transparent;
+        .trash-icon {
+            filter: brightness(0.5);
+        }
+    }
+}

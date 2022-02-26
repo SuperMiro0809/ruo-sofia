@@ -36,7 +36,7 @@ import { bg } from 'date-fns/locale';
 import SubjectGradeItem from './SubjectGradeItem';
 import studentClassServices from '../../services/student-class';
 import subjectServices from '../../services/subjects';
-import AddSubjectModal from './AddSubjectModal';
+import AddSubjectModal from '../subject-modals/AddSubjectModal';
 
 const StudentsClassAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
@@ -56,6 +56,10 @@ const StudentsClassAddForm = ({ rest }) => {
     const openSubjectModalProp = { openSubjectModal, setOpenSubjectModal };
 
     useEffect(() => {
+        loadSubjects();
+    }, [])
+
+    const loadSubjects = () => {
         subjectServices.getAll()
             .then(data => {
                 let arr = [];
@@ -74,7 +78,7 @@ const StudentsClassAddForm = ({ rest }) => {
                     navigate('/login');
                 }
             })
-    }, [openSubjectModal])
+    }
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for (let key in values) {
@@ -155,7 +159,7 @@ const StudentsClassAddForm = ({ rest }) => {
 
     return (
         <Card {...rest}>
-            <AddSubjectModal openSubjectModalProp={openSubjectModalProp} />
+            <AddSubjectModal openSubjectModalProp={openSubjectModalProp} loadSubjects={loadSubjects}/>
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <Container maxWidth="1050">

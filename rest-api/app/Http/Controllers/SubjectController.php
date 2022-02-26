@@ -21,4 +21,19 @@ class SubjectController extends Controller
 
         return response()->json(['message' => 'Created']);
     }
+
+    public function destroy($id) {
+        Subject::findOrFail($id)->delete();
+
+        return response()->json(['message' => 'Deleted']);
+    }
+
+    public function edit(Request $request, $id) {
+        $subject = Subject::findOrFail($id);
+
+        $subject->name = $request->name;
+        $subject->save();
+
+        return response()->json(['message' => 'Edited']);
+    }
 }
