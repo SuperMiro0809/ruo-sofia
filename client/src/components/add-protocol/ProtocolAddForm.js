@@ -166,6 +166,26 @@ const ProtocolAddForm = ({ rest }) => {
                                                     .required('Квалификационните кредити са задължителни');
                                             }
                                         }),
+                                    })),
+                                    reports: Yup.array().of(Yup.object().shape({
+                                        credits: Yup.number().when('approve', (approve) => {
+                                            if (approve) {
+                                                return Yup.number()
+                                                    .positive('Квалификационните кредити трябва да са положително число')
+                                                    .integer('Квалификационните кредити трябва да са цяло число')
+                                                    .required('Квалификационните кредити са задължителни');
+                                            }
+                                        }),
+                                    })),
+                                    publications: Yup.array().of(Yup.object().shape({
+                                        credits: Yup.number().when('approve', (approve) => {
+                                            if (approve) {
+                                                return Yup.number()
+                                                    .positive('Квалификационните кредити трябва да са положително число')
+                                                    .integer('Квалификационните кредити трябва да са цяло число')
+                                                    .required('Квалификационните кредити са задължителни');
+                                            }
+                                        }),
                                     }))
                                 }))
                             })}
