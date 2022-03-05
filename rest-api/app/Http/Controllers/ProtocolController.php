@@ -164,7 +164,19 @@ class ProtocolController extends Controller
             $application->ruoNumberOut = $appl_value["ruoNumberOut"];
             $application->dateOut = $appl_value["dateOut"];
 
-            $application->save();
+            try {
+                $application->save();
+            } catch(\Exception $e) {
+                $errorCode = $e->errorInfo[1];
+                
+                if($errorCode == 1062){
+                    $time = strtotime($application->date);
+                    $applDate = date("d.m.Y", $time);
+                    return response()->json([
+                        'message'=> "Заявление $application->ruoNumber/$applDate - изходящият номер вече е въведен!"
+                    ], 409);
+                }
+            }
 
             foreach($appl_value["teachings"] as $th=>$th_val) {
                 $th_id = $th_val["id"];
@@ -197,7 +209,17 @@ class ProtocolController extends Controller
             }
         }
 
-        $protocol->save();
+        try {
+            $protocol->save();
+        } catch(\Exception $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            if($errorCode == 1062){
+                return response()->json([
+                    'message'=>'Вече е въведен протокол с този номер!'
+                ], 409);
+            }
+        }
 
         return response()->json(['message' => 'Edited']);
     }

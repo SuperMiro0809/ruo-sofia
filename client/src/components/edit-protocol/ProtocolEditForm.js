@@ -191,10 +191,16 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                                             }, 2000)
                                         })
                                         .catch(err => {
+                                            setSubmitting(false);
                                             if (err.message === 'Unauthorized') {
                                                 navigate('/login');
+                                            }else {
+                                                messageContext[1]({ status: 'error', text: err.message });
+                                                const interval = setInterval(function () {
+                                                    messageContext[1]('');
+                                                    clearInterval(interval);
+                                                }, 3000)
                                             }
-                                            setSubmitting(false);
                                         })
                                 }
                             }}
