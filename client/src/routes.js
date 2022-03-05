@@ -25,6 +25,7 @@ import StudentClassAdd from './pages/StudentClassAdd';
 import SubjectList from './pages/SubjectList';
 import StudentSecondaryList from './pages/StudentSecondaryList';
 import StudentSecondaryAdd from './pages/StudentSecondaryAdd';
+import StudentSecondaryEdit from './pages/StudentSecondaryEdit';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -88,7 +89,8 @@ const routes = [
         element: <RoleRoute role="Education" component={Layout}/>,
         children: [
           { path: '/', element: <StudentSecondaryList /> },
-          { path: '/add', element: <StudentSecondaryAdd /> }
+          { path: '/add', element: <StudentSecondaryAdd /> },
+          { path: '/edit', element: <StudentSecondaryEdit /> }
         ]
       },
       { 

@@ -51,6 +51,8 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
                                 setFieldValue(`${mode}.${index}.subjectName`, '');
                             }
                         }}
+                        value={values[mode][index].subjectName}
+                        isOptionEqualToValue={(option, value) => option.label === value}
                         disablePortal
                         options={subjects}
                         renderInput={(params) => (

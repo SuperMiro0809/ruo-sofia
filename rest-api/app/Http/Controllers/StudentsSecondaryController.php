@@ -60,4 +60,39 @@ class StudentsSecondaryController extends Controller
         $student->delete();
         return response()->json(['message' => 'Deleted']);
     }
+
+    public function edit(Request $request, $id) {
+        $student = StudentSecondary::find($id);
+
+        $student->name = $request->name;
+        $student->egn = $request->egn;
+        $student->dateOfBirth = $request->dateOfBirth;
+        $student->citizenship = $request->citizenship;
+        $student->school = $request->school;
+        $student->cityAndCountry = $request->cityAndCountry;
+        $student->registerNumber = $request->registerNumber;
+        $student->dateOut = $request->dateOut;
+        $student->documentNumber = $request->documentNumber;
+        $student->documentDate = $request->documentDate;
+        $student->inNumber = $request->inNumber;
+        $student->inDate = $request->inDate;
+        $student->admits = $request->admits;
+        $student->profession = $request->profession;
+        $student->speciality = $request->speciality;
+        $student->grades = json_encode($request->grades);
+
+        try {
+            $student->save();
+        } catch(\Exception $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            if($errorCode == 1062){
+                return response()->json([
+                    'message'=>'Вече е въведен ученик с това ЕГН!'
+                ], 409);
+            }
+        }
+
+        return response()->json(['message' => 'Edited']);
+    }
 }

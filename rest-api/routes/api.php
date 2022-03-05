@@ -10,6 +10,7 @@ use App\Http\Controllers\CommitteController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentsSecondaryController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,9 @@ Route::group([
     Route::get('/students-secondary', [StudentsSecondaryController::class, 'index']);
     Route::post('/students-secondary', [StudentsSecondaryController::class, 'store']);
     Route::delete('/students-secondary/{id}', [StudentsSecondaryController::class, 'destroy']);
+    Route::put('/students-secondary/{id}', [StudentsSecondaryController::class, 'edit']);
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
     Route::get('/subjects', [SubjectController::class, 'index']);
     Route::post('/subjects', [SubjectController::class, 'save']);

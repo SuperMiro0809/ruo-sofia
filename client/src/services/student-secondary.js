@@ -49,10 +49,28 @@ function destroy(id) {
     })
 }
 
+function edit(data, id) {
+    return fetch(`${services.url}/students-secondary/${id}?token=${localStorage.getItem('token')}`, {
+        method: 'PUT',
+        headers: services.header2,
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }else if (res.status === 409) {
+            return res.json().then(r => { throw new Error(r.message) })
+        }
+    })
+}
+
 const StudentSecondaryServices = {
     getAll,
     create,
-    destroy
+    destroy,
+    edit
 }
 
 export default StudentSecondaryServices;
