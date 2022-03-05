@@ -16,7 +16,6 @@ class StudentClassController extends Controller
         if($request->has('egn')) {
             $students->where('egn', $request->query('egn'));
         }
-        $egn = $request->query('egn', '');
             
         return $students->get();
     }

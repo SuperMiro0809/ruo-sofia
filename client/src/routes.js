@@ -23,6 +23,8 @@ import CommitteList from './pages/CommitteList';
 import StudentClassList from './pages/StudentClassList';
 import StudentClassAdd from './pages/StudentClassAdd';
 import SubjectList from './pages/SubjectList';
+import StudentSecondaryList from './pages/StudentSecondaryList';
+import StudentSecondaryAdd from './pages/StudentSecondaryAdd';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -79,6 +81,14 @@ const routes = [
         children: [
           { path: '/', element: <StudentClassList /> },
           { path: '/add', element: <StudentClassAdd /> }
+        ]
+      },
+      {
+        path: 'students-secondary',
+        element: <RoleRoute role="Education" component={Layout}/>,
+        children: [
+          { path: '/', element: <StudentSecondaryList /> },
+          { path: '/add', element: <StudentSecondaryAdd /> }
         ]
       },
       { 

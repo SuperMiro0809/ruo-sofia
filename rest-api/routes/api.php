@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CommitteController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\StudentsSecondaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,10 @@ Route::group([
     Route::get('/students-class/{egn}', [StudentClassController::class, 'findByEgn']);
     Route::delete('/students-class/{id}', [StudentClassController::class, 'destroy']);
     Route::post('/students-class', [StudentClassController::class, 'store']);
+
+    Route::get('/students-secondary', [StudentsSecondaryController::class, 'index']);
+    Route::post('/students-secondary', [StudentsSecondaryController::class, 'store']);
+    Route::delete('/students-secondary/{id}', [StudentsSecondaryController::class, 'destroy']);
 
     Route::get('/subjects', [SubjectController::class, 'index']);
     Route::post('/subjects', [SubjectController::class, 'save']);

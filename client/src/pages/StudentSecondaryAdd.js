@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import StudentsClassAddForm from '../components/add-student-class/StudentsClassAddForm';
-import StudetntsClassAddToolbar from '../components/add-student-class/StudetntsClassAddToolbar';
+import StudentSecondaryAddForm from '../components/add-student-secondary/StudentSecondaryAddForm';
+import StudentSecondaryAddToolbar from '../components/add-student-secondary/StudentSecondaryAddToolbar';
 
-const StudentClassAdd = () => (
+const StudentSecondaryAdd = () => (
   <>
     <Helmet>
       <title>Добави ученик</title>
@@ -16,13 +16,13 @@ const StudentClassAdd = () => (
       }}
     >
       <Container maxWidth={false}>
-        <StudetntsClassAddToolbar />
+        <StudentSecondaryAddToolbar />
         <Box sx={{ pt: 3 }}>
-          <StudentsClassAddForm />
+          <StudentSecondaryAddForm />
         </Box>
       </Container>
     </Box>
   </>
 );
 
-export default StudentClassAdd;
+export default StudentSecondaryAdd;

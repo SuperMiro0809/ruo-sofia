@@ -14,11 +14,11 @@ import {
     TableContainer,
     CircularProgress
 } from '@material-ui/core';
-import StudentsClassListItem from './StudentsClassListItem';
-import studentClassServices from '../../services/student-class';
-import StudentsClassModal from '../students-class-modal/StudentsClassModal';
+import studentSecondaryServices from '../../services/student-secondary';
+import StudentsSecondaryListItem from './StudentsSecondaryListItem';
+import StudentsSecondaryModal from '../students-secondary-modal/StudentsSecondaryModal';
 
-const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
+const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
     const navigate = useNavigate();
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
@@ -35,6 +35,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
         if (!open) {
             setLoader(true);
         }
+
         getStudents();
     }, [searchName, searchEgn])
 
@@ -43,17 +44,17 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
             setPage(0);
         }
 
-        studentClassServices.getAll(searchName, searchEgn)
-            .then(data => {
-                console.log(data);
-                setStudents(data);
-                setLoader(false);
-            })
-            .catch(err => {
-                if (err.message === 'Unauthorized') {
-                    navigate('/login');
-                }
-            })
+        studentSecondaryServices.getAll(searchName, searchEgn)
+        .then(data => {
+            setStudents(data);
+            setLoader(false);
+        })
+        .catch(err => {
+            if (err.message === 'Unauthorized') {
+                navigate('/login');
+            }
+        })
+
     };
 
     const handleLimitChange = (event) => {
@@ -66,7 +67,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
 
     return (
         <Card {...props}>
-            <StudentsClassModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} />
+            <StudentsSecondaryModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>
@@ -80,7 +81,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
                                 color="textPrimary"
                                 variant="h3"
                             >
-                                Ученици - Клас
+                                Ученици - Средно
                             </Typography>
                         </Box>
                         <Table>
@@ -105,7 +106,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
                                         Град/ Държава
                                     </TableCell>
                                     <TableCell>
-                                        Заявления
+                                        Заявлениe
                                     </TableCell>
                                     <TableCell>
                                         Операции
@@ -122,7 +123,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
                                         {students.length !== 0 ?
                                             <>
                                                 {students.slice(page * limit, page * limit + limit).map((student) => (
-                                                    <StudentsClassListItem key={student.id} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
+                                                    <StudentsSecondaryListItem key={student.id} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
                                                 ))}
                                             </>
                                             :
@@ -150,4 +151,4 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
     );
 };
 
-export default StudentsClassListResults;
+export default StudentsSecondaryListResults;
