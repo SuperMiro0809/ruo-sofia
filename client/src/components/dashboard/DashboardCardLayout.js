@@ -15,6 +15,85 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CountUp from 'react-countup';
 
 const DashboardCardLayout = ({ title, value, icon, url }) => (
+
+    /* 3 */
+    // <Card
+    //     sx={{ height: '100%' }}
+    // >
+    //     <CardContent
+    //         sx={{
+    //             paddingBottom: '5px !important'
+    //         }}
+    //     >
+    //         <Grid
+    //             container
+    //             spacing={3}
+    //             sx={{ 
+    //                 // justifyContent: 'centered',
+    //                 // mt: 3 
+    //                 justifyContent: 'space-between'
+    //             }}
+    //         >
+    //             <Grid item>
+    //                 <Typography
+    //                     color="textPrimary"
+    //                     variant="h3"
+    //                 >
+    //                     <CountUp end={value} />
+    //                 </Typography>
+    //             </Grid>
+    //             <Grid item>
+    //                 <Avatar
+    //                     sx={{
+    //                         backgroundColor: '#124682',
+    //                         height: 60,
+    //                         width: 60
+    //                     }}
+    //                 >
+    //                     <FontAwesomeIcon icon={icon} style={{ fontSize: '35px' }}/>
+    //                 </Avatar>
+    //             </Grid>
+    //             {/* <Grid item>
+    //                 <Box className="title">
+    //                     <Typography
+    //                         color="#B08803"
+    //                         gutterBottom
+    //                         variant="h3"
+    //                     >
+    //                         {title}
+    //                     </Typography>
+    //                     <Typography
+    //                             color="textPrimary"
+    //                             variant="h3"
+    //                         >
+    //                             <CountUp end={value} />
+    //                     </Typography>
+    //                 </Box>
+    //             </Grid> */}
+    //         </Grid>
+    //         <Box className="title">
+    //             <Typography
+    //                 color="#B08803"
+    //                 gutterBottom
+    //                 variant="h3"
+    //             >
+    //                 {title}
+    //             </Typography>
+    //         </Box>
+    //         <Box
+    //             sx={{
+    //                 pt: 2,
+    //                 textAlign: 'right'
+    //             }}
+    //         >
+    //             <Button endIcon={<ArrowForward />} component={RouterLink} to={url}>
+    //                 Виж повече
+    //             </Button>
+    //         </Box>
+    //     </CardContent>
+    // </Card>
+
+    /* 2 */
     <Card
         sx={{ height: '100%' }}
     >
@@ -26,35 +105,64 @@ const DashboardCardLayout = ({ title, value, icon, url }) => (
             <Grid
                 container
                 spacing={3}
-                sx={{ justifyContent: 'space-between' }}
+                sx={{ 
+                    // justifyContent: 'centered',
+                    // mt: 3 
+                    justifyContent: 'left'
+                }}
             >
-                <Grid item>
-                    <Typography
-                        color="textSecondary"
-                        gutterBottom
-                        variant="h6"
-                    >
-                        {title}
-                    </Typography>
+                {/* <Grid item>
                     <Typography
                         color="textPrimary"
                         variant="h3"
                     >
-                        <CountUp end={value}/>
+                        <CountUp end={value} />
                     </Typography>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                     <Avatar
                         sx={{
                             backgroundColor: '#124682',
-                            height: 56,
-                            width: 56
+                            height: 60,
+                            width: 60
                         }}
                     >
-                        <FontAwesomeIcon icon={icon}/>
+                        <FontAwesomeIcon icon={icon} style={{ fontSize: '35px' }}/>
                     </Avatar>
                 </Grid>
+                {/* <Grid item>
+                    <Box className="title">
+                        <Typography
+                            color="#B08803"
+                            gutterBottom
+                            variant="h3"
+                        >
+                            {title}
+                        </Typography>
+                        <Typography
+                                color="textPrimary"
+                                variant="h3"
+                            >
+                                <CountUp end={value} />
+                        </Typography>
+                    </Box>
+                </Grid> */}
             </Grid>
+            <Box className="title">
+                <Typography
+                    color="#B08803"
+                    gutterBottom
+                    variant="h3"
+                >
+                    {title}
+                </Typography>
+                <Typography
+                        color="textPrimary"
+                        variant="h3"
+                    >
+                        <CountUp end={value} />
+                </Typography>
+            </Box>
             <Box
                 sx={{
                     pt: 2,

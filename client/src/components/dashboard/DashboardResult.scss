@@ -1,15 +1,25 @@
 .DashboardResult {
     .dashboard-item {
+
         .item-wrapper {
-            flex-direction: column;
+            flex-direction: row;
 
             .item {
-                max-width: 100%;
+                text-align: left;
+                // max-width: 100%;
+
+                .title {
+                    text-align: center;
+                    text-transform: uppercase;
+                    margin-bottom: 30px;
+                }
             }
+
         }
     }
 
     .dashboard-item:nth-child(2) {
         text-align: center;
+        bottom: 0;
     }
 }

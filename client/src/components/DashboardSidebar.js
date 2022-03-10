@@ -92,9 +92,24 @@ const dropDownEducation = {
       title: 'Ученици - Средно'
     },
     {
+      href: '/app/protocols',
+      icon: FileContractIcon,
+      title: 'Протоколи - Клас'
+    },
+    {
+      href: '/app/protocols',
+      icon: FileContractIcon,
+      title: 'Протоколи - Средно'
+    },
+    {
       href: '/app/students-certificate',
       icon: PrintIcon,
       title: 'Удостоверение за завършен клас'
+    },
+    {
+      href: '/app/students-certificate',
+      icon: PrintIcon,
+      title: 'Удостоверение за завършено средно'
     }
   ]
 }
