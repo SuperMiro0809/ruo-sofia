@@ -11,9 +11,16 @@ use App\Models\ProtocolClass;
 class ProtocolClassController extends Controller
 {
     public function index(Request $request) {
-        $protocols = ProtocolClass::with('application')->with('application.student')->get();
+        $number = $request->query('number', '');
+        $protocols = ProtocolClass::where('number', 'regexp', $number)->with('application')->with('application.student');
 
-        return $protocols;
+        if($request->has('startDate') && $request->has('endDate')) {
+            $from = $request->query('startDate');
+            $to = $request->query('endDate');
+            $protocols->whereBetween('date', [$from, $to]);
+        }
+          
+        return $protocols->get();
     }
 
     public function store(Request $request) {
