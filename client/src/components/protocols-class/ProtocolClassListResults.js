@@ -16,7 +16,7 @@ import {
   CircularProgress,
   TableContainer
 } from '@material-ui/core';
-import protocolClassServices from '../../services/protocolClass';
+import protocolClassServices from '../../services/protocol-class';
 import ProtocolClassListItem from './ProtocolClassListItem';
 import ProtocolClassModal from '../protocol-class-modal/ProtocolClassModal';
 

@@ -34,8 +34,8 @@ import * as Yup from 'yup';
 import { Formik, FieldArray, getIn } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import ProtocolEducationCommitteForm from '../protocol-education-committe/ProtocolEducationCommitteForm';
-import committeEducationServices from '../../services/committeEducation';
-import protocolClassServices from '../../services/protocolClass';
+import committeEducationServices from '../../services/committe-education';
+import protocolClassServices from '../../services/protocol-class';
 
 const ProtocolClassEditForm = ({protocol, ...rest }) => {
     const messageContext = useContext(MеssageContext);

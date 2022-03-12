@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import ProtocolClassEditForm from '../components/edit-protocol-class/ProtocolClassEditForm';
 import ProtocolClassEditToolbar from '../components/edit-protocol-class/ProtocolClassEditToolbar';
-import protocolClassServices from '../services/protocolClass';
+import protocolClassServices from '../services/protocol-class';
 
 const ProtocolClassEdit = () => {
     const { id } = useParams();

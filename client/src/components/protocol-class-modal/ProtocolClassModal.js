@@ -9,7 +9,7 @@ import {
 import {
     Close as CloseIcon
 } from '@material-ui/icons';
-import protocolClassServices from '../../services/protocolClass';
+import protocolClassServices from '../../services/protocol-class';
 import MessageContext from '../../contexts/MessageContext';
 
 const style = {
