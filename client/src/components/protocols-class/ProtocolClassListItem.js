@@ -32,7 +32,7 @@ import {
     faFileWord as WordFileIcon,
     faEdit as TextEditorIcon
 } from '@fortawesome/free-solid-svg-icons';
-import ProtocolPDF from '../protocol-pdf/ProtocolPDF';
+import ProtocolClassPDF from '../protocol-class-pdf/ProtocolClassPDF';
 import ReactToPrint from 'react-to-print';
 import ProtocolTextEditorResult from '../protocol-text-editor/ProtocolTextEditorResult';
 
@@ -55,10 +55,10 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
 
     return (
         <React.Fragment>
-            {/* <div style={{ display: 'none' }}>
-                <ProtocolPDF protocol={protocol} formText={formText} ref={print} style={{ display: 'none' }} />
-            </div> */}
-            {/* <Modal
+            <div style={{ display: 'none' }}>
+                <ProtocolClassPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
+            </div>
+            <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -67,9 +67,9 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
                     <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
                         <CloseIcon className="close-icon" onClick={() => setOpenPreview(false)} />
                     </Typography>
-                    <ProtocolPDF protocol={protocol} formText={formText} />
+                    <ProtocolClassPDF protocol={protocol} />
                 </Box>
-            </Modal> */}
+            </Modal>
             <TableRow
                 hover
                 className="ProtocolClassListItem"
