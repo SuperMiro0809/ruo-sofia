@@ -50,10 +50,40 @@ function destroy(id) {
         })
 }
 
+function getById(id) {
+    return fetch(`${services.url}/protocols-class/${id}?token=${localStorage.getItem('token')}`)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
+function edit(id, data) {
+    return fetch(`${services.url}/protocols-class/${id}?token=${localStorage.getItem('token')}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: services.header2
+    })
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            } else if (res.status === 409) {
+                return res.json().then(r => { throw new Error(r.message) })
+            }
+        })
+}
+
 const protocolClassServices = {
     getAll,
     create,
-    destroy
+    destroy,
+    getById,
+    edit
 }
 
 export default protocolClassServices;

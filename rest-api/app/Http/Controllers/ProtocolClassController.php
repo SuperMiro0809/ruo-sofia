@@ -60,4 +60,40 @@ class ProtocolClassController extends Controller
 
         return response()->json(['message' => 'Deleted']);
     }
+
+    public function getById($id) {
+        $protocol = ProtocolClass::findOrFail($id);
+
+        return $protocol;
+    }
+
+    public function edit(Request $request, $id) {
+        $protocol = ProtocolClass::findOrFail($id);
+
+        $protocol->number = $request->number;
+        $protocol->date = $request->date;
+        $protocol->orderNumber = $request->orderNumber;
+        $protocol->orderDate = $request->orderDate;
+        $protocol->startDate = $request->startDate;
+        $protocol->endDate = $request->endDate;
+        $protocol->president = $request->president;
+        $protocol->vicePresidents = json_encode($request->vicePresidents);
+        $protocol->members = json_encode($request->members);
+
+        try {
+            $protocol->save();
+            StudentClassApplication::where('protocol_id', $id)->update(['protocol_id' => null]);
+            StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->update(['protocol_id' => $protocol->id]);
+        } catch(\Exception $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            if($errorCode == 1062){
+                return response()->json([
+                    'message'=>'Вече е въведен протокол с този номер!'
+                ], 409);
+            }
+        }
+
+        return response()->json(['message' => 'Edited']);
+    }
 }
