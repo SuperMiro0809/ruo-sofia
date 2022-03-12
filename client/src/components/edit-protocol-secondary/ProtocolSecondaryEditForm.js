@@ -35,15 +35,16 @@ import { Formik, FieldArray, getIn } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import ProtocolEducationCommitteForm from '../protocol-education-committe/ProtocolEducationCommitteForm';
 import committeEducationServices from '../../services/committe-education';
-import protocolClassServices from '../../services/protocol-class';
+import protocolSecondaryServices from '../../services/protocol-secondary';
 
-const ProtocolClassAddForm = ({ rest }) => {
+const ProtocolSecondaryEditForm = ({protocol, ...rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const [date, setDate] = useState(null);
     const [periodDate, setPeriodDate] = useState([null, null]);
     const [orderDate, setOrderDate] = useState(null);
     const [committe, setCommitte] = useState({ president: '', vicePresidents: ['', ''], members: ['', '', '', ''] });
+    const protocolJson = JSON.stringify(protocol);
 
     useEffect(() => {
         committeEducationServices.getAll()
@@ -60,6 +61,12 @@ const ProtocolClassAddForm = ({ rest }) => {
                 }
             })
     }, []);
+
+    useEffect(() => {
+        setDate(protocol.date);
+        setPeriodDate([protocol.startDate, protocol.endDate]);
+        setOrderDate(protocol.orderDate);
+    }, [protocolJson])
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for (let key in values) {
@@ -82,18 +89,18 @@ const ProtocolClassAddForm = ({ rest }) => {
     };
 
     return (
-        <Card {...rest}>
+        <Card {...rest} className="ProtocolAddForm">
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
-                                number: '',
-                                date: '',
-                                orderNumber: '',
-                                orderDate: '',
-                                startDate: '',
-                                endDate: '',
+                                number: protocol.number,
+                                date: protocol.date,
+                                orderNumber: protocol.orderNumber,
+                                orderDate: protocol.orderDate,
+                                startDate: protocol.startDate,
+                                endDate: protocol.endDate,
                                 president: committe.president,
                                 vicePresidents: committe.vicePresidents,
                                 members: committe.members
@@ -114,11 +121,10 @@ const ProtocolClassAddForm = ({ rest }) => {
                                 members: Yup.array().of(Yup.string().required('Членът е задължителен'))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                console.log(values);
-                                protocolClassServices.create(values)
+                                protocolSecondaryServices.edit(protocol.id, values)
                                     .then(r => {
-                                        messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });
-                                        navigate('/app/protocols/students-class', { replace: true });
+                                        messageContext[1]({ status: 'success', text: 'Протоколът е редактиран успешно!' });
+                                        navigate('/app/protocols/students-secondary', { replace: true });
                                         const interval = setInterval(function () {
                                             messageContext[1]('');
                                             clearInterval(interval);
@@ -311,4 +317,4 @@ const ProtocolClassAddForm = ({ rest }) => {
     );
 };
 
-export default ProtocolClassAddForm;
+export default ProtocolSecondaryEditForm;

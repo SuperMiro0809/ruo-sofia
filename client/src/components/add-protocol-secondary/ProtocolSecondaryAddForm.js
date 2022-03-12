@@ -35,9 +35,9 @@ import { Formik, FieldArray, getIn } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import ProtocolEducationCommitteForm from '../protocol-education-committe/ProtocolEducationCommitteForm';
 import committeEducationServices from '../../services/committe-education';
-import protocolClassServices from '../../services/protocol-class';
+import protocolSecondaryServices from '../../services/protocol-secondary';
 
-const ProtocolClassAddForm = ({ rest }) => {
+const ProtocolSecondaryAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const [date, setDate] = useState(null);
@@ -115,10 +115,10 @@ const ProtocolClassAddForm = ({ rest }) => {
                             })}
                             onSubmit={(values, { setSubmitting }) => {
                                 console.log(values);
-                                protocolClassServices.create(values)
+                                protocolSecondaryServices.create(values)
                                     .then(r => {
                                         messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });
-                                        navigate('/app/protocols/students-class', { replace: true });
+                                        navigate('/app/protocols/students-secondary', { replace: true });
                                         const interval = setInterval(function () {
                                             messageContext[1]('');
                                             clearInterval(interval);
@@ -311,4 +311,4 @@ const ProtocolClassAddForm = ({ rest }) => {
     );
 };
 
-export default ProtocolClassAddForm;
+export default ProtocolSecondaryAddForm;

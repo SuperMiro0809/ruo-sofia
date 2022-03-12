@@ -1,0 +1,92 @@
+.ProtocolSecondaryPDF {
+    .main {
+        font-size: 12pt;
+
+        .main-text-wrapper {
+            p {
+                text-indent: 1.25cm;
+            }
+        }
+
+        .title-wrapper {
+            text-align: center;
+            font-weight: bold;
+            font-size: 14pt;
+            letter-spacing: 1px;
+        }
+
+        .members {
+            margin: 0 1.25cm;
+        }
+
+        .above-table-text {
+            b {
+                margin-left: 75px;
+            }
+
+            p {
+                text-indent: 1.25cm;
+            }
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table {
+            margin-top: 10px;
+            table-layout: fixed;
+            width: 100%;
+
+            th {
+                text-align: center;
+                font-weight: bold;
+                padding: 15px;
+                vertical-align: top;
+                width: 30%;
+                font-size: 11pt;
+            }
+
+            td {
+                text-align: left;
+                padding: 0 10px;
+                width: 30%;
+                word-wrap: break-word;
+                font-size: 10pt;
+            }
+
+            td:nth-child(1) {
+                font-weight: bold;
+            }
+        }
+
+        .committe {
+            font-weight: bold;
+            margin-top: 70px;
+
+            .committe-title {
+                margin-left: 410px;
+                margin-top: 20px;
+            }
+
+            ol {
+                margin-left: 50%;
+            }
+
+            .president {
+                display: flex;
+                justify-content: flex-end;
+                gap: 200px;
+                padding-right: 50px;
+            }
+
+            .committe-item {
+                display: flex;
+                justify-content: space-between;
+                gap: 200px;
+                padding-right: 50px;
+            }
+        }
+    }
+}

@@ -76,6 +76,9 @@ Route::group([
 
     Route::get('/protocols-secondary', [ProtocolSecondaryController::class, 'index']);
     Route::post('/protocols-secondary', [ProtocolSecondaryController::class, 'store']);
+    Route::delete('/protocols-secondary/{id}', [ProtocolSecondaryController::class, 'destroy']);
+    Route::get('/protocols-secondary/{id}', [ProtocolSecondaryController::class, 'getById']);
+    Route::put('/protocols-secondary/{id}', [ProtocolSecondaryController::class, 'edit']);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
