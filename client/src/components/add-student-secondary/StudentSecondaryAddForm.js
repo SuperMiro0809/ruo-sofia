@@ -171,7 +171,7 @@ const StudentSecondaryAddForm = ({ rest }) => {
                                 }),
                                 grades: Yup.array().of(Yup.object().shape({
                                     subjectName: Yup.string().required('Името на предмет е задължително'),
-                                    grade: Yup.number().required('Оценката е задължителна').positive('Оценката трябва да бъде положително число')
+                                    grade: Yup.string().required('Оценката е задължителна')
                                 }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
