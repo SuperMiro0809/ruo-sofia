@@ -11,6 +11,9 @@ use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentsSecondaryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProtocolClassController;
+use App\Http\Controllers\ProtocolSecondaryController;
+use App\Http\Controllers\CommitteEducationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +68,13 @@ Route::group([
     Route::delete('/students-secondary/{id}', [StudentsSecondaryController::class, 'destroy']);
     Route::put('/students-secondary/{id}', [StudentsSecondaryController::class, 'edit']);
 
+    Route::get('/protocols-class', [ProtocolClassController::class, 'index']);
+    Route::post('/protocols-class', [ProtocolClassController::class, 'store']);
+    Route::delete('/protocols-class/{id}', [ProtocolClassController::class, 'destroy']);
+
+    Route::get('/protocols-secondary', [ProtocolSecondaryController::class, 'index']);
+    Route::post('/protocols-secondary', [ProtocolSecondaryController::class, 'store']);
+
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     Route::get('/subjects', [SubjectController::class, 'index']);
@@ -74,4 +84,7 @@ Route::group([
 
     Route::get('/committe', [CommitteController::class, 'index']);
     Route::put('/committe', [CommitteController::class, 'save']);
+
+    Route::get('/committe-education', [CommitteEducationController::class, 'index']);
+    Route::put('/committe-education', [CommitteEducationController::class, 'save']);
 });

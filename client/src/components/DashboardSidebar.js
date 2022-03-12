@@ -92,12 +92,12 @@ const dropDownEducation = {
       title: 'Ученици - Средно'
     },
     {
-      href: '/app/protocols',
+      href: '/app/protocols/students-class',
       icon: FileContractIcon,
       title: 'Протоколи - Клас'
     },
     {
-      href: '/app/protocols',
+      href: '/app/protocols/students-secondary',
       icon: FileContractIcon,
       title: 'Протоколи - Средно'
     },

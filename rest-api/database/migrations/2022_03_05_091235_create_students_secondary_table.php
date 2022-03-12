@@ -32,6 +32,7 @@ class CreateStudentsSecondaryTable extends Migration
             $table->string('profession')->nullable();
             $table->string('speciality')->nullable();
             $table->json('grades');
+            $table->unsignedBigInteger('protocol_id')->nullable();
         });
     }
 

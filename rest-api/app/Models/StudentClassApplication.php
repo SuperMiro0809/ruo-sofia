@@ -10,4 +10,8 @@ class StudentClassApplication extends Model
     use HasFactory;
 
     protected $table = 'students_class_applications';
+
+    public function student() {
+        return $this->belongsTo('App\Models\StudentClass');
+    }
 }

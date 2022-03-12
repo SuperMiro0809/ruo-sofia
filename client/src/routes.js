@@ -26,6 +26,8 @@ import SubjectList from './pages/SubjectList';
 import StudentSecondaryList from './pages/StudentSecondaryList';
 import StudentSecondaryAdd from './pages/StudentSecondaryAdd';
 import StudentSecondaryEdit from './pages/StudentSecondaryEdit';
+import ProtocolClassList from './pages/ProtocolClassList';
+import ProtocolClassAdd from './pages/ProtocolClassAdd';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -73,7 +75,15 @@ const routes = [
           { path: '', element: <ProtocolList /> },
           { path: 'add', element: <ProtocolAdd /> },
           { path: 'edit', element: <ProtocolEdit /> },
-          { path: 'text-editor', element: <ProtocolTextEditor /> }
+          { path: 'text-editor', element: <ProtocolTextEditor /> },
+          { 
+            path: 'students-class',
+            element: <Layout />,
+            children: [
+              { path: '', element: <ProtocolClassList /> },
+              { path: '/add', element: <ProtocolClassAdd /> }
+            ] 
+          }
         ]
       },
       {

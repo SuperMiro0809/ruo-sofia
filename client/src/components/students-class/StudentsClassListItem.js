@@ -167,7 +167,7 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                                         </>
                                         :
                                         <TableRow>
-                                            <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="9">Няма записи</TableCell>
+                                            <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="11">Няма записи</TableCell>
                                         </TableRow>
                                     }
                                 </TableBody>

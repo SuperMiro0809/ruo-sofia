@@ -28,6 +28,7 @@ class CreateStudentsClassApplicationsTable extends Migration
             $table->json('equivalenceExams');
             $table->json('grades');
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('protocol_id')->nullable();
         });
     }
 
