@@ -102,7 +102,7 @@ const dropDownEducation = {
       title: 'Протоколи - Средно'
     },
     {
-      href: '/app/students-certificate',
+      href: '/app/students-class/certificate',
       icon: PrintIcon,
       title: 'Удостоверение за завършен клас'
     },

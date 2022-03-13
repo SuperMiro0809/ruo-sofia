@@ -32,6 +32,7 @@ import ProtocolClassEdit from './pages/ProtocolClassEdit';
 import ProtocolSecondaryList from './pages/ProtocolSecondaryList';
 import ProtocolSecondaryAdd from './pages/ProtocolSecondaryAdd';
 import ProtocolSecondaryEdit from './pages/ProtocolSecondaryEdit';
+import StudentClassCertificate from './pages/StudentClassCertificate';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -105,7 +106,8 @@ const routes = [
         element: <RoleRoute role="Education" component={Layout}/>,
         children: [
           { path: '/', element: <StudentClassList /> },
-          { path: '/add', element: <StudentClassAdd /> }
+          { path: '/add', element: <StudentClassAdd /> },
+          { path: '/certificate', element: <StudentClassCertificate /> }
         ]
       },
       {
