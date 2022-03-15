@@ -139,7 +139,7 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
                                                 {application.student.name}
                                             </TableCell>
                                             <TableCell>
-                                                {`${application.inNumber}/ ${moment(application.inDate).format('DD/MM/YYYY')} г.`}
+                                                {`${application.inNumber}/ ${moment(application.inDate).format('DD.MM.YYYY')} г.`}
                                             </TableCell>
                                             <TableCell>
                                                 {application.admits}

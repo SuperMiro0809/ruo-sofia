@@ -33,6 +33,7 @@ import ProtocolSecondaryList from './pages/ProtocolSecondaryList';
 import ProtocolSecondaryAdd from './pages/ProtocolSecondaryAdd';
 import ProtocolSecondaryEdit from './pages/ProtocolSecondaryEdit';
 import StudentClassCertificate from './pages/StudentClassCertificate';
+import StudentSecondaryCertificate from './pages/StudentSecondaryCertificate';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -116,7 +117,8 @@ const routes = [
         children: [
           { path: '/', element: <StudentSecondaryList /> },
           { path: '/add', element: <StudentSecondaryAdd /> },
-          { path: '/edit', element: <StudentSecondaryEdit /> }
+          { path: '/edit', element: <StudentSecondaryEdit /> },
+          { path: '/certificate', element: <StudentSecondaryCertificate /> }
         ]
       },
       { 

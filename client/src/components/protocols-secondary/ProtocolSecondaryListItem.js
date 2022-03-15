@@ -137,7 +137,7 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                                                 {application.name}
                                             </TableCell>
                                             <TableCell>
-                                                {`${application.inNumber}/ ${moment(application.inDate).format('DD/MM/YYYY')} г.`}
+                                                {`${application.inNumber}/ ${moment(application.inDate).format('DD.MM.YYYY')} г.`}
                                             </TableCell>
                                             <TableCell>
                                                 {application.admits}

@@ -14,10 +14,10 @@ import {
     TableContainer,
     CircularProgress
 } from '@material-ui/core';
-import StudentsClassCertificateListItem from './StudentsClassCertificateListItem';
-import studentClassServices from '../../services/student-class';
+import StudentsSecondaryCertificateListItem from './StudentsSecondaryCertificateListItem';
+import studentSecondaryServices from '../../services/student-secondary';
 
-const StudentsClassCertificateListResults = ({ searchName, searchEgn }, ...props) => {
+const StudentsSecondaryCertificateListResults = ({ searchName, searchEgn }, ...props) => {
     const navigate = useNavigate();
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
@@ -36,7 +36,7 @@ const StudentsClassCertificateListResults = ({ searchName, searchEgn }, ...props
             setPage(0);
         }
 
-        studentClassServices.getAll(searchName, searchEgn)
+        studentSecondaryServices.getAll(searchName, searchEgn)
             .then(data => {
                 console.log(data);
                 setStudents(data);
@@ -72,7 +72,7 @@ const StudentsClassCertificateListResults = ({ searchName, searchEgn }, ...props
                                 color="textPrimary"
                                 variant="h3"
                             >
-                                Удостоверения за завършен клас
+                                Удостоверения за завършенo средно образование
                             </Typography>
                         </Box>
                         <Table>
@@ -94,7 +94,7 @@ const StudentsClassCertificateListResults = ({ searchName, searchEgn }, ...props
                                         Град/ Държава
                                     </TableCell>
                                     <TableCell>
-                                        Удостоверения
+                                        Удостоверениe
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
@@ -108,7 +108,7 @@ const StudentsClassCertificateListResults = ({ searchName, searchEgn }, ...props
                                         {students.length !== 0 ?
                                             <>
                                                 {students.slice(page * limit, page * limit + limit).map((student) => (
-                                                    <StudentsClassCertificateListItem key={student.id} student={student} />
+                                                    <StudentsSecondaryCertificateListItem key={student.id} student={student} />
                                                 ))}
                                             </>
                                             :
@@ -136,4 +136,4 @@ const StudentsClassCertificateListResults = ({ searchName, searchEgn }, ...props
     );
 };
 
-export default StudentsClassCertificateListResults;
+export default StudentsSecondaryCertificateListResults;

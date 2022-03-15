@@ -32,16 +32,16 @@ const StudentsClassCertificateInnerTableItem = ({ el, application, index }) => {
                 {application.registerNumber}
             </TableCell>
             <TableCell>
-                {moment(application.dateOut).format('DD/MM/YYYY')}
+                {moment(application.dateOut).format('DD.MM.YYYY')}
             </TableCell>
             <TableCell>
                 {application.documentNumber}
             </TableCell>
             <TableCell>
-                {moment(application.documentDate).format('DD/MM/YYYY')}
+                {moment(application.documentDate).format('DD.MM.YYYY')}
             </TableCell>
             <TableCell>
-                {`${application.inNumber}/ ${moment(application.inDate).format('DD/MM/YYYY')}`}
+                {`${application.inNumber}/ ${moment(application.inDate).format('DD.MM.YYYY')}`}
             </TableCell>
             <TableCell>
                 {application.class}

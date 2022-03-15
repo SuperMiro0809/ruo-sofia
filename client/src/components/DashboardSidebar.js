@@ -107,7 +107,7 @@ const dropDownEducation = {
       title: 'Удостоверение за завършен клас'
     },
     {
-      href: '/app/students-certificate',
+      href: '/app/students-secondary/certificate',
       icon: PrintIcon,
       title: 'Удостоверение за завършено средно'
     }

@@ -1,0 +1,37 @@
+.StudentsSecondaryCertificateListItem {
+    .print-icon,
+    .preview-icon {
+        font-size: 32px;
+    }
+
+    .print-icon {
+        color: #696969;
+    }
+
+    .preview-icon {
+        color: #0e94ff;
+    }
+
+    .print-icon-wrapper,
+    .preview-icon-wrapper {
+        vertical-align: initial;
+    }
+
+    .print-icon-wrapper {
+        margin-left: 10px;
+    }
+
+    .print-icon-wrapper:hover {
+        background-color: transparent;
+        .print-icon {
+            filter: brightness(0.5);
+        }
+    }
+
+    .preview-icon-wrapper:hover {
+        background-color: transparent;
+        .preview-icon {
+            filter: brightness(0.5);
+        }
+    }
+}
