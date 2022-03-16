@@ -14,15 +14,16 @@ import {
 } from '@material-ui/icons';
 import moment from 'moment';
 import ReactToPrint from 'react-to-print';
+import StudentClassCertificatePDF from './StudentClassCertificatePDF/StudentClassCertificatePDF'
 
 const style = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 3,
-    width: 'auto'
+    width: '500px'
 };
 
-const StudentsClassCertificateInnerTableItem = ({ el, application, index }) => {
+const StudentsClassCertificateInnerTableItem = ({ el, application, student, index }) => {
     const [openPreview, setOpenPreview] = useState(false);
     const print = React.useRef();
 
@@ -54,7 +55,7 @@ const StudentsClassCertificateInnerTableItem = ({ el, application, index }) => {
                     <PreviewIcon className="preview-icon" />
                 </IconButton>
                 <ReactToPrint
-                    // content={() => print.current}
+                    content={() => print.current}
                     trigger={() => (
                         <IconButton className="print-icon-wrapper">
                             <PrintIcon className="print-icon" />
@@ -62,16 +63,10 @@ const StudentsClassCertificateInnerTableItem = ({ el, application, index }) => {
                     )}
                 />
             </TableCell>
-            {/* {el.approve ?
-                <div style={{ display: 'none' }}>
-                    <TeacherCertificatePDF mode={mode} teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
-                </div>
-                :
-                <div style={{ display: 'none' }}>
-                    <TeacherLetterPDF teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
-                </div>
-            } */}
-            {/* <Modal
+            <div style={{ display: 'none' }}>
+            <StudentClassCertificatePDF application={application} student={student} ref={print} />
+            </div>
+            <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -80,12 +75,9 @@ const StudentsClassCertificateInnerTableItem = ({ el, application, index }) => {
                     <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
                         <CloseIcon className="close-icon" onClick={() => setOpenPreview(false)} />
                     </Typography>
-                    {el.approve ?
-                        <TeacherCertificatePDF mode={mode} teacher={teacher} application={application} el={el} index={index} /> :
-                        <TeacherLetterPDF teacher={teacher} application={application} el={el} index={index} />
-                    }
+                    <StudentClassCertificatePDF application={application} student={student} />
                 </Box>
-            </Modal> */}
+            </Modal>
         </TableRow>
 
     );

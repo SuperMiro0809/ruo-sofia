@@ -85,6 +85,7 @@ const StudentsClassCertificateListItem = ({ student, ...rest }) => {
                                             {student.application.map((application, index) => (
                                                 <StudentsClassCertificateInnerTableItem
                                                     application={application}
+                                                    student={student}
                                                     key={index}
                                                 />
                                             ))}

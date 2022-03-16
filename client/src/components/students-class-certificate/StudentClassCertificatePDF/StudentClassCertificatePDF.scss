@@ -1,0 +1,141 @@
+.StudentClassCertificatePDF {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12pt;
+    font-family: 'Times New Roman', Times, serif;
+
+    .page-one {
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        height: 1120px;
+
+        div {
+            position: absolute;
+        }
+    
+        div:nth-child(1) {
+            top: 7.3cm;
+            left: 8cm;
+        }
+    
+        div:nth-child(2) {
+            top: 7.3cm;
+            left: 11.2cm
+        }
+    
+        div:nth-child(3) {
+            top: 7.3cm;
+            left: 13cm;
+        }
+    
+        div:nth-child(4) {
+            text-transform: none;
+            top: 8.5cm;
+            left: 13cm;
+        }
+    
+        div:nth-child(5) {
+            top: 11.5cm;
+            left: 6cm;
+        }
+    
+        div:nth-child(6) {
+            top: 12.8cm;
+            left: 4.2cm;
+        }
+    
+        div:nth-child(7) {
+            text-transform: none;
+            top: 13.4cm;
+            left: 4.2cm;
+        }
+    
+        div:nth-child(8) {
+            top: 14.4cm;
+            left: 9.8cm;
+        }
+    
+        div:nth-child(9) {
+            top: 14.4cm;
+            left: 15cm;
+        }
+    
+        div:nth-child(10) {
+            top: 15.6cm;
+            left: 6.2cm;
+        }
+    
+        div:nth-child(11) {
+            top: 16.2cm;
+            left: 6.2cm;
+        }
+    
+        div:nth-child(12) {
+            text-transform: none;
+            top: 17.5cm;
+            left: 8.4cm;
+        }
+    
+        div:nth-child(13) {
+            top: 18.1cm;
+            left: 6.2cm;
+        }
+    
+        div:nth-child(14) {
+            text-transform: none;
+            top: 18.1cm;
+            left: 3.4cm;
+            
+            p {
+               text-indent: 5.6cm;
+               line-height: 0.55cm;
+            }
+        }
+    
+        div:nth-child(15) {
+            text-transform: none;
+            top: 25.4cm;
+            left: 8cm;
+        }
+
+        .grade-wrapper {
+            position: relative;
+            padding: 0 3.4cm;
+            padding-top: 23cm;
+            display: flex;
+            flex-direction: column;
+            gap: 0.118cm;
+
+            .grade {
+                text-transform: none;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            // .grade:not(.grade:nth-child(1)) {
+            //     margin-top: 0.2cm;
+            //     margin-bottom: 0.05cm;
+            // }
+
+            .grade:nth-child(3) {
+                padding-top: 10.1cm;
+            }
+        }
+    }
+
+    .page-two {
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        height: 1120px;
+
+        div {
+            position: absolute;
+        }
+
+        div:nth-child(1) {
+            text-transform: none;
+            top: 54.8cm;
+            left: 8cm;
+        }
+    }
+}
