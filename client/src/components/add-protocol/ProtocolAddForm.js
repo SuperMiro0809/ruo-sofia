@@ -36,15 +36,22 @@ import MеssageContext from '../../contexts/MessageContext';
 import protocolServices from '../../services/protocol';
 import ApplicationFormItem from './ApplicationFormItem';
 import committeServices from '../../services/committe';
+import CommitteModal from '../committe-modal/CommitteModal';
 
 const ProtocolAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const scrollTo = useRef(null);
     const [date, setDate] = useState(null);
-    const [committe, setCommitte] = useState({ president: '', members: [] });
+    const [committe, setCommitte] = useState({ president: '', members: ['', '', '', ''] });
+    const [openCommitteModal, setOpenCommitteModal] = useState(false);
+    const openCommitteModalProp = { openCommitteModal, setOpenCommitteModal };
 
     useEffect(() => {
+        loadCommitte();
+    }, []);
+
+    const loadCommitte = () => {
         committeServices.getAll()
             .then(data => {
                 setCommitte({ president: data[0].president, members: JSON.parse(data[0].members) });
@@ -54,7 +61,7 @@ const ProtocolAddForm = ({ rest }) => {
                     navigate('/login');
                 }
             })
-    }, []);
+    }
 
     const applicationElementsValidation = (values, mode, i) => {
         for (let j = 0; j < values.applications[i][mode].length; j++) {
@@ -124,6 +131,7 @@ const ProtocolAddForm = ({ rest }) => {
 
     return (
         <Card {...rest} className="ProtocolAddForm">
+            <CommitteModal openCommitteModalProp={openCommitteModalProp} loadCommitte={loadCommitte} committe={committe}/>
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <Container maxWidth="1050">
@@ -294,75 +302,92 @@ const ProtocolAddForm = ({ rest }) => {
                                         multiline
                                         rows={3}
                                     />
-                                    <FormControl
-                                        fullWidth
-                                        margin="normal"
-                                        error={Boolean(touched.president && errors.president)}
-                                    >
-                                        <InputLabel id="demo-simple-select-label">Председател</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={values.president}
-                                            label="Президент"
-                                            name="president"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
+                                    <Box sx={{ mb: 1, mt: 2, ml: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Typography
+                                            color="textPrimary"
+                                            variant="h4"
                                         >
-                                            <MenuItem value={committe.president}>{committe.president}</MenuItem>
-                                        </Select>
-                                        <FormHelperText>{touched.president && errors.president}</FormHelperText>
-                                    </FormControl>
-                                    <FieldArray
-                                        name="members"
-                                        render={arrayHelpers => (
-                                            <>
-                                                {values.members.map((member, index) => (
-                                                    <Box
-                                                        key={index}
-                                                        sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'center'
-                                                        }}
-                                                    >
-                                                        <FormControl
-                                                            fullWidth
-                                                            margin="normal"
-                                                            error={Boolean(touched.members && errors.members)}
-                                                            sx={values.members.length - 1 == index ? { mb: 2 } : { mb: 1 }}
+                                            Комисия
+                                        </Typography>
+                                        <Button
+                                            color="primary"
+                                            variant="contained"
+                                            onClick={() => setOpenCommitteModal(true)}
+                                        >
+                                            Редактирай комисия
+                                        </Button>
+                                    </Box>
+                                    <Box sx={{ ml: 2 }}>
+                                        <FormControl
+                                            fullWidth
+                                            margin="normal"
+                                            error={Boolean(touched.president && errors.president)}
+                                        >
+                                            <InputLabel id="demo-simple-select-label">Председател</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={values.president}
+                                                label="Президент"
+                                                name="president"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                            >
+                                                <MenuItem value={committe.president}>{committe.president}</MenuItem>
+                                            </Select>
+                                            <FormHelperText>{touched.president && errors.president}</FormHelperText>
+                                        </FormControl>
+                                        <FieldArray
+                                            name="members"
+                                            render={arrayHelpers => (
+                                                <>
+                                                    {values.members.map((member, index) => (
+                                                        <Box
+                                                            key={index}
+                                                            sx={{
+                                                                display: 'flex',
+                                                                alignItems: 'center'
+                                                            }}
                                                         >
-                                                            <InputLabel id="demo-simple-select-label">{`Член ${index + 1}`}</InputLabel>
-                                                            <Select
-                                                                label="Членове"
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                name={`members.${index}`}
-                                                                value={values.members[index]}
+                                                            <FormControl
+                                                                fullWidth
+                                                                margin="normal"
+                                                                error={Boolean(touched.members && errors.members)}
+                                                                sx={values.members.length - 1 == index ? { mb: 2 } : { mb: 1 }}
                                                             >
-                                                                {committe.members.map((member, index) => (
-                                                                    <MenuItem key={index} value={member}>{member}</MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                            {/* <FormHelperText>{touched.members && errors.members ? errors.members[index] : ''}</FormHelperText> */}
-                                                        </FormControl>
-                                                        {index == 0 ? (
-                                                            <div style={{ marginTop: '16px', marginBottom: values.members.length - 1 == index ? '16px' : '8px' }}>
-                                                                <Fab onClick={() => arrayHelpers.push('')} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="add">
-                                                                    <AddIcon />
-                                                                </Fab>
-                                                            </div>
-                                                        ) : (
+                                                                <InputLabel id="demo-simple-select-label">{`Член ${index + 1}`}</InputLabel>
+                                                                <Select
+                                                                    label="Членове"
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    name={`members.${index}`}
+                                                                    value={values.members[index]}
+                                                                >
+                                                                    {committe.members.map((member, index) => (
+                                                                        <MenuItem key={index} value={member}>{member}</MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                                {/* <FormHelperText>{touched.members && errors.members ? errors.members[index] : ''}</FormHelperText> */}
+                                                            </FormControl>
+                                                            {index == 0 ? (
                                                                 <div style={{ marginTop: '16px', marginBottom: values.members.length - 1 == index ? '16px' : '8px' }}>
-                                                                    <Fab onClick={() => arrayHelpers.remove(index)} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="remove">
-                                                                        <RemoveIcon />
+                                                                    <Fab onClick={() => arrayHelpers.push('')} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="add">
+                                                                        <AddIcon />
                                                                     </Fab>
                                                                 </div>
-                                                            )}
-                                                    </Box>
-                                                ))}
-                                            </>
-                                        )}
-                                    />
+                                                            ) : (
+                                                                    <div style={{ marginTop: '16px', marginBottom: values.members.length - 1 == index ? '16px' : '8px' }}>
+                                                                        <Fab onClick={() => arrayHelpers.remove(index)} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="remove">
+                                                                            <RemoveIcon />
+                                                                        </Fab>
+                                                                    </div>
+                                                                )}
+                                                        </Box>
+                                                    ))}
+                                                </>
+                                            )}
+                                        />
+                                    </Box>
                                     <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
                                         <Typography
                                             color="textPrimary"
