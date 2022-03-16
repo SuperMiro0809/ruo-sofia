@@ -16,7 +16,7 @@ class CreateProtocolsSecondaryTable extends Migration
         Schema::create('protocols_secondary', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('number');
+            $table->string('number')->unique();
             $table->date('date');
             $table->date('startDate');
             $table->date('endDate');

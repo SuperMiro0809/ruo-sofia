@@ -13,7 +13,8 @@ import {
     Table,
     TableHead,
     TableBody,
-    Button
+    Button,
+    Modal
 } from '@material-ui/core';
 import {
     Print as PrintIcon,
@@ -23,22 +24,25 @@ import {
     KeyboardArrowUp as KeyboardArrowUpIcon
 } from '@material-ui/icons';
 import ReactToPrint from 'react-to-print';
+import StudentSecondaryCertificatePDF from './StudentSecondaryCertificatePDF/StudentSecondaryCertificatePDF';
+
+const style = {
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 3,
+    width: 'auto'
+};
 
 const StudentsSecondaryCertificateListItem = ({ student, ...rest }) => {
     const [open, setOpen] = useState(false);
+    const [openPreview, setOpenPreview] = useState(false);
     const print = React.useRef();
 
     return (
         <React.Fragment>
-            {/* {el.approve ?
-                <div style={{ display: 'none' }}>
-                    <TeacherCertificatePDF mode={mode} teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
-                </div>
-                :
-                <div style={{ display: 'none' }}>
-                    <TeacherLetterPDF teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
-                </div>
-            }
+            <div style={{ display: 'none' }}>
+                <StudentSecondaryCertificatePDF application={student} ref={print} style={{ display: 'none' }} />
+            </div>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
@@ -48,12 +52,9 @@ const StudentsSecondaryCertificateListItem = ({ student, ...rest }) => {
                     <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
                         <CloseIcon className="close-icon" onClick={() => setOpenPreview(false)} />
                     </Typography>
-                    {el.approve ?
-                        <TeacherCertificatePDF mode={mode} teacher={teacher} application={application} el={el} index={index} /> :
-                        <TeacherLetterPDF teacher={teacher} application={application} el={el} index={index} />
-                    }
+                    <StudentSecondaryCertificatePDF application={student} />
                 </Box>
-            </Modal> */}
+            </Modal>
             <TableRow
                 hover
                 sx={{ '& > *': { borderBottom: 'unset' } }}
@@ -128,7 +129,7 @@ const StudentsSecondaryCertificateListItem = ({ student, ...rest }) => {
                                                 <PreviewIcon className="preview-icon" />
                                             </IconButton>
                                             <ReactToPrint
-                                                // content={() => print.current}
+                                                content={() => print.current}
                                                 trigger={() => (
                                                     <IconButton className="print-icon-wrapper">
                                                         <PrintIcon className="print-icon" />
