@@ -210,6 +210,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                 inDate: Yup.date().required('Датата на документите е задължителна').typeError('Датата не е валидна'),
                                 class: Yup.string().required('Класът е задължителен'),
                                 admits: Yup.string().required('Признава е задължително'),
+                                equivalenceExamsDate: Yup.date().typeError('Датата не е валидна'),
                                 equivalenceExams: Yup.array().of(Yup.object().shape({
                                     subjectName: Yup.string().when('equivalenceExamsDate', (equivalenceExamsDate) => {
                                         if (equivalenceExamsDate) {
@@ -617,6 +618,15 @@ const StudentsClassAddForm = ({ rest }) => {
                                             }
                                         />
                                     </LocalizationProvider>
+                                    <Box sx={{ mb: 1, mt: 2, ml: 2, display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+                                        <Button
+                                            color="primary"
+                                            variant="contained"
+                                            onClick={() => setOpenSubjectModal(true)}
+                                        >
+                                            Добaви предмет
+                                        </Button>
+                                    </Box>
                                     {equivalenceExamsDate &&
                                         <>
                                             <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
@@ -665,13 +675,6 @@ const StudentsClassAddForm = ({ rest }) => {
                                         >
                                             Признати оценки по предмети
                                         </Typography>
-                                        <Button
-                                            color="primary"
-                                            variant="contained"
-                                            onClick={() => setOpenSubjectModal(true)}
-                                        >
-                                            Добaви предмет
-                                        </Button>
                                     </Box>
                                     <FieldArray
                                         name="grades"

@@ -43,7 +43,6 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
                     <Autocomplete
                         fullWidth
                         onChange={(event, newValue) => {
-                            console.log(newValue);
                             if(newValue) {
                                 setFieldValue(`${mode}.${index}.subjectName`, newValue.label);
                             }else {
@@ -51,6 +50,7 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
                             }
                         }}
                         disablePortal
+                        isOptionEqualToValue={(option, value) => option.label === value.label}
                         options={subjects}
                         renderInput={(params) => (
                             <TextField
