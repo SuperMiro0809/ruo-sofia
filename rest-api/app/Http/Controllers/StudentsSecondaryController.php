@@ -95,4 +95,14 @@ class StudentsSecondaryController extends Controller
 
         return response()->json(['message' => 'Edited']);
     }
+
+    public function certificates(Request $request) {
+        if($request->has('startDate') && $request->has('endDate')) {
+            $from = $request->query('startDate');
+            $to = $request->query('endDate');
+            return StudentSecondary::whereBetween('dateOut', [$from, $to])->get();
+        }
+
+        return StudentSecondary::all();
+    }
 }

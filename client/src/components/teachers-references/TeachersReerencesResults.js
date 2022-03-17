@@ -49,7 +49,9 @@ const TeachersReferencesResults = ({ loader, data, mode, setMode, page, setPage 
         value={mode}
         exclusive
         onChange={(event, newMode) => {
-          setMode(newMode)
+          if(newMode) {
+            setMode(newMode);
+          }
         }}
         className="toggle-button-wrapper"
       >

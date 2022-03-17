@@ -8,7 +8,7 @@ function getAll(searchName, searchEgn) {
     if(searchEgn) {
         url += `&egn=${searchEgn}`;
     }
-    
+
     return fetch(url)
     .then(res => {
         if(res.status === 200) {
@@ -58,11 +58,28 @@ function destroy(id) {
     })
 }
 
+function certificates(startDate, endDate) {
+    let url = `${services.url}/students-class/certificates?token=${localStorage.getItem('token')}`;
+    if(startDate && endDate) {
+        url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+
+    return fetch(url)
+    .then(res => {
+        if (res.status === 200) {
+            return res.json();
+        } else if (res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
+}
+
 const StudentClassServices = {
     getAll,
     create,
     findByEgn,
-    destroy
+    destroy,
+    certificates
 }
 
 export default StudentClassServices;

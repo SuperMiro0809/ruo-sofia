@@ -6,24 +6,20 @@ import {
     Card,
     CardContent,
     TextField,
-    InputAdornment,
-    SvgIcon,
     Grid
 } from '@material-ui/core';
-import {
-    FileDownload as ExportIcon
-} from '@material-ui/icons';
 import {
     DateRangePicker,
     LocalizationProvider
 } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
-import CertificateExcelDocument from './References/Certificates/CertificateExcelDocument';
-import ProtocolExcelDocumnet from './References/Protocols/ProtocolExcelDocument';
+import CertificateClassExcelDocument from './References/CertificatesClass/CertificateClassExcelDocument';
+import CertificateSecondaryExcelDocument from './References/CertificatesSecondary/CertificateSecondaryExcelDocument';
+import CertificateAllExcelDocument from './References/CertificatesAll/CertificateAllExcelDocument';
 
 
-const TeachersReferencesToolbar = ({ setStartDate, setEndDate, data, mode }, ...props) => {
+const StudentsReferencesToolbar = ({ setStartDate, setEndDate, data, mode }, ...props) => {
     const [date, setDate] = useState([null, null]);
 
     const handleSearch = () => {
@@ -58,9 +54,11 @@ const TeachersReferencesToolbar = ({ setStartDate, setEndDate, data, mode }, ...
                     justifyContent: 'flex-end'
                 }}
             >
-                {mode === "certificates" ?
-                    <CertificateExcelDocument certificates={data} /> :
-                    <ProtocolExcelDocumnet protocols={data} />
+                {mode === "certificatesClass" ?
+                    <CertificateClassExcelDocument certificates={data} /> :
+                    mode === 'certificatesSecondary' ?
+                        <CertificateSecondaryExcelDocument certificates={data} /> :
+                        <CertificateAllExcelDocument certificates={data} />
                 }
             </Box>
             <Box sx={{ mt: 3 }}>
@@ -117,4 +115,4 @@ const TeachersReferencesToolbar = ({ setStartDate, setEndDate, data, mode }, ...
     )
 }
 
-export default TeachersReferencesToolbar;
+export default StudentsReferencesToolbar;

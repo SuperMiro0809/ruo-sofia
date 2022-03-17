@@ -66,11 +66,28 @@ function edit(data, id) {
     })
 }
 
+function certificates(startDate, endDate) {
+    let url = `${services.url}/students-secondary/certificates?token=${localStorage.getItem('token')}`;
+    if(startDate && endDate) {
+        url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+
+    return fetch(url)
+    .then(res => {
+        if (res.status === 200) {
+            return res.json();
+        } else if (res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
+}
+
 const StudentSecondaryServices = {
     getAll,
     create,
     destroy,
-    edit
+    edit,
+    certificates
 }
 
 export default StudentSecondaryServices;

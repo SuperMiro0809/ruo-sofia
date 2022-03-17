@@ -59,11 +59,13 @@ Route::group([
     Route::get('/teachers/certificates', [TeacherController::class, 'certificates']);
 
     Route::get('/students-class', [StudentClassController::class, 'index']);
+    Route::get('/students-class/certificates', [StudentClassController::class, 'certificates']);
     Route::get('/students-class/{egn}', [StudentClassController::class, 'findByEgn']);
     Route::delete('/students-class/{id}', [StudentClassController::class, 'destroy']);
     Route::post('/students-class', [StudentClassController::class, 'store']);
 
     Route::get('/students-secondary', [StudentsSecondaryController::class, 'index']);
+    Route::get('/students-secondary/certificates', [StudentsSecondaryController::class, 'certificates']);
     Route::post('/students-secondary', [StudentsSecondaryController::class, 'store']);
     Route::delete('/students-secondary/{id}', [StudentsSecondaryController::class, 'destroy']);
     Route::put('/students-secondary/{id}', [StudentsSecondaryController::class, 'edit']);

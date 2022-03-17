@@ -34,6 +34,7 @@ import ProtocolSecondaryAdd from './pages/ProtocolSecondaryAdd';
 import ProtocolSecondaryEdit from './pages/ProtocolSecondaryEdit';
 import StudentClassCertificate from './pages/StudentClassCertificate';
 import StudentSecondaryCertificate from './pages/StudentSecondaryCertificate';
+import StudentReference from './pages/StudentReference';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -120,6 +121,10 @@ const routes = [
           { path: '/edit', element: <StudentSecondaryEdit /> },
           { path: '/certificate', element: <StudentSecondaryCertificate /> }
         ]
+      },
+      {
+        path: 'students/reference',
+        element: <RoleRoute role="Education" component={StudentReference}/>
       },
       { 
         path: 'settings', 

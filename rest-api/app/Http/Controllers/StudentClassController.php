@@ -69,4 +69,17 @@ class StudentClassController extends Controller
 
         return response()->json(['message' => 'Deleted']);
     }
+
+    public function certificates(Request $request) {   
+        $certificates = StudentClassApplication::with('student');
+
+        if($request->has('startDate') && $request->has('endDate')) {
+            $from = date($request->query('startDate'));
+            $to = date($request->query('endDate'));
+            
+            $certificates->whereBetween('dateOut', [$from, $to]);
+        }
+            
+        return $certificates->get();
+    }
 }

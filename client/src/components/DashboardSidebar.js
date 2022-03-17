@@ -110,6 +110,11 @@ const dropDownEducation = {
       href: '/app/students-secondary/certificate',
       icon: PrintIcon,
       title: 'Удостоверение за завършено средно'
+    },
+    {
+      href: '/app/students/reference',
+      icon: ReferenceIcon,
+      title: 'Справки'
     }
   ]
 }
