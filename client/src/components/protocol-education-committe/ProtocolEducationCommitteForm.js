@@ -82,6 +82,7 @@ const ProtocolEducationCommitteForm = ({ props }) => {
                                     type="text"
                                     value={values.vicePresidents[index]}
                                     variant="outlined"
+                                    key={`vicePresidents-${index}`}
                                 />
                             ))}
                         </>
@@ -122,6 +123,7 @@ const ProtocolEducationCommitteForm = ({ props }) => {
                                     type="text"
                                     value={values.members[index]}
                                     variant="outlined"
+                                    key={`members-${index}`}
                                 />
                             ))}
                         </>
