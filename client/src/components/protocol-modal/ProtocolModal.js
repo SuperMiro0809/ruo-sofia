@@ -27,7 +27,6 @@ const ProtocolModal = ({ openProp, selectedProtocolProp, protocolsDataProp, ...r
         .then(data => {
           protocolsDataProp.setProtocols(protocolsDataProp.protocols.filter(p => p.id != selectedProtocolProp.selectedProtocol));
           closeModal();
-          console.log(data);
           messageContext[1]({ status: 'success', text: 'Протоколът е изтрит успешно!' })
           const interval = setInterval(function () {
             messageContext[1]('');

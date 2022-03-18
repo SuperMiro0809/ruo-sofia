@@ -72,8 +72,6 @@ const CommitteListResult = ({ ...rest }) => {
                 members: Yup.array().of(Yup.string().required('Членът е задължителен')),
               })}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-
                 committeServices.create(values)
                   .then(data => {
                     messageContext[1]({ status: 'success', text: 'Комисията е запазена успешно' });

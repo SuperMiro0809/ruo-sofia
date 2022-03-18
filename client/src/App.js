@@ -23,7 +23,6 @@ const App = () => {
     const interval = setInterval(() => {
       userServices.refresh()
         .then(data => {
-          console.log(data);
           localStorage.setItem('token', data.access_token);
           getUser();
         })
@@ -35,7 +34,6 @@ const App = () => {
     }, 3598000);
 
     if (!localStorage.getItem('token')) {
-      console.log('logged out')
       clearInterval(interval);
     }
   }, [jsonUser])
@@ -43,7 +41,6 @@ const App = () => {
   const getUser = () => {
     userServices.profile()
       .then(data => {
-        console.log(data);
         setUser(data);
       })
       .catch(err => {

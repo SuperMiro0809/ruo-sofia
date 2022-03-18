@@ -37,7 +37,6 @@ import committeServices from '../../services/committe';
 import ProtocolEditFormItem from './ProtocolEditFormItem';
 
 const ProtocolAddForm = ({ protocol, ...rest }) => {
-    console.log(protocol);
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const scrollTo = useRef(null);
@@ -72,7 +71,6 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
     }, []);
 
     const applicationElementsValidation = (values, mode, i) => {
-        console.log(values.applications[i][mode]);
         for (let j = 0; j < values.applications[i][mode].length; j++) {
             if (values.applications[i][mode][j].approve) {
                 if (!values.applications[i][mode][j].credits) {
@@ -177,10 +175,8 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                             })}
                             onSubmit={(values, { setSubmitting }) => {
                                 if (!values) {
-                                    console.log('Error');
                                     setSubmitting(false);
                                 } else {
-                                    console.log(values);
                                     protocolServices.edit(values, protocol.id)
                                         .then(r => {
                                             messageContext[1]({ status: 'success', text: 'Протоколът е редактиран успешно!' });

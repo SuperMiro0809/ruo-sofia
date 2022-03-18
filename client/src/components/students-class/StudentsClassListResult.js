@@ -45,7 +45,6 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
 
         studentClassServices.getAll(searchName, searchEgn)
             .then(data => {
-                console.log(data);
                 setStudents(data);
                 setLoader(false);
             })

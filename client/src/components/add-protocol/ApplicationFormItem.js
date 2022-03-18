@@ -126,7 +126,6 @@ const ApplicationFormItem = ({ props }, ...rest) => {
     const selectApplication = (id) => {
         teacherServices.getApplication(id)
             .then(data => {
-                console.log(data);
                 setSelectedApplication(data);
             })
             .catch(err => {

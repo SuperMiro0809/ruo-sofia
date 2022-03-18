@@ -44,7 +44,6 @@ const AccountProfile = (props) => {
     //setSelectedFile(event.target.files[0]);
     const body = new FormData();
     body.append('avatar', event.target.files[0]);
-    console.log(selectedFile);
     event.target.value = "";
     userServices.avatar(body)
       .then(data => {

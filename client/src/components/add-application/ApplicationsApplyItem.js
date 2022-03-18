@@ -26,7 +26,6 @@ const ApplicationsApplyItem = ({ props, form, type }, ...rest) => {
     const applicationScheme = props.scheme
 
     useEffect(() => {
-        console.log(values[mode].length > 1);
         if (values[mode].length > 1) {
             scrollTo.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
         }

@@ -30,7 +30,6 @@ const TeacherReference = () => {
                         data[i].certificateNumber = `${data[i].ruoNumberOut}/${moment(data[i].dateOut).format('DD.MM.YYYY')}`
                     }
                     setCertificates(data);
-                    console.log(certificates)
                     setLoader(false);
                 })
                 .catch(err => {

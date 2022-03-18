@@ -254,10 +254,8 @@ const ApplicationsAddForm = ({ rest }) => {
                                 const formatedDate = moment(date).format('YYYY/MM/DD');
                                 data = { date: formatedDate, ...data };
 
-                                console.log(data);
                                 teacherServices.addApplication(data)
                                     .then(res => {
-                                        console.log(res);
                                         messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' })
                                         navigate('/app/teachers', { replace: true });
                                         const interval = setInterval(function () {
@@ -304,7 +302,6 @@ const ApplicationsAddForm = ({ rest }) => {
                                     <Autocomplete
                                         fullWidth
                                         onChange={(event, newValue) => {
-                                            console.log(newValue);
                                             if (newValue != null) {
                                                 setTeacher(true);
                                                 setTeacherId(newValue.id);

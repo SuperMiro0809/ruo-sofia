@@ -10,7 +10,6 @@ const RoleRoute = ({ component: Component, role, ...rest }) => {
     useEffect(() => {
         if (userContext[0].role && userContext[0].role != role && userContext[0].role !="Administrator") {
             navigate(-1);
-            console.log('navigate -1')
             return null;
         }
     }, [])

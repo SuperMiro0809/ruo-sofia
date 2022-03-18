@@ -38,7 +38,6 @@ const StudentsSecondaryCertificateListResults = ({ searchName, searchEgn }, ...p
 
         studentSecondaryServices.getAll(searchName, searchEgn)
             .then(data => {
-                console.log(data);
                 setStudents(data);
                 setLoader(false);
             })

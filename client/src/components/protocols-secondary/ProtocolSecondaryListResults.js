@@ -47,7 +47,6 @@ const ProtocolSecondaryListResults = ({number, startDate, endDate}, ...props) =>
 
     protocolSecondaryServices.getAll({number, startDate, endDate})
       .then(data => {
-        console.log(data);
         setProtocols(data);
         setLoader(false);
       })

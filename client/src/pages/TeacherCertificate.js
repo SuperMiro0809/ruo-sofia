@@ -48,7 +48,6 @@ const TeacherEdit = () => {
 
                 setTeachers(teacherData);
                 setLoader(false);
-                console.log(teacherData);
             })
             .catch(err => {
                 if (err.message === 'Unauthorized') {

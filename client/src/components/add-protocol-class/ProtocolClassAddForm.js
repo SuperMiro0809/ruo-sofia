@@ -114,7 +114,6 @@ const ProtocolClassAddForm = ({ rest }) => {
                                 members: Yup.array().of(Yup.string().required('Членът е задължителен'))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                console.log(values);
                                 protocolClassServices.create(values)
                                     .then(r => {
                                         messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });

@@ -54,7 +54,6 @@ const Login = () => {
             onSubmit={(values, { setSubmitting }) => {
               userServices.login(values)
               .then(data => {
-                console.log(data);
                 userContext[1](data.user);
                 localStorage.setItem('token', data.access_token);
                 navigate('/app/dashboard', { replace: true });

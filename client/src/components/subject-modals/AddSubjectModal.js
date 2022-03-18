@@ -64,8 +64,6 @@ const AddSubjectModal = ({ openSubjectModalProp, loadSubjects, ...rest }) => {
                         name: Yup.string().required('Предметът е задължителен'),
                     })}
                     onSubmit={(values, { setSubmitting }) => {
-                        console.log(values);
-
                         subjectServices.create(values)
                             .then(data => {
                                 messageContext[1]({ status: 'success', text: 'Предметът е добавен успешно' });

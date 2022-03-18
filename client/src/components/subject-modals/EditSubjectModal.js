@@ -65,8 +65,6 @@ const EditSubjectModal = ({ openEditModalProp, selectedSubjectProp, loadSubjects
                         name: Yup.string().required('Предметът е задължителен'),
                     })}
                     onSubmit={(values, { setSubmitting }) => {
-                        console.log(values);
-
                         subjectServices.edit(values, selectedSubjectProp.selectedSubject.id)
                             .then(data => {
                                 messageContext[1]({ status: 'success', text: 'Предметът е редактиран успешно' });

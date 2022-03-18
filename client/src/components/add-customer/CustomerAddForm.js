@@ -52,7 +52,6 @@ const CustomerAddForm = ({ rest }) => {
                             onSubmit={(values) => {
                                 userServices.create(values)
                                 .then(data => {
-                                    console.log(data);
                                     messageContext[1]({ status: 'success', text: data.message });
                                     navigate('/app/users', { replace: true });
                                     const interval = setInterval(function () {

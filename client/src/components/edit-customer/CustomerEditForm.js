@@ -48,7 +48,6 @@ const CustomerEditForm = ({ customer, ...rest }) => {
                             onSubmit={(values) => {
                                 userServices.editUser({id: customer.id, ...values})
                                 .then(data => {
-                                    console.log(data);
                                     messageContext[1]({ status: 'success', text: data.message })
                                     navigate('/app/users', { replace: true });
                                     const interval = setInterval(function () {

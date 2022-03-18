@@ -57,7 +57,6 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
 
         setTeachers(data);
         setLoader(false);
-        console.log(data);
       })
       .catch(err => {
         if (err.message === 'Unauthorized') {

@@ -170,8 +170,6 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                 }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                console.log(values);
-                                
                                 studentSecondaryServices.edit(values, student.id)
                                     .then(r => {
                                         messageContext[1]({ status: 'success', text: 'Ученикът е редактиран успешно!' });

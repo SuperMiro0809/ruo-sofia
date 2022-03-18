@@ -2,7 +2,6 @@ import userService from './user';
 
 const url = process.env.REACT_APP_API_ENDPOINT;
 const assets = process.env.REACT_APP_ASSETS;
-console.log(assets)
 // const url = 'http://127.0.0.1:8000/api';
 //const assets = 'http://127.0.0.1:8000/storage';
 

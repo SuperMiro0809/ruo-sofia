@@ -199,10 +199,8 @@ const ProtocolAddForm = ({ rest }) => {
                             })}
                             onSubmit={(values, { setSubmitting }) => {
                                 if (!values) {
-                                    console.log('Error');
                                     setSubmitting(false);
                                 } else {
-                                    console.log(values);
                                     protocolServices.create(values)
                                         .then(r => {
                                             messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });

@@ -175,8 +175,6 @@ const StudentSecondaryAddForm = ({ rest }) => {
                                 }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                console.log(values);
-
                                 studentSecondaryServices.create(values)
                                     .then(r => {
                                         messageContext[1]({ status: 'success', text: 'Ученикът е добавен успешно!' });

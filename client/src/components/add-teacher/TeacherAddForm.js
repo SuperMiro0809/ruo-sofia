@@ -64,10 +64,8 @@ const TeacherAddForm = ({ rest }) => {
                                 lastName: Yup.string().max(255).required('Фамилията е задължителна'),
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                console.log(values);
                                 teacherServices.create(values)
                                     .then(data => {
-                                        console.log(data);
                                         messageContext[1]({ status: 'success', text: 'Учителят е добавен успешно' });
                                         navigate('/app/teachers', { replace: true });
                                         const interval = setInterval(function () {

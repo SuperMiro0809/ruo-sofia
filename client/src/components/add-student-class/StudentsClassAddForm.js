@@ -252,8 +252,6 @@ const StudentsClassAddForm = ({ rest }) => {
                                             navigate('/login');
                                         }
                                     })
-
-                                console.log(values);;
                             }}
                         >
                             {({
@@ -596,7 +594,6 @@ const StudentsClassAddForm = ({ rest }) => {
                                             label="Срок за полагане на приравнителните изпити"
                                             value={equivalenceExamsDate}
                                             onChange={(newValue) => {
-                                                console.log(newValue);
                                                 if (newValue) {
                                                     setFieldValue('equivalenceExamsDate', moment(newValue).format('YYYY/MM/DD'))
                                                 } else {

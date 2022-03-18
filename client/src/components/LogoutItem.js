@@ -13,7 +13,6 @@ const LogoutItem = () => {
     const logout = () => {
         userServices.logout()
         .then((data) => {
-            console.log(data);
             userContext[1]({});
             localStorage.removeItem('token');
             navigate('/login', { replace: true });

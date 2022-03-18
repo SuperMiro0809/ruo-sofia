@@ -9,7 +9,6 @@ import {
 import CertificatesReferenceItem from './CertificatesReferenceItem';
 
 const CertificatesReferene = ({ certificates, loader, page, limit }) => {
-    console.log(certificates);
     return (
         <Table>
             <TableHead>

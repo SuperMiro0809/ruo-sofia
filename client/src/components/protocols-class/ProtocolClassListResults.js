@@ -47,7 +47,6 @@ const ProtocolClassListResults = ({number, startDate, endDate}, ...props) => {
 
     protocolClassServices.getAll({number, startDate, endDate})
       .then(data => {
-        console.log(data);
         setProtocols(data);
         setLoader(false);
       })
