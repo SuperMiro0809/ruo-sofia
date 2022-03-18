@@ -134,6 +134,11 @@ const StudentSecondaryCertificatePDF = React.forwardRef(({ application }, ref) =
                         </article>
                     ))}
                 </section>
+                {application.admits === 'ЗАВЪРШЕНО СРЕДНО С ПКС' &&
+                    <article className="pks-wrapper">
+                        <span>Професия {application.profession}, Специалност {application.speciality}</span>
+                    </article>
+                }
             </div>
             <div className="page-two">
                 <div><span>{committe.president}</span></div>

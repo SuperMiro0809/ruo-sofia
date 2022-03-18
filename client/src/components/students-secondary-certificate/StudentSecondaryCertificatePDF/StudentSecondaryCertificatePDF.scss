@@ -12,6 +12,12 @@
         div {
             position: absolute;
         }
+
+        .pks-wrapper {
+            position: absolute;
+            top: 12.9cm;
+            left: 3.3cm;
+        }
     
         div:nth-child(1) {
             top: 7.9cm;
@@ -35,8 +41,8 @@
         }
     
         div:nth-child(5) {
-            left: 6cm;
             top: 12.3cm;
+            left: 6cm;
         }
     
         div:nth-child(6) {

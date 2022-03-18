@@ -166,7 +166,7 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                 }),
                                 grades: Yup.array().of(Yup.object().shape({
                                     subjectName: Yup.string().required('Името на предмет е задължително'),
-                                    grade: Yup.number().required('Оценката е задължителна').positive('Оценката трябва да бъде положително число')
+                                    grade: Yup.string().required('Оценката е задължителна')
                                 }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
@@ -447,7 +447,7 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                             name="admits"
                                             onChange={(e) => {
                                                 handleChange(e);
-                                                if(e.target.value === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
+                                                if(e.target.value !== "ЗАВЪРШЕНО СРЕДНО С ПКС") {
                                                     setFieldValue('profession', '');
                                                     setFieldValue('speciality', '');
                                                 }
