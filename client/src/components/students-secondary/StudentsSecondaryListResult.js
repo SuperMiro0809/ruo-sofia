@@ -32,11 +32,14 @@ const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
     let studentsDataProp = {students, setStudents};
 
     useEffect(() => {
+        let mounted = true;
         if (!open) {
             setLoader(true);
         }
 
         getStudents();
+
+        return () => mounted = false;
     }, [searchName, searchEgn])
 
     const getStudents = () => {

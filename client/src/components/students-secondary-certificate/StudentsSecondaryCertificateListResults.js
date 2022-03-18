@@ -25,10 +25,13 @@ const StudentsSecondaryCertificateListResults = ({ searchName, searchEgn }, ...p
     const [students, setStudents] = useState([]);
 
     useEffect(() => {
+        let mounted = true;
         if (!open) {
             setLoader(true);
         }
         getStudents();
+        
+        return () => mounted = false;
     }, [searchName, searchEgn])
 
     const getStudents = () => {

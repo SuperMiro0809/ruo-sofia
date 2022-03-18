@@ -37,8 +37,11 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
   let selectedCustomerProp = { selectedCustomer, setSelectedCustomer }
 
   useEffect(() => {
+    let mounted = true;
     setLoader(true);
     loadCustomers();
+
+    return () => mounted = false;
   }, [name, email, role]);
 
   const loadCustomers = () => {

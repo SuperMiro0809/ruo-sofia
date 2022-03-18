@@ -35,10 +35,13 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
   let teachersDataProp = { teachers, setTeachers };
 
   useEffect(() => {
+    let mounted = true;
     if (!open) {
       setLoader(true);
     }
     getTeachers();
+
+    return () => mounted = false;
   }, [search])
 
   const getTeachers = () => {

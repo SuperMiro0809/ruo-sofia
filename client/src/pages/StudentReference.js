@@ -20,6 +20,7 @@ const StudentReference = () => {
     const [page, setPage] = useState(0);
 
     useEffect(() => {
+        let mounted = true;
         setLoader(true);
         setPage(0);
         if (mode === 'certificatesClass') {
@@ -30,6 +31,8 @@ const StudentReference = () => {
             getCertificatesClass();
             getCertificatesSecondary();
         }
+
+        return () => mounted = false;
     }, [mode, startDate, endDate]);
 
     const getCertificatesClass = () => {

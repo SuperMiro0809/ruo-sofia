@@ -13,7 +13,10 @@ const TeacherEdit = () => {
     const [page, setPage]= useState(0);
 
     useEffect(() => {
+        let mounted = true;
         getTeachers();
+
+        return () => mounted = false;
     }, []);
 
     const getTeachers = (search) => {

@@ -41,7 +41,10 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
     const selectedSubjectProp = { selectedSubject, setSelectedSubject };
 
     useEffect(() => {
+        let mounted = true;
         loadSubjects();
+
+        return () => mounted = false;
     }, [search]);
 
     const loadSubjects = () => {

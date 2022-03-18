@@ -34,10 +34,13 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
   let protocolsDataProp = { protocols, setProtocols };
 
   useEffect(() => {
+    let mounted = true;
     if(!open) {
       setLoader(true);
     }
     getProtocols();
+
+    return () => mounted = false;
   }, [number, startDate, endDate])
 
   const getProtocols = () => {

@@ -19,6 +19,7 @@ const TeacherReference = () => {
     const [page, setPage] = useState(0);
 
     useEffect(() => {
+        let mounted = true;
         setLoader(true);
         setPage(0);
         if (mode === 'certificates') {
@@ -52,6 +53,8 @@ const TeacherReference = () => {
                     }
                 })
         }
+
+        return () => mounted = false;
     }, [mode, startDate, endDate]);
 
     return (
