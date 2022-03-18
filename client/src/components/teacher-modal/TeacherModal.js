@@ -59,8 +59,8 @@ const TeacherModal = ({ openProp, selectedTeacherProp, teachersDataProp, ...rest
                     Сигурни ли сте, че желаете да изтриете този учител? Ще изтриете и прибавените към него заявления.
                 </Typography>
                 <Box className="button-wrapper">
-                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                     <Button className="modal-button" onClick={deleteTeacher}>Да</Button>
+                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                 </Box>
             </Box>
         </Modal>

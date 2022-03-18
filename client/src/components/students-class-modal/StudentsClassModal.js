@@ -59,8 +59,8 @@ const StudentsClassModal = ({ openProp, selectedStudentProp, studentsDataProp, .
                     Сигурни ли сте, че желаете да изтриете този ученик? Ще изтриете и прибавените към него заявления.
                 </Typography>
                 <Box className="button-wrapper">
-                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                     <Button className="modal-button" onClick={deleteStudent}>Да</Button>
+                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                 </Box>
             </Box>
         </Modal>

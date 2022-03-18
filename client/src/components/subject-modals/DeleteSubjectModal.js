@@ -59,8 +59,8 @@ const DeleteSubjectModal = ({ openProp, openDeleteModalProp, selectedSubjectProp
                     Сигурни ли сте, че желаете да изтриете този предмет?
                 </Typography>
                 <Box className="button-wrapper">
-                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                     <Button className="modal-button" onClick={deleteSubject}>Да</Button>
+                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                 </Box>
             </Box>
         </Modal>

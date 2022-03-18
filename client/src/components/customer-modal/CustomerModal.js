@@ -61,8 +61,8 @@ const CustomerModal = ({ openProp, selectedCustomerProp, ...rest }) => {
                     Сигурни ли сте, че желаете да изтриете този потребител?
                 </Typography>
                 <Box className="button-wrapper">
-                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                     <Button className="modal-button" onClick={deleteCustomer}>Да</Button>
+                    <Button className="modal-button" onClick={closeModal}>Не</Button>
                 </Box>
             </Box>
         </Modal>
