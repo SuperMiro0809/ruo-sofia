@@ -28,12 +28,10 @@ class TeacherController extends Controller
     public function store(Request $request) {
         $teacher = new Teacher();
 
-        $applications = [];
         $teacher->dateOfBirth = $request->dateOfBirth;
         $teacher->firstName = $request->firstName;
         $teacher->middleName = $request->middleName;
         $teacher->lastName = $request->lastName;
-        $teacher->application()->attach($applications);
 
         $teacher->save();
 
@@ -78,9 +76,6 @@ class TeacherController extends Controller
             }
 
             $application_id = $application->id;
-            
-            $teacher = Teacher::findOrFail($request->teacherId);
-            $teacher->application()->attach($application_id);
 
             foreach($request->teaching as $thc=>$val) {
                 $teaching = new Teaching();
@@ -145,24 +140,15 @@ class TeacherController extends Controller
 
     public function destroy($id) {
         $teacher = Teacher::findOrFail($id);
-        $applications = $teacher->applications['application_ids'];
-        
-        foreach ($applications as $aId) {
-            $application = Application::findOrFail($aId);
+        $applications = $teacher->application();
 
-            $application->teaching->each(function($teaching) {
-                $teaching->delete();
-            });
-            $application->report->each(function($report) {
-                $report->delete();
-            });
-            $application->publication->each(function($publication) {
-                $publication->delete();
-            });
-
-            $application->delete();
+        foreach($applications->get() as $application) {
+            $application->teaching()->delete();
+            $application->report()->delete();
+            $application->publication()->delete();
         }
 
+        $teacher->application()->delete();
         $teacher->delete();
 
         return response()->json(['message' => 'Deleted']);

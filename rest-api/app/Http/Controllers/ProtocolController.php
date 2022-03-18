@@ -16,32 +16,44 @@ class ProtocolController extends Controller
         $to = date($request->query('endDate', '2300-01-01'));
         $number = $request->query('number', '');
 
-        $protocols = Protocol::select("*")
+        $protocols = Protocol::with('application')
+            ->with('application.teacher')
+            ->with('application.teaching')
+            ->with('application.report')
+            ->with('application.publication')
             ->whereBetween('date', [$from, $to])
             ->where('number', 'regexp', $number)
             ->get();
 
-        foreach ($protocols as $p) {
-            $p->application;
-            foreach($p->application as $a) {
-                $a->teacher;
-                $a->teaching;
-                $a->report;
-                $a->publication;
-            }
-        }
         return $protocols;
     }
 
     public function store(Request $request) {
         $protocol = new Protocol();
-        $ids = [];
+        $protocol->number = $request->number;
+        $protocol->date = $request->date;
+        $protocol->about = $request->about;
+        $protocol->president = $request->president;
+        $protocol->members = json_encode($request->members);
+
+        try {
+            $protocol->save();
+        } catch(\Exception $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            if($errorCode == 1062){
+                return response()->json([
+                    'message'=>'Вече е въведен протокол с този номер!'
+                ], 409);
+            }
+        }
 
         foreach ($request->applications as $appl=>$appl_value) {
             $application = Application::findOrFail($appl_value["application"]);
             $application->ruoNumberOut = $appl_value["ruoNumberOut"];
             $application->dateOut = $appl_value["dateOut"];
             $application->inProtocol = true;
+            $application->protocol_id = $protocol->id;
 
             try {
                 $application->save();
@@ -56,9 +68,6 @@ class ProtocolController extends Controller
                     ], 409);
                 }
             }
-            
-            $id = $application->id;
-            $ids[] = $id;
 
             foreach($appl_value["teachings"] as $th=>$th_val) {
                 $th_id = $th_val["id"];
@@ -91,35 +100,16 @@ class ProtocolController extends Controller
             }
         }
 
-        $protocol->number = $request->number;
-        $protocol->date = $request->date;
-        $protocol->about = $request->about;
-        $protocol->president = $request->president;
-        $protocol->members = json_encode($request->members);
-        $protocol->application()->attach($ids);
-
-        try {
-            $protocol->save();
-        } catch(\Exception $e) {
-            $errorCode = $e->errorInfo[1];
-            
-            if($errorCode == 1062){
-                return response()->json([
-                    'message'=>'Вече е въведен протокол с този номер!'
-                ], 409);
-            }
-        }
-
         return response()->json(['message' => 'Created']);
     }
 
     public function destroy($id) {
         $protocol = Protocol::findOrFail($id);
-        $applications = $protocol->applications['application_ids'];
+        $applications = Application::where('protocol_id', $protocol->id)->get();
         
-        foreach ($applications as $aId) {
-            $application = Application::findOrFail($aId);
+        foreach ($applications as $application) {
             $application->inProtocol = false;
+            $application->protocol_id = null;
 
             $application->teaching->each(function($teaching) {
                 $teaching->approve = null;

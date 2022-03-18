@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
-    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
     use HasFactory;
      
     public function protocol() {
-        return $this->hasManyJson('App\Protocol', 'applications->application_ids');
+        return $this->belongsTo('App\Models\Protocol');
     }
 
     public function teacher() {

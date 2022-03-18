@@ -27,6 +27,7 @@ class CreateApplicationsTable extends Migration
             $table->string('ruoNumber')->unique();
             $table->string('ruoNumberOut')->nullable()->unique();
             $table->boolean('inProtocol')->default(false);
+            $table->unsignedBigInteger('protocol_id')->nullable();
         });
     }
 
