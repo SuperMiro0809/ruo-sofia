@@ -23,7 +23,7 @@ import dashboardServices from '../../services/dashboard';
 
 const DashboardResult = () => {
     const navigate = useNavigate();
-    const [values, setValues] = useState({ teachersCount: 0, protocolsCount: 0, studentsClassCount: 0, studentsSecondaryCount: 0, certificatesCount: 0 });
+    const [values, setValues] = useState({ teachersCount: 0, protocolsCount: 0, studentsClassCount: 0, studentsSecondaryCount: 0, certificatesCount: 0, protocolsClassCount: 0 });
 
     useEffect(() => {
         dashboardServices.index()
@@ -270,7 +270,7 @@ const DashboardResult = () => {
                     >
                         <DashboardCardLayout
                             title="Протоколи - Клас"
-                            value="1"
+                            value={values.protocolsClassCount}
                             url="/app/students-secondary"
                             icon={FileContractIcon}
                         />
@@ -284,38 +284,3 @@ const DashboardResult = () => {
 
 
 export default DashboardResult;
-
-{/* <Grid
-                    container
-                    spacing={3}
-                    className="item-wrapper"
-                >
-                    <Grid
-                        item
-                        lg={12}
-                        sm={6}
-                        xl={3}
-                        xs={12}
-                    >
-                        <DashboardCardLayout
-                            title="Ученици"
-                            value="20000"
-                            url="/app/teachers"
-                            icon={GlassesIcon}
-                        />
-                    </Grid>
-                    <Grid
-                        item
-                        lg={3}
-                        sm={6}
-                        xl={3}
-                        xs={12}
-                    >
-                        <DashboardCardLayout
-                            title="Протоколи"
-                            value="2"
-                            url="/app/protocols"
-                            icon={FileContractIcon}
-                        />
-                    </Grid>
-                </Grid> */}

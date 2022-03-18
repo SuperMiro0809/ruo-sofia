@@ -7,6 +7,7 @@ use App\Models\Teacher;
 use App\Models\Protocol;
 use App\Models\StudentClass;
 use App\Models\StudentSecondary;
+use App\Models\ProtocolClass;
 
 class DashboardController extends Controller
 {
@@ -34,13 +35,15 @@ class DashboardController extends Controller
                                     ->where('applications.inProtocol', '1')
                                     ->count();
         $certificatesCount = $teacningsCount + $reportsCount + $publicationsCount;
+        $protocolsClassCount = ProtocolClass::count();
 
         return response()->json([
             'teachersCount' => $teachersCount,
             'protocolsCount' => $protocolsCount,
             'studentsClassCount' => $studentsClassCount,
             'studentsSecondaryCount' => $studentsSecondaryCount,
-            'certificatesCount' => $certificatesCount
+            'certificatesCount' => $certificatesCount,
+            'protocolsClassCount' => $protocolsClassCount
         ]);
     }
 }
