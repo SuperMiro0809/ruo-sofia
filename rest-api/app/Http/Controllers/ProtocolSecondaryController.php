@@ -43,9 +43,21 @@ class ProtocolSecondaryController extends Controller
         $committe->save();
 
         try {
-            $protocol->save();
+            $from = $request->startDate;
+            $to = $request->endDate;
+            $fromTime = strtotime($from);
+            $toTime = strtotime($to);
+            $fromDate = date("d.m.Y", $fromTime);
+            $toDate = date("d.m.Y", $toTime);
 
-            StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->update(['protocol_id' => $protocol->id]);
+            if(StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$from, $to])->count() == 0) {
+                return response()->json([
+                    'message'=>"Няма налични заявления между $fromDate и $toDate!"
+                ], 409);
+            }
+
+            $protocol->save();
+            StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$from, $to])->update(['protocol_id' => $protocol->id]);
         } catch(\Exception $e) {
             $errorCode = $e->errorInfo[1];
             
