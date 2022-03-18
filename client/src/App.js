@@ -27,6 +27,7 @@ const App = () => {
           getUser();
         })
         .catch(err => {
+          clearInterval(interval);
           if (err.message === 'Unauthorized') {
             navigate('/login');
           }
