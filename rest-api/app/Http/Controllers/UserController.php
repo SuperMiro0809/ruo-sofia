@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Rules\MatchOldPassword;
 use JWTAuth;
 use Validator;
 
@@ -93,6 +94,34 @@ class UserController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Потребителят е редактиран успешно!', 'user' => $user]);
+    }
+
+    public function changePassword(Request $request, $id) {
+        $user = User::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'oldPassword' => ['required', new MatchOldPassword],
+            'newPassword' => 'required',
+            'repeatNewPassword' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if($request->oldPassword == $request->newPassword) {
+            return response()->json(['oldPassword' => 'Старата парола съвпада с новата!'], 422);
+        }
+
+        if($request->repeatNewPassword != $request->newPassword) {
+            return response()->json(['oldPassword' => 'Повторената парола не съвпада!'], 422); 
+        }
+
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+        auth()->logout();
+
+        return response()->json(['message' => 'Password changed']);
     }
 
     public function uploadAvatar(Request $request) {

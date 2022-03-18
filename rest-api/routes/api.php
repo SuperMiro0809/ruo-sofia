@@ -43,6 +43,7 @@ Route::group([
     Route::get('/profile', [UserController::class, 'userProfile']);
     Route::post('/profile/avatar', [UserController::class, 'uploadAvatar']);
     Route::delete('/profile/avatar', [UserController::class, 'deleteAvatar']);
+    Route::put('/users/changePassword/{id}', [UserController::class, 'changePassword']);
     Route::put('/users/{id}', [UserController::class, 'editUser']);
 
     Route::get('/protocols', [ProtocolController::class, 'index']);

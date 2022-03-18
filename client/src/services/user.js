@@ -127,6 +127,24 @@ function editUser(data) {
     })
 }
 
+function changePassword(data) {
+    return fetch(`${services.url}/users/changePassword/${data.id}?token=${localStorage.getItem('token')}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: services.header2,
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }else {
+            return res.json().then(r => { throw new Error(r.oldPassword) })
+        }
+    })
+}
+
 function logout() {
     return fetch(`${services.url}/logout?token=${localStorage.getItem('token')}`, {
         method: 'POST',
@@ -167,7 +185,8 @@ const userServices = {
     deleteAvatar,
     editUser,
     logout,
-    refresh
+    refresh,
+    changePassword
 }
 
 export default userServices;

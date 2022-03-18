@@ -1,234 +1,231 @@
 import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Grid,
-  TextField,
-  Select,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  FormHelperText
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    Divider,
+    Grid,
+    TextField,
+    Select,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    FormHelperText
 } from '@material-ui/core';
 import UserContext from '../../contexts/UserContext';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import userServices from '../../services/user';
 import MessageContext from '../../contexts/MessageContext';
+import AccountProfileDetailsForm from './AccountProfileDetailsForm';
+import AccountProfilePasswordForm from './AccountProfilePasswordForm';
 
 const AccountProfileDetails = (props) => {
-  const [user, setUser] = useContext(UserContext);
-  const messageContext = useContext(MessageContext);
-
-  const disableButton = (isSubmitting, errors, values) => {
-    for(let key in values) {
-      if(!values[key]) {
-        return true;
-      }
-    }
-
-    for (let key in errors) {
-      if (errors[key]) {
-          return true;
-      }
-    }
-
-    if(isSubmitting) {
-      return true;
-    }
-
-    return false;
-  }
-
-  return (
-    <Formik
-      initialValues={{
+    const navigate = useNavigate();
+    const [user, setUser] = useContext(UserContext);
+    const [mode, setMode] = useState('edit');
+    const [initialValues, setInitialValues] = useState({
         name: user.name,
         email: user.email,
         role: user.role
-      }}
-      validationSchema={Yup.object().shape({
-        name: Yup.string().max(255).required('Името е задължително'),
-        email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
-        role: Yup.string().required('Ролята е задължителна')
-      })}
-      onSubmit={(values, { setSubmitting }) => {
-        userServices.editUser({ id: user.id, ...values })
-        .then(data => {
-          setUser(data.user);
-          messageContext[1]({ status: 'success', text: 'Редактирахте профила си успешно!' })
-          setSubmitting(false);
-          const interval = setInterval(function () {
-            messageContext[1]('');
-            clearInterval(interval);
-        }, 2000)
-        })
-      }}
-    >
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        isSubmitting,
-        touched,
-        values
-      }) => (
-        <form
-          autoComplete="off"
-          noValidate
-          {...props}
-          onSubmit={handleSubmit}
+    });
+    const messageContext = useContext(MessageContext);
+
+    const disableButton = (isSubmitting, errors, values) => {
+        for (let key in values) {
+            if (!values[key]) {
+                return true;
+            }
+        }
+
+        for (let key in errors) {
+            if (errors[key]) {
+                return true;
+            }
+        }
+
+        if (isSubmitting) {
+            return true;
+        }
+
+        return false;
+    }
+
+    const changeMode = () => {
+        if (mode === 'edit') {
+            setMode('password');
+            setInitialValues({
+                oldPassword: '',
+                newPassword: '',
+                repeatNewPassword: ''
+            });
+        } else {
+            setMode('edit');
+            setInitialValues({
+                name: user.name,
+                email: user.email,
+                role: user.role
+            });
+        }
+    }
+
+    return (
+        <Formik
+            initialValues={initialValues}
+            validationSchema={Yup.object().shape(
+                mode === 'edit' ?
+                    {
+                        name: Yup.string().max(255).required('Името е задължително'),
+                        email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
+                        role: Yup.string().required('Ролята е задължителна')
+                    } :
+                    {
+                        oldPassword: Yup.string().max(255).required('Старата паролата е задължителна'),
+                        newPassword: Yup.string().max(255).required('Новата паролата е задължителна').when('oldPassword', (oldPassword, schema) => {
+                            if (oldPassword) {
+                                return schema.test({
+                                    test: newPassword => newPassword !== oldPassword,
+                                    message: 'Новата парола трябва да е различна от старата'
+                                })
+                            }
+                        }),
+                        repeatNewPassword: Yup.string().max(255).required('Повтоерете новата паролата е задължително').when('newPassword', (newPassword, schema) => {
+                            if (newPassword) {
+                                return schema.test({
+                                    test: repeatNewPassword => repeatNewPassword === newPassword,
+                                    message: 'Паролите не съвпадат'
+                                })
+                            }
+                        })
+                    }
+            )}
+            onSubmit={(values, { setSubmitting }) => {
+                if (mode === 'edit') {
+                    userServices.editUser({ id: user.id, ...values })
+                        .then(data => {
+                            setUser(data.user);
+                            messageContext[1]({ status: 'success', text: 'Редактирахте профила си успешно!' })
+                            setSubmitting(false);
+                            const interval = setInterval(function () {
+                                messageContext[1]('');
+                                clearInterval(interval);
+                            }, 2000)
+                        })
+                        .catch(err => {
+                            if (err.message === 'Unauthorized') {
+                                navigate('/login');
+                            }
+                        })
+                } else {
+                    userServices.changePassword({ id: user.id, ...values })
+                        .then(data => {
+                            setUser({});
+                            localStorage.removeItem('token');
+                            navigate('/login', { replace: true });
+                            messageContext[1]({ status: 'success', text: 'Сменихте паролата си успешно!' })
+                            setSubmitting(false);
+                            const interval = setInterval(function () {
+                                messageContext[1]('');
+                                clearInterval(interval);
+                            }, 2000)
+                        })
+                        .catch(err => {
+                            if (err.message === 'Unauthorized') {
+                                navigate('/login');
+                            }else {
+                                messageContext[1]({ status: 'error', text: err.message })
+                                setSubmitting(false);
+                                const interval = setInterval(function () {
+                                    messageContext[1]('');
+                                    clearInterval(interval);
+                                }, 2000)
+                            }
+                        })
+                }
+            }}
+            enableReinitialize
         >
-          <Card>
-            <CardHeader
-              subheader="Информацията може да бъде редактирана"
-              title="Профил"
-            />
-            <Divider />
-            <CardContent>
-              <Grid
-                container
-                spacing={3}
-              >
-                <Grid
-                  item
-                  md={12}
-                  xs={12}
+            {({
+                errors,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                touched,
+                values
+            }) => (
+                <form
+                    autoComplete="off"
+                    noValidate
+                    {...props}
+                    onSubmit={handleSubmit}
                 >
-                  <TextField
-                    error={Boolean(touched.name && errors.name)}
-                    fullWidth
-                    helperText={touched.name && errors.name}
-                    label="Име"
-                    name="name"
-                    onChange={handleChange}
-                    required
-                    value={values.name}
-                    variant="outlined"
-                  />
-                </Grid>
-                {/* <Grid
-              item
-              md={12}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Last name"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                variant="outlined"
-              />
-            </Grid> */}
-                <Grid
-                  item
-                  md={12}
-                  xs={12}
-                >
-                  <TextField
-                    error={Boolean(touched.email && errors.email)}
-                    fullWidth
-                    helperText={touched.email && errors.email}
-                    label="Имейл"
-                    name="email"
-                    onChange={handleChange}
-                    required
-                    value={values.email}
-                    variant="outlined"
-                  />
-                </Grid>
-                {/* <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
-                variant="outlined"
-              />
-            </Grid> */}
-                {/* <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid> */}
-                <Grid
-                  item
-                  md={12}
-                  xs={12}
-                >
-                  <FormControl
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(touched.role && errors.role)}
-                    sx={{ marginTop: '0px' }}
-                  >
-                    <InputLabel id="demo-simple-select-label">Роля</InputLabel>
-                    <Select
-                      disabled
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={values.role}
-                      label="Роля"
-                      name="role"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <MenuItem value={"Administrator"}>Администратор</MenuItem>
-                      <MenuItem value={"Qualifications"}>Квалификации</MenuItem>
-                      <MenuItem value={"Education"}>Образование</MenuItem>
-                      <MenuItem value={"Member"}>Потребител</MenuItem>
-                    </Select>
-                    <FormHelperText>{touched.role && errors.role}</FormHelperText>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </CardContent>
-            <Divider />
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                p: 2
-              }}
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                disabled={disableButton(isSubmitting, errors, values)}
-                size="large"
-                type="submit"
-              >
-                Запазване
-          </Button>
-            </Box>
-          </Card>
-        </form>
-      )}
-    </Formik>
-  );
+                    <Card>
+                        <CardHeader
+                            subheader="Информацията може да бъде редактирана"
+                            title="Профил"
+                        />
+                        <Divider />
+                        <CardContent>
+                            {mode === 'edit' ?
+                                <AccountProfileDetailsForm
+                                    props={{
+                                        errors,
+                                        handleBlur,
+                                        handleChange,
+                                        handleSubmit,
+                                        isSubmitting,
+                                        touched,
+                                        values
+                                    }}
+                                /> :
+                                <AccountProfilePasswordForm
+                                    props={{
+                                        errors,
+                                        handleBlur,
+                                        handleChange,
+                                        handleSubmit,
+                                        isSubmitting,
+                                        touched,
+                                        values
+                                    }}
+                                />
+                            }
+                        </CardContent>
+                        <Divider />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                p: 2
+                            }}
+                        >
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                size="large"
+                                onClick={changeMode}
+                            >
+                                {mode === 'edit' ? 'Смяна на парола' : 'Редактиране на профил'}
+                            </Button>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                disabled={disableButton(isSubmitting, errors, values)}
+                                size="large"
+                                type="submit"
+                            >
+                                Запазване
+                            </Button>
+                        </Box>
+                    </Card>
+                </form>
+            )}
+        </Formik>
+    );
 };
 
 export default AccountProfileDetails;
