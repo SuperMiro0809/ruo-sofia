@@ -8,10 +8,13 @@ use App\Models\Subject;
 class SubjectController extends Controller
 {
     public function index(Request $request) {
-        $name = $request->query('name', '');
-        $subjects = Subject::where('name', 'regexp', $name)->get();
+        $subjects = Subject::query();
 
-        return $subjects;
+        if($request->has('name')) {
+            $subjects->where('name', 'regexp', $request->query('name'));
+        }
+
+        return $subjects->get();
     }
 
     public function save(Request $request) {

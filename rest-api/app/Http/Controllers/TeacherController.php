@@ -14,15 +14,16 @@ use App\Models\Publication;
 class TeacherController extends Controller
 {
     public function index(Request $request) {
-        $fullName = $request->query('fullName', '');
-        $teachers = Teacher::where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $fullName)
-            ->with('application')
-            ->with('application.teaching')
-            ->with('application.report')
-            ->with('application.publication')
-            ->get();
+        $teachers = Teacher::with('application')
+                        ->with('application.teaching')
+                        ->with('application.report')
+                        ->with('application.publication');
+        
+        if($request->has('fullName')) {
+            $teachers->where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $request->query('fullName'));
+        }
 
-        return $teachers;
+        return $teachers->get();
     }
 
     public function store(Request $request) {

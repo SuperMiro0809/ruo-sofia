@@ -9,8 +9,11 @@ use App\Models\StudentSecondary;
 class StudentsSecondaryController extends Controller
 {
     public function index(Request $request) {
-        $name = $request->query('name', '');
-        $students = StudentSecondary::where('name', 'regexp', $name);
+        $students = StudentSecondary::query();
+
+        if($request->has('name')) {
+            $students->where('name', 'regexp', $request->query('name'));
+        }
 
         if($request->has('egn')) {
             $students->where('egn', $request->query('egn'));
