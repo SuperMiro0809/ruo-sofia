@@ -30,6 +30,7 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
     const [subjects, setSubjects] = useState([]);
+    const [total, setTotal] = useState(0);
     const [loader, setLoader] = useState(true);
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
@@ -45,16 +46,18 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
         loadSubjects();
 
         return () => mounted = false;
-    }, [search]);
+    }, [search, page, limit]);
 
     const loadSubjects = () => {
         setLoader(true);
         if(search) {
             setPage(0);
         }
-        subjectServices.getAll(search)
+
+        subjectServices.getAll({search, page: page + 1, limit})
             .then(data => {
-                setSubjects(data);
+                setSubjects(data.data);
+                setTotal(data.total);
                 setLoader(false);
             })
             .catch(err => {
@@ -113,7 +116,7 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
                                     <>
                                         {subjects.length !== 0 ?
                                             <>
-                                                {subjects.slice(page * limit, page * limit + limit).map((subject, index) => (
+                                                {subjects.map((subject, index) => (
                                                     <SubjectListItem key={index} subject={subject} openDeleteModalProp={openDeleteModalProp} selectedSubjectProp={selectedSubjectProp} openEditModalProp={openEditModalProp} />
                                                 ))}
                                             </>
@@ -131,7 +134,7 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
             </PerfectScrollbar>
             <TablePagination
                 component="div"
-                count={subjects.length}
+                count={total}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}

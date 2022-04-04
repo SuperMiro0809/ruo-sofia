@@ -14,7 +14,12 @@ class SubjectController extends Controller
             $subjects->where('name', 'regexp', $request->query('name'));
         }
 
-        return $subjects->get();
+        if($request->has('per_page')) {
+            $perPage = (int) $request->query('per_page');
+            return $subjects->paginate($perPage);
+        }else {
+            return $subjects->get();
+        }
     }
 
     public function save(Request $request) {

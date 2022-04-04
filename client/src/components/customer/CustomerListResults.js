@@ -29,6 +29,7 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [customers, setCustomers] = useState([]);
+  const [total, setToal] = useState(0);
   const [loader, setLoader] = useState(true);
   let [open, setOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(0);
@@ -42,12 +43,14 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
     loadCustomers();
 
     return () => mounted = false;
-  }, [name, email, role]);
+  }, [name, email, role, page, limit]);
 
   const loadCustomers = () => {
-    userServices.getAll({ name, email, role })
+
+    userServices.getAll({ name, email, role, page: page + 1, limit })
       .then(data => {
-        setCustomers(data);
+        setCustomers(data.data);
+        setToal(data.total)
         setLoader(false);
       })
       .catch(err => {
@@ -111,7 +114,7 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
                     <>
                       {customers.length !== 0 ?
                         <>
-                          {customers.slice(page * limit, page * limit + limit).map((customer) => (
+                          {customers.map((customer) => (
 
                             <CustomerListItem key={customer.id} customer={customer} openProp={openProp} selectedCustomerProp={selectedCustomerProp} />
 
@@ -131,7 +134,7 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={customers.length}
+          count={total}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

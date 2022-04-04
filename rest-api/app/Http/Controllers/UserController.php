@@ -15,6 +15,7 @@ class UserController extends Controller
 {
     public function index(Request $request) {
         $users = User::query();
+        $perPage = $request->query('per_page');
 
         if($request->has('name')) {
             $users->where('name', 'regexp', $request->query('name'));
@@ -28,7 +29,7 @@ class UserController extends Controller
             $users->where('role', 'regexp', $request->query('role'));
         }
         
-        return $users->get();
+        return $users->paginate((int) $perPage);
     }
 
     public function store(Request $request) {

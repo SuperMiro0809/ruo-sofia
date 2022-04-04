@@ -1,7 +1,7 @@
 import services from './index';
 
-function getAll({name, email, role}) {
-    let url = `${services.url}/users?token=${localStorage.getItem('token')}`;
+function getAll({name, email, role, page, limit}) {
+    let url = `${services.url}/users?token=${localStorage.getItem('token')}&page=${page}&per_page=${limit}`;
     if(name) {
         url += `&name=${name}`;
     }
