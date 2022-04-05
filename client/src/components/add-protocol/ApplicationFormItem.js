@@ -75,7 +75,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
 
     useEffect(() => {
         if (loading) {
-            teacherServices.getAll()
+            teacherServices.getAll({applications: 1})
                 .then(data => {
                     let arr = []
 

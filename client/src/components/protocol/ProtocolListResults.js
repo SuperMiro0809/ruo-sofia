@@ -25,6 +25,7 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [protocols, setProtocols] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loader, setLoader] = useState(true);
   let [open, setOpen] = useState(false);
   const [selectedProtocol, setSelectedProtocol] = useState(0);
@@ -41,15 +42,16 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
     getProtocols();
 
     return () => mounted = false;
-  }, [number, startDate, endDate])
+  }, [number, startDate, endDate, page, limit])
 
   const getProtocols = () => {
     if(number || startDate || endDate) {
       setPage(0);
     }
-    protocolServices.getAll({number, startDate, endDate})
+    protocolServices.getAll({number, startDate, endDate, page, limit})
       .then(data => {
-        setProtocols(data);
+        setProtocols(data.data);
+        setTotal(data.total);
         setLoader(false);
       })
       .catch(err => {
@@ -121,7 +123,7 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
                   <>
                     {protocols.length !== 0 ?
                       <>
-                        {protocols.slice(page * limit, page * limit + limit).map((protocol) => (
+                        {protocols.map((protocol) => (
                           <ProtocolListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
                         ))}
                       </>
@@ -139,7 +141,7 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={protocols.length}
+        count={total}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
