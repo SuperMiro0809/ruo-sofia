@@ -24,6 +24,7 @@ import TeacherModal from '../teacher-modal/TeacherModal';
 
 const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
   const navigate = useNavigate();
+  const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [loader, setLoader] = useState(true);
@@ -42,15 +43,16 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
     getTeachers();
 
     return () => mounted = false;
-  }, [search])
+  }, [search, page, limit])
 
   const getTeachers = () => {
     if (search) {
       setPage(0);
     }
-    teacherServices.getAll(search)
+
+    teacherServices.getAll({search, page: page + 1, limit})
       .then(data => {
-        data.forEach(el => {
+        data.data.forEach(el => {
           el.application.forEach(appl => {
             appl.workplace = JSON.parse(appl.workplace);
             appl.education = JSON.parse(appl.education);
@@ -58,7 +60,8 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
           })
         })
 
-        setTeachers(data);
+        setTeachers(data.data);
+        setTotal(data.total);
         setLoader(false);
       })
       .catch(err => {
@@ -121,7 +124,7 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
                   <>
                     {teachers.length !== 0 ?
                       <>
-                        {teachers.slice(page * limit, page * limit + limit).map((teacher) => (
+                        {teachers.map((teacher) => (
                           <TeacherListItem key={teacher.id} teacher={teacher} openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
                         ))}
                       </>
@@ -139,7 +142,7 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={teachers.length}
+        count={total}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

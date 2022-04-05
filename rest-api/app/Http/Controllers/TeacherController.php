@@ -23,7 +23,12 @@ class TeacherController extends Controller
             $teachers->where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $request->query('fullName'));
         }
 
-        return $teachers->get();
+        if($request->has('per_page')) {
+            $perPage = (int) $request->query('per_page');
+            return $teachers->paginate($perPage);
+        }else {
+            return Teacher::all();
+        }
     }
 
     public function store(Request $request) {

@@ -1,9 +1,13 @@
 import services from './index';
 
-function getAll(fullName) {
+function getAll({fullName, page, limit}) {
     let url = `${services.url}/teachers?token=${localStorage.getItem('token')}`;
     if(fullName) {
         url += `&fullName=${fullName}`;
+    }
+
+    if(page && limit) {
+        url += `&page=${page}&per_page=${limit}`;
     }
 
     return fetch(url)

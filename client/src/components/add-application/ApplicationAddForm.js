@@ -53,7 +53,7 @@ const ApplicationsAddForm = ({ rest }) => {
     })
 
     useEffect(() => {
-        teacherServices.getAll()
+        teacherServices.getAll({})
             .then(data => {
                 let arr = []
 
