@@ -24,6 +24,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
     const [page, setPage] = useState(0);
     const [loader, setLoader] = useState(true);
     const [students, setStudents] = useState([]);
+    const [total, setTotal] = useState(0);
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
 
@@ -39,16 +40,13 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
         getStudents();
 
         return () => mounted = false;
-    }, [searchName, searchEgn])
+    }, [searchName, searchEgn, page, limit])
 
     const getStudents = () => {
-        if(searchName || searchEgn) {
-            setPage(0);
-        }
-
-        studentClassServices.getAll(searchName, searchEgn)
+        studentClassServices.getAll(searchName, searchEgn, page + 1, limit)
             .then(data => {
-                setStudents(data);
+                setStudents(data.data);
+                setTotal(data.total);
                 setLoader(false);
             })
             .catch(err => {
@@ -123,7 +121,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
                                     <>
                                         {students.length !== 0 ?
                                             <>
-                                                {students.slice(page * limit, page * limit + limit).map((student) => (
+                                                {students.map((student) => (
                                                     <StudentsClassListItem key={student.id} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
                                                 ))}
                                             </>
@@ -141,7 +139,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
             </PerfectScrollbar>
             <TablePagination
                 component="div"
-                count={students.length}
+                count={total}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}
