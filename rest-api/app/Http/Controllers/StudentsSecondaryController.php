@@ -10,6 +10,7 @@ class StudentsSecondaryController extends Controller
 {
     public function index(Request $request) {
         $students = StudentSecondary::query();
+        $perPage = (int) $request->query('per_page');
 
         if($request->has('name')) {
             $students->where('name', 'regexp', $request->query('name'));
@@ -19,7 +20,7 @@ class StudentsSecondaryController extends Controller
             $students->where('egn', $request->query('egn'));
         }
             
-        return $students->get();
+        return $students->paginate($perPage);
     }
 
     public function store(Request $request) {

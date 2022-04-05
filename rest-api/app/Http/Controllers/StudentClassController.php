@@ -11,7 +11,7 @@ class StudentClassController extends Controller
 {
     public function index(Request $request) {
         $students = StudentClass::with('application');
-        $perPage = $request->query('per_page');
+        $perPage = (int) $request->query('per_page');
 
         if($request->has('name')) {
             $students->where('name', 'regexp', $request->query('name'));
