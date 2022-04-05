@@ -15,9 +15,7 @@ import {
 } from '@material-ui/core';
 import TeacherCertificateListItem from './TeachersCertificateListItem';
 
-const TeacherCertificateListResult = ({teachers, loader, page, setPage}, ...props) => {
-  const [limit, setLimit] = useState(10);
-
+const TeacherCertificateListResult = ({teachers, loader, page, setPage, limit, setLimit, total}, ...props) => {
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -67,7 +65,7 @@ const TeacherCertificateListResult = ({teachers, loader, page, setPage}, ...prop
                   <>
                     {teachers.length !== 0 ?
                       <>
-                        {teachers.slice(page * limit, page * limit + limit).map((teacher) => (
+                        {teachers.map((teacher) => (
                           <TeacherCertificateListItem key={teacher.id} teacher={teacher} />
                         ))}
                       </>
@@ -85,7 +83,7 @@ const TeacherCertificateListResult = ({teachers, loader, page, setPage}, ...prop
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={teachers.length}
+        count={total}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

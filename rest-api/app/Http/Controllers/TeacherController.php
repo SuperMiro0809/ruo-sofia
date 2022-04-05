@@ -26,6 +26,8 @@ class TeacherController extends Controller
         if($request->has('per_page')) {
             $perPage = (int) $request->query('per_page');
             return $teachers->paginate($perPage);
+        }else if($request->has('applications')) {
+            return $teachers->get();
         }else {
             return Teacher::all();
         }

@@ -46,10 +46,6 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
   }, [search, page, limit])
 
   const getTeachers = () => {
-    if (search) {
-      setPage(0);
-    }
-
     teacherServices.getAll({search, page: page + 1, limit})
       .then(data => {
         data.data.forEach(el => {
