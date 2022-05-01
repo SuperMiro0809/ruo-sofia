@@ -17,7 +17,6 @@ class ProtocolController extends Controller
             ->with('application.teaching')
             ->with('application.report')
             ->with('application.publication');
-        $perPage = (int) $request->query('per_page');
 
         if($request->has('startDate') && $request->has('endDate')) {
             $from = $request->query('startDate');
@@ -29,7 +28,13 @@ class ProtocolController extends Controller
             $protocols->where('number', 'regexp', $request->query('number'));
         }
 
-        return $protocols->paginate($perPage);
+        if($request->has('per_page')) {
+            $perPage = (int) $request->query('per_page');
+            return $protocols->paginate($perPage);
+        }else {
+            return $protocols->get();
+        }
+
     }
 
     public function store(Request $request) {

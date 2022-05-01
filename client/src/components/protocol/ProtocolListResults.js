@@ -48,7 +48,7 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
     if(number || startDate || endDate) {
       setPage(0);
     }
-    protocolServices.getAll({number, startDate, endDate, page, limit})
+    protocolServices.getAll({number, startDate, endDate, page: page + 1, limit})
       .then(data => {
         setProtocols(data.data);
         setTotal(data.total);
