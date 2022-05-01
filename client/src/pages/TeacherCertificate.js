@@ -36,18 +36,18 @@ const TeacherEdit = () => {
                     }
 
                     for (let j = 0; j < data.data[i].application.length; j++) {
-                        if (data[i].application[j].inProtocol) {
-                            data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
-                            data[i].application[j].education = JSON.parse(data[i].application[j].education);
-                            data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
-                            teacherEl.application.push(data[i].application[j]);
+                        if (data.data[i].application[j].inProtocol) {
+                            data.data[i].application[j].workplace = JSON.parse(data.data[i].application[j].workplace);
+                            data.data[i].application[j].education = JSON.parse(data.data[i].application[j].education);
+                            data.data[i].application[j].diploma = JSON.parse(data.data[i].application[j].diploma);
+                            teacherEl.application.push(data.data[i].application[j]);
                         }
                     }
 
                     teacherData.push(teacherEl);
                 }
 
-                setTeachers(teacherData);
+                setTeachers(teacherData);  
                 setTotal(data.total)
                 setLoader(false);
             })
