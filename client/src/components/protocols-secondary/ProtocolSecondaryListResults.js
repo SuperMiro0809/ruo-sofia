@@ -28,6 +28,7 @@ const ProtocolSecondaryListResults = ({number, startDate, endDate}, ...props) =>
   const [loader, setLoader] = useState(true);
   let [open, setOpen] = useState(false);
   const [selectedProtocol, setSelectedProtocol] = useState(0);
+  const [total, setTotal] = useState(0);
 
   let openProp = { open, setOpen };
   let selectedProtocolProp = { selectedProtocol, setSelectedProtocol };
@@ -41,16 +42,17 @@ const ProtocolSecondaryListResults = ({number, startDate, endDate}, ...props) =>
     getProtocols();
 
     return () => mounted = false;
-  }, [number, startDate, endDate])
+  }, [number, startDate, endDate, page, limit])
 
   const getProtocols = () => {
     if(number || startDate || endDate) {
       setPage(0);
     }
 
-    protocolSecondaryServices.getAll({number, startDate, endDate})
+    protocolSecondaryServices.getAll({number, startDate, endDate, page: page + 1, limit})
       .then(data => {
-        setProtocols(data);
+        setProtocols(data.data);
+        setTotal(data.total);
         setLoader(false);
       })
       .catch(err => {
@@ -131,7 +133,7 @@ const ProtocolSecondaryListResults = ({number, startDate, endDate}, ...props) =>
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={protocols.length}
+        count={total}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

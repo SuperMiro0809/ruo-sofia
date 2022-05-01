@@ -12,6 +12,7 @@ class ProtocolSecondaryController extends Controller
 {
     public function index(Request $request) {
         $protocols = ProtocolSecondary::with('application');
+        $perPage = $request->query('per_page');
 
         if($request->has('number')) {
             $protocols->where('number', 'regexp', $request->query('number'));
@@ -23,7 +24,7 @@ class ProtocolSecondaryController extends Controller
             $protocols->whereBetween('date', [$from, $to]);
         }
           
-        return $protocols->get();
+        return $protocols->paginate($perPage);
     }
 
     public function store(Request $request) {

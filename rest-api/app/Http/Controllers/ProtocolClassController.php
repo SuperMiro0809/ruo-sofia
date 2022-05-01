@@ -13,6 +13,7 @@ class ProtocolClassController extends Controller
     public function index(Request $request) {
         $protocols = ProtocolClass::with('application')
                         ->with('application.student');
+        $perPage = $request->query('per_page');
 
         if($request->has('number')) {
             $protocols->where('number', 'regexp', $request->query('number'));
@@ -24,7 +25,7 @@ class ProtocolClassController extends Controller
             $protocols->whereBetween('date', [$from, $to]);
         }
           
-        return $protocols->get();
+        return $protocols->paginate($perPage);
     }
 
     public function store(Request $request) {
