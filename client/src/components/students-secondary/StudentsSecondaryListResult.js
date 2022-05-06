@@ -68,7 +68,7 @@ const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
 
     return (
         <Card {...props}>
-            <StudentsSecondaryModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} />
+            <StudentsSecondaryModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} getStudents={getStudents}/>
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>

@@ -77,7 +77,7 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
 
   return (
     <Card {...props}>
-      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} teachersDataProp={teachersDataProp} />
+      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} teachersDataProp={teachersDataProp} getTeachers={getTeachers}/>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>

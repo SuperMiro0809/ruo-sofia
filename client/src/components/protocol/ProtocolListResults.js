@@ -71,7 +71,7 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
 
   return (
     <Card {...props}>
-      <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} protocolsDataProp={protocolsDataProp} />
+      <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} protocolsDataProp={protocolsDataProp} getProtocols={getProtocols}/>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>

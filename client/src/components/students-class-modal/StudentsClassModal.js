@@ -18,14 +18,14 @@ const style = {
     p: 3
 };
 
-const StudentsClassModal = ({ openProp, selectedStudentProp, studentsDataProp, ...rest }) => {
+const StudentsClassModal = ({ openProp, selectedStudentProp, studentsDataProp, getStudents, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 
     const deleteStudent = () => {
         studentClassServices.destroy(selectedStudentProp.selectedStudent)
         .then(data => {
-            studentsDataProp.setStudents(studentsDataProp.students.filter(s => s.id != selectedStudentProp.selectedStudent));
+            getStudents();
             closeModal();
             messageContext[1]({ status: 'success', text: 'Ученикът е изтрит успешно!' });
             const interval = setInterval(function () {
