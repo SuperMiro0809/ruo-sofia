@@ -81,7 +81,7 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(student.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/students-secondary/edit" state={{ student: student }}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/students-secondary/edit/${student.id}`} >
                         <EditIcon className="edit-icon" />
                     </IconButton>
                 </TableCell>

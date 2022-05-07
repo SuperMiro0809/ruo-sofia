@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import ProtocolEditForm from '../components/edit-protocol/ProtocolEditForm';
 import ProtocolEditToolbar from '../components/edit-protocol/ProtocolEditToolbar';
 import protocolServices from '../services/protocol';
 
 const ProtocolEdit = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [protocol, setProtocol] = useState({
         id: '',

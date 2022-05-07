@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import TeacherEditForm from '../components/edit-teacher/TeacherEditForm';
 import TeacherEditToolbar from '../components/edit-teacher/TeacherEditToolbar';
 import teacherServices from '../services/teacher';
 
 const TeacherEdit = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [teacher, setTeacher] = useState({
         id: '',

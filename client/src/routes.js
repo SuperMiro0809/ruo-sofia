@@ -60,7 +60,7 @@ const routes = [
         children: [
           { path: '/', element: <CustomerList /> },
           { path: 'add', element: <CustomerAdd /> },
-          { path: 'edit', element: <CustomerEdit /> },
+          { path: '/edit/:id', element: <CustomerEdit /> },
         ]
       },
       {
@@ -118,7 +118,7 @@ const routes = [
         children: [
           { path: '/', element: <StudentSecondaryList /> },
           { path: '/add', element: <StudentSecondaryAdd /> },
-          { path: '/edit', element: <StudentSecondaryEdit /> },
+          { path: '/edit/:id', element: <StudentSecondaryEdit /> },
           { path: '/certificate', element: <StudentSecondaryCertificate /> }
         ]
       },

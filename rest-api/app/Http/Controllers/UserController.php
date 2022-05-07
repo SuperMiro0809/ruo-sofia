@@ -159,6 +159,10 @@ class UserController extends Controller
         return response()->json(['message' => 'Successfully deleted!', 'user' => $user]);
     }
 
+    public function getById($id) {
+        return User::findOrFail($id);
+    }
+
     protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,

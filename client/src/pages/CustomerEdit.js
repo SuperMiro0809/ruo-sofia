@@ -1,12 +1,37 @@
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import CustomerEditForm from '../components/edit-customer/CustomerEditForm';
 import CustomerEditToolbar from '../components/edit-customer/CustomerEditToolbar';
+import userServices from '../services/user';
 
 const CustomerEdit = (props) => {
-  const location = useLocation();
-  const { customer } = location.state;
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [customer, setCustomer] = useState({
+    id: '',
+    name: '',
+    email: '',
+    role: ''
+  });
+
+  useEffect(() => {
+    userServices.getById(id)
+      .then(data => {
+        setCustomer({
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          role: data.role
+        })
+      })
+      .catch(err => {
+        if (err.message === 'Unauthorized') {
+          navigate('/login');
+        }
+      })
+  }, []);
 
   return (
     <>
@@ -23,7 +48,7 @@ const CustomerEdit = (props) => {
         <Container maxWidth={false}>
           <CustomerEditToolbar />
           <Box sx={{ pt: 3 }}>
-            <CustomerEditForm customer={customer}/>
+            <CustomerEditForm customer={customer} />
           </Box>
         </Container>
       </Box>

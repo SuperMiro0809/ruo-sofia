@@ -49,13 +49,21 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
     const [openSubjectModal, setOpenSubjectModal] = useState(false);
     const scrollToGrades = useRef(null);
     const openSubjectModalProp = { openSubjectModal, setOpenSubjectModal };
+    const studentJson = JSON.stringify(student);
+
+    useEffect(() => {
+        setDateOut(student.dateOut);
+        setDateOfBirth(student.dateOfBirth);
+        setDocumentDate(student.documentDate);
+        setInDate(student.inDate);
+    }, [studentJson]);
 
     useEffect(() => {
         loadSubjects();
-    }, [])
+    }, []);
 
     const loadSubjects = () => {
-        subjectServices.getAll()
+        subjectServices.getAll({})
             .then(data => {
                 let arr = [];
 
@@ -134,9 +142,9 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                 inNumber: student.inNumber,
                                 inDate: student.inDate,
                                 admits: student.admits,
-                                profession: student.admits === 'ЗАВЪРШЕНО СРЕДНО С ПКС' ? student.profession : '',
-                                speciality: student.admits === 'ЗАВЪРШЕНО СРЕДНО С ПКС' ? student.speciality : '',
-                                grades: JSON.parse(student.grades)
+                                profession: student.profession,
+                                speciality: student.speciality,
+                                grades: student.grades
                             }}
                             validationSchema={Yup.object().shape({
                                 registerNumber: Yup.string().required('Регистрационният номер е задължителен'),
@@ -193,6 +201,7 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                         }
                                     })
                             }}
+                            enableReinitialize
                         >
                             {({
                                 errors,

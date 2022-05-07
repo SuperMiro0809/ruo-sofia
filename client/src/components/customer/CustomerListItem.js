@@ -77,7 +77,7 @@ const CustomerListItem = ({ customer, openProp, selectedCustomerProp, ...rest })
                 <IconButton className="trash-icon-wrapper" color="primary" onClick={e => openModal(customer.id)}>
                     <FontAwesomeIcon className="trash-icon" icon={TrashIcon} />
                 </IconButton>
-                <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/users/edit" state={{ customer: customer }}>
+                <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/users/edit/${customer.id}`} >
                     <FontAwesomeIcon className="edit-icon" icon={EditIcon} />
                 </IconButton>
             </TableCell>

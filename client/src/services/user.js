@@ -175,6 +175,17 @@ function refresh() {
     })
 }
 
+function getById(id) {
+    return fetch(`${services.url}/users/${id}?token=${localStorage.getItem('token')}`)
+        .then(res => {
+            if(res.status === 200) {
+                return res.json();
+            }else if(res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const userServices = {
     getAll,
     create,
@@ -186,7 +197,8 @@ const userServices = {
     editUser,
     logout,
     refresh,
-    changePassword
+    changePassword,
+    getById
 }
 
 export default userServices;

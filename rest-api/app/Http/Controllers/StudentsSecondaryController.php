@@ -109,4 +109,8 @@ class StudentsSecondaryController extends Controller
 
         return StudentSecondary::all();
     }
+
+    public function getById($id) {
+        return StudentSecondary::findOrFail($id);
+    }
 }
