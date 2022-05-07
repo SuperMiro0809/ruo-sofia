@@ -216,4 +216,8 @@ class TeacherController extends Controller
         
         return $certificates;
     }
+
+    public function getById($id) {
+        return Teacher::findOrFail($id);
+    }
 }

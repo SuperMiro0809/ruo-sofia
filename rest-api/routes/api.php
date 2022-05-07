@@ -50,6 +50,7 @@ Route::group([
     Route::post('/protocols', [ProtocolController::class, 'store']);
     Route::delete('/protocols/{id}', [ProtocolController::class, 'destroy']);
     Route::put('/protocols/{id}', [ProtocolController::class, 'edit']);
+    Route::get('/protocols/{id}', [ProtocolController::class, 'getById']);
 
     Route::get('/teachers', [TeacherController::class, 'index']);
     Route::post('/teachers', [TeacherController::class, 'store']);
@@ -58,6 +59,7 @@ Route::group([
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
     Route::put('/teachers/{id}', [TeacherController::class, 'edit']);
     Route::get('/teachers/certificates', [TeacherController::class, 'certificates']);
+    Route::get('/teachers/{id}', [TeacherController::class, 'getById']);
 
     Route::get('/students-class', [StudentClassController::class, 'index']);
     Route::get('/students-class/certificates', [StudentClassController::class, 'certificates']);

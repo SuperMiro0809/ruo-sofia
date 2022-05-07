@@ -42,21 +42,11 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
     const scrollTo = useRef(null);
     const [date, setDate] = useState(protocol.date);
     const [committe, setCommitte] = useState({ president: '', members: [] });
-    const applications = [];
+    const protocolJson = JSON.stringify(protocol);
 
-    for (let i = 0; i < protocol.application.length; i++) {
-        let appl = {
-            ruoNumberOut: protocol.application[i].ruoNumberOut,
-            dateOut: protocol.application[i].dateOut,
-            teacher: protocol.application[i].teacher_id,
-            application: protocol.application[i].id,
-            teachings: protocol.application[i].teaching,
-            reports: protocol.application[i].report,
-            publications: protocol.application[i].publication
-        }
-
-        applications.push(appl);
-    }
+    useEffect(() => {
+        setDate(protocol.date);
+    }, [protocolJson]);
 
     useEffect(() => {
         committeServices.getAll()
@@ -147,8 +137,8 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                                 date: protocol.date,
                                 about: protocol.about,
                                 president: protocol.president,
-                                members: JSON.parse(protocol.members),
-                                applications: applications
+                                members: protocol.members,
+                                applications: protocol.applications
                             }}
                             validationSchema={Yup.object().shape({
                                 number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
@@ -202,6 +192,7 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                             }}
                             validateOnBlur={true}
                             validateOnChange={false}
+                            enableReinitialize
                         >
                             {({
                                 errors,

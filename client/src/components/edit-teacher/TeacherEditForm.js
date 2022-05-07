@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -26,6 +26,7 @@ const TeacherEditForm = ({ teacher, ...rest }) => {
     const [date, setDate] = useState(teacher.dateOfBirth);
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
+    const teacherJson = JSON.stringify(teacher);
 
     const disableCreateButton = (isSubmitting, errors, values) => {
         for (let key in values) {
@@ -44,6 +45,10 @@ const TeacherEditForm = ({ teacher, ...rest }) => {
             return true;
         }
     }
+
+    useEffect(() => {
+        setDate(teacher.dateOfBirth);
+    },[teacherJson]);
 
     return (
         <Card {...rest}>
@@ -81,6 +86,7 @@ const TeacherEditForm = ({ teacher, ...rest }) => {
                                         setSubmitting(false);
                                     })
                             }}
+                            enableReinitialize
                         >
                             {({
                                 errors,

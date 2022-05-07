@@ -69,7 +69,7 @@ const routes = [
         children: [
           { path: '/', element: <TeacherList /> },
           { path: 'add', element: <TeacherAdd /> },
-          { path: 'edit', element: <TeacherEdit /> },
+          { path: 'edit/:id', element: <TeacherEdit /> },
           { path: 'certificate', element: <TeacherCertificate /> },
           { path: 'application', element: <ApplicationAdd /> },
           { path: 'reference', element: <TeacherReference /> }
@@ -81,7 +81,7 @@ const routes = [
         children: [
           { path: '', element: <ProtocolList /> },
           { path: 'add', element: <ProtocolAdd /> },
-          { path: 'edit', element: <ProtocolEdit /> },
+          { path: '/edit/:id', element: <ProtocolEdit /> },
           { path: 'text-editor', element: <ProtocolTextEditor /> },
           { 
             path: 'students-class',

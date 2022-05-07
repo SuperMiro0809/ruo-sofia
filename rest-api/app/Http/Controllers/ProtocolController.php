@@ -222,4 +222,16 @@ class ProtocolController extends Controller
 
         return response()->json(['message' => 'Edited']);
     }
+
+    public function getById($id) {
+        $protocol = Protocol::with('application')
+        ->with('application.teacher')
+        ->with('application.teaching')
+        ->with('application.report')
+        ->with('application.publication')
+        ->findOrFail($id);
+           
+        
+        return $protocol;
+    }
 }

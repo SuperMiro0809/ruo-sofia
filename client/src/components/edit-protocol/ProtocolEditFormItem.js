@@ -44,7 +44,7 @@ const ProtocolEditFormItem = ({ protocol, props }, ...rest) => {
     const navigate = useNavigate();
     const application = props.application;
     const index = props.index;
-    const teacherFromProtocol = protocol.application[index].teacher;
+    const teacherFromProtocol = protocol.applications[index].teacher_data;
     const [open, setOpen] = useState(true);
     const [search, setSearch] = useState(false);
     const [teacher, setTeacher] = useState(!!application.teacher);
@@ -83,7 +83,7 @@ const ProtocolEditFormItem = ({ protocol, props }, ...rest) => {
 
     useEffect(() => {
         if (loading) {
-            teacherServices.getAll()
+            teacherServices.getAll({})
                 .then(data => {
                     let arr = []
 

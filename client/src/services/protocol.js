@@ -71,11 +71,23 @@ function edit(data, id) {
         })
 }
 
+function getById(id) {
+    return fetch(`${services.url}/protocols/${id}?token=${localStorage.getItem('token')}`)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const protocolServices = {
     getAll,
     create,
     destroy,
-    edit
+    edit,
+    getById
 }
 
 export default protocolServices;

@@ -110,6 +110,19 @@ function getCertificates(startDate, endDate) {
     })
 }
 
+function getById(id) {
+    const url = `${services.url}/teachers/${id}?token=${localStorage.getItem('token')}`;
+
+    return fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const teacherServices = {
     getAll,
     create,
@@ -117,7 +130,8 @@ const teacherServices = {
     addApplication,
     destroy,
     edit,
-    getCertificates
+    getCertificates,
+    getById
 }
 
 export default teacherServices;
