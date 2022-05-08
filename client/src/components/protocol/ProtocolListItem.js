@@ -164,9 +164,9 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                             </IconButton>
                         )}
                     />
-                    {/* <IconButton className="word-icon-wrapper">
+                    <IconButton className="word-icon-wrapper">
                         <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
-                    </IconButton> */}
+                    </IconButton>
                     {/* <IconButton className="text-edit-icon-wrapper" component={RouterLink} to="/app/protocols/text-editor" state={{ content: textEditorContent }}>
                         <FontAwesomeIcon icon={TextEditorIcon} className="text-edit-icon" />
                     </IconButton> */}
