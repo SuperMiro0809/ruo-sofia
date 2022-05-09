@@ -360,6 +360,6 @@ export default async function generate(teacher, application, el, mode) {
     });
 
     Packer.toBlob(doc).then((blob) => {
-        saveAs(blob, `protocol_${application.ruoNumberOut}_${moment(application.dateOut).format('DD.MM.YYYY')}.docx`);
+        saveAs(blob, `certificate_${application.ruoNumberOut}_${moment(application.dateOut).format('DD.MM.YYYY')}.docx`);
     });
 }

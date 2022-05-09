@@ -21,6 +21,7 @@ import {
 import TeacherCertificatePDF from './TeacherCertificatePDF/TeacherCertificatePDF';
 import TeacherLetterPDF from './TeacherLetterPDF/TeacherLetterPDF';
 import generate from '../teacher-certificate-word/generate-teacher-certificte-word';
+import generateLetter from '../teacher-certificate-word/generate-teacher-letter-word';
 
 const style = {
     bgcolor: 'background.paper',
@@ -59,9 +60,15 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mod
                         </IconButton>
                     )}
                 />
-                <IconButton className="word-icon-wrapper" onClick={e => generate(teacher, application, el, mode)}>
+                {el.approve ?
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(teacher, application, el, mode)}>
                         <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
-                </IconButton>
+                    </IconButton>
+                    :
+                    <IconButton className="word-icon-wrapper" onClick={e => generateLetter(teacher, application, el)}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                    </IconButton>
+                }
             </TableCell>
             {el.approve ?
                 <div style={{ display: 'none' }}>
