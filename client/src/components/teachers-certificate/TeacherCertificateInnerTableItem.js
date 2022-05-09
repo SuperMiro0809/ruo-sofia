@@ -14,8 +14,13 @@ import {
 } from '@material-ui/icons';
 import moment from 'moment';
 import ReactToPrint from 'react-to-print';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faFileWord as WordFileIcon
+} from '@fortawesome/free-solid-svg-icons';
 import TeacherCertificatePDF from './TeacherCertificatePDF/TeacherCertificatePDF';
 import TeacherLetterPDF from './TeacherLetterPDF/TeacherLetterPDF';
+import generate from '../teacher-certificate-word/generate-teacher-certificte-word';
 
 const style = {
     bgcolor: 'background.paper',
@@ -42,7 +47,7 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mod
             <TableCell>
                 {el.notApprove ? el.notApprove : '-'}
             </TableCell>
-            <TableCell>
+            <TableCell sx={{ display: 'flex' }}>
                 <IconButton className="preview-icon-wrapper" color="primary" onClick={() => setOpenPreview(true)}>
                     <PreviewIcon className="preview-icon" />
                 </IconButton>
@@ -54,6 +59,9 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mod
                         </IconButton>
                     )}
                 />
+                <IconButton className="word-icon-wrapper" onClick={e => generate(teacher, application, el, mode)}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                </IconButton>
             </TableCell>
             {el.approve ?
                 <div style={{ display: 'none' }}>
