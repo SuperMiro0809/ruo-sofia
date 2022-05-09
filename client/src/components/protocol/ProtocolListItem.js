@@ -35,6 +35,8 @@ import {
 import ProtocolPDF from '../protocol-pdf/ProtocolPDF';
 import ReactToPrint from 'react-to-print';
 import ProtocolTextEditorResult from '../protocol-text-editor/ProtocolTextEditorResult';
+import generate from '../protocol-word/generate-protocol-word';
+
 
 const style = {
     bgcolor: 'background.paper',
@@ -164,7 +166,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                             </IconButton>
                         )}
                     />
-                    <IconButton className="word-icon-wrapper">
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol, formText)}>
                         <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
                     </IconButton>
                     {/* <IconButton className="text-edit-icon-wrapper" component={RouterLink} to="/app/protocols/text-editor" state={{ content: textEditorContent }}>
