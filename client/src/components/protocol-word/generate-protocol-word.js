@@ -39,7 +39,7 @@ export default function generate(protocol, formText) {
             },
             children: [
                 new TextRun({
-                    text: `${i + 1}. ${membersArr[i]}`,
+                    text: `${i + 1}. ${membersArr[i]} ……………………`,
                     bold: true,
                     size: 24
                 })
@@ -364,7 +364,7 @@ export default function generate(protocol, formText) {
                         },
                         children: [
                             new TextRun({
-                                text: `Председател: ${protocol.president}……………………`,
+                                text: `Председател: ${protocol.president} ……………………`,
                                 bold: true,
                                 size: 24
                             })

@@ -34,7 +34,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolClassPDF from '../protocol-class-pdf/ProtocolClassPDF';
 import ReactToPrint from 'react-to-print';
-import ProtocolTextEditorResult from '../protocol-text-editor/ProtocolTextEditorResult';
+import generate from '../protocol-class-word/generate-protocol-class-word';
 
 const style = {
     bgcolor: 'background.paper',
@@ -109,6 +109,9 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
                             </IconButton>
                         )}
                     />
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol)}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
