@@ -36,7 +36,7 @@ const SubjectsListResult = ({
     total,
     loader,
     getSubjects
-}, ...rest) => {
+}) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [selectedSubject, setSelectedSubject] = useState(0);
@@ -53,7 +53,7 @@ const SubjectsListResult = ({
     };
 
     return (
-        <Card {...rest}>
+        <Card>
             <AddSubjectModal openSubjectModalProp={openSubjectModalProp} loadSubjects={getSubjects} />
             <DeleteSubjectModal openDeleteModalProp={openDeleteModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={getSubjects} />
             <EditSubjectModal openEditModalProp={openEditModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={getSubjects} />

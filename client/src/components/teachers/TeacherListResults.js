@@ -22,20 +22,19 @@ import TeacherListItem from './TeacherListItem';
 import TeacherModal from '../teacher-modal/TeacherModal';
 
 const TeacherListResults = ({
-  search,
   teachers,
-  setTeachers,
   total,
   page,
   setPage,
-  limit,setLimit,
+  limit,
+  setLimit,
   loader,
-  openProp,
   getTeachers
-}, ...props) => {
+}) => {
+  let [open, setOpen] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState(0);
-  let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher }
-  let teachersDataProp = { teachers, setTeachers };
+  let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher };
+  let openProp = { open, setOpen };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -46,11 +45,10 @@ const TeacherListResults = ({
   };
 
   return (
-    <Card {...props}>
+    <Card>
       <TeacherModal
         openProp={openProp}
         selectedTeacherProp={selectedTeacherProp}
-        teachersDataProp={teachersDataProp}
         getTeachers={getTeachers}
         setPage={setPage}
       />
@@ -97,7 +95,7 @@ const TeacherListResults = ({
                     {teachers.length !== 0 ?
                       <>
                         {teachers.map((teacher) => (
-                          <TeacherListItem key={teacher.id} teacher={teacher} openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
+                          <TeacherListItem key={`${teacher.id}_${new Date().getSeconds}`} teacher={teacher} openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
                         ))}
                       </>
                       :

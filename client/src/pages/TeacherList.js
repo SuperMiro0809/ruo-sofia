@@ -8,14 +8,12 @@ import teacherServices from '../services/teacher';
 
 const TeacherList = () => {
     const navigate = useNavigate();
-    let [open, setOpen] = useState(false);
     const [search, setSearch] = useState(null);
     const [teachers, setTeachers] = useState([]);
     const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
     const [loader, setLoader] = useState(true);
-    let openProp = { open, setOpen };
 
     useEffect(() => {
         let mounted = true;
@@ -71,7 +69,6 @@ const TeacherList = () => {
                             limit={limit}
                             setLimit={setLimit}
                             loader={loader}
-                            openProp={openProp}
                             getTeachers={getTeachers}
                         />
                     </Box>
