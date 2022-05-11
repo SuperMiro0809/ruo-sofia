@@ -27,7 +27,7 @@ const StudentsSecondaryListResults = ({
     total,
     loader,
     getStudents
-}, ...props) => {
+}) => {
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
     let openProp = { open, setOpen };
@@ -42,7 +42,7 @@ const StudentsSecondaryListResults = ({
     };
 
     return (
-        <Card {...props}>
+        <Card>
             <StudentsSecondaryModal
                 openProp={openProp}
                 selectedStudentProp={selectedStudentProp}
@@ -103,7 +103,7 @@ const StudentsSecondaryListResults = ({
                                         {students.length !== 0 ?
                                             <>
                                                 {students.map((student) => (
-                                                    <StudentsSecondaryListItem key={student.id} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
+                                                    <StudentsSecondaryListItem key={`${student.id}_${new Date().getSeconds()}`} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
                                                 ))}
                                             </>
                                             :

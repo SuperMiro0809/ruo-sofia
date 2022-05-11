@@ -73,6 +73,7 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявления
                     </Button>
@@ -113,8 +114,8 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                                     {student.application.length != 0 ?
                                         <>
                                             {student.application.map((application) => (
-                                                <TableRow key={application.id}>
-                                                    <TableCell>
+                                                <TableRow key={`${application.id}_${new Date().getSeconds()}`}>
+                                                    <TableCell data-testid="number">
                                                         {application.registerNumber}
                                                     </TableCell>
                                                     <TableCell>
@@ -168,7 +169,7 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                                         :
                                         <TableRow>
                                             <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="11">Няма записи</TableCell>
-                                        </TableRow>
+                                        </TableRow>  
                                     }
                                 </TableBody>
                             </Table>

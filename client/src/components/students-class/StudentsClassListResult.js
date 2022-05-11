@@ -26,7 +26,7 @@ const StudentsClassListResults = ({
     total,
     loader,
     getStudents
-}, ...props) => {
+}) => {
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
     let openProp = { open, setOpen };
@@ -41,7 +41,7 @@ const StudentsClassListResults = ({
     };
 
     return (
-        <Card {...props}>
+        <Card>
             <StudentsClassModal
                 openProp={openProp}
                 selectedStudentProp={selectedStudentProp}
@@ -102,7 +102,7 @@ const StudentsClassListResults = ({
                                         {students.length !== 0 ?
                                             <>
                                                 {students.map((student) => (
-                                                    <StudentsClassListItem key={student.id} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
+                                                    <StudentsClassListItem key={`${student.id}_${new Date().getSeconds()}`} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
                                                 ))}
                                             </>
                                             :

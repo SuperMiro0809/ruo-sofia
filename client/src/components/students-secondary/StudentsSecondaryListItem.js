@@ -73,6 +73,7 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявлениe
                     </Button>
@@ -107,9 +108,8 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-
                                     <TableRow key={student.id}>
-                                        <TableCell>
+                                        <TableCell data-testid="number">
                                             {student.registerNumber}
                                         </TableCell>
                                         <TableCell>
