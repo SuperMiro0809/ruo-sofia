@@ -18,7 +18,7 @@ const style = {
     p: 3
 };
 
-const StudentsClassModal = ({ openProp, selectedStudentProp, studentsDataProp, getStudents, ...rest }) => {
+const StudentsClassModal = ({ openProp, selectedStudentProp, getStudents, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 

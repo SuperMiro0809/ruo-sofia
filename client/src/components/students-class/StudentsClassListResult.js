@@ -15,46 +15,22 @@ import {
     CircularProgress
 } from '@material-ui/core';
 import StudentsClassListItem from './StudentsClassListItem';
-import studentClassServices from '../../services/student-class';
 import StudentsClassModal from '../students-class-modal/StudentsClassModal';
 
-const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
-    const navigate = useNavigate();
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(0);
-    const [loader, setLoader] = useState(true);
-    const [students, setStudents] = useState([]);
-    const [total, setTotal] = useState(0);
+const StudentsClassListResults = ({ 
+    students,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    total,
+    loader,
+    getStudents
+}, ...props) => {
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
-
     let openProp = { open, setOpen };
     let selectedStudentProp = { selectedStudent: selectedStudent, setSelectedStudent }
-    let studentsDataProp = {students, setStudents};
-
-    useEffect(() => {
-        let mounted = true;
-        if (!open) {
-            setLoader(true);
-        }
-        getStudents();
-
-        return () => mounted = false;
-    }, [searchName, searchEgn, page, limit])
-
-    const getStudents = () => {
-        studentClassServices.getAll(searchName, searchEgn, page + 1, limit)
-            .then(data => {
-                setStudents(data.data);
-                setTotal(data.total);
-                setLoader(false);
-            })
-            .catch(err => {
-                if (err.message === 'Unauthorized') {
-                    navigate('/login');
-                }
-            })
-    };
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -66,7 +42,11 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
 
     return (
         <Card {...props}>
-            <StudentsClassModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} getStudents={getStudents}/>
+            <StudentsClassModal
+                openProp={openProp}
+                selectedStudentProp={selectedStudentProp}
+                getStudents={getStudents}
+            />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>
