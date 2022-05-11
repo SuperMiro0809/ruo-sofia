@@ -20,14 +20,16 @@ import ReactExport from "react-export-excel";
 
 const ExcelFile = ReactExport.ExcelFile;
 
-const TeacherListToolbar = ({setSearch, teachers}, ...props) => {
+const TeacherListToolbar = ({setSearch, setPage, teachers}, ...props) => {
     const [value, setValue] = useState('');
 
     const handleSearch = () => {
+        setPage(0);
         setSearch(value);
     }
 
     const handleReset = () => {
+        setPage(0);
         setValue('');
         setSearch('');
     }

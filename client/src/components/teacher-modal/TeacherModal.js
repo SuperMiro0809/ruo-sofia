@@ -18,13 +18,14 @@ const style = {
     p: 3
 };
 
-const TeacherModal = ({ openProp, selectedTeacherProp, teachersDataProp, getTeachers, ...rest }) => {
+const TeacherModal = ({ openProp, selectedTeacherProp, teachersDataProp, getTeachers, setPage, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 
     const deleteTeacher = () => {
         teacherServices.destroy(selectedTeacherProp.selectedTeacher)
         .then(data => {
+            setPage(0);
             getTeachers();
             closeModal();
             messageContext[1]({ status: 'success', text: 'Учителят е изтрит успешно!' });

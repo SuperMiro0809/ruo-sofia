@@ -19,53 +19,23 @@ import {
   CircularProgress
 } from '@material-ui/core';
 import TeacherListItem from './TeacherListItem';
-import teacherServices from '../../services/teacher';
 import TeacherModal from '../teacher-modal/TeacherModal';
 
-const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
-  const navigate = useNavigate();
-  const [total, setTotal] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [loader, setLoader] = useState(true);
-  let [open, setOpen] = useState(false);
+const TeacherListResults = ({
+  search,
+  teachers,
+  setTeachers,
+  total,
+  page,
+  setPage,
+  limit,setLimit,
+  loader,
+  openProp,
+  getTeachers
+}, ...props) => {
   const [selectedTeacher, setSelectedTeacher] = useState(0);
-
-  let openProp = { open, setOpen };
   let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher }
   let teachersDataProp = { teachers, setTeachers };
-
-  useEffect(() => {
-    let mounted = true;
-    if (!open) {
-      setLoader(true);
-    }
-    getTeachers();
-
-    return () => mounted = false;
-  }, [search, page, limit])
-
-  const getTeachers = () => {
-    teacherServices.getAll({search, page: page + 1, limit})
-      .then(data => {
-        data.data.forEach(el => {
-          el.application.forEach(appl => {
-            appl.workplace = JSON.parse(appl.workplace);
-            appl.education = JSON.parse(appl.education);
-            appl.diploma = JSON.parse(appl.diploma);
-          })
-        })
-
-        setTeachers(data.data);
-        setTotal(data.total);
-        setLoader(false);
-      })
-      .catch(err => {
-        if (err.message === 'Unauthorized') {
-          navigate('/login');
-        }
-      })
-  }
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -77,7 +47,13 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
 
   return (
     <Card {...props}>
-      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} teachersDataProp={teachersDataProp} getTeachers={getTeachers}/>
+      <TeacherModal
+        openProp={openProp}
+        selectedTeacherProp={selectedTeacherProp}
+        teachersDataProp={teachersDataProp}
+        getTeachers={getTeachers}
+        setPage={setPage}
+      />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
