@@ -30,10 +30,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileWord as WordFileIcon,
-    faEdit as TextEditorIcon
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolSecondaryPDF from '../protocol-secondary-pdf/ProtocolSecondaryPDF';
 import ReactToPrint from 'react-to-print';
+import generate from '../protocol-secondary-word/generate-protocol-secondary-word';
 
 const style = {
     bgcolor: 'background.paper',
@@ -108,6 +108,9 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                             </IconButton>
                         )}
                     />
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol)}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
