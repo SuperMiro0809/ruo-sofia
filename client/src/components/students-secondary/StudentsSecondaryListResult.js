@@ -18,45 +18,20 @@ import studentSecondaryServices from '../../services/student-secondary';
 import StudentsSecondaryListItem from './StudentsSecondaryListItem';
 import StudentsSecondaryModal from '../students-secondary-modal/StudentsSecondaryModal';
 
-const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
-    const navigate = useNavigate();
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(0);
-    const [loader, setLoader] = useState(true);
-    const [students, setStudents] = useState([]);
-    const [total, setTotal] = useState(0);
+const StudentsSecondaryListResults = ({ 
+    students,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    total,
+    loader,
+    getStudents
+}, ...props) => {
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
-
     let openProp = { open, setOpen };
     let selectedStudentProp = { selectedStudent: selectedStudent, setSelectedStudent }
-    let studentsDataProp = {students, setStudents};
-
-    useEffect(() => {
-        let mounted = true;
-        if (!open) {
-            setLoader(true);
-        }
-
-        getStudents();
-
-        return () => mounted = false;
-    }, [searchName, searchEgn, page, limit])
-
-    const getStudents = () => {
-        studentSecondaryServices.getAll(searchName, searchEgn, page + 1, limit)
-        .then(data => {
-            setStudents(data.data);
-            setTotal(data.total);
-            setLoader(false);
-        })
-        .catch(err => {
-            if (err.message === 'Unauthorized') {
-                navigate('/login');
-            }
-        })
-
-    };
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -68,7 +43,11 @@ const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
 
     return (
         <Card {...props}>
-            <StudentsSecondaryModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} getStudents={getStudents}/>
+            <StudentsSecondaryModal
+                openProp={openProp}
+                selectedStudentProp={selectedStudentProp}
+                getStudents={getStudents}
+            />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>

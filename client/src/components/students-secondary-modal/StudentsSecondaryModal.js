@@ -18,7 +18,7 @@ const style = {
     p: 3
 };
 
-const StudentsSecondaryModal = ({ openProp, selectedStudentProp, studentsDataProp, getStudents, ...rest }) => {
+const StudentsSecondaryModal = ({ openProp, selectedStudentProp, getStudents, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 
