@@ -144,6 +144,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявления
                     </Button>
@@ -204,7 +205,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                                                 <TableCell component="th" scope="row">
                                                     № {index + 1}
                                                 </TableCell>
-                                                <TableCell>
+                                                <TableCell data-testid="ruoNumber">
                                                     № {application.ruoNumber}
                                                 </TableCell>
                                                 <TableCell>
