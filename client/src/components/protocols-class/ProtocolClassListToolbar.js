@@ -19,11 +19,12 @@ import {
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 
-const ProtocolClassListToolbar = ({ setNumber, setStartDate, setEndDate }, ...props) => {
+const ProtocolClassListToolbar = ({ setNumber, setStartDate, setEndDate, setPage }, ...props) => {
     const [value, setValue] = useState();
     const [date, setDate] = useState([null, null]);
 
     const handleSearch = () => {
+        setPage(0);
         setNumber(value);
         if(date[0] && date[1]) {
             setStartDate(moment(date[0]).format('YYYY-MM-DD'));
@@ -32,6 +33,7 @@ const ProtocolClassListToolbar = ({ setNumber, setStartDate, setEndDate }, ...pr
     }
 
     const handleReset = () => {
+        setPage(0);
         setValue('');
         setNumber('');
         setDate([null, null]);

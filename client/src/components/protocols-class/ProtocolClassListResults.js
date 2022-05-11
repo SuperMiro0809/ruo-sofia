@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -16,51 +13,23 @@ import {
   CircularProgress,
   TableContainer
 } from '@material-ui/core';
-import protocolClassServices from '../../services/protocol-class';
 import ProtocolClassListItem from './ProtocolClassListItem';
 import ProtocolClassModal from '../protocol-class-modal/ProtocolClassModal';
 
-const ProtocolClassListResults = ({number, startDate, endDate}, ...props) => {
-  const navigate = useNavigate();
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [protocols, setProtocols] = useState([]);
-  const [loader, setLoader] = useState(true);
+const ProtocolClassListResults = ({
+  protocols,
+  page,
+  setPage,
+  limit,
+  setLimit,
+  total,
+  loader,
+  getProtocols
+}, ...props) => {
   let [open, setOpen] = useState(false);
   const [selectedProtocol, setSelectedProtocol] = useState(0);
-  const [total, setTotal] = useState(0);
-
   let openProp = { open, setOpen };
   let selectedProtocolProp = { selectedProtocol, setSelectedProtocol };
-  let protocolsDataProp = { protocols, setProtocols };
-
-  useEffect(() => {
-    let mounted = true;
-    if(!open) {
-      setLoader(true);
-    }
-    getProtocols();
-
-    return () => mounted = false;
-  }, [number, startDate, endDate, page, limit])
-
-  const getProtocols = () => {
-    if(number || startDate || endDate) {
-      setPage(0);
-    }
-
-    protocolClassServices.getAll({number, startDate, endDate, page: page + 1, limit})
-      .then(data => {
-        setProtocols(data.data);
-        setTotal(data.total);
-        setLoader(false);
-      })
-      .catch(err => {
-        if(err.message === 'Unauthorized') {
-            navigate('/login');
-        }
-    })
-  }
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -72,7 +41,7 @@ const ProtocolClassListResults = ({number, startDate, endDate}, ...props) => {
 
   return (
     <Card {...props}>
-      <ProtocolClassModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} protocolsDataProp={protocolsDataProp} getProtocols={getProtocols} />
+      <ProtocolClassModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} getProtocols={getProtocols} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
