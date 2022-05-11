@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import TeacherCertificateListItem from './TeachersCertificateListItem';
 
-const TeacherCertificateListResult = ({teachers, loader, page, setPage, limit, setLimit, total}, ...props) => {
+const TeacherCertificateListResult = ({teachers, loader, page, setPage, limit, setLimit, total}) => {
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -25,7 +25,7 @@ const TeacherCertificateListResult = ({teachers, loader, page, setPage, limit, s
   };
 
   return (
-    <Card {...props}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
@@ -66,7 +66,7 @@ const TeacherCertificateListResult = ({teachers, loader, page, setPage, limit, s
                     {teachers.length !== 0 ?
                       <>
                         {teachers.map((teacher) => (
-                          <TeacherCertificateListItem key={teacher.id} teacher={teacher} />
+                          <TeacherCertificateListItem key={`${teacher.id}_${new Date().getMilliseconds()}`} teacher={teacher} />
                         ))}
                       </>
                       :

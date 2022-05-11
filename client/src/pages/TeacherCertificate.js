@@ -28,6 +28,7 @@ const TeacherEdit = () => {
 
                 for (let i = 0; i < data.data.length; i++) {
                     let teacherEl = {
+                        id: data.data[i].id,
                         dateOfBirth: data.data[i].dateOfBirth,
                         firstName: data.data[i].firstName,
                         middleName: data.data[i].middleName,

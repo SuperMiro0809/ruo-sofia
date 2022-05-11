@@ -1,12 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProtocolListItem.scss';
 import ReactDOMServer from 'react-dom/server';
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import {
     Box,
-    Checkbox,
     TableCell,
     TableRow,
     Typography,
@@ -30,11 +28,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileWord as WordFileIcon,
-    faEdit as TextEditorIcon
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolPDF from '../protocol-pdf/ProtocolPDF';
 import ReactToPrint from 'react-to-print';
-import ProtocolTextEditorResult from '../protocol-text-editor/ProtocolTextEditorResult';
 import generate from '../protocol-word/generate-protocol-word';
 
 
@@ -83,10 +79,6 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
         }
 
         return textArr.join(" ");
-    }
-
-    const generateWord = () => {
-        console.log('in progress');
     }
 
     return (
