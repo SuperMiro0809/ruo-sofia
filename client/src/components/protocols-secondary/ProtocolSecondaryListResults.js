@@ -25,7 +25,7 @@ const ProtocolSecondaryListResults = ({
   total,
   loader,
   getProtocols
-}, ...props) => {
+}) => {
   let [open, setOpen] = useState(false);
   const [selectedProtocol, setSelectedProtocol] = useState(0);
   let openProp = { open, setOpen };
@@ -40,7 +40,7 @@ const ProtocolSecondaryListResults = ({
   };
 
   return (
-    <Card {...props}>
+    <Card>
       <ProtocolSecondaryModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} getProtocols={getProtocols} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -85,7 +85,7 @@ const ProtocolSecondaryListResults = ({
                     {protocols.length !== 0 ?
                       <>
                         {protocols.slice(page * limit, page * limit + limit).map((protocol) => (
-                          <ProtocolSecondaryListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
+                          <ProtocolSecondaryListItem key={`${protocol.id}_${new Date().getSeconds()}`} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
                         ))}
                       </>
                       :

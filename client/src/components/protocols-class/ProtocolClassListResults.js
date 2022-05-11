@@ -25,7 +25,7 @@ const ProtocolClassListResults = ({
   total,
   loader,
   getProtocols
-}, ...props) => {
+}) => {
   let [open, setOpen] = useState(false);
   const [selectedProtocol, setSelectedProtocol] = useState(0);
   let openProp = { open, setOpen };
@@ -40,7 +40,7 @@ const ProtocolClassListResults = ({
   };
 
   return (
-    <Card {...props}>
+    <Card>
       <ProtocolClassModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} getProtocols={getProtocols} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -85,7 +85,7 @@ const ProtocolClassListResults = ({
                     {protocols.length !== 0 ?
                       <>
                         {protocols.slice(page * limit, page * limit + limit).map((protocol) => (
-                          <ProtocolClassListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
+                          <ProtocolClassListItem key={`${protocol.id}_${new Date().getSeconds()}`} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
                         ))}
                       </>
                       :

@@ -1,12 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ProtocolSecondaryListItem.scss';
-import ReactDOMServer from 'react-dom/server';
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import {
     Box,
-    Checkbox,
     TableCell,
     TableRow,
     Typography,
@@ -86,6 +83,7 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявления
                     </Button>
@@ -132,8 +130,8 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                                 </TableHead>
                                 <TableBody>
                                     {protocol.application.map((application, index) => (
-                                        <TableRow key={application.id}>
-                                            <TableCell component="th" scope="row">
+                                        <TableRow key={`${application.id}_${new Date().getSeconds()}`}>
+                                            <TableCell component="th" scope="row" data-testid="number">
                                                 {`${protocol.number} - ${index + 1}`}
                                             </TableCell>
                                             <TableCell>
