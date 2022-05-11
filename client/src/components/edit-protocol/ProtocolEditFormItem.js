@@ -225,6 +225,7 @@ const ProtocolEditFormItem = ({ protocol, props }, ...rest) => {
                         filterOptions={filterOptions}
                         disablePortal
                         id="teacher"
+                        isOptionEqualToValue={(option, value) => option.label === value}
                         options={teacherOptions.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
                         groupBy={(option) => option.firstLetter}
                         loading={loading}

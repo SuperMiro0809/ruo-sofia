@@ -18,7 +18,7 @@ const style = {
     p: 3
 };
 
-const ProtocolModal = ({ openProp, selectedProtocolProp, protocolsDataProp, getProtocols, ...rest }) => {
+const ProtocolModal = ({ openProp, selectedProtocolProp, getProtocols, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 

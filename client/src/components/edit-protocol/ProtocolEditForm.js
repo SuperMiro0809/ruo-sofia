@@ -37,6 +37,7 @@ import committeServices from '../../services/committe';
 import ProtocolEditFormItem from './ProtocolEditFormItem';
 
 const ProtocolAddForm = ({ protocol, ...rest }) => {
+    console.log(protocol)
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const scrollTo = useRef(null);
@@ -75,6 +76,7 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
     }
 
     const disableCreateButton = (isSubmitting, errors, values) => {
+        console.log(errors)
         for (let key in values) {
             if (!values[key]) {
                 return true;
@@ -152,7 +154,27 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                                     application: Yup.string().required('Заявлението е задължително'),
                                     teacher: Yup.string().required('Учителят е задължителен'),
                                     teachings: Yup.array().of(Yup.object().shape({
-                                        credits: Yup.number().when('approve', (approve) => {
+                                        credits: Yup.number().nullable(true).when('approve', (approve) => {
+                                            if (approve) {
+                                                return Yup.number()
+                                                    .positive('Квалификационните кредити трябва да са положително число')
+                                                    .integer('Квалификационните кредити трябва да са цяло число')
+                                                    .required('Квалификационните кредити са задължителни');
+                                            }
+                                        }),
+                                    })),
+                                    reports: Yup.array().of(Yup.object().shape({
+                                        credits: Yup.number().nullable(true).when('approve', (approve) => {
+                                            if (approve) {
+                                                return Yup.number()
+                                                    .positive('Квалификационните кредити трябва да са положително число')
+                                                    .integer('Квалификационните кредити трябва да са цяло число')
+                                                    .required('Квалификационните кредити са задължителни');
+                                            }
+                                        }),
+                                    })),
+                                    publications: Yup.array().of(Yup.object().shape({
+                                        credits: Yup.number().nullable(true).when('approve', (approve) => {
                                             if (approve) {
                                                 return Yup.number()
                                                     .positive('Квалификационните кредити трябва да са положително число')
