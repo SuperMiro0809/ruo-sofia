@@ -151,6 +151,14 @@ class TeacherController extends Controller
         $applications = $teacher->application();
 
         foreach($applications->get() as $application) {
+            if($application->inProtocol) {
+                $time = strtotime($application->date);
+                $applDate = date("d.m.Y", $time);
+                return response()->json([
+                    'message'=> "Заявление $application->ruoNumber/$applDate е част от протокол!"
+                ], 409);
+            }
+            
             $application->teaching()->delete();
             $application->report()->delete();
             $application->publication()->delete();
