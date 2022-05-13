@@ -15,48 +15,22 @@ import {
     CircularProgress
 } from '@material-ui/core';
 import StudentsClassListItem from './StudentsClassListItem';
-import studentClassServices from '../../services/student-class';
 import StudentsClassModal from '../students-class-modal/StudentsClassModal';
 
-const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
-    const navigate = useNavigate();
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(0);
-    const [loader, setLoader] = useState(true);
-    const [students, setStudents] = useState([]);
+const StudentsClassListResults = ({ 
+    students,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    total,
+    loader,
+    getStudents
+}) => {
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
-
     let openProp = { open, setOpen };
     let selectedStudentProp = { selectedStudent: selectedStudent, setSelectedStudent }
-    let studentsDataProp = {students, setStudents};
-
-    useEffect(() => {
-        let mounted = true;
-        if (!open) {
-            setLoader(true);
-        }
-        getStudents();
-
-        return () => mounted = false;
-    }, [searchName, searchEgn])
-
-    const getStudents = () => {
-        if(searchName || searchEgn) {
-            setPage(0);
-        }
-
-        studentClassServices.getAll(searchName, searchEgn)
-            .then(data => {
-                setStudents(data);
-                setLoader(false);
-            })
-            .catch(err => {
-                if (err.message === 'Unauthorized') {
-                    navigate('/login');
-                }
-            })
-    };
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -67,8 +41,12 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
     };
 
     return (
-        <Card {...props}>
-            <StudentsClassModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} />
+        <Card>
+            <StudentsClassModal
+                openProp={openProp}
+                selectedStudentProp={selectedStudentProp}
+                getStudents={getStudents}
+            />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>
@@ -123,8 +101,8 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
                                     <>
                                         {students.length !== 0 ?
                                             <>
-                                                {students.slice(page * limit, page * limit + limit).map((student) => (
-                                                    <StudentsClassListItem key={student.id} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
+                                                {students.map((student) => (
+                                                    <StudentsClassListItem key={`${student.id}_${new Date().getSeconds()}`} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
                                                 ))}
                                             </>
                                             :
@@ -141,7 +119,7 @@ const StudentsClassListResults = ({ searchName, searchEgn }, ...props) => {
             </PerfectScrollbar>
             <TablePagination
                 component="div"
-                count={students.length}
+                count={total}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}

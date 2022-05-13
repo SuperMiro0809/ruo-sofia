@@ -12,20 +12,29 @@ use App\Models\Publication;
 class ProtocolController extends Controller
 {
     public function index(Request $request) {
-        $from = date($request->query('startDate', '1999-01-01'));
-        $to = date($request->query('endDate', '2300-01-01'));
-        $number = $request->query('number', '');
-
         $protocols = Protocol::with('application')
             ->with('application.teacher')
             ->with('application.teaching')
             ->with('application.report')
-            ->with('application.publication')
-            ->whereBetween('date', [$from, $to])
-            ->where('number', 'regexp', $number)
-            ->get();
+            ->with('application.publication');
 
-        return $protocols;
+        if($request->has('startDate') && $request->has('endDate')) {
+            $from = $request->query('startDate');
+            $to = $request->query('endDate');
+            $protocols->whereBetween('date', [$from, $to]);
+        }
+
+        if($request->has('number')) {
+            $protocols->where('number', 'regexp', $request->query('number'));
+        }
+
+        if($request->has('per_page')) {
+            $perPage = (int) $request->query('per_page');
+            return $protocols->paginate($perPage);
+        }else {
+            return $protocols->get();
+        }
+
     }
 
     public function store(Request $request) {
@@ -212,5 +221,17 @@ class ProtocolController extends Controller
         }
 
         return response()->json(['message' => 'Edited']);
+    }
+
+    public function getById($id) {
+        $protocol = Protocol::with('application')
+        ->with('application.teacher')
+        ->with('application.teaching')
+        ->with('application.report')
+        ->with('application.publication')
+        ->findOrFail($id);
+           
+        
+        return $protocol;
     }
 }

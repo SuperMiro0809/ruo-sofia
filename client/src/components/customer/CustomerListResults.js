@@ -1,13 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import moment from 'moment';
+import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -18,44 +13,24 @@ import {
   TableContainer,
   CircularProgress
 } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import userServices from '../../services/user';
 import CustomerContext from '../../contexts/CustomerContext';
 import CustomerListItem from './CustomerListItem';
 import CustomerModal from '../customer-modal/CustomerModal';
 
-const CustomerListResults = ({ name, email, role }, ...rest) => {
-  const navigate = useNavigate();
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [customers, setCustomers] = useState([]);
-  const [loader, setLoader] = useState(true);
+const CustomerListResults = ({
+  customers,
+  setCustomers,
+  page,
+  setPage,
+  limit,
+  setLimit,
+  total,
+  loader
+}) => {
   let [open, setOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(0);
-
   let openProp = { open, setOpen };
   let selectedCustomerProp = { selectedCustomer, setSelectedCustomer }
-
-  useEffect(() => {
-    let mounted = true;
-    setLoader(true);
-    loadCustomers();
-
-    return () => mounted = false;
-  }, [name, email, role]);
-
-  const loadCustomers = () => {
-    userServices.getAll({ name, email, role })
-      .then(data => {
-        setCustomers(data);
-        setLoader(false);
-      })
-      .catch(err => {
-        if(err.message === 'Unauthorized') {
-            navigate('/login');
-        }
-    })
-  }
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -67,7 +42,7 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
 
   return (
     <CustomerContext.Provider value={[customers, setCustomers]}>
-      <Card {...rest}>
+      <Card>
         <CustomerModal openProp={openProp} selectedCustomerProp={selectedCustomerProp} />
         <PerfectScrollbar>
           <Box sx={{ minWidth: 1050 }}>
@@ -111,9 +86,9 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
                     <>
                       {customers.length !== 0 ?
                         <>
-                          {customers.slice(page * limit, page * limit + limit).map((customer) => (
+                          {customers.map((customer) => (
 
-                            <CustomerListItem key={customer.id} customer={customer} openProp={openProp} selectedCustomerProp={selectedCustomerProp} />
+                            <CustomerListItem key={`${customer.id}_${new Date().getSeconds}`} customer={customer} openProp={openProp} selectedCustomerProp={selectedCustomerProp} />
 
                           ))}
                         </>
@@ -131,7 +106,7 @@ const CustomerListResults = ({ name, email, role }, ...rest) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={customers.length}
+          count={total}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

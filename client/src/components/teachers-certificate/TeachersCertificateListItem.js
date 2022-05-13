@@ -72,10 +72,10 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                     {teacher.application.length != 0 ?
                                         <>
                                             {teacher.application.map((application, index) => (
-                                                <>
+                                                <React.Fragment key={`${application.id}_${new Date().getSeconds()}`}>
                                                     {application.teaching.map((teaching, tIndex) => (
-                                                       <TeacherCertificateInnerTableItem
-                                                            key={`${tIndex}_${new Date().getTime()}`}
+                                                        <TeacherCertificateInnerTableItem
+                                                            key={`t_${teaching.id}_${new Date().getMilliseconds()}`}
                                                             mode="teaching"
                                                             el={teaching}
                                                             application={application}
@@ -85,7 +85,7 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                                     ))}
                                                     {application.report.map((report, rIndex) => (
                                                        <TeacherCertificateInnerTableItem
-                                                            key={`${rIndex}_${new Date().getTime()}`}
+                                                            key={`r_${report.id}_${new Date().getMilliseconds()}`}
                                                             mode="report"
                                                             el={report}
                                                             application={application}
@@ -95,7 +95,7 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                                     ))}
                                                     {application.publication.map((publication, pIndex) => (
                                                        <TeacherCertificateInnerTableItem
-                                                            key={`${pIndex}_${new Date().getTime()}`}
+                                                            key={`p_${publication.id}_${new Date().getMilliseconds()}`}
                                                             mode="publication"
                                                             el={publication}
                                                             application={application}
@@ -103,7 +103,7 @@ const TeacherCertificateListItem = ({ teacher, ...rest }) => {
                                                             index={index}
                                                        />
                                                     ))}
-                                                </>
+                                                </React.Fragment>
                                             ))}
                                         </>
                                         :

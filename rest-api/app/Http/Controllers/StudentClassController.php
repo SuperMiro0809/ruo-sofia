@@ -10,14 +10,18 @@ use App\Models\StudentClassApplication;
 class StudentClassController extends Controller
 {
     public function index(Request $request) {
-        $name = $request->query('name', '');
-        $students = StudentClass::with('application')->where('name', 'regexp', $name);
+        $students = StudentClass::with('application');
+        $perPage = (int) $request->query('per_page');
+
+        if($request->has('name')) {
+            $students->where('name', 'regexp', $request->query('name'));
+        }
 
         if($request->has('egn')) {
             $students->where('egn', $request->query('egn'));
         }
             
-        return $students->get();
+        return $students->paginate($perPage);
     }
 
     public function store(Request $request) {

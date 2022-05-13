@@ -9,14 +9,18 @@ use App\Models\StudentSecondary;
 class StudentsSecondaryController extends Controller
 {
     public function index(Request $request) {
-        $name = $request->query('name', '');
-        $students = StudentSecondary::where('name', 'regexp', $name);
+        $students = StudentSecondary::query();
+        $perPage = (int) $request->query('per_page');
+
+        if($request->has('name')) {
+            $students->where('name', 'regexp', $request->query('name'));
+        }
 
         if($request->has('egn')) {
             $students->where('egn', $request->query('egn'));
         }
             
-        return $students->get();
+        return $students->paginate($perPage);
     }
 
     public function store(Request $request) {
@@ -104,5 +108,9 @@ class StudentsSecondaryController extends Controller
         }
 
         return StudentSecondary::all();
+    }
+
+    public function getById($id) {
+        return StudentSecondary::findOrFail($id);
     }
 }

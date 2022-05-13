@@ -14,17 +14,22 @@ use Validator;
 class UserController extends Controller
 {
     public function index(Request $request) {
-        $name = $request->query('name', '');
-        $email = $request->query('email', '');
-        $role = $request->query('role', '');
+        $users = User::query();
+        $perPage = $request->query('per_page');
 
-        $users = User::select('*')
-            ->where('name', 'regexp', $name)
-            ->where('email', 'regexp', $email)
-            ->where('role','regexp', $role)
-            ->get();
+        if($request->has('name')) {
+            $users->where('name', 'regexp', $request->query('name'));
+        }
+
+        if($request->has('email')) {
+            $users->where('email', 'regexp', $request->query('email'));
+        }
+
+        if($request->has('role')) {
+            $users->where('role', 'regexp', $request->query('role'));
+        }
         
-        return $users;
+        return $users->paginate((int) $perPage);
     }
 
     public function store(Request $request) {
@@ -152,6 +157,10 @@ class UserController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Successfully deleted!', 'user' => $user]);
+    }
+
+    public function getById($id) {
+        return User::findOrFail($id);
     }
 
     protected function createNewToken($token){

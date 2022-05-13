@@ -1,12 +1,15 @@
 import services from './index';
 
-function getAll({startDate, endDate, number}) {
+function getAll({startDate, endDate, number, page, limit}) {
     let url = `${services.url}/protocols-class?token=${localStorage.getItem('token')}`;
     if(startDate && endDate) {
         url += `&startDate=${startDate}&endDate=${endDate}`;
     }
     if(number) {
         url += `&number=${number}`;
+    }
+    if(page && limit) {
+        url += `&page=${page}&per_page=${limit}`
     }
 
     return fetch(url)

@@ -1,6 +1,7 @@
 .TeacherCertificateListItem {
     .print-icon,
-    .preview-icon {
+    .preview-icon,
+    .word-icon {
         font-size: 32px;
     }
 
@@ -12,12 +13,21 @@
         color: #0e94ff;
     }
 
+    .word-icon {
+        color: #1675c2
+    }
+
     .print-icon-wrapper,
-    .preview-icon-wrapper {
+    .preview-icon-wrapper,
+    .word-icon {
         vertical-align: initial;
     }
 
     .print-icon-wrapper {
+        margin-left: 10px;
+    }
+
+    .word-icon-wrapper {
         margin-left: 10px;
     }
 
@@ -31,6 +41,13 @@
     .preview-icon-wrapper:hover {
         background-color: transparent;
         .preview-icon {
+            filter: brightness(0.5);
+        }
+    }
+
+    .word-icon-wrapper:hover {
+        background-color: transparent;
+        .word-icon {
             filter: brightness(0.5);
         }
     }

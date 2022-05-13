@@ -33,51 +33,22 @@ const CustomerListItem = ({ customer, openProp, selectedCustomerProp, ...rest })
     return (
         <TableRow
             hover
-            //selected={selectedCustomerIds.indexOf(customer.id) !== -1}
             className="CustomerListItem"
         >
-            {/* <TableCell padding="checkbox">
-          <Checkbox
-            checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-            onChange={(event) => handleSelectOne(event, customer.id)}
-            value="true"
-          />
-        </TableCell> */}
             <TableCell>
-                {/* <Box
-                    sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                    }}
-                >
-                    <Avatar
-              src={customer.avatarUrl}
-              sx={{ mr: 2 }}
-            >
-              {getInitials(customer.name)}
-            </Avatar>
-                    <Typography
-                        color="textPrimary"
-                        variant="body1"
-                    >
-                        {customer.name}
-                    </Typography>
-                </Box> */}
                 {customer.name}
             </TableCell>
-            <TableCell>
+            <TableCell data-testid="customer-email">
                 {customer.email}
             </TableCell>
             <TableCell>
                 {roles[customer.role]}
             </TableCell>
             <TableCell>
-                {/* <FontAwesomeIcon className="trash-icon" icon={TrashIcon} onClick={e => openModal(customer.id)} /> */}
-                {/* <FontAwesomeIcon className="edit-icon" icon={EditIcon} onClick={e => openModal(customer.id)} /> */}
                 <IconButton className="trash-icon-wrapper" color="primary" onClick={e => openModal(customer.id)}>
                     <FontAwesomeIcon className="trash-icon" icon={TrashIcon} />
                 </IconButton>
-                <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/users/edit" state={{ customer: customer }}>
+                <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/users/edit/${customer.id}`} >
                     <FontAwesomeIcon className="edit-icon" icon={EditIcon} />
                 </IconButton>
             </TableCell>

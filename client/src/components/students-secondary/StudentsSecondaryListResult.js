@@ -18,47 +18,20 @@ import studentSecondaryServices from '../../services/student-secondary';
 import StudentsSecondaryListItem from './StudentsSecondaryListItem';
 import StudentsSecondaryModal from '../students-secondary-modal/StudentsSecondaryModal';
 
-const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
-    const navigate = useNavigate();
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(0);
-    const [loader, setLoader] = useState(true);
-    const [students, setStudents] = useState([]);
+const StudentsSecondaryListResults = ({ 
+    students,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    total,
+    loader,
+    getStudents
+}) => {
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
-
     let openProp = { open, setOpen };
     let selectedStudentProp = { selectedStudent: selectedStudent, setSelectedStudent }
-    let studentsDataProp = {students, setStudents};
-
-    useEffect(() => {
-        let mounted = true;
-        if (!open) {
-            setLoader(true);
-        }
-
-        getStudents();
-
-        return () => mounted = false;
-    }, [searchName, searchEgn])
-
-    const getStudents = () => {
-        if(searchName || searchEgn) {
-            setPage(0);
-        }
-
-        studentSecondaryServices.getAll(searchName, searchEgn)
-        .then(data => {
-            setStudents(data);
-            setLoader(false);
-        })
-        .catch(err => {
-            if (err.message === 'Unauthorized') {
-                navigate('/login');
-            }
-        })
-
-    };
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -69,8 +42,12 @@ const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
     };
 
     return (
-        <Card {...props}>
-            <StudentsSecondaryModal openProp={openProp} selectedStudentProp={selectedStudentProp} studentsDataProp={studentsDataProp} />
+        <Card>
+            <StudentsSecondaryModal
+                openProp={openProp}
+                selectedStudentProp={selectedStudentProp}
+                getStudents={getStudents}
+            />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>
@@ -125,8 +102,8 @@ const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
                                     <>
                                         {students.length !== 0 ?
                                             <>
-                                                {students.slice(page * limit, page * limit + limit).map((student) => (
-                                                    <StudentsSecondaryListItem key={student.id} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
+                                                {students.map((student) => (
+                                                    <StudentsSecondaryListItem key={`${student.id}_${new Date().getSeconds()}`} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
                                                 ))}
                                             </>
                                             :
@@ -143,7 +120,7 @@ const StudentsSecondaryListResults = ({ searchName, searchEgn }, ...props) => {
             </PerfectScrollbar>
             <TablePagination
                 component="div"
-                count={students.length}
+                count={total}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}

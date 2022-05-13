@@ -18,7 +18,7 @@ const style = {
     p: 3
 };
 
-const DeleteSubjectModal = ({ openProp, openDeleteModalProp, selectedSubjectProp, loadSubjects, ...rest }) => {
+const DeleteSubjectModal = ({ openProp, openDeleteModalProp, selectedSubjectProp, loadSubjects }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 

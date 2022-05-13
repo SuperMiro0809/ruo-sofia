@@ -1,12 +1,62 @@
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import StudentSecondaryEditForm from '../components/edit-student-secondary/StudentSecondaryEditForm';
 import StudentSecondaryEditToolbar from '../components/edit-student-secondary/StudentSecondaryEditToolbar';
+import studentSecondaryServices from '../services/student-secondary';
 
 const StudentSecondaryEdit = () => {
-    const location = useLocation();
-    const { student } = location.state;
+    const { id } = useParams();
+    const [student, setStudent] = useState({
+        id: '',
+        registerNumber: '',
+        dateOut: '',
+        name: '',
+        egn: '',
+        dateOfBirth: '',
+        citizenship: '',
+        documentNumber: '',
+        documentDate: '',
+        school: '',
+        cityAndCountry: '',
+        inNumber: '',
+        inDate: '',
+        admits: '',
+        profession: '',
+        speciality: '',
+        grades: []
+    });
+
+    useEffect(() => {
+        studentSecondaryServices.getById(id)
+            .then(data => {
+                setStudent({
+                    id: data.id,
+                    registerNumber: data.registerNumber,
+                    dateOut: data.dateOut,
+                    name: data.name,
+                    egn: data.egn,
+                    dateOfBirth: data.dateOfBirth,
+                    citizenship: data.citizenship,
+                    documentNumber: data.documentNumber,
+                    documentDate: data.documentDate,
+                    school: data.school,
+                    cityAndCountry: data.cityAndCountry,
+                    inNumber: data.inNumber,
+                    inDate: data.inDate,
+                    admits: data.admits,
+                    profession: data.admits === 'ЗАВЪРШЕНО СРЕДНО С ПКС' ? student.profession : '',
+                    speciality: data.admits === 'ЗАВЪРШЕНО СРЕДНО С ПКС' ? student.speciality : '',
+                    grades: JSON.parse(data.grades)
+                })
+            })
+            .catch(err => {
+                if (err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
+    }, []);
 
     return (
         <>
@@ -23,7 +73,7 @@ const StudentSecondaryEdit = () => {
                 <Container maxWidth={false}>
                     <StudentSecondaryEditToolbar />
                     <Box sx={{ pt: 3 }}>
-                        <StudentSecondaryEditForm student={student}/>
+                        <StudentSecondaryEditForm student={student} />
                     </Box>
                 </Container>
             </Box>

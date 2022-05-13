@@ -37,26 +37,17 @@ import committeServices from '../../services/committe';
 import ProtocolEditFormItem from './ProtocolEditFormItem';
 
 const ProtocolAddForm = ({ protocol, ...rest }) => {
+    console.log(protocol)
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const scrollTo = useRef(null);
     const [date, setDate] = useState(protocol.date);
     const [committe, setCommitte] = useState({ president: '', members: [] });
-    const applications = [];
+    const protocolJson = JSON.stringify(protocol);
 
-    for (let i = 0; i < protocol.application.length; i++) {
-        let appl = {
-            ruoNumberOut: protocol.application[i].ruoNumberOut,
-            dateOut: protocol.application[i].dateOut,
-            teacher: protocol.application[i].teacher_id,
-            application: protocol.application[i].id,
-            teachings: protocol.application[i].teaching,
-            reports: protocol.application[i].report,
-            publications: protocol.application[i].publication
-        }
-
-        applications.push(appl);
-    }
+    useEffect(() => {
+        setDate(protocol.date);
+    }, [protocolJson]);
 
     useEffect(() => {
         committeServices.getAll()
@@ -85,6 +76,7 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
     }
 
     const disableCreateButton = (isSubmitting, errors, values) => {
+        console.log(errors)
         for (let key in values) {
             if (!values[key]) {
                 return true;
@@ -147,8 +139,8 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                                 date: protocol.date,
                                 about: protocol.about,
                                 president: protocol.president,
-                                members: JSON.parse(protocol.members),
-                                applications: applications
+                                members: protocol.members,
+                                applications: protocol.applications
                             }}
                             validationSchema={Yup.object().shape({
                                 number: Yup.number().required('Номерът е задължителен').typeError('Трябва да въведете число'),
@@ -162,7 +154,27 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                                     application: Yup.string().required('Заявлението е задължително'),
                                     teacher: Yup.string().required('Учителят е задължителен'),
                                     teachings: Yup.array().of(Yup.object().shape({
-                                        credits: Yup.number().when('approve', (approve) => {
+                                        credits: Yup.number().nullable(true).when('approve', (approve) => {
+                                            if (approve) {
+                                                return Yup.number()
+                                                    .positive('Квалификационните кредити трябва да са положително число')
+                                                    .integer('Квалификационните кредити трябва да са цяло число')
+                                                    .required('Квалификационните кредити са задължителни');
+                                            }
+                                        }),
+                                    })),
+                                    reports: Yup.array().of(Yup.object().shape({
+                                        credits: Yup.number().nullable(true).when('approve', (approve) => {
+                                            if (approve) {
+                                                return Yup.number()
+                                                    .positive('Квалификационните кредити трябва да са положително число')
+                                                    .integer('Квалификационните кредити трябва да са цяло число')
+                                                    .required('Квалификационните кредити са задължителни');
+                                            }
+                                        }),
+                                    })),
+                                    publications: Yup.array().of(Yup.object().shape({
+                                        credits: Yup.number().nullable(true).when('approve', (approve) => {
                                             if (approve) {
                                                 return Yup.number()
                                                     .positive('Квалификационните кредити трябва да са положително число')
@@ -202,6 +214,7 @@ const ProtocolAddForm = ({ protocol, ...rest }) => {
                             }}
                             validateOnBlur={true}
                             validateOnChange={false}
+                            enableReinitialize
                         >
                             {({
                                 errors,

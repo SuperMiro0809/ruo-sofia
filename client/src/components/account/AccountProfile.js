@@ -116,6 +116,7 @@ const AccountProfile = (props) => {
             {user.name}
           </Typography>
           <Typography
+            data-testid="role"
             color="textSecondary"
             variant="body1"
           >

@@ -23,6 +23,7 @@ const StudentsSecondaryCertificateListResults = ({ searchName, searchEgn }, ...p
     const [page, setPage] = useState(0);
     const [loader, setLoader] = useState(true);
     const [students, setStudents] = useState([]);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         let mounted = true;
@@ -39,9 +40,10 @@ const StudentsSecondaryCertificateListResults = ({ searchName, searchEgn }, ...p
             setPage(0);
         }
 
-        studentSecondaryServices.getAll(searchName, searchEgn)
+        studentSecondaryServices.getAll({searchName, searchEgn, page: page + 1, limit})
             .then(data => {
-                setStudents(data);
+                setStudents(data.data);
+                setTotal(data.total);
                 setLoader(false);
             })
             .catch(err => {
@@ -127,7 +129,7 @@ const StudentsSecondaryCertificateListResults = ({ searchName, searchEgn }, ...p
             </PerfectScrollbar>
             <TablePagination
                 component="div"
-                count={students.length}
+                count={total}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}

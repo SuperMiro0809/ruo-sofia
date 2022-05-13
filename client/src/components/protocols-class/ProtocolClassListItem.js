@@ -1,12 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ProtocolClassListItem.scss';
-import ReactDOMServer from 'react-dom/server';
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import {
     Box,
-    Checkbox,
     TableCell,
     TableRow,
     Typography,
@@ -30,11 +27,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileWord as WordFileIcon,
-    faEdit as TextEditorIcon
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolClassPDF from '../protocol-class-pdf/ProtocolClassPDF';
 import ReactToPrint from 'react-to-print';
-import ProtocolTextEditorResult from '../protocol-text-editor/ProtocolTextEditorResult';
+import generate from '../protocol-class-word/generate-protocol-class-word';
 
 const style = {
     bgcolor: 'background.paper',
@@ -55,9 +51,11 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
 
     return (
         <React.Fragment>
-            <div style={{ display: 'none' }}>
-                <ProtocolClassPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
-            </div>
+            <tr style={{ display: 'none' }}>
+                <td>
+                    <ProtocolClassPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
+                </td>
+            </tr>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
@@ -87,6 +85,7 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявления
                     </Button>
@@ -109,6 +108,9 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
                             </IconButton>
                         )}
                     />
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol)}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -131,8 +133,8 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
                                 </TableHead>
                                 <TableBody>
                                     {protocol.application.map((application, index) => (
-                                        <TableRow key={application.id}>
-                                            <TableCell component="th" scope="row">
+                                        <TableRow key={`${application.id}_${new Date().getSeconds()}`}>
+                                            <TableCell component="th" scope="row" data-testid="number">
                                                 {`${protocol.number} - ${index + 1}`}
                                             </TableCell>
                                             <TableCell>
@@ -148,7 +150,7 @@ const ProtocolClassListItem = ({ protocol, openProp, selectedProtocolProp, ...re
                                                 {`${application.student.school}, ${application.student.cityAndCountry}`}
                                             </TableCell>
                                             <TableCell>
-                                                {JSON.parse(application.equivalenceExams).map(e => e.subjectName).join(', ')}
+                                                {JSON.parse(application.equivalenceExams).length > 0 ? JSON.parse(application.equivalenceExams).map(e => e.subjectName).join(', ') : '-'}
                                             </TableCell>
                                         </TableRow>
                                     ))}

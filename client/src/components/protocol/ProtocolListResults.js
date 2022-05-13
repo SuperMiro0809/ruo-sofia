@@ -17,47 +17,22 @@ import {
   TableContainer
 } from '@material-ui/core';
 import ProtocolListItem from './ProtocolListItem';
-import protocolServices from '../../services/protocol';
 import ProtocolModal from '../protocol-modal/ProtocolModal';
 
-const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
-  const navigate = useNavigate();
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [protocols, setProtocols] = useState([]);
-  const [loader, setLoader] = useState(true);
+const ProtocolListResults = ({
+  protocols,
+  page,
+  setPage,
+  limit,
+  setLimit,
+  total,
+  loader,
+  getProtocols
+}) => {
   let [open, setOpen] = useState(false);
   const [selectedProtocol, setSelectedProtocol] = useState(0);
-
   let openProp = { open, setOpen };
   let selectedProtocolProp = { selectedProtocol, setSelectedProtocol };
-  let protocolsDataProp = { protocols, setProtocols };
-
-  useEffect(() => {
-    let mounted = true;
-    if(!open) {
-      setLoader(true);
-    }
-    getProtocols();
-
-    return () => mounted = false;
-  }, [number, startDate, endDate])
-
-  const getProtocols = () => {
-    if(number || startDate || endDate) {
-      setPage(0);
-    }
-    protocolServices.getAll({number, startDate, endDate})
-      .then(data => {
-        setProtocols(data);
-        setLoader(false);
-      })
-      .catch(err => {
-        if(err.message === 'Unauthorized') {
-            navigate('/login');
-        }
-    })
-  }
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -68,8 +43,8 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
   };
 
   return (
-    <Card {...props}>
-      <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} protocolsDataProp={protocolsDataProp} />
+    <Card>
+      <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} getProtocols={getProtocols}/>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
@@ -121,8 +96,8 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
                   <>
                     {protocols.length !== 0 ?
                       <>
-                        {protocols.slice(page * limit, page * limit + limit).map((protocol) => (
-                          <ProtocolListItem key={protocol.id} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
+                        {protocols.map((protocol) => (
+                          <ProtocolListItem key={`${protocol.id}_${new Date().getSeconds()}`} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
                         ))}
                       </>
                       :
@@ -139,7 +114,7 @@ const ProtocolListResults = ({number, startDate, endDate}, ...props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={protocols.length}
+        count={total}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

@@ -1,9 +1,17 @@
 import services from './index';
 
-function getAll(fullName) {
+function getAll({search, page, limit, applications}) {
     let url = `${services.url}/teachers?token=${localStorage.getItem('token')}`;
-    if(fullName) {
-        url += `&fullName=${fullName}`;
+    if(search) {
+        url += `&fullName=${search}`;
+    }
+
+    if(page && limit) {
+        url += `&page=${page}&per_page=${limit}`;
+    }
+
+    if(applications) {
+        url += `&applications=1`;
     }
 
     return fetch(url)
@@ -67,6 +75,8 @@ function destroy(id) {
                 return res.json();
             } else if (res.status === 401) {
                 throw new Error('Unauthorized');
+            } else if (res.status === 409) {
+                return res.json().then(r => { throw new Error(r.message) })
             }
         })
 }
@@ -102,6 +112,19 @@ function getCertificates(startDate, endDate) {
     })
 }
 
+function getById(id) {
+    const url = `${services.url}/teachers/${id}?token=${localStorage.getItem('token')}`;
+
+    return fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const teacherServices = {
     getAll,
     create,
@@ -109,7 +132,8 @@ const teacherServices = {
     addApplication,
     destroy,
     edit,
-    getCertificates
+    getCertificates,
+    getById
 }
 
 export default teacherServices;

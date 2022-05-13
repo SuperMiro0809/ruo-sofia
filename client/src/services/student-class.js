@@ -1,7 +1,7 @@
 import services from './index';
 
-function getAll(searchName, searchEgn) {
-    let url = `${services.url}/students-class?token=${localStorage.getItem('token')}`;
+function getAll(searchName, searchEgn, page, limit) {
+    let url = `${services.url}/students-class?token=${localStorage.getItem('token')}&page=${page}&per_page=${limit}`;
     if(searchName) {
         url += `&name=${searchName}`;
     }

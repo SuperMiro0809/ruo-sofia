@@ -73,6 +73,7 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявлениe
                     </Button>
@@ -81,7 +82,7 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(student.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/students-secondary/edit" state={{ student: student }}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/students-secondary/edit/${student.id}`} >
                         <EditIcon className="edit-icon" />
                     </IconButton>
                 </TableCell>
@@ -107,9 +108,8 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-
                                     <TableRow key={student.id}>
-                                        <TableCell>
+                                        <TableCell data-testid="number">
                                             {student.registerNumber}
                                         </TableCell>
                                         <TableCell>

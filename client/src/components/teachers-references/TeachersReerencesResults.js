@@ -25,9 +25,8 @@ import teacherServices from '../../services/teacher';
 import ProtocolsReference from './References/Protocols/ProtocolsReference';
 import CertificatesReferene from './References/Certificates/CertificatesReference';
 
-const TeachersReferencesResults = ({ loader, data, mode, setMode, page, setPage }, ...props) => {
+const TeachersReferencesResults = ({ loader, data, mode, setMode, page, setPage, limit, setLimit, total }, ...props) => {
   const navigate = useNavigate();
-  const [limit, setLimit] = useState(10);
 
   const modes = {
     protocols: 'Протоколи',
@@ -84,7 +83,7 @@ const TeachersReferencesResults = ({ loader, data, mode, setMode, page, setPage 
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={data.length}
+          count={total}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

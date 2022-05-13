@@ -75,7 +75,7 @@ const ApplicationFormItem = ({ props }, ...rest) => {
 
     useEffect(() => {
         if (loading) {
-            teacherServices.getAll()
+            teacherServices.getAll({applications: 1})
                 .then(data => {
                     let arr = []
 
@@ -106,6 +106,13 @@ const ApplicationFormItem = ({ props }, ...rest) => {
         if (teacher == null) {
             setTeacher(false);
             setFieldValue(`applications.${index}.teacher`, '');
+            setApplications([])
+            setSelectedApplication(null)
+            setFieldValue(`applications.${index}.teacher`, '');
+            setFieldValue(`applications.${index}.teachings`, []);
+            setFieldValue(`applications.${index}.reports`, []);
+            setFieldValue(`applications.${index}.publications`, []);
+            setFieldValue(`applications.${index}.application`, '');
             return;
         }
 

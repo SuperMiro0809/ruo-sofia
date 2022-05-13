@@ -26,43 +26,23 @@ import AddSubjectModal from '../subject-modals/AddSubjectModal';
 import DeleteSubjectModal from '../subject-modals/DeleteSubjectModal';
 import EditSubjectModal from '../subject-modals/EditSubjectModal';
 
-const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
-    const navigate = useNavigate();
-    const messageContext = useContext(MessageContext);
-    const [subjects, setSubjects] = useState([]);
-    const [loader, setLoader] = useState(true);
-    const [page, setPage] = useState(0);
-    const [limit, setLimit] = useState(10);
+const SubjectsListResult = ({
+    openSubjectModalProp,
+    subjects,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    total,
+    loader,
+    getSubjects
+}) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [selectedSubject, setSelectedSubject] = useState(0);
     const openDeleteModalProp = { openDeleteModal, setOpenDeleteModal };
     const openEditModalProp = { openEditModal, setOpenEditModal };
     const selectedSubjectProp = { selectedSubject, setSelectedSubject };
-
-    useEffect(() => {
-        let mounted = true;
-        loadSubjects();
-
-        return () => mounted = false;
-    }, [search]);
-
-    const loadSubjects = () => {
-        setLoader(true);
-        if(search) {
-            setPage(0);
-        }
-        subjectServices.getAll(search)
-            .then(data => {
-                setSubjects(data);
-                setLoader(false);
-            })
-            .catch(err => {
-                if (err.message === 'Unauthorized') {
-                    navigate('/login');
-                }
-            })
-    }
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -73,10 +53,10 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
     };
 
     return (
-        <Card {...rest}>
-            <AddSubjectModal openSubjectModalProp={openSubjectModalProp} loadSubjects={loadSubjects} />
-            <DeleteSubjectModal openDeleteModalProp={openDeleteModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={loadSubjects} />
-            <EditSubjectModal openEditModalProp={openEditModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={loadSubjects} />
+        <Card>
+            <AddSubjectModal openSubjectModalProp={openSubjectModalProp} loadSubjects={getSubjects} />
+            <DeleteSubjectModal openDeleteModalProp={openDeleteModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={getSubjects} />
+            <EditSubjectModal openEditModalProp={openEditModalProp} selectedSubjectProp={selectedSubjectProp} loadSubjects={getSubjects} />
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
                     <TableContainer>
@@ -113,7 +93,7 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
                                     <>
                                         {subjects.length !== 0 ?
                                             <>
-                                                {subjects.slice(page * limit, page * limit + limit).map((subject, index) => (
+                                                {subjects.map((subject, index) => (
                                                     <SubjectListItem key={index} subject={subject} openDeleteModalProp={openDeleteModalProp} selectedSubjectProp={selectedSubjectProp} openEditModalProp={openEditModalProp} />
                                                 ))}
                                             </>
@@ -131,7 +111,7 @@ const SubjectsListResult = ({openSubjectModalProp, search, ...rest }) => {
             </PerfectScrollbar>
             <TablePagination
                 component="div"
-                count={subjects.length}
+                count={total}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}

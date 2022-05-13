@@ -11,45 +11,45 @@ const TeacherEdit = () => {
     const [teachers, setTeachers] = useState([]);
     const [loader, setLoader] = useState(true);
     const [page, setPage]= useState(0);
+    const [limit, setLimit] = useState(10);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         let mounted = true;
         getTeachers();
 
         return () => mounted = false;
-    }, []);
+    }, [page, limit]);
 
     const getTeachers = (search) => {
-        if(search) {
-            setPage(0);
-        }
-
-        teacherServices.getAll(search)
+        teacherServices.getAll({search, page: page + 1, limit})
             .then(data => {
                 const teacherData = [];
 
-                for (let i = 0; i < data.length; i++) {
+                for (let i = 0; i < data.data.length; i++) {
                     let teacherEl = {
-                        dateOfBirth: data[i].dateOfBirth,
-                        firstName: data[i].firstName,
-                        middleName: data[i].middleName,
-                        lastName: data[i].lastName,
+                        id: data.data[i].id,
+                        dateOfBirth: data.data[i].dateOfBirth,
+                        firstName: data.data[i].firstName,
+                        middleName: data.data[i].middleName,
+                        lastName: data.data[i].lastName,
                         application: []
                     }
 
-                    for (let j = 0; j < data[i].application.length; j++) {
-                        if (data[i].application[j].inProtocol) {
-                            data[i].application[j].workplace = JSON.parse(data[i].application[j].workplace);
-                            data[i].application[j].education = JSON.parse(data[i].application[j].education);
-                            data[i].application[j].diploma = JSON.parse(data[i].application[j].diploma);
-                            teacherEl.application.push(data[i].application[j]);
+                    for (let j = 0; j < data.data[i].application.length; j++) {
+                        if (data.data[i].application[j].inProtocol) {
+                            data.data[i].application[j].workplace = JSON.parse(data.data[i].application[j].workplace);
+                            data.data[i].application[j].education = JSON.parse(data.data[i].application[j].education);
+                            data.data[i].application[j].diploma = JSON.parse(data.data[i].application[j].diploma);
+                            teacherEl.application.push(data.data[i].application[j]);
                         }
                     }
 
                     teacherData.push(teacherEl);
                 }
 
-                setTeachers(teacherData);
+                setTeachers(teacherData);  
+                setTotal(data.total)
                 setLoader(false);
             })
             .catch(err => {
@@ -75,7 +75,7 @@ const TeacherEdit = () => {
                     <Box sx={{ pt: 3 }}>
                         <TeacherCertificateToolbar getTeachers={getTeachers} setLoader={setLoader}/>
                         <Box sx={{ pt: 3 }}>
-                            <TeachersCertificateListResult loader={loader} teachers={teachers} page={page} setPage={setPage} />
+                            <TeachersCertificateListResult loader={loader} teachers={teachers} page={page} setPage={setPage} limit={limit} setLimit={setLimit} total={total} />
                         </Box>
                     </Box>
                 </Container>

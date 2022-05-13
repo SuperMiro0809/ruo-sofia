@@ -1,12 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ProtocolSecondaryListItem.scss';
-import ReactDOMServer from 'react-dom/server';
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import {
     Box,
-    Checkbox,
     TableCell,
     TableRow,
     Typography,
@@ -30,10 +27,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileWord as WordFileIcon,
-    faEdit as TextEditorIcon
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolSecondaryPDF from '../protocol-secondary-pdf/ProtocolSecondaryPDF';
 import ReactToPrint from 'react-to-print';
+import generate from '../protocol-secondary-word/generate-protocol-secondary-word';
 
 const style = {
     bgcolor: 'background.paper',
@@ -54,9 +51,11 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
 
     return (
         <React.Fragment>
-            <div style={{ display: 'none' }}>
-                <ProtocolSecondaryPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
-            </div>
+            <tr style={{ display: 'none' }}>
+                <td>
+                    <ProtocolSecondaryPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
+                </td>
+            </tr>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
@@ -86,6 +85,7 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявления
                     </Button>
@@ -108,6 +108,9 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                             </IconButton>
                         )}
                     />
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol)}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -129,8 +132,8 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                                 </TableHead>
                                 <TableBody>
                                     {protocol.application.map((application, index) => (
-                                        <TableRow key={application.id}>
-                                            <TableCell component="th" scope="row">
+                                        <TableRow key={`${application.id}_${new Date().getSeconds()}`}>
+                                            <TableCell component="th" scope="row" data-testid="number">
                                                 {`${protocol.number} - ${index + 1}`}
                                             </TableCell>
                                             <TableCell>

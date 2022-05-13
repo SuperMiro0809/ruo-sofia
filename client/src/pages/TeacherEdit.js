@@ -1,12 +1,39 @@
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import TeacherEditForm from '../components/edit-teacher/TeacherEditForm';
 import TeacherEditToolbar from '../components/edit-teacher/TeacherEditToolbar';
+import teacherServices from '../services/teacher';
 
 const TeacherEdit = () => {
-    const location = useLocation();
-    const { teacher } = location.state;
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [teacher, setTeacher] = useState({
+        id: '',
+        dateOfBirth: null,
+        firstName: '',
+        middleName: '',
+        lastName: ''
+    })
+
+    useEffect(() => {
+        teacherServices.getById(id)
+            .then(data => {
+                setTeacher({
+                    id: data.id,
+                    dateOfBirth: data.dateOfBirth,
+                    firstName: data.firstName,
+                    middleName: data.middleName,
+                    lastName: data.lastName
+                })
+            })
+            .catch(err => {
+                if (err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
+    }, []);
 
     return (
         <>

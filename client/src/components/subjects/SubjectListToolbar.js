@@ -13,14 +13,16 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 
 
-const SubjectListToolbar = ({ openSubjectModalProp, setSearch }, ...props) => {
+const SubjectListToolbar = ({ openSubjectModalProp, setSearch, setPage }, ...props) => {
     const [value, setValue] = useState('');
 
     const handleSearch = () => {
+        setPage(0);
         setSearch(value);
     }
 
     const handleReset = () => {
+        setPage(0);
         setValue('');
         setSearch(null);
     }

@@ -1,7 +1,7 @@
 import services from './index';
 
-function getAll(searchName, searchEgn) {
-    let url = `${services.url}/students-secondary?token=${localStorage.getItem('token')}`;
+function getAll(searchName, searchEgn, page, limit) {
+    let url = `${services.url}/students-secondary?token=${localStorage.getItem('token')}&page=${page}&per_page=${limit}`;
     if(searchName) {
         url += `&name=${searchName}`;
     }
@@ -82,12 +82,24 @@ function certificates(startDate, endDate) {
     })
 }
 
+function getById(id) {
+    return fetch(`${services.url}/students-secondary/${id}?token=${localStorage.getItem('token')}`)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const StudentSecondaryServices = {
     getAll,
     create,
     destroy,
     edit,
-    certificates
+    certificates,
+    getById
 }
 
 export default StudentSecondaryServices;

@@ -52,6 +52,7 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявления
                     </Button>
@@ -60,7 +61,7 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(teacher.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/teachers/edit" state={{ teacher: teacher }}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/teachers/edit/${teacher.id}`} >
                         <EditIcon className="edit-icon" />
                     </IconButton>
                 </TableCell>
@@ -86,10 +87,10 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                                 </TableHead>
                                 <TableBody>
                                     {teacher.application.length != 0 ?
-                                        <>
+                                        <React.Fragment>
                                             {teacher.application.map((application) => (
-                                                <TableRow key={application.id}>
-                                                    <TableCell>
+                                                <TableRow key={`${application.id}_${new Date().getSeconds}`}>
+                                                    <TableCell data-testid="ruoNumber">
                                                         № {application.ruoNumber}
                                                     </TableCell>
                                                     <TableCell>
@@ -112,7 +113,7 @@ const TeacherListItem = ({ teacher, openProp, selectedTeacherProp, ...rest }) =>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
-                                        </>
+                                        </React.Fragment>
                                         :
                                         <TableRow>
                                             <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="7">Няма записи</TableCell>

@@ -1,12 +1,15 @@
 import services from './index';
 
-function getAll({startDate, endDate, number}) {
+function getAll({startDate, endDate, number, page, limit}) {
     let url = `${services.url}/protocols?token=${localStorage.getItem('token')}`;
     if(startDate && endDate) {
         url += `&startDate=${startDate}&endDate=${endDate}`;
     }
     if(number) {
         url += `&number=${number}`;
+    }
+    if(page && limit) {
+        url += `&page=${page}&per_page=${limit}`;
     }
 
     return fetch(url)
@@ -68,11 +71,23 @@ function edit(data, id) {
         })
 }
 
+function getById(id) {
+    return fetch(`${services.url}/protocols/${id}?token=${localStorage.getItem('token')}`)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const protocolServices = {
     getAll,
     create,
     destroy,
-    edit
+    edit,
+    getById
 }
 
 export default protocolServices;

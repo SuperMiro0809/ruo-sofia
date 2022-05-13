@@ -61,6 +61,7 @@ const CustomerEditForm = ({ customer, ...rest }) => {
                                     }
                                 })
                             }}
+                            enableReinitialize
                         >
                             {({
                                 errors,

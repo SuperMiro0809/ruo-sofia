@@ -11,8 +11,12 @@ use App\Models\ProtocolSecondary;
 class ProtocolSecondaryController extends Controller
 {
     public function index(Request $request) {
-        $number = $request->query('number', '');
-        $protocols = ProtocolSecondary::where('number', 'regexp', $number)->with('application');
+        $protocols = ProtocolSecondary::with('application');
+        $perPage = $request->query('per_page');
+
+        if($request->has('number')) {
+            $protocols->where('number', 'regexp', $request->query('number'));
+        }
 
         if($request->has('startDate') && $request->has('endDate')) {
             $from = $request->query('startDate');
@@ -20,7 +24,7 @@ class ProtocolSecondaryController extends Controller
             $protocols->whereBetween('date', [$from, $to]);
         }
           
-        return $protocols->get();
+        return $protocols->paginate($perPage);
     }
 
     public function store(Request $request) {

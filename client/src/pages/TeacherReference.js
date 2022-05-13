@@ -17,6 +17,8 @@ const TeacherReference = () => {
     const [mode, setMode] = useState('protocols');
     const [loader, setLoader] = useState(true);
     const [page, setPage] = useState(0);
+    const [limit, setLimit] = useState(10);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         let mounted = true;
@@ -31,6 +33,7 @@ const TeacherReference = () => {
                         data[i].certificateNumber = `${data[i].ruoNumberOut}/${moment(data[i].dateOut).format('DD.MM.YYYY')}`
                     }
                     setCertificates(data);
+                    setTotal(data.length);
                     setLoader(false);
                 })
                 .catch(err => {
@@ -45,6 +48,7 @@ const TeacherReference = () => {
                         data[index].membersString = JSON.parse(protocol.members).join(', ');
                     })
                     setProtocols(data);
+                    setTotal(data.length);
                     setLoader(false);
                 })
                 .catch(err => {
@@ -55,7 +59,7 @@ const TeacherReference = () => {
         }
 
         return () => mounted = false;
-    }, [mode, startDate, endDate]);
+    }, [mode, startDate, endDate, page, limit]);
 
     return (
         <>
@@ -72,7 +76,17 @@ const TeacherReference = () => {
                 <Container maxWidth={false}>
                     <TeachersReferencesToolbar setStartDate={setStartDate} setEndDate={setEndDate} data={mode === 'certificates' ? certificates : protocols} mode={mode} />
                     <Box sx={{ pt: 3 }} className="TeachersReferencesResults">
-                        <TeachersReferencesResults loader={loader} data={mode === 'certificates' ? certificates : protocols} mode={mode} setMode={setMode} page={page} setPage={setPage}/>
+                        <TeachersReferencesResults 
+                            loader={loader}
+                            data={mode === 'certificates' ? certificates : protocols}
+                            mode={mode}
+                            setMode={setMode}
+                            page={page}
+                            setPage={setPage}
+                            limit={limit}
+                            setLimit={setLimit}
+                            total={total}
+                        />
                     </Box>
                 </Container>
             </Box>

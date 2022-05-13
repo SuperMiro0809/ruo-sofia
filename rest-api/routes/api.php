@@ -45,11 +45,13 @@ Route::group([
     Route::delete('/profile/avatar', [UserController::class, 'deleteAvatar']);
     Route::put('/users/changePassword/{id}', [UserController::class, 'changePassword']);
     Route::put('/users/{id}', [UserController::class, 'editUser']);
+    Route::get('/users/{id}', [UserController::class, 'getById']);
 
     Route::get('/protocols', [ProtocolController::class, 'index']);
     Route::post('/protocols', [ProtocolController::class, 'store']);
     Route::delete('/protocols/{id}', [ProtocolController::class, 'destroy']);
     Route::put('/protocols/{id}', [ProtocolController::class, 'edit']);
+    Route::get('/protocols/{id}', [ProtocolController::class, 'getById']);
 
     Route::get('/teachers', [TeacherController::class, 'index']);
     Route::post('/teachers', [TeacherController::class, 'store']);
@@ -58,6 +60,7 @@ Route::group([
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
     Route::put('/teachers/{id}', [TeacherController::class, 'edit']);
     Route::get('/teachers/certificates', [TeacherController::class, 'certificates']);
+    Route::get('/teachers/{id}', [TeacherController::class, 'getById']);
 
     Route::get('/students-class', [StudentClassController::class, 'index']);
     Route::get('/students-class/certificates', [StudentClassController::class, 'certificates']);
@@ -70,6 +73,7 @@ Route::group([
     Route::post('/students-secondary', [StudentsSecondaryController::class, 'store']);
     Route::delete('/students-secondary/{id}', [StudentsSecondaryController::class, 'destroy']);
     Route::put('/students-secondary/{id}', [StudentsSecondaryController::class, 'edit']);
+    Route::get('/students-secondary/{id}', [StudentsSecondaryController::class, 'getById']);
 
     Route::get('/protocols-class', [ProtocolClassController::class, 'index']);
     Route::post('/protocols-class', [ProtocolClassController::class, 'store']);

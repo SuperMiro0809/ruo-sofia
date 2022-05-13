@@ -15,16 +15,18 @@ import {
 } from 'react-feather';
 import { NavLink as RouterLink } from 'react-router-dom';
 
-const StudentsSecondaryListToolbar = ({ setSearchName, setSearchEgn }, props) => {
+const StudentsSecondaryListToolbar = ({ setSearchName, setSearchEgn, setPage }, props) => {
     const [name, setName] = useState('');
     const [egn, setEgn] = useState('');
 
     const handleSearch = () => {
+        setPage(0);
         setSearchName(name);
         setSearchEgn(egn);
     }
 
     const handleReset = () => {
+        setPage(0);
         setName('');
         setEgn('');
         setSearchName(null);

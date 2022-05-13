@@ -18,14 +18,15 @@ const style = {
     p: 3
 };
 
-const TeacherModal = ({ openProp, selectedTeacherProp, teachersDataProp, ...rest }) => {
+const TeacherModal = ({ openProp, selectedTeacherProp, getTeachers, setPage, ...rest }) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 
     const deleteTeacher = () => {
         teacherServices.destroy(selectedTeacherProp.selectedTeacher)
         .then(data => {
-            teachersDataProp.setTeachers(teachersDataProp.teachers.filter(t => t.id != selectedTeacherProp.selectedTeacher));
+            setPage(0);
+            getTeachers();
             closeModal();
             messageContext[1]({ status: 'success', text: 'Учителят е изтрит успешно!' });
             const interval = setInterval(function () {
@@ -36,6 +37,13 @@ const TeacherModal = ({ openProp, selectedTeacherProp, teachersDataProp, ...rest
         .catch(err => {
             if(err.message === 'Unauthorized') {
                 navigate('/login');
+            }else {
+                closeModal();
+                messageContext[1]({ status: 'error', text: err.message });
+                const interval = setInterval(function () {
+                    messageContext[1]('');
+                    clearInterval(interval);
+                }, 2000)
             }
         })
     };

@@ -41,10 +41,7 @@ import AuthRoute from './hoc/isAuth';
 import NotAuthRoute from './hoc/isNotAuth';
 
 const Layout = () => (
-  <div>
     <Outlet />
-  </div>
-
 )
 
 const routes = [
@@ -58,18 +55,18 @@ const routes = [
         path: 'users',
         element: <RoleRoute role="Administrator" component={Layout} />,
         children: [
-          { path: '/', element: <CustomerList /> },
+          { path: '', element: <CustomerList /> },
           { path: 'add', element: <CustomerAdd /> },
-          { path: 'edit', element: <CustomerEdit /> },
+          { path: 'edit/:id', element: <CustomerEdit /> },
         ]
       },
       {
         path: 'teachers',
         element: <RoleRoute role="Qualifications" component={Layout} />,
         children: [
-          { path: '/', element: <TeacherList /> },
+          { path: '', element: <TeacherList /> },
           { path: 'add', element: <TeacherAdd /> },
-          { path: 'edit', element: <TeacherEdit /> },
+          { path: 'edit/:id', element: <TeacherEdit /> },
           { path: 'certificate', element: <TeacherCertificate /> },
           { path: 'application', element: <ApplicationAdd /> },
           { path: 'reference', element: <TeacherReference /> }
@@ -81,15 +78,15 @@ const routes = [
         children: [
           { path: '', element: <ProtocolList /> },
           { path: 'add', element: <ProtocolAdd /> },
-          { path: 'edit', element: <ProtocolEdit /> },
+          { path: 'edit/:id', element: <ProtocolEdit /> },
           { path: 'text-editor', element: <ProtocolTextEditor /> },
           { 
             path: 'students-class',
             element: <Layout />,
             children: [
               { path: '', element: <ProtocolClassList /> },
-              { path: '/add', element: <ProtocolClassAdd /> },
-              { path: '/edit/:id', element: <ProtocolClassEdit /> }
+              { path: 'add', element: <ProtocolClassAdd /> },
+              { path: 'edit/:id', element: <ProtocolClassEdit /> }
             ] 
           },
           {
@@ -97,8 +94,8 @@ const routes = [
             element: <Layout />,
             children: [
               { path: '', element: <ProtocolSecondaryList /> },
-              { path: '/add', element: <ProtocolSecondaryAdd /> },
-              { path: '/edit/:id', element: <ProtocolSecondaryEdit /> }
+              { path: 'add', element: <ProtocolSecondaryAdd /> },
+              { path: 'edit/:id', element: <ProtocolSecondaryEdit /> }
             ]
           }
         ]
@@ -107,19 +104,19 @@ const routes = [
         path: 'students-class',
         element: <RoleRoute role="Education" component={Layout}/>,
         children: [
-          { path: '/', element: <StudentClassList /> },
-          { path: '/add', element: <StudentClassAdd /> },
-          { path: '/certificate', element: <StudentClassCertificate /> }
+          { path: '', element: <StudentClassList /> },
+          { path: 'add', element: <StudentClassAdd /> },
+          { path: 'certificate', element: <StudentClassCertificate /> }
         ]
       },
       {
         path: 'students-secondary',
         element: <RoleRoute role="Education" component={Layout}/>,
         children: [
-          { path: '/', element: <StudentSecondaryList /> },
-          { path: '/add', element: <StudentSecondaryAdd /> },
-          { path: '/edit', element: <StudentSecondaryEdit /> },
-          { path: '/certificate', element: <StudentSecondaryCertificate /> }
+          { path: '', element: <StudentSecondaryList /> },
+          { path: 'add', element: <StudentSecondaryAdd /> },
+          { path: 'edit/:id', element: <StudentSecondaryEdit /> },
+          { path: 'certificate', element: <StudentSecondaryCertificate /> }
         ]
       },
       {
@@ -130,8 +127,8 @@ const routes = [
         path: 'settings', 
         element: <Layout />,
         children: [
-          { path: '/committe', element: <CommitteList /> },
-          { path: '/subjects', element: <SubjectList /> }
+          { path: 'committe', element: <CommitteList /> },
+          { path: 'subjects', element: <SubjectList /> }
         ]
       },
       { path: 'settings', element: <Settings /> },

@@ -271,7 +271,7 @@ const DashboardResult = () => {
                         <DashboardCardLayout
                             title="Протоколи - Клас"
                             value={values.protocolsClassCount}
-                            url="/app/students-secondary"
+                            url="/app/protocols/students-class"
                             icon={FileContractIcon}
                         />
                     </Grid>

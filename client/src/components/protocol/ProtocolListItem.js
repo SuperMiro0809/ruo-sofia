@@ -1,12 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProtocolListItem.scss';
 import ReactDOMServer from 'react-dom/server';
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import {
     Box,
-    Checkbox,
     TableCell,
     TableRow,
     Typography,
@@ -30,11 +28,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileWord as WordFileIcon,
-    faEdit as TextEditorIcon
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolPDF from '../protocol-pdf/ProtocolPDF';
 import ReactToPrint from 'react-to-print';
-import ProtocolTextEditorResult from '../protocol-text-editor/ProtocolTextEditorResult';
+import generate from '../protocol-word/generate-protocol-word';
+
 
 const style = {
     bgcolor: 'background.paper',
@@ -83,15 +81,13 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
         return textArr.join(" ");
     }
 
-    const generateWord = () => {
-        console.log('in progress');
-    }
-
     return (
         <React.Fragment>
-            <div style={{ display: 'none' }}>
-                <ProtocolPDF protocol={protocol} formText={formText} ref={print} style={{ display: 'none' }} />
-            </div>
+            <tr style={{ display: 'none' }}>
+                <td>
+                    <ProtocolPDF protocol={protocol} formText={formText} ref={print} style={{ display: 'none' }} />
+                </td>
+            </tr>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
@@ -142,6 +138,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                         onClick={() => setOpen(!open)}
                         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         className="button-with-icon"
+                        data-testid="button"
                     >
                         Виж заявления
                     </Button>
@@ -153,7 +150,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(protocol.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/protocols/edit" state={{ protocol: protocol }}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/protocols/edit/${protocol.id}`}>
                         <EditIcon className="edit-icon" />
                     </IconButton>
                     <ReactToPrint
@@ -164,9 +161,9 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                             </IconButton>
                         )}
                     />
-                    {/* <IconButton className="word-icon-wrapper">
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol, formText)}>
                         <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
-                    </IconButton> */}
+                    </IconButton>
                     {/* <IconButton className="text-edit-icon-wrapper" component={RouterLink} to="/app/protocols/text-editor" state={{ content: textEditorContent }}>
                         <FontAwesomeIcon icon={TextEditorIcon} className="text-edit-icon" />
                     </IconButton> */}
@@ -202,7 +199,7 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
                                                 <TableCell component="th" scope="row">
                                                     № {index + 1}
                                                 </TableCell>
-                                                <TableCell>
+                                                <TableCell data-testid="ruoNumber">
                                                     № {application.ruoNumber}
                                                 </TableCell>
                                                 <TableCell>

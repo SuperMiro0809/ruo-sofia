@@ -19,54 +19,22 @@ import {
   CircularProgress
 } from '@material-ui/core';
 import TeacherListItem from './TeacherListItem';
-import teacherServices from '../../services/teacher';
 import TeacherModal from '../teacher-modal/TeacherModal';
 
-const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
-  const navigate = useNavigate();
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [loader, setLoader] = useState(true);
+const TeacherListResults = ({
+  teachers,
+  total,
+  page,
+  setPage,
+  limit,
+  setLimit,
+  loader,
+  getTeachers
+}) => {
   let [open, setOpen] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState(0);
-
+  let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher };
   let openProp = { open, setOpen };
-  let selectedTeacherProp = { selectedTeacher: selectedTeacher, setSelectedTeacher }
-  let teachersDataProp = { teachers, setTeachers };
-
-  useEffect(() => {
-    let mounted = true;
-    if (!open) {
-      setLoader(true);
-    }
-    getTeachers();
-
-    return () => mounted = false;
-  }, [search])
-
-  const getTeachers = () => {
-    if (search) {
-      setPage(0);
-    }
-    teacherServices.getAll(search)
-      .then(data => {
-        data.forEach(el => {
-          el.application.forEach(appl => {
-            appl.workplace = JSON.parse(appl.workplace);
-            appl.education = JSON.parse(appl.education);
-            appl.diploma = JSON.parse(appl.diploma);
-          })
-        })
-
-        setTeachers(data);
-        setLoader(false);
-      })
-      .catch(err => {
-        if (err.message === 'Unauthorized') {
-          navigate('/login');
-        }
-      })
-  }
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -77,8 +45,13 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
   };
 
   return (
-    <Card {...props}>
-      <TeacherModal openProp={openProp} selectedTeacherProp={selectedTeacherProp} teachersDataProp={teachersDataProp} />
+    <Card>
+      <TeacherModal
+        openProp={openProp}
+        selectedTeacherProp={selectedTeacherProp}
+        getTeachers={getTeachers}
+        setPage={setPage}
+      />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
@@ -121,8 +94,8 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
                   <>
                     {teachers.length !== 0 ?
                       <>
-                        {teachers.slice(page * limit, page * limit + limit).map((teacher) => (
-                          <TeacherListItem key={teacher.id} teacher={teacher} openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
+                        {teachers.map((teacher) => (
+                          <TeacherListItem key={`${teacher.id}_${new Date().getSeconds}`} teacher={teacher} openProp={openProp} selectedTeacherProp={selectedTeacherProp} />
                         ))}
                       </>
                       :
@@ -139,7 +112,7 @@ const TeacherListResults = ({ search, teachers, setTeachers }, ...props) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={teachers.length}
+        count={total}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

@@ -14,15 +14,23 @@ use App\Models\Publication;
 class TeacherController extends Controller
 {
     public function index(Request $request) {
-        $fullName = $request->query('fullName', '');
-        $teachers = Teacher::where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $fullName)
-            ->with('application')
-            ->with('application.teaching')
-            ->with('application.report')
-            ->with('application.publication')
-            ->get();
+        $teachers = Teacher::with('application')
+                        ->with('application.teaching')
+                        ->with('application.report')
+                        ->with('application.publication');
+        
+        if($request->has('fullName')) {
+            $teachers->where(DB::raw("CONCAT(firstName,' ',middleName,' ',lastName)"), 'regexp', $request->query('fullName'));
+        }
 
-        return $teachers;
+        if($request->has('per_page')) {
+            $perPage = (int) $request->query('per_page');
+            return $teachers->paginate($perPage);
+        }else if($request->has('applications')) {
+            return $teachers->get();
+        }else {
+            return Teacher::all();
+        }
     }
 
     public function store(Request $request) {
@@ -143,6 +151,14 @@ class TeacherController extends Controller
         $applications = $teacher->application();
 
         foreach($applications->get() as $application) {
+            if($application->inProtocol) {
+                $time = strtotime($application->date);
+                $applDate = date("d.m.Y", $time);
+                return response()->json([
+                    'message'=> "Заявление $application->ruoNumber/$applDate е част от протокол!"
+                ], 409);
+            }
+            
             $application->teaching()->delete();
             $application->report()->delete();
             $application->publication()->delete();
@@ -207,5 +223,9 @@ class TeacherController extends Controller
         }
         
         return $certificates;
+    }
+
+    public function getById($id) {
+        return Teacher::findOrFail($id);
     }
 }

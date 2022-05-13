@@ -23,7 +23,7 @@ const TeacherLetterPDF = React.forwardRef(({ teacher, index, application, el }, 
                     <article className="to">
                         <p>ДО</p>
                         <p>Г-Н/Г-ЖА {teacher.firstName} {teacher.lastName},</p>
-                        <p>гр. София</p>
+                        <p>гр. {application.workplace.city}</p>
                         <p>{application.adress}</p>
                     </article>
                 </section>

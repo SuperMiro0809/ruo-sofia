@@ -55,7 +55,7 @@ const StudentSecondaryAddForm = ({ rest }) => {
     }, [])
 
     const loadSubjects = () => {
-        subjectServices.getAll()
+        subjectServices.getAll({})
             .then(data => {
                 let arr = [];
 
