@@ -24,7 +24,6 @@ const style = {
 };
 
 const StudentsClassCertificateInnerTableItem = ({ el, application, student, index }) => {
-    const [openPreview, setOpenPreview] = useState(false);
     const print = React.useRef();
 
     return (
@@ -51,9 +50,6 @@ const StudentsClassCertificateInnerTableItem = ({ el, application, student, inde
                 {application.admits}
             </TableCell>
             <TableCell>
-                <IconButton className="preview-icon-wrapper" color="primary" onClick={() => setOpenPreview(true)}>
-                    <PreviewIcon className="preview-icon" />
-                </IconButton>
                 <ReactToPrint
                     content={() => print.current}
                     trigger={() => (
@@ -66,18 +62,6 @@ const StudentsClassCertificateInnerTableItem = ({ el, application, student, inde
             <td style={{ display: 'none' }}>
                 <StudentClassCertificatePDF application={application} student={student} ref={print} />
             </td>
-            <Modal
-                open={openPreview}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style} className="PreviewModal Modal">
-                    <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
-                        <CloseIcon className="close-icon" onClick={() => setOpenPreview(false)} />
-                    </Typography>
-                    <StudentClassCertificatePDF application={application} student={student} />
-                </Box>
-            </Modal>
         </TableRow>
 
     );

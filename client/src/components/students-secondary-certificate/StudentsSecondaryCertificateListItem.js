@@ -33,9 +33,8 @@ const style = {
     width: 'auto'
 };
 
-const StudentsSecondaryCertificateListItem = ({ student, ...rest }) => {
+const StudentsSecondaryCertificateListItem = ({ student }) => {
     const [open, setOpen] = useState(false);
-    const [openPreview, setOpenPreview] = useState(false);
     const print = React.useRef();
 
     return (
@@ -46,18 +45,6 @@ const StudentsSecondaryCertificateListItem = ({ student, ...rest }) => {
                 </td>
 
             </tr>
-            <Modal
-                open={openPreview}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style} className="PreviewModal Modal">
-                    <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
-                        <CloseIcon className="close-icon" onClick={() => setOpenPreview(false)} />
-                    </Typography>
-                    <StudentSecondaryCertificatePDF application={student} />
-                </Box>
-            </Modal>
             <TableRow
                 hover
                 sx={{ '& > *': { borderBottom: 'unset' } }}
@@ -128,9 +115,6 @@ const StudentsSecondaryCertificateListItem = ({ student, ...rest }) => {
                                             {student.admits}
                                         </TableCell>
                                         <TableCell>
-                                            <IconButton className="preview-icon-wrapper" color="primary" onClick={() => setOpenPreview(true)}>
-                                                <PreviewIcon className="preview-icon" />
-                                            </IconButton>
                                             <ReactToPrint
                                                 content={() => print.current}
                                                 trigger={() => (

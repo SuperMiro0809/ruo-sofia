@@ -34,7 +34,7 @@ class CreateStudentsSecondaryTable extends Migration
             $table->json('grades');
             $table->unsignedBigInteger('protocol_id')->nullable();
 
-            $table->foreign('protocol_id')->references('id')->on('protocols_class');
+            $table->foreign('protocol_id')->references('id')->on('protocols_secondary');
         });
     }
 
