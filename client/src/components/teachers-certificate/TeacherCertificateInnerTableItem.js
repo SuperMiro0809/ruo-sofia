@@ -71,13 +71,13 @@ const TeacherCertificateInnerTableItem = ({ el, application, teacher, index, mod
                 }
             </TableCell>
             {el.approve ?
-                <div style={{ display: 'none' }}>
+                <td style={{ display: 'none' }}>
                     <TeacherCertificatePDF mode={mode} teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
-                </div>
+                </td>
                 :
-                <div style={{ display: 'none' }}>
+                <td style={{ display: 'none' }}>
                     <TeacherLetterPDF teacher={teacher} application={application} el={el} index={index} ref={print} style={{ display: 'none' }} />
-                </div>
+                </td>
             }
             <Modal
                 open={openPreview}

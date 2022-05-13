@@ -83,9 +83,11 @@ const ProtocolListItem = ({ protocol, openProp, selectedProtocolProp, ...rest })
 
     return (
         <React.Fragment>
-            <div style={{ display: 'none' }}>
-                <ProtocolPDF protocol={protocol} formText={formText} ref={print} style={{ display: 'none' }} />
-            </div>
+            <tr style={{ display: 'none' }}>
+                <td>
+                    <ProtocolPDF protocol={protocol} formText={formText} ref={print} style={{ display: 'none' }} />
+                </td>
+            </tr>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"

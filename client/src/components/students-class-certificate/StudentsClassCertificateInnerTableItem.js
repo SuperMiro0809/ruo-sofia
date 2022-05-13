@@ -63,9 +63,9 @@ const StudentsClassCertificateInnerTableItem = ({ el, application, student, inde
                     )}
                 />
             </TableCell>
-            <div style={{ display: 'none' }}>
-            <StudentClassCertificatePDF application={application} student={student} ref={print} />
-            </div>
+            <td style={{ display: 'none' }}>
+                <StudentClassCertificatePDF application={application} student={student} ref={print} />
+            </td>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"

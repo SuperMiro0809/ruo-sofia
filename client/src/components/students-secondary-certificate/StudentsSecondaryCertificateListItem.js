@@ -40,9 +40,12 @@ const StudentsSecondaryCertificateListItem = ({ student, ...rest }) => {
 
     return (
         <React.Fragment>
-            <div style={{ display: 'none' }}>
-                <StudentSecondaryCertificatePDF application={student} ref={print} style={{ display: 'none' }} />
-            </div>
+            <tr style={{ display: 'none' }}>
+                <td>
+                    <StudentSecondaryCertificatePDF application={student} ref={print} style={{ display: 'none' }} />
+                </td>
+
+            </tr>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"

@@ -51,9 +51,11 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
 
     return (
         <React.Fragment>
-            <div style={{ display: 'none' }}>
-                <ProtocolSecondaryPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
-            </div>
+            <tr style={{ display: 'none' }}>
+                <td>
+                    <ProtocolSecondaryPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
+                </td>
+            </tr>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
