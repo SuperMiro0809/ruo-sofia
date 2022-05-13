@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProtocolsTable extends Migration
+class CreateTeachersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateProtocolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('protocols', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('teachers', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
-            $table->integer('number')->unique();
-            $table->date('date');
-            $table->string('about');
-            $table->string('president');
-            $table->json('members');
+            $table->date('dateOfBirth');
+            $table->string('firstName');
+            $table->string('middleName');
+            $table->string('lastName');
         });
     }
 
@@ -31,6 +30,6 @@ class CreateProtocolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('protocols');
+        Schema::dropIfExists('teachers');
     }
 }

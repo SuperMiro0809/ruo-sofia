@@ -26,6 +26,9 @@ class CreateReportsTable extends Migration
             $table->integer('credits')->nullable();
             $table->unsignedBigInteger('teacher_id');
             $table->unsignedBigInteger('application_id');
+            
+            $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->foreign('application_id')->references('id')->on('applications');
         });
     }
 

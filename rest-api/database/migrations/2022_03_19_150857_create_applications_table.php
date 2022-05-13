@@ -14,10 +14,9 @@ class CreateApplicationsTable extends Migration
     public function up()
     {
         Schema::create('applications', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->date('date');
             $table->date('dateOut')->nullable();
-            $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
             $table->string('adress');
             $table->string('tel');
@@ -28,6 +27,10 @@ class CreateApplicationsTable extends Migration
             $table->string('ruoNumberOut')->nullable()->unique();
             $table->boolean('inProtocol')->default(false);
             $table->unsignedBigInteger('protocol_id')->nullable();
+            $table->unsignedBigInteger('teacher_id');
+
+            $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->foreign('protocol_id')->references('id')->on('protocols');
         });
     }
 
