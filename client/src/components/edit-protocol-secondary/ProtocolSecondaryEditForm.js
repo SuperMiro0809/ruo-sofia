@@ -162,7 +162,7 @@ const ProtocolSecondaryEditForm = ({protocol, ...rest }) => {
                                             color="textPrimary"
                                             variant="h3"
                                         >
-                                            Генерираре на протокол
+                                            Генериране на протокол
                                         </Typography>
                                     </Box>
                                     <TextField
