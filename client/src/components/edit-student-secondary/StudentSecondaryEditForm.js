@@ -150,10 +150,10 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                 registerNumber: Yup.string().required('Регистрационният номер е задължителен'),
                                 dateOut: Yup.date().required('Датата на издаване е задължителна').typeError('Датата не е валидна'),
                                 name: Yup.string().required('Името е задължително'),
-                                egn: Yup.number()
-                                    .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
-                                    .typeError('ЕГН-то трябва да съдържа само цифри')
-                                    .required('ЕГН-то е задължително'),
+                                // egn: Yup.number()
+                                //     .test('len', 'ЕГН-то трябва е точно 10 цифри', val => val ? val.toString().length === 10 : '')
+                                //     .typeError('ЕГН-то трябва да съдържа само цифри')
+                                //     .required('ЕГН-то е задължително'),
                                 dateOfBirth: Yup.date().required('Датата на разждане е задължителна').typeError('Датата не е валидна'),
                                 citizenship: Yup.string().required('Гражданството е задължително'),
                                 documentDate: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна'),
