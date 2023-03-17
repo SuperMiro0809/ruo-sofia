@@ -222,7 +222,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                             Yup.ref('startDate'),
                                             'Крайната дата не може да е преди началната'
                                         ),
-                                    eik: Yup.number().required('ЕИК/БУЛСТАТ е задължителен').typeError('ЕИК/БУЛСТАТ трябва да съдържа само цифри'),
+                                    eik: Yup.number().typeError('ЕИК/БУЛСТАТ трябва да съдържа само цифри'),
                                     lessonHours: Yup.number().max(255).required('Академичните часове са задължителни').typeError('Академичните часове трябва да са число'),
                                     theme: Yup.string().max(255).required('Темата е задължителна')
                                 })),
@@ -722,7 +722,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                     <Box sx={{ py: 2 }}>
                                         <Button
                                             color="primary"
-                                            disabled={disableCreateButton(isSubmitting, errors, values)}
+                                            //disabled={disableCreateButton(isSubmitting, errors, values)}
                                             fullWidth
                                             size="large"
                                             type="submit"
