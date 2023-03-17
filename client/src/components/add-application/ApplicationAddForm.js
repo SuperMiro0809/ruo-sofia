@@ -551,6 +551,11 @@ const ApplicationsAddForm = ({ rest }) => {
                                                 <MenuItem value={"Учител"}>Учител</MenuItem>
                                                 <MenuItem value={"Старши учител"}>Старши учител</MenuItem>
                                                 <MenuItem value={"Главен учител"}>Главен учител</MenuItem>
+                                                <MenuItem value={"Психолог"}>Психолог</MenuItem>
+                                                <MenuItem value={"Педалогически съветник"}>Педалогически съветник</MenuItem>
+                                                <MenuItem value={"Заместник-директор"}>Заместник-директор</MenuItem>
+                                                <MenuItem value={"Директор"}>Директор</MenuItem>
+                                                <MenuItem value={"Ръководител направление ИКТ"}>Ръководител направление ИКТ</MenuItem>
                                             </Select>
                                             <FormHelperText>{getIn(touched, 'workplace.position') && getIn(errors, 'workplace.position')}</FormHelperText>
                                         </FormControl>
