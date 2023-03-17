@@ -125,7 +125,7 @@ class TeacherController extends Controller
                 $publication->save();
             }
 
-            $teacher->save();
+            //$teacher->save();
         }else {
             // $teacher = new Teacher();
             // $teacher->egn = $request->egn;

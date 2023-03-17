@@ -77,84 +77,84 @@ const ApplicationsAddForm = ({ rest }) => {
             return true;
         }
 
-        if (qualification.includes('teachings')) {
-            for (let i = 0; i < values.teaching.length; i++) {
-                const teaching = values.teaching[i];
-                for (let key in teaching) {
-                    if (!teaching[key]) {
-                        return true;
-                    }
-                }
-            }
+        // if (qualification.includes('teachings')) {
+        //     for (let i = 0; i < values.teaching.length; i++) {
+        //         const teaching = values.teaching[i];
+        //         for (let key in teaching) {
+        //             if (!teaching[key]) {
+        //                 return true;
+        //             }
+        //         }
+        //     }
 
-            if (errors['teaching']) {
-                return true;
-            }
-        }
+        //     if (errors['teaching']) {
+        //         return true;
+        //     }
+        // }
 
-        if (qualification.includes('reports')) {
-            for (let i = 0; i < values.report.length; i++) {
-                const report = values.report[i];
-                for (let key in report) {
-                    if (!report[key]) {
-                        return true;
-                    }
-                }
-            }
+        // if (qualification.includes('reports')) {
+        //     for (let i = 0; i < values.report.length; i++) {
+        //         const report = values.report[i];
+        //         for (let key in report) {
+        //             if (!report[key]) {
+        //                 return true;
+        //             }
+        //         }
+        //     }
 
-            if (errors['report']) {
-                return true;
-            }
-        }
+        //     if (errors['report']) {
+        //         return true;
+        //     }
+        // }
 
-        if (qualification.includes('publications')) {
-            for (let i = 0; i < values.publication.length; i++) {
-                const publication = values.publication[i];
-                for (let key in publication) {
-                    if (!publication[key]) {
-                        return true;
-                    }
-                }
-            }
+        // if (qualification.includes('publications')) {
+        //     for (let i = 0; i < values.publication.length; i++) {
+        //         const publication = values.publication[i];
+        //         for (let key in publication) {
+        //             if (!publication[key]) {
+        //                 return true;
+        //             }
+        //         }
+        //     }
 
-            if (errors['publication']) {
-                return true;
-            }
-        }
+        //     if (errors['publication']) {
+        //         return true;
+        //     }
+        // }
 
-        for (let key in values) {
-            if (!values[key]) {
-                return true;
-            }
-        }
+        // for (let key in values) {
+        //     if (!values[key]) {
+        //         return true;
+        //     }
+        // }
 
-        for (let key in values.workplace) {
-            if (!values.workplace[key]) {
-                return true;
-            }
-        }
+        // for (let key in values.workplace) {
+        //     if (!values.workplace[key]) {
+        //         return true;
+        //     }
+        // }
 
-        for (let key in values.education) {
-            if (!values.education[key]) {
-                return true;
-            }
-        }
+        // for (let key in values.education) {
+        //     if (!values.education[key]) {
+        //         return true;
+        //     }
+        // }
 
-        for (let key in values.diploma) {
-            if (!values.diploma[key]) {
-                return true;
-            }
-        }
+        // for (let key in values.diploma) {
+        //     if (!values.diploma[key]) {
+        //         return true;
+        //     }
+        // }
 
-        for (let key in errors) {
-            if (errors[key]) {
-                return true;
-            }
-        }
+        // for (let key in errors) {
+        //     if (errors[key]) {
+        //         return true;
+        //     }
+        // }
 
-        if (errors['workplace'] || errors['education'] || errors['diploma']) {
-            return true;
-        }
+        // if (errors['workplace'] || errors['education'] || errors['diploma']) {
+        //     return true;
+        // }
 
         if (isSubmitting) {
             return true;
@@ -170,6 +170,7 @@ const ApplicationsAddForm = ({ rest }) => {
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
+                                teacher: '',
                                 ruoNumber: '',
                                 adress: '',
                                 tel: '',
@@ -195,6 +196,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                 publication: []
                             }}
                             validationSchema={Yup.object().shape({
+                                teacher: Yup.string().required('Учителят е задължителен'),
                                 ruoNumber: Yup.number().required('Входящият номер в РУО е задължителен').typeError('Трябва да въведете число'),
                                 adress: Yup.string().max(255).required('Адресът е задължителен'),
                                 tel: Yup.string().matches(/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/, 'Телефонният номер не е валиден').required('Телефонният номер е задължителен'),
@@ -305,6 +307,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                             if (newValue != null) {
                                                 setTeacher(true);
                                                 setTeacherId(newValue.id);
+                                                setFieldValue('teacher', newValue.label)
                                             }
                                         }}
                                         filterOptions={filterOptions}
@@ -313,7 +316,16 @@ const ApplicationsAddForm = ({ rest }) => {
                                         options={teacherOptions.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
                                         groupBy={(option) => option.firstLetter}
                                         loading={loading}
-                                        renderInput={(params) => <TextField {...params} label="Учител" margin="normal" />}
+                                        name="teacher"
+                                        renderInput={(params) => (
+                                            <TextField
+                                                error={Boolean(touched.teacher && errors.teacher)}
+                                                helperText={touched.teacher && errors.teacher}
+                                                {...params}
+                                                label="Учител"
+                                                margin="normal"
+                                            />
+                                        )}
                                     />
                                     <TextField
                                         error={Boolean(touched.ruoNumber && errors.ruoNumber)}
@@ -722,7 +734,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                     <Box sx={{ py: 2 }}>
                                         <Button
                                             color="primary"
-                                            //disabled={disableCreateButton(isSubmitting, errors, values)}
+                                            disabled={disableCreateButton(isSubmitting, errors, values)}
                                             fullWidth
                                             size="large"
                                             type="submit"
