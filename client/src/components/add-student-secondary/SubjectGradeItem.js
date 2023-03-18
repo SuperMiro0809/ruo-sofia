@@ -17,7 +17,7 @@ import {
 import { getIn } from 'formik';
 
 const SubjectGradeItem = ({ props, mode, subjects }) => {
-    const commaSeparatorRegex = /^[2-5]{1}(,\d{0,2})?$|^[6]{1}(,[0]{0,2})?$/;
+    const commaSeparatorRegex = /^[2-5]{1}(,\d{0,2})?$|^[6]{1}(,[0]{0,2})?$|^-$/;
     const {
         arrayHelpers,
         values,
