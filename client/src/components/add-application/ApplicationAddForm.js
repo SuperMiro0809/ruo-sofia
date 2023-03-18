@@ -198,7 +198,7 @@ const ApplicationsAddForm = ({ rest }) => {
                             }}
                             validationSchema={Yup.object().shape({
                                 teacher: Yup.string().required('Учителят е задължителен'),
-                                ruoNumber: Yup.number().required('Входящият номер в РУО е задължителен').typeError('Трябва да въведете число'),
+                                ruoNumber: Yup.string().required('Входящият номер в РУО е задължителен'),
                                 date: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна'),
                                 adress: Yup.string().max(255).required('Адресът е задължителен'),
                                 tel: Yup.string().matches(/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/, 'Телефонният номер не е валиден').required('Телефонният номер е задължителен'),
