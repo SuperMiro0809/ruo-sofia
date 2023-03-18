@@ -26,6 +26,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
       elevation={0}
       {...rest}
       className="Header"
+      sx={{ zIndex: 2000 }}
     >
       <Box className="information-wrapper">
           <Typography className="information-text">ул. "Антим I" №17</Typography>
