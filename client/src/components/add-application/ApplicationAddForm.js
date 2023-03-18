@@ -172,6 +172,7 @@ const ApplicationsAddForm = ({ rest }) => {
                             initialValues={{
                                 teacher: '',
                                 ruoNumber: '',
+                                date: '',
                                 adress: '',
                                 tel: '',
                                 workplace: {
@@ -198,6 +199,7 @@ const ApplicationsAddForm = ({ rest }) => {
                             validationSchema={Yup.object().shape({
                                 teacher: Yup.string().required('Учителят е задължителен'),
                                 ruoNumber: Yup.number().required('Входящият номер в РУО е задължителен').typeError('Трябва да въведете число'),
+                                date: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна'),
                                 adress: Yup.string().max(255).required('Адресът е задължителен'),
                                 tel: Yup.string().matches(/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/, 'Телефонният номер не е валиден').required('Телефонният номер е задължителен'),
                                 workplace: Yup.object().shape({
@@ -253,8 +255,6 @@ const ApplicationsAddForm = ({ rest }) => {
                             })}
                             onSubmit={(values, { setSubmitting }) => {
                                 let data = teacher ? { teacherId, ...values } : values;
-                                const formatedDate = moment(date).format('YYYY/MM/DD');
-                                data = { date: formatedDate, ...data };
 
                                 teacherServices.addApplication(data)
                                     .then(res => {
@@ -350,13 +350,23 @@ const ApplicationsAddForm = ({ rest }) => {
                                             value={date}
                                             onChange={(newValue) => {
                                                 setDate(newValue)
+                                                const d = new Date(newValue);
+
+                                                if(d instanceof Date && !isNaN(d)) {
+                                                    setFieldValue("date", moment(d).format('YYYY/MM/DD'))
+                                                }else {
+                                                    setFieldValue("date", d)
+                                                }
                                             }}
+                                            name="date"
                                             renderInput={(params) =>
                                                 <TextField
+                                                    {...params}
+                                                    error={Boolean(touched.date && errors.date)}
+                                                    helperText={touched.date && errors.date}
                                                     margin="normal"
                                                     onBlur={handleBlur}
                                                     fullWidth
-                                                    {...params}
                                                 />
                                             }
                                         />
