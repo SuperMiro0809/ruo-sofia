@@ -97,10 +97,11 @@ const ApplicationFormItem = ({ props }, ...rest) => {
                     }
                 })
         }
-        if (values.applications.length > 1) {
-            scrollTo.current.scrollIntoView({ behavior: 'smooth' })
-        }
     })
+
+    useEffect(() => {
+        scrollTo.current.scrollIntoView({ behavior: 'smooth' })
+    }, [values.applications.length])
 
     const selectTeacher = (teacher) => {
         if (teacher == null) {
