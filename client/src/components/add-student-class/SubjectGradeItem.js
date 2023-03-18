@@ -31,10 +31,8 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
     } = props;
 
     useEffect(() => {
-        if (values[mode].length > 1) {
-            scrollTo.current.scrollIntoView({ behavior: 'smooth' })
-        }
-    })
+        scrollTo.current.scrollIntoView({ behavior: 'smooth' });
+    }, [values[mode].length])
 
     return (
         <Box sx={{ ml: 2 }}>
