@@ -36,7 +36,7 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
             scrollTo.current.scrollIntoView({ behavior: 'smooth' })
         }
     })
-
+    console.log(subjects)
     return (
         <Box sx={{ ml: 2 }}>
             <Grid container spacing={2} alignItems="center">
@@ -53,7 +53,7 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
                         value={values[mode][index].subjectName}
                         isOptionEqualToValue={(option, value) => option.label === value}
                         disablePortal
-                        options={subjects}
+                        options={subjects.sort((a, b) => -b.label.localeCompare(a.label))}
                         renderInput={(params) => (
                             <TextField
                                 name={`${mode}.${index}.subjectName`}

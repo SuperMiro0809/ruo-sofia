@@ -51,7 +51,7 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
                         }}
                         disablePortal
                         isOptionEqualToValue={(option, value) => option.label === value.label}
-                        options={subjects}
+                        options={subjects.sort((a, b) => -b.label.localeCompare(a.label))}
                         renderInput={(params) => (
                             <TextField
                                 name={`${mode}.${index}.subjectName`}
