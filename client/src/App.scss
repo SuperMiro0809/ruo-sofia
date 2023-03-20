@@ -13,6 +13,10 @@ table {
     }
 }
 
+.MuiModal-root {
+    z-index: 2500;
+}
+
 .Modal {
     position: absolute;
     top: 50%;
