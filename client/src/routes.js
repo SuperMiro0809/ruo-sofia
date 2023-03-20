@@ -20,6 +20,7 @@ import ProtocolEdit from './pages/ProtocolEdit';
 import ProtocolTextEditor from './pages/ProtocolTextEditor';
 import ApplicationAdd from './pages/ApplicationAdd';
 import CommitteList from './pages/CommitteList';
+import CommitteEducationList from './pages/CommitteEducationList';
 import StudentClassList from './pages/StudentClassList';
 import StudentClassAdd from './pages/StudentClassAdd';
 import SubjectList from './pages/SubjectList';
@@ -128,6 +129,7 @@ const routes = [
         element: <Layout />,
         children: [
           { path: 'committe', element: <CommitteList /> },
+          { path: 'committe-education', element: <CommitteEducationList /> },
           { path: 'subjects', element: <SubjectList /> }
         ]
       },

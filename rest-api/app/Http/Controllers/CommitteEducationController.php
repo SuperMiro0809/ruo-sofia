@@ -12,4 +12,16 @@ class CommitteEducationController extends Controller
 
         return $committe;
     }
+
+    public function save(Request $request) {
+        $committe = CommitteEducation::findOrFail(1);
+
+        $committe->president = $request->president;
+        $committe->vicePresidents = json_encode($request->vicePresidents);
+        $committe->members = json_encode($request->members);
+
+        $committe->save();
+
+        return response()->json(['message' => 'Saved!']);
+    }
 }

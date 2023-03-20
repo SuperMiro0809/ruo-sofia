@@ -126,7 +126,12 @@ const dropDownSettings = {
     {
       href: '/app/settings/committe',
       icon: CommitteIcon,
-      title: 'Комисия'
+      title: 'Комисия - Учители'
+    },
+    {
+      href: '/app/settings/committe-education',
+      icon: CommitteIcon,
+      title: 'Комисия - Образование'
     },
     {
       href: '/app/settings/subjects',
