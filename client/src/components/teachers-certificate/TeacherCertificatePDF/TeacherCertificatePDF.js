@@ -35,27 +35,27 @@ const TeacherCertificatePDF = React.forwardRef(({ teacher, index, application, e
                     </article>
                     {mode === "teaching" &&
                         <>
-                            <p>е участвал(а) в териотично обучение</p>
-                            <p>проведено от {el.institution}</p>
+                            <p>е участвал(а) в обучение, проведено от {el.institution} в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г. с продължителност {el.lessonHours} академични часа, на тема {el.theme},</p>
+                            {/* <p>проведено от {el.institution}</p>
                             <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г. с продължителност {el.lessonHours} академични часа</p>
-                            <p>на тема {el.theme}</p>
+                            <p>на тема {el.theme}</p> */}
                         </>
                     }
                     {mode === "report" &&
                         <>
-                            <p>e подготвил(а) и представил(а) доклад или научно съобщение</p>
-                            <p>проведено от {el.institution}</p>
+                            <p>e подготвил(а) и представил(а) доклад или научно съобщение, проведено от {el.institution} в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г., с продължителност {el.lessonHours} академични часа, на тема {el.theme},</p>
+                            {/* <p>проведено от {el.institution}</p>
                             <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г. с продължителност {el.lessonHours} академични часа</p>
-                            <p>на тема {el.theme}</p>
+                            <p>на тема {el.theme}</p> */}
                         </>
                     }
                     {mode === "publication" &&
                         <>
-                            <p>е публикувал(а) научна или методическа публикация в периодично издание</p>
-                            <p>проведено от {el.institution}</p>
+                            <p>е публикувал(а) научна или методическа публикация в периодично издание, проведено от {el.institution} в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г., на тема {el.theme}, публикувано на {el.published},</p>
+                            {/* <p>проведено от {el.institution}</p>
                             <p>в периода от {moment(el.startDate).format('DD.MM.YYYY')} до {moment(el.endDate).format('DD.MM.YYYY')} г.</p>
                             <p>на тема {el.theme}</p>
-                            <p>публикувано на {el.published}</p>
+                            <p>публикувано на {el.published}</p> */}
                         </>
                     }
                     {el.credits == 1 ?
