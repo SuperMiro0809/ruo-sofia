@@ -78,24 +78,24 @@ const ProtocolAddForm = ({ rest }) => {
     }
 
     const disableCreateButton = (isSubmitting, errors, values) => {
-        for (let key in values) {
-            if (!values[key]) {
-                return true;
-            }
-        }
+        // for (let key in values) {
+        //     if (!values[key]) {
+        //         return true;
+        //     }
+        // }
 
-        for (let i = 0; i < values.members.length; i++) {
-            if (!values.members[i]) {
-                return true;
-            }
-        }
+        // for (let i = 0; i < values.members.length; i++) {
+        //     if (!values.members[i]) {
+        //         return true;
+        //     }
+        // }
 
         for (let i = 0; i < values.applications.length; i++) {
-            for (let key in values.applications[i]) {
-                if (!values.applications[i][key]) {
-                    return true;
-                }
-            }
+            // for (let key in values.applications[i]) {
+            //     if (!values.applications[i][key]) {
+            //         return true;
+            //     }
+            // }
 
             if (applicationElementsValidation(values, 'teachings', i)) {
                 return true;
@@ -108,19 +108,19 @@ const ProtocolAddForm = ({ rest }) => {
             }
         }
 
-        for (let key in errors) {
-            if (errors[key]) {
-                return true;
-            }
-        }
+        // for (let key in errors) {
+        //     if (errors[key]) {
+        //         return true;
+        //     }
+        // }
 
-        if (errors['applications']) {
-            return true;
-        }
+        // if (errors['applications']) {
+        //     return true;
+        // }
 
-        if (errors['members']) {
-            return true;
-        }
+        // if (errors['members']) {
+        //     return true;
+        // }
 
         if (isSubmitting) {
             return true;
