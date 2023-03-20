@@ -16,7 +16,7 @@ import {
 } from '@material-ui/icons';
 import { getIn } from 'formik';
 
-const SubjectGradeItem = ({ props, mode, subjects }) => {
+const SubjectGradeItem = ({ props, mode, subjects, noGrade }) => {
     const {
         arrayHelpers,
         values,
@@ -37,13 +37,13 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
     return (
         <Box sx={{ ml: 2 }}>
             <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12} lg={6}>
+                <Grid item xs={12} lg={!noGrade ? 6 : 11}>
                     <Autocomplete
                         fullWidth
                         onChange={(event, newValue) => {
-                            if(newValue) {
+                            if (newValue) {
                                 setFieldValue(`${mode}.${index}.subjectName`, newValue.label);
-                            }else {
+                            } else {
                                 setFieldValue(`${mode}.${index}.subjectName`, '');
                             }
                         }}
@@ -65,35 +65,38 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
                         )}
                     />
                 </Grid>
-                <Grid item xs={12} lg={5}>
-                    <FormControl
-                        fullWidth
-                        margin="normal"
-                        error={Boolean(
-                            getIn(touched, `${mode}.${index}.grade`) &&
-                            getIn(errors, `${mode}.${index}.grade`)
-                        )}
-                    >
-                        <InputLabel id="demo-simple-select-label">Оценка</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={values[mode][index].grade}
-                            label="Оценка"
-                            name={`${mode}.${index}.grade`}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
+                {!noGrade && (
+                    <Grid item xs={12} lg={5}>
+                        <FormControl
+                            fullWidth
+                            margin="normal"
+                            error={Boolean(
+                                getIn(touched, `${mode}.${index}.grade`) &&
+                                getIn(errors, `${mode}.${index}.grade`)
+                            )}
                         >
-                            <MenuItem value={"2"}>2</MenuItem>
-                            <MenuItem value={"3"}>3</MenuItem>
-                            <MenuItem value={"4"}>4</MenuItem>
-                            <MenuItem value={"5"}>5</MenuItem>
-                            <MenuItem value={"6"}>6</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
+                            <InputLabel id="demo-simple-select-label">Оценка</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={values[mode][index].grade}
+                                label="Оценка"
+                                name={`${mode}.${index}.grade`}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            >
+                                <MenuItem value={"2"}>2</MenuItem>
+                                <MenuItem value={"3"}>3</MenuItem>
+                                <MenuItem value={"4"}>4</MenuItem>
+                                <MenuItem value={"5"}>5</MenuItem>
+                                <MenuItem value={"6"}>6</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                )}
+
                 <Grid item xs={12} lg={1}>
-                    <Fab onClick={() => arrayHelpers.push({ subjectName: '', grade: '' })} size="medium" color="primary" aria-label="add">
+                    <Fab onClick={() => arrayHelpers.push(!noGrade ? { subjectName: '', grade: '' } : { subjectName: '' })} size="medium" color="primary" aria-label="add">
                         <AddIcon />
                     </Fab>
                     <Fab onClick={() => arrayHelpers.remove(index)} disabled={values[mode].length === 1} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="remove">

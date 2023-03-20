@@ -28,6 +28,7 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
     const [open, setOpen] = useState(false);
     const [gradeModal, setGradeModal] = useState(false);
     const [grades, setGrades] = useState([]);
+    const [gradesColumn, setGradesColumn] = useState(true);
 
     const gradeModalOpenProp = { gradeModal, setGradeModal };
 
@@ -36,14 +37,15 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
         selectedStudentProp.setSelectedStudent(id);
     }
 
-    const openGradeModal = (grades) => {
+    const openGradeModal = (grades, showGradesColumn = true) => {
         setGrades(grades);
+        setGradesColumn(showGradesColumn);
         setGradeModal(true);
     }
 
     return (
         <React.Fragment>
-            <GradeModal grades={grades} gradeModalOpenProp={gradeModalOpenProp}/>
+            <GradeModal grades={grades} gradesColumn={gradesColumn} gradeModalOpenProp={gradeModalOpenProp}/>
             <TableRow
                 hover
                 className="StudentsClassListItem"
@@ -146,7 +148,7 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                                                         {application.equivalenceExamsDate ?
                                                             <Button
                                                                 variant="text"
-                                                                onClick={() => openGradeModal(JSON.parse(application.equivalenceExams))}
+                                                                onClick={() => openGradeModal(JSON.parse(application.equivalenceExams), false)}
                                                                 className="button-with-icon"
                                                             >
                                                                 Виж приравнителни изпити

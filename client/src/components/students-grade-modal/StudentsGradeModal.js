@@ -20,7 +20,7 @@ const style = {
     width: '400px'
 };
 
-const StudentsGradeModal = ({ grades, gradeModalOpenProp, ...rest }) => {
+const StudentsGradeModal = ({ grades, gradeModalOpenProp, gradesColumn = true, ...rest }) => {
     const closeModal = () => {
         gradeModalOpenProp.setGradeModal(false);
     }
@@ -41,9 +41,11 @@ const StudentsGradeModal = ({ grades, gradeModalOpenProp, ...rest }) => {
                             <TableCell>
                                 Предмет
                             </TableCell>
-                            <TableCell>
-                                Оценка
-                            </TableCell>
+                            {gradesColumn && (
+                                <TableCell>
+                                    Оценка
+                                </TableCell>
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -52,9 +54,11 @@ const StudentsGradeModal = ({ grades, gradeModalOpenProp, ...rest }) => {
                                 <TableCell>
                                     {grade.subjectName}
                                 </TableCell>
-                                <TableCell>
-                                    {grade.grade}
-                                </TableCell>
+                                {gradesColumn && (
+                                    <TableCell>
+                                        {grade.grade}
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))}
                     </TableBody>

@@ -182,8 +182,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                 equivalenceExamsDate: '',
                                 equivalenceExams: [
                                     {
-                                        subjectName: '',
-                                        grade: ''
+                                        subjectName: ''
                                     }
                                 ],
                                 grades: [
@@ -217,13 +216,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                             return Yup.string()
                                                 .required('Името на предмет е задължително');
                                         }
-                                    }),
-                                    grade: Yup.string().when('equivalenceExamsDate', (equivalenceExamsDate) => {
-                                        if (equivalenceExamsDate) {
-                                            return Yup.string()
-                                                .required('Оценката е задължителна');
-                                        }
-                                    }),
+                                    })
                                 })),
                                 grades: Yup.array().of(Yup.object().shape({
                                     subjectName: Yup.string().required('Името на предмет е задължително'),
@@ -643,6 +636,7 @@ const StudentsClassAddForm = ({ rest }) => {
                                                                 key={index}
                                                                 mode="equivalenceExams"
                                                                 subjects={subjects}
+                                                                noGrade
                                                                 props={
                                                                     {
                                                                         arrayHelpers,
