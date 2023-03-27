@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddFieldsToTeachersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('teachers', function (Blueprint $table) {
+            $table->string('adress')->nullable();
+            $table->string('tel')->nullable();
+            $table->json('workplace')->nullable();
+            $table->json('education')->nullable();
+            $table->json('diploma')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('teachers', function (Blueprint $table) {
+            $table->dropColumn('adress');
+            $table->dropColumn('tel');
+            $table->dropColumn('workplace');
+            $table->dropColumn('education');
+            $table->dropColumn('diploma');
+        });
+    }
+}

@@ -70,6 +70,15 @@ class TeacherController extends Controller
         
         if (isset($request->teacherId)) {
             $application->teacher_id = $request->teacherId;
+            $teacher = Teacher::find($request->teacherId);
+
+            $teacher->update([
+                'adress' => $request->adress,
+                'tel' => $request->tel,
+                'workplace' => json_encode($request->workplace),
+                'education' => json_encode($request->education),
+                'diploma' => json_encode($request->diploma)
+            ]);
 
             try {
                 $application->save();
