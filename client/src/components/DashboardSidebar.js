@@ -24,7 +24,9 @@ import {
   faCog as SettingsIcon,
   faUserFriends as CommitteIcon,
   faChartBar as ReferenceIcon,
-  faBook as SubjectIcon
+  faBook as SubjectIcon,
+  faCar as CarIcon,
+  faIdCard as IdCard
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import DropDownMenu from './DropDownMenu';
@@ -116,6 +118,23 @@ const dropDownEducation = {
       icon: ReferenceIcon,
       title: 'Справки'
     }
+  ]
+}
+
+const dropDownMPS = {
+  icon: CarIcon,
+  title: 'МПС',
+  elements: [
+    {
+      href: '/app/mps',
+      icon: IdCard,
+      title: 'Заявления'
+    },
+    {
+      href: '/app/mps/certificate',
+      icon: PrintIcon,
+      title: 'Удостоверения'
+    },
   ]
 }
 
@@ -223,6 +242,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             {user.role !== "Qualifications" &&
               <DropDownMenu {...dropDownEducation} />
             }
+            <DropDownMenu {...dropDownMPS} />
             <DropDownMenu {...dropDownSettings} />
             <LogoutItem />
           </List>
