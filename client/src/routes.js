@@ -36,6 +36,7 @@ import ProtocolSecondaryEdit from './pages/ProtocolSecondaryEdit';
 import StudentClassCertificate from './pages/StudentClassCertificate';
 import StudentSecondaryCertificate from './pages/StudentSecondaryCertificate';
 import StudentReference from './pages/StudentReference';
+import MpsList from './pages/MpsList';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -123,6 +124,12 @@ const routes = [
       {
         path: 'students/reference',
         element: <RoleRoute role="Education" component={StudentReference}/>
+      },
+      {
+        path: 'mps',
+        children: [
+          { path: '', element: <MpsList /> },
+        ]
       },
       { 
         path: 'settings', 
