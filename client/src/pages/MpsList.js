@@ -12,16 +12,16 @@ const MpsList = () => {
   const [mps, setMps] = useState([]);
   const [total, setTotal] = useState(0);
   const [loader, setLoader] = useState(true);
-  const [number, setNumber] = useState();
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [name, setName] = useState();
+  const [egn, setEgn] = useState(null);
+  const [date, setDate] = useState(null);
 
   useEffect(() => {
     let mounted = true;
     getMps();
 
     return () => mounted = false;
-  }, [number, startDate, endDate, page, limit])
+  }, [name, egn, date, page, limit])
 
   const getMps = () => {
     
@@ -40,7 +40,7 @@ const MpsList = () => {
         }}
       >
         <Container maxWidth={false}>
-          <MpsListToolbar setNumber={setNumber} setStartDate={setStartDate} setEndDate={setEndDate} setPage={setPage}/>
+          <MpsListToolbar setName={setName} setEgn={setEgn} setDate={setDate} setPage={setPage}/>
           <Box sx={{ pt: 3 }}>
             <MpsListResult
               

@@ -10,43 +10,41 @@ import {
     InputAdornment,
     SvgIcon
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
+import {
+    Search as SearchIcon,
+    User as EgnIcon
+} from 'react-feather';
 import { NavLink as RouterLink } from 'react-router-dom';
 import {
     DateRangePicker,
+    DatePicker,
     LocalizationProvider
 } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 
-const MpsListToolbar = ({ setNumber, setStartDate, setEndDate, setPage }, ...props) => {
-    const [value, setValue] = useState();
-    const [date, setDate] = useState([null, null]);
+const MpsListToolbar = ({
+    setName: setNameHandler,
+    setEgn: setEgnHandler,
+    setDate: setDateHandler,
+    setPage
+}, ...props) => {
+    const [name, setName] = useState('');
+    const [egn, setEgn] = useState('');
+    const [date, setDate] = useState(null);
 
     const handleSearch = () => {
         setPage(0);
-        setNumber(value);
-        if(date[0] && date[1]) {
-            setStartDate(moment(date[0]).format('YYYY-MM-DD'));
-            setEndDate(moment(date[1]).format('YYYY-MM-DD'));
-        }
+        
     }
 
     const handleReset = () => {
         setPage(0);
-        setValue('');
-        setNumber('');
-        setDate([null, null]);
-        setStartDate(null);
-        setEndDate(null);
+        
     }
 
-    const disableButton = ([startDate, endDate]) => {
-        if(new Date(startDate) > new Date(endDate)) {
-            return true;
-        }
-
-        return false;
+    const disableButton = () => {
+       
     }
 
     return (
@@ -75,9 +73,9 @@ const MpsListToolbar = ({ setNumber, setStartDate, setEndDate, setPage }, ...pro
                                     fullWidth
                                     sx={{ height: '100%' }}
                                     size="small"
-                                    value={value}
+                                    value={name}
                                     onChange={event => {
-                                        setValue(event.currentTarget.value);
+                                        setName(event.currentTarget.value);
                                     }}
                                     InputProps={{
                                         startAdornment: (
@@ -91,32 +89,50 @@ const MpsListToolbar = ({ setNumber, setStartDate, setEndDate, setPage }, ...pro
                                             </InputAdornment>
                                         )
                                     }}
-                                    placeholder="Номер"
+                                    placeholder="Търси ученик"
                                     variant="outlined"
                                 />
                             </Grid>
-                            <Grid item xs={12} lg={4}>
+                            <Grid item xs={12} lg={2}>
+                                <TextField
+                                    fullWidth
+                                    sx={{ height: '100%' }}
+                                    size="small"
+                                    value={egn}
+                                    onChange={event => {
+                                        setEgn(event.currentTarget.value);
+                                    }}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SvgIcon
+                                                    fontSize="small"
+                                                    color="action"
+                                                >
+                                                    <EgnIcon />
+                                                </SvgIcon>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    placeholder="ЕГН"
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={2}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns} locale={bg}>
-                                    <DateRangePicker
-                                        startText="От"
-                                        endText="До"
+                                    <DatePicker
+                                        label='Дата'
                                         value={date}
                                         onChange={(newValue) => {
                                             setDate(newValue);
                                         }}
-                                        renderInput={(startProps, endProps) => (
-                                            <React.Fragment>
-                                                <TextField {...startProps} size="small" fullWidth />
-                                                <Box sx={{ mx: 2 }}> - </Box>
-                                                <TextField {...endProps} size="small" fullWidth />
-                                            </React.Fragment>
-                                        )}
+                                        renderInput={(params) => <TextField fullWidth size="small" {...params} />}
                                     />
                                 </LocalizationProvider>
                             </Grid>
                             <Grid item xs={12} lg={3} >
                                 <Button
-                                    disabled={disableButton(date)}
+                                    disabled={disableButton()}
                                     fullWidth
                                     onClick={handleSearch}
                                     sx={{ height: '100%' }}
