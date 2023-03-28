@@ -71,6 +71,32 @@ const ApplicationsAddForm = ({ rest }) => {
             })
     }, [])
 
+    const setFormTeacher = (id, setFieldValue) => {
+        teacherServices.getById(id)
+        .then(data => {
+            if(data.adress) {
+                setFieldValue('adress', data.adress);
+            }
+            if(data.tel) {
+                setFieldValue('tel', data.tel);
+            }
+            if(data.workplace) {
+                setFieldValue('workplace', JSON.parse(data.workplace));
+            }
+            if(education) {
+                setFieldValue('education', JSON.parse(data.education));
+            }
+            if(diploma) {
+                setFieldValue('diploma', JSON.parse(data.diploma));
+            }
+        })
+        .catch(err => {
+            if(err.message === 'Unauthorized') {
+                navigate('/login');
+            }
+        })
+    }
+
     const disableCreateButton = (isSubmitting, errors, values) => {
         let qualification = values.qualification;
         if (qualification.length === 0) {
@@ -305,6 +331,7 @@ const ApplicationsAddForm = ({ rest }) => {
                                         fullWidth
                                         onChange={(event, newValue) => {
                                             if (newValue != null) {
+                                                setFormTeacher(newValue.id, setFieldValue)
                                                 setTeacher(true);
                                                 setTeacherId(newValue.id);
                                                 setFieldValue('teacher', newValue.label)
