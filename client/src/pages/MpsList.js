@@ -43,7 +43,14 @@ const MpsList = () => {
           <MpsListToolbar setName={setName} setEgn={setEgn} setDate={setDate} setPage={setPage}/>
           <Box sx={{ pt: 3 }}>
             <MpsListResult
-              
+               mps={mps}
+               page={page}
+               setPage={setPage}
+               limit={limit}
+               setLimit={setLimit}
+               total={total}
+               loader={loader}
+               getMps={getMps}
             />
           </Box>
         </Container>
