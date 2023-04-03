@@ -37,6 +37,7 @@ import StudentClassCertificate from './pages/StudentClassCertificate';
 import StudentSecondaryCertificate from './pages/StudentSecondaryCertificate';
 import StudentReference from './pages/StudentReference';
 import MpsList from './pages/MpsList';
+import MpsAdd from './pages/MpsAdd';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -129,6 +130,7 @@ const routes = [
         path: 'mps',
         children: [
           { path: '', element: <MpsList /> },
+          { path: 'add', element: <MpsAdd /> }
         ]
       },
       { 
