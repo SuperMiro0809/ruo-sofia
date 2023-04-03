@@ -35,12 +35,21 @@ const MpsListToolbar = ({
 
     const handleSearch = () => {
         setPage(0);
-        
+        setNameHandler(name);
+        setEgnHandler(egn);
+        if(date) {
+            setDateHandler(moment(date).format('YYYY-MM-DD'))
+        }
     }
 
-    const handleReset = () => {
+    const handleReset = () => { 
         setPage(0);
-        
+        setName('');
+        setEgn('');
+        setDate(null);
+        setNameHandler('');
+        setEgnHandler('');
+        setDateHandler(null)
     }
 
     const disableButton = () => {
@@ -59,7 +68,7 @@ const MpsListToolbar = ({
                     component={RouterLink}
                     color="primary"
                     variant="contained"
-                    to="/app/protocols/add"
+                    to="/app/mps/add"
                 >
                     Добави заявление
                 </Button>
