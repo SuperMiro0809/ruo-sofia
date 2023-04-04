@@ -60,7 +60,7 @@ const MpsAddForm = () => {
                             }}
                             validationSchema={Yup.object().shape({
                                 firstName: Yup.string().required('Първото име е задължително'),
-                                middleName: Yup.date().required('Презимето е задължително'),
+                                middleName: Yup.string().required('Презимето е задължително'),
                                 lastName: Yup.string().required('Фамилията е задължителна'),
                                 egn: Yup.string().required('ЕГН-то е задължително'),
                                 dateOfBirth: Yup.date().required('Датата на разждане е задължителна').typeError('Датата не е валидна'),
