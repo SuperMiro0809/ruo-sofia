@@ -51,9 +51,12 @@ const MpsAddForm = () => {
                                 lastName: '',
                                 egn: '',
                                 dateOfBirth: '',
+                                citizenship: '',
                                 documentNumber: '',
                                 documentDate: '',
-                                issuedFrom: '',
+                                school: '',
+                                city: '',
+                                country: '',
                                 class: '',
                                 number: '',
                                 date: ''
@@ -64,9 +67,12 @@ const MpsAddForm = () => {
                                 lastName: Yup.string().required('Фамилията е задължителна'),
                                 egn: Yup.string().required('ЕГН-то е задължително'),
                                 dateOfBirth: Yup.date().required('Датата на разждане е задължителна').typeError('Датата не е валидна'),
+                                citizenship: Yup.string().required('Гражданството е задължително'),
                                 documentNumber: Yup.string().required('Номерът на документ е задължителен'),
                                 documentDate: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна'),
-                                issuedFrom: Yup.string().required('Издаден от е задължително'),
+                                school: Yup.string().required('Училището/институцията е задължителна'),
+                                city: Yup.string().required('Градът е задължителен'),
+                                country: Yup.string().required('Държавата е задължителна'),
                                 class: Yup.string().required('Класът е задължителен'),
                                 number: Yup.string().required('Номерът е задължителен'),
                                 date: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна')
@@ -143,10 +149,7 @@ const MpsAddForm = () => {
                                                 margin="normal"
                                                 name="egn"
                                                 onBlur={handleBlur}
-                                                onChange={e => {
-                                                    handleChange(e);
-                                                    const currentEgnValue = e.currentTarget.value;
-                                                }}
+                                                onChange={handleChange}
                                                 type="text"
                                                 value={values.egn}
                                                 variant="outlined"
@@ -178,6 +181,19 @@ const MpsAddForm = () => {
                                             </LocalizationProvider>
                                         </Grid>
                                     </Grid>
+                                    <TextField
+                                        error={Boolean(touched.citizenship && errors.citizenship)}
+                                        fullWidth
+                                        helperText={touched.citizenship && errors.citizenship}
+                                        label="Гражданство"
+                                        margin="normal"
+                                        name="citizenship"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        type="text"
+                                        value={values.citizenship}
+                                        variant="outlined"
+                                    />
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} lg={6}>
                                             <TextField
@@ -220,27 +236,53 @@ const MpsAddForm = () => {
                                             </LocalizationProvider>
                                         </Grid>
                                     </Grid>
-                                    <FormControl
-                                        fullWidth
-                                        margin="normal"
-                                        error={Boolean(touched.issuedFrom && errors.issuedFrom)}
-                                    >
-                                        <InputLabel id="issued-from-label">Издаден от</InputLabel>
-                                        <Select
-                                            labelId="issued-from-label"
-                                            id="issued-from-select"
-                                            value={values.issuedFrom}
-                                            label="Издаден от"
-                                            name="issuedFrom"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                        >
-                                            <MenuItem value={"Училище"}>Училище</MenuItem>
-                                            <MenuItem value={"Град"}>Град</MenuItem>
-                                            <MenuItem value={"Държава"}>Държава</MenuItem>
-                                        </Select>
-                                        <FormHelperText>{touched.issuedFrom && errors.issuedFrom}</FormHelperText>
-                                    </FormControl>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} lg={4}>
+                                            <TextField
+                                                error={Boolean(touched.school && errors.school)}
+                                                fullWidth
+                                                helperText={touched.school && errors.school}
+                                                label="Училище, институция"
+                                                margin="normal"
+                                                name="school"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                type="text"
+                                                value={values.school}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} lg={4}>
+                                            <TextField
+                                                error={Boolean(touched.city && errors.city)}
+                                                fullWidth
+                                                helperText={touched.city && errors.city}
+                                                label="Град"
+                                                margin="normal"
+                                                name="city"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                type="text"
+                                                value={values.city}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} lg={4}>
+                                            <TextField
+                                                error={Boolean(touched.country && errors.country)}
+                                                fullWidth
+                                                helperText={touched.country && errors.country}
+                                                label="Държава"
+                                                margin="normal"
+                                                name="country"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                type="text"
+                                                value={values.country}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                    </Grid>
                                     <FormControl
                                         fullWidth
                                         margin="normal"
