@@ -8,7 +8,24 @@ use App\Models\Mps;
 class MpsController extends Controller
 {
     public function index() {
-        //
+        $query = Mps::select('mps.*');
+        $perPage = request()->query('per_page');
+
+        if(request()->query('name')) {
+            $query->where('firstName', 'LIKE', '%'.request()->query('name').'%')
+                    ->orWhere('middleName', 'LIKE', '%'.request()->query('name').'%')
+                    ->orWhere('lastName', 'LIKE', '%'.request()->query('name').'%');
+        }
+
+        if(request()->query('egn')) {
+            $query->where('egn', 'LIKE', '%'.request()->query('egn').'%');
+        }
+
+        if(request()->query('date')) {
+            $query->where('date', request()->query('date'));
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function store(Request $request) {
