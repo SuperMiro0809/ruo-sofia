@@ -1,0 +1,39 @@
+.MpsListItem {
+    .column-options {
+        .trash-icon, 
+        .edit-icon {
+            font-size: 32px;
+        }
+
+        .trash-icon {
+            color: #f44336;
+        }
+
+        .edit-icon {
+            color: #124682;
+        }
+
+        .trash-icon-wrapper {
+            margin-left: 10px;
+        }
+        
+        .edit-icon-wrapper {
+            margin-left: 10px;
+        }
+
+        .trash-icon-wrapper:hover {
+            background-color: transparent;
+            .trash-icon {
+                filter: brightness(0.5);
+            }
+        }
+
+        .edit-icon-wrapper:hover  {
+            background-color: transparent;
+            .edit-icon {
+                filter: brightness(0.5);
+            }
+        }
+
+    }
+}

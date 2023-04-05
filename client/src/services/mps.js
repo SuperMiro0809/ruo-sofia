@@ -1,7 +1,29 @@
 import services from './index';
 
-function getAll() {
+function getAll({name, egn, date, page, limit}) {
+    let url = `${services.url}/mps?token=${localStorage.getItem('token')}`;
 
+    if(name) {
+        url += `&name=${name}`;
+    }
+    if(egn) {
+        url += `&egn=${egn}`;
+    }
+    if(date) {
+        url += `&date=${date}`;
+    }
+    if(page && limit) {
+        url += `&page=${page}&per_page=${limit}`
+    }
+
+    return fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
 }
 
 function create(data) {
@@ -26,6 +48,7 @@ function create(data) {
 }
 
 const mpsService = {
+    getAll,
     create
 }
 

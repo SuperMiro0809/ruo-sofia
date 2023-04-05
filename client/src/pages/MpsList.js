@@ -4,59 +4,70 @@ import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import MpsListResult from 'src/components/mps/MpsListResult';
 import MpsListToolbar from 'src/components/mps/MpsListToolbar';
+import mpsService from 'src/services/mps';
 
 const MpsList = () => {
-  const navigate = useNavigate();
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [mps, setMps] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [loader, setLoader] = useState(true);
-  const [name, setName] = useState();
-  const [egn, setEgn] = useState(null);
-  const [date, setDate] = useState(null);
+    const navigate = useNavigate();
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(0);
+    const [mps, setMps] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [loader, setLoader] = useState(true);
+    const [name, setName] = useState('');
+    const [egn, setEgn] = useState(null);
+    const [date, setDate] = useState(null);
 
-  useEffect(() => {
-    let mounted = true;
-    getMps();
+    useEffect(() => {
+        let mounted = true;
+        getMps();
 
-    return () => mounted = false;
-  }, [name, egn, date, page, limit])
+        return () => mounted = false;
+    }, [name, egn, date, page, limit])
 
-  const getMps = () => {
-    
-  }
+    const getMps = () => {
+        mpsService.getAll({name, egn, date, page: page + 1, limit})
+            .then(data => {
+                setMps(data.data);
+                setTotal(data.total);
+                setLoader(false);
+            })
+            .catch(err => {
+                if (err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
+    }
 
-  return (
-    <>
-      <Helmet>
-        <title>МПС</title>
-      </Helmet>
-      <Box
-        sx={{
-          backgroundColor: 'background.default',
-          minHeight: '100%',
-          py: 3
-        }}
-      >
-        <Container maxWidth={false}>
-          <MpsListToolbar setName={setName} setEgn={setEgn} setDate={setDate} setPage={setPage}/>
-          <Box sx={{ pt: 3 }}>
-            <MpsListResult
-               mps={mps}
-               page={page}
-               setPage={setPage}
-               limit={limit}
-               setLimit={setLimit}
-               total={total}
-               loader={loader}
-               getMps={getMps}
-            />
-          </Box>
-        </Container>
-      </Box>
-    </>
-  );
+    return (
+        <>
+            <Helmet>
+                <title>МПС</title>
+            </Helmet>
+            <Box
+                sx={{
+                    backgroundColor: 'background.default',
+                    minHeight: '100%',
+                    py: 3
+                }}
+            >
+                <Container maxWidth={false}>
+                    <MpsListToolbar setName={setName} setEgn={setEgn} setDate={setDate} setPage={setPage} />
+                    <Box sx={{ pt: 3 }}>
+                        <MpsListResult
+                            mps={mps}
+                            page={page}
+                            setPage={setPage}
+                            limit={limit}
+                            setLimit={setLimit}
+                            total={total}
+                            loader={loader}
+                            getMps={getMps}
+                        />
+                    </Box>
+                </Container>
+            </Box>
+        </>
+    );
 }
 
 export default MpsList;

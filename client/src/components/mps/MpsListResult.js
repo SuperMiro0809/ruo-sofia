@@ -16,6 +16,8 @@ import {
   CircularProgress,
   TableContainer
 } from '@material-ui/core';
+import MpsListItem from './MpsListItem';
+import MpsModal from '../mps-modal/MpsModal';
 
 const MpsListResult = ({
     mps,
@@ -28,9 +30,9 @@ const MpsListResult = ({
     getMps
 }) => {
     let [open, setOpen] = useState(false);
-    const [selectedProtocol, setSelectedProtocol] = useState(0);
+    const [selectedMps, setSelectedMps] = useState(0);
     let openProp = { open, setOpen };
-    let selectedProtocolProp = { selectedProtocol, setSelectedProtocol };
+    let selectedMpsProp = { selectedMps, setSelectedMps };
   
     const handleLimitChange = (event) => {
       setLimit(event.target.value);
@@ -42,7 +44,7 @@ const MpsListResult = ({
   
     return (
       <Card>
-        {/* <ProtocolModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} getProtocols={getProtocols}/> */}
+        <MpsModal openProp={openProp} selectedMpsProp={selectedMpsProp} getMps={getMps}/>
         <PerfectScrollbar>
           <Box sx={{ minWidth: 1050 }}>
             <TableContainer>
@@ -69,13 +71,10 @@ const MpsListResult = ({
                       Дата
                   </TableCell>
                     <TableCell>
-                      Относно
+                      Три имена
                   </TableCell>
                     <TableCell>
-                      Председател
-                  </TableCell>
-                    <TableCell>
-                      Членове
+                      ЕГН
                   </TableCell>
                   <TableCell>
                       Заявления
@@ -95,13 +94,17 @@ const MpsListResult = ({
                       {mps.length !== 0 ?
                         <>
                           {mps.map((item) => (
-                            // <ProtocolListItem key={`${protocol.id}_${new Date().getSeconds()}`} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
-                            <TableRow></TableRow>
+                            <MpsListItem
+                                key={`${item.id}_${new Date().getSeconds()}`}
+                                item={item}
+                                openProp={openProp}
+                                selectedMpsProp={selectedMpsProp}
+                            />
                           ))}
                         </>
                         :
                         <TableRow>
-                          <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="7">Няма записи</TableCell>
+                          <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6">Няма записи</TableCell>
                         </TableRow>
                       }
                     </>
