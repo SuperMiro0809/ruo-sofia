@@ -18,7 +18,7 @@ class CreateMpsTable extends Migration
             $table->string('firstName');
             $table->string('middleName');
             $table->string('lastName');
-            $table->string('egn');
+            $table->string('egn')->unique();
             $table->date('dateOfBirth');
             $table->string('citizenship');
             $table->string('documentNumber');

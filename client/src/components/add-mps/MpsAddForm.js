@@ -33,8 +33,11 @@ import { Formik, FieldArray } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
+import mpsService from 'src/services/mps';
 
 const MpsAddForm = () => {
+    const messageContext = useContext(MеssageContext);
+    const navigate = useNavigate();
     const [dateOfBirth, setDateOfBirth] = useState(null);
     const [documentDate, setDocumentDate] = useState(null);
     const [date, setDate] = useState(null);
@@ -78,7 +81,27 @@ const MpsAddForm = () => {
                                 date: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна')
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                console.log(values)
+                                mpsService.create(values)
+                                    .then((res) => {
+                                        messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' });
+                                        navigate('/app/mps', { replace: true });
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 2000)
+                                    })
+                                    .catch((err) => {
+                                        setSubmitting(false)
+                                        if (err.message === 'Unauthorized') {
+                                            navigate('/login');
+                                        }else {
+                                            messageContext[1]({ status: 'error', text: err.message });
+                                            const interval = setInterval(function () {
+                                                messageContext[1]('');
+                                                clearInterval(interval);
+                                            }, 2000)
+                                        }
+                                    })
                             }}
                         >
                             {({
