@@ -77,7 +77,7 @@ const MpsListResult = ({
                       ЕГН
                   </TableCell>
                   <TableCell>
-                      Заявления
+                      Информация
                   </TableCell>
                   <TableCell>
                       Операции
