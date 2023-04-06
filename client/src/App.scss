@@ -79,10 +79,14 @@ table {
     }
 }
 
-.toolbar {
-    .reset-button:hover {
-        background-color: #757575;
-    }
+// .toolbar {
+//     .reset-button:hover {
+//         background-color: #757575;
+//     }
+// }
+
+.reset-button:hover {
+    background-color: #757575;
 }
 
 @media print {
