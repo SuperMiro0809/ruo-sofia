@@ -66,11 +66,17 @@ class MpsController extends Controller
         //
     }
 
-    public function delete($id) {
-        //
+    public function destroy($id) {
+        $mps = Mps::findOrFail($id);
+
+        $mps->delete();
+
+        return response()->json(['message' => 'Deleted']);
     }
 
     public function getById($id) {
-        //
+        $mps = Mps::findOrFail($id);
+
+        return $mps;
     }
 }

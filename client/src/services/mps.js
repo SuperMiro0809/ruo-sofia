@@ -1,18 +1,18 @@
 import services from './index';
 
-function getAll({name, egn, date, page, limit}) {
+function getAll({ name, egn, date, page, limit }) {
     let url = `${services.url}/mps?token=${localStorage.getItem('token')}`;
 
-    if(name) {
+    if (name) {
         url += `&name=${name}`;
     }
-    if(egn) {
+    if (egn) {
         url += `&egn=${egn}`;
     }
-    if(date) {
+    if (date) {
         url += `&date=${date}`;
     }
-    if(page && limit) {
+    if (page && limit) {
         url += `&page=${page}&per_page=${limit}`
     }
 
@@ -47,9 +47,23 @@ function create(data) {
         })
 }
 
+function destroy(id) {
+    return fetch(`${services.url}/mps/${id}?token=${localStorage.getItem('token')}`, {
+        method: 'DELETE'
+    })
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const mpsService = {
     getAll,
-    create
+    create,
+    destroy
 }
 
 export default mpsService;

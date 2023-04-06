@@ -18,26 +18,26 @@ const style = {
     p: 3
 };
 
-const MpsModal = ({ openProp, selectedMpsProp, getMps }, ...rest ) => {
+const MpsModal = ({ openProp, selectedMpsProp, getMps }, ...rest) => {
     const navigate = useNavigate();
     const messageContext = useContext(MessageContext);
 
     const deleteCustomer = () => {
-        // protocolClassServices.destroy(selectedProtocolProp.selectedProtocol)
-        // .then(data => {
-        //   getProtocols();
-        //   closeModal();
-        //   messageContext[1]({ status: 'success', text: 'Протоколът е изтрит успешно!' })
-        //   const interval = setInterval(function () {
-        //     messageContext[1]('');
-        //     clearInterval(interval);
-        //   }, 2000)
-        // })
-        // .catch(err => {
-        //     if(err.message === 'Unauthorized') {
-        //         navigate('/login');
-        //     }
-        // })
+        mpsService.destroy(selectedMpsProp.selectedMps)
+            .then(data => {
+                getMps();
+                closeModal();
+                messageContext[1]({ status: 'success', text: 'Заявлението е изтрито успешно!' })
+                const interval = setInterval(function () {
+                    messageContext[1]('');
+                    clearInterval(interval);
+                }, 2000)
+            })
+            .catch(err => {
+                if (err.message === 'Unauthorized') {
+                    navigate('/login');
+                }
+            })
     }
 
     const closeModal = () => {
