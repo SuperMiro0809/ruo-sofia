@@ -88,28 +88,27 @@ const MpsEditForm = ({ mps }) => {
                                 date: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна')
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                console.log(values)
-                                // mpsService.create(values)
-                                //     .then((res) => {
-                                //         messageContext[1]({ status: 'success', text: 'Заявлението е добавено успешно!' });
-                                //         navigate('/app/mps', { replace: true });
-                                //         const interval = setInterval(function () {
-                                //             messageContext[1]('');
-                                //             clearInterval(interval);
-                                //         }, 2000)
-                                //     })
-                                //     .catch((err) => {
-                                //         setSubmitting(false)
-                                //         if (err.message === 'Unauthorized') {
-                                //             navigate('/login');
-                                //         }else {
-                                //             messageContext[1]({ status: 'error', text: err.message });
-                                //             const interval = setInterval(function () {
-                                //                 messageContext[1]('');
-                                //                 clearInterval(interval);
-                                //             }, 2000)
-                                //         }
-                                //     })
+                                mpsService.edit(mps.id, values)
+                                    .then((res) => {
+                                        messageContext[1]({ status: 'success', text: 'Заявлението е редактирано успешно!' });
+                                        navigate('/app/mps', { replace: true });
+                                        const interval = setInterval(function () {
+                                            messageContext[1]('');
+                                            clearInterval(interval);
+                                        }, 2000)
+                                    })
+                                    .catch((err) => {
+                                        setSubmitting(false)
+                                        if (err.message === 'Unauthorized') {
+                                            navigate('/login');
+                                        }else {
+                                            messageContext[1]({ status: 'error', text: err.message });
+                                            const interval = setInterval(function () {
+                                                messageContext[1]('');
+                                                clearInterval(interval);
+                                            }, 2000)
+                                        }
+                                    })
                             }}
                             enableReinitialize
                         >

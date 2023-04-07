@@ -47,6 +47,27 @@ function create(data) {
         })
 }
 
+function edit(id, data) {
+    return fetch(`${services.url}/mps/${id}?token=${localStorage.getItem('token')}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: services.header2
+    })
+        .then(res => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            } else if (res.status === 409) {
+                return res.json().then(r => { throw new Error(r.message) })
+            } else if (res.status === 422) {
+                return res.json().then(r => { throw new Error(r.errors[0]) })
+            } else {
+                throw new Error('Error');
+            }
+        })
+}
+
 function destroy(id) {
     return fetch(`${services.url}/mps/${id}?token=${localStorage.getItem('token')}`, {
         method: 'DELETE'
@@ -74,6 +95,7 @@ function getById(id) {
 const mpsService = {
     getAll,
     create,
+    edit,
     destroy,
     getById
 }
