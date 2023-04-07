@@ -60,10 +60,22 @@ function destroy(id) {
         })
 }
 
+function getById(id) {
+    return fetch(`${services.url}/mps/${id}?token=${localStorage.getItem('token')}`)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 const mpsService = {
     getAll,
     create,
-    destroy
+    destroy,
+    getById
 }
 
 export default mpsService;

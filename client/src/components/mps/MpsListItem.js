@@ -64,7 +64,7 @@ const MpsListItem = ({ item, openProp, selectedMpsProp }) => {
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(item.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/protocols/edit/${item.id}`}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/mps/edit/${item.id}`}>
                         <EditIcon className="edit-icon" />
                     </IconButton>
                 </TableCell>
