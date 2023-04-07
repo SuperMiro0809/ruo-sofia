@@ -16,7 +16,6 @@ import {
 } from 'react-feather';
 import { NavLink as RouterLink } from 'react-router-dom';
 import {
-    DateRangePicker,
     DatePicker,
     LocalizationProvider
 } from '@material-ui/lab';

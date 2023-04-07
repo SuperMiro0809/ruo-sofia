@@ -11,8 +11,7 @@ import {
     Table,
     TableHead,
     TableBody,
-    Button,
-    Modal
+    Button
 } from '@material-ui/core';
 import {
     Edit as EditIcon,
