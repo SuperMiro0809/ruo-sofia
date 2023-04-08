@@ -146,6 +146,7 @@ const CommitteListResult = ({ ...rest }) => {
                         <>
                           {values.members.map((member, index) => (
                             <TextField
+                              key={index}
                               error={Boolean(
                                 getIn(touched, `members.${index}`) &&
                                 getIn(errors, `members.${index}`)
