@@ -1,0 +1,20 @@
+.MpsCertificateListItem {
+    .print-icon {
+        font-size: 32px;
+    }
+
+    .print-icon {
+        color: #696969;
+    }
+
+    .print-icon-wrapper {
+        vertical-align: initial;
+    }
+
+    .print-icon-wrapper:hover {
+        background-color: transparent;
+        .print-icon {
+            filter: brightness(0.5);
+        }
+    }
+}

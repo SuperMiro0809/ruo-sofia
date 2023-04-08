@@ -1,0 +1,86 @@
+.MpsCertificatePDF {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12pt;
+    font-family: 'Times New Roman', Times, serif;
+
+    div {
+        position: absolute;
+    }
+
+    div:nth-child(1) {
+        top: 7.8cm;
+        left: 8.3cm;
+    }
+
+    div:nth-child(2) {
+        top: 7.8cm;
+        left: 11.2cm
+    }
+
+    div:nth-child(3) {
+        top: 7.8cm;
+        left: 13cm;
+    }
+
+    div:nth-child(4) {
+        text-transform: uppercase;
+        top: 9.7cm;
+        left: 13cm;
+    }
+
+    div:nth-child(5) {
+        text-transform: uppercase;
+        top: 12.8cm;
+        left: 4.3cm;
+    }
+
+    div:nth-child(6) {
+        top: 13.5cm;
+        left: 3.6cm;
+    }
+
+    div:nth-child(7) {
+        top: 13.5cm;
+        left: 8cm;
+    }
+
+    div:nth-child(8) {
+        top: 14.3cm;
+        left: 3.6cm;
+    }
+
+    div:nth-child(9) {
+        top: 15.5cm;
+        left: 9.6cm;
+    }
+
+    div:nth-child(10) {
+        top: 15.5cm;
+        left: 14.6cm;
+    }
+
+    div:nth-child(11) {
+        text-transform: uppercase;
+        top: 16.7cm;
+        left: 5.9cm;
+    }
+
+    div:nth-child(12) {
+        text-transform: uppercase;
+        top: 17.6cm;
+        left: 3.8cm;
+    }
+
+    div:nth-child(13) {
+        text-transform: uppercase;
+        top: 18.4cm;
+        left: 3.8cm;
+    }
+
+    div:nth-child(14) {
+        text-transform: uppercase;
+        top: 19.9cm;
+        left: 4.8cm;
+    }
+}
