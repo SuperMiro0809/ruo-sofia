@@ -84,7 +84,7 @@ const MpsListResult = ({
                 <TableBody>
                   {loader ?
                     <TableRow>
-                      <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="7"><CircularProgress size="30px" /></TableCell>
+                      <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="6"><CircularProgress size="30px" /></TableCell>
                     </TableRow>
                     :
                     <>
