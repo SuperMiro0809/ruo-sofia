@@ -35,6 +35,7 @@ import ProtocolSecondaryAdd from './pages/ProtocolSecondaryAdd';
 import ProtocolSecondaryEdit from './pages/ProtocolSecondaryEdit';
 import StudentClassCertificate from './pages/StudentClassCertificate';
 import StudentSecondaryCertificate from './pages/StudentSecondaryCertificate';
+import StudentClassApplicationEdit from './pages/StudentClassApplicationEdit';
 import StudentReference from './pages/StudentReference';
 import MpsList from './pages/MpsList';
 import MpsAdd from './pages/MpsAdd';
@@ -111,7 +112,13 @@ const routes = [
         children: [
           { path: '', element: <StudentClassList /> },
           { path: 'add', element: <StudentClassAdd /> },
-          { path: 'certificate', element: <StudentClassCertificate /> }
+          { path: 'certificate', element: <StudentClassCertificate /> },
+          {
+            path: 'application',
+            children: [
+              { path: ':id', element: <StudentClassApplicationEdit /> }
+            ]
+          }
         ]
       },
       {

@@ -74,12 +74,40 @@ function certificates(startDate, endDate) {
     })
 }
 
+function getApplication(id) {
+    return fetch(`${services.url}/students-class/application/${id}?token=${localStorage.getItem('token')}`)
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        } 
+    })
+}
+
+function editApplication(data, id) {
+    return fetch(`${services.url}/students-class/application/${id}?token=${localStorage.getItem('token')}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: services.header2
+    })
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
+}
+
 const StudentClassServices = {
     getAll,
     create,
     findByEgn,
     destroy,
-    certificates
+    certificates,
+    getApplication,
+    editApplication
 }
 
 export default StudentClassServices;

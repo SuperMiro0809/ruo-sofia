@@ -86,4 +86,30 @@ class StudentClassController extends Controller
             
         return $certificates->get();
     }
+
+    public function getApplication($id) {
+        $application = StudentClassApplication::findOrFail($id);
+
+        return $application;
+    }
+
+    public function editApplication(Request $request, $id) {
+        $application = StudentClassApplication::findOrFail($id);
+
+        $application->update([
+            'registerNumber' => $request->registerNumber,
+            'dateOut' => $request->dateOut,
+            'documentNumber' => $request->documentNumber,
+            'documentDate' => $request->documentDate,
+            'inNumber' => $request->inNumber,
+            'inDate' => $request->inDate,
+            'class' => $request->class,
+            'admits' => $request->admits,
+            'equivalenceExamsDate' => $request->equivalenceExamsDate,
+            'equivalenceExams' => json_encode($request->equivalenceExams),
+            'grades' => json_encode($request->grades)
+        ]);
+
+        return $application;
+    }
 }

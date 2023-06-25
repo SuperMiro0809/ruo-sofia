@@ -11,6 +11,20 @@ class StudentClassApplication extends Model
 
     protected $table = 'students_class_applications';
 
+    protected $fillable = [
+            'registerNumber',
+            'dateOut',
+            'documentNumber',
+            'documentDate',
+            'inNumber',
+            'inDate',
+            'class',
+            'admits',
+            'equivalenceExamsDate',
+            'equivalenceExams',
+            'grades'
+    ];
+
     public function student() {
         return $this->belongsTo('App\Models\StudentClass');
     }

@@ -45,7 +45,7 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
 
     return (
         <React.Fragment>
-            <GradeModal grades={grades} gradesColumn={gradesColumn} gradeModalOpenProp={gradeModalOpenProp}/>
+            <GradeModal grades={grades} gradesColumn={gradesColumn} gradeModalOpenProp={gradeModalOpenProp} />
             <TableRow
                 hover
                 className="StudentsClassListItem"
@@ -84,9 +84,6 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(student.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    {/* <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to="/app/teachers/edit" state={{ teacher: teacher }}>
-                        <EditIcon className="edit-icon" />
-                    </IconButton> */}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -110,6 +107,7 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                                         <TableCell>Срок за приравнителни изпити</TableCell>
                                         <TableCell>Приравнителни изпити</TableCell>
                                         <TableCell>Оценки по предмети</TableCell>
+                                        <TableCell>Операции</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -165,13 +163,18 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                                                             Виж оценки
                                                         </Button>
                                                     </TableCell>
+                                                    <TableCell>
+                                                        <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/students-class/application/${application.id}`}>
+                                                            <EditIcon className="edit-icon" />
+                                                        </IconButton>
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                         </>
                                         :
                                         <TableRow>
-                                            <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="11">Няма записи</TableCell>
-                                        </TableRow>  
+                                            <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="12">Няма записи</TableCell>
+                                        </TableRow>
                                     }
                                 </TableBody>
                             </Table>
