@@ -98,13 +98,19 @@ const StudentSecondaryCertificatePDF = React.forwardRef(({ application }, ref) =
             })
     }, []);
 
-    const gradeInWords = (grade) => {
-        switch (grade) {
-            case '6': return 'Отличен';
-            case '5': return 'Много добър';
-            case '4': return 'Добър';
-            case '3': return 'Среден';
-            case '2': return 'Слаб';
+    const gradeInWords = (gradeStr) => {
+        const grade = Number(gradeStr.replace(',', '.'));
+        
+        if(grade >= 5.50 && grade <= 6) {
+            return 'Отличен';
+        }else if(grade >= 4.50) {
+            return 'Много добър';
+        }else if(grade >= 3.50) {
+            return 'Добър';
+        }else if(grade >= 3) {
+            return 'Среден';
+        }else {
+            return 'Слаб';
         }
     }
 
