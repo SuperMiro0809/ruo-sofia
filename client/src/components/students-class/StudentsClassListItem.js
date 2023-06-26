@@ -23,18 +23,29 @@ import {
     KeyboardArrowUp as KeyboardArrowUpIcon
 } from '@material-ui/icons';
 import GradeModal from '../students-grade-modal/StudentsGradeModal';
+import StudentsClassApplicationModal from '../students-class-modal/StudentsClassApplicationModal';
 
-const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest }) => {
+const StudentsClassListItem = ({ student, openProp, selectedStudentProp, getStudents, ...rest }) => {
     const [open, setOpen] = useState(false);
     const [gradeModal, setGradeModal] = useState(false);
     const [grades, setGrades] = useState([]);
     const [gradesColumn, setGradesColumn] = useState(true);
+    const [openApplication, setOpenApplication] = useState(false);
+    const [selectedApplication, setSelectedApplication] = useState(0);
+
+    let openApplicationProp = { openApplication, setOpenApplication };
+    let selectedApplicationProp = { selectedApplication, setSelectedApplication };
 
     const gradeModalOpenProp = { gradeModal, setGradeModal };
 
     const openModal = (id) => {
         openProp.setOpen(true);
         selectedStudentProp.setSelectedStudent(id);
+    }
+
+    const openApplicationModal = (id) => {
+        openApplicationProp.setOpenApplication(true);
+        selectedApplicationProp.setSelectedApplication(id);
     }
 
     const openGradeModal = (grades, showGradesColumn = true) => {
@@ -46,6 +57,11 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
     return (
         <React.Fragment>
             <GradeModal grades={grades} gradesColumn={gradesColumn} gradeModalOpenProp={gradeModalOpenProp} />
+            <StudentsClassApplicationModal
+                openApplicationProp={openApplicationProp}
+                selectedApplicationProp={selectedApplicationProp}
+                getStudents={getStudents}
+            />
             <TableRow
                 hover
                 className="StudentsClassListItem"
@@ -164,6 +180,9 @@ const StudentsClassListItem = ({ student, openProp, selectedStudentProp, ...rest
                                                         </Button>
                                                     </TableCell>
                                                     <TableCell>
+                                                        <IconButton className="trash-icon-wrapper" onClick={e => openApplicationModal(application.id)} sx={{ color: '#f44336' }}>
+                                                            <DeleteIcon className="trash-icon" />
+                                                        </IconButton>
                                                         <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/students-class/application/${application.id}`}>
                                                             <EditIcon className="edit-icon" />
                                                         </IconButton>

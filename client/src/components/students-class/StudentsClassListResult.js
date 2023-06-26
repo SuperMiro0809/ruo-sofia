@@ -29,8 +29,9 @@ const StudentsClassListResults = ({
 }) => {
     let [open, setOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(0);
+
     let openProp = { open, setOpen };
-    let selectedStudentProp = { selectedStudent: selectedStudent, setSelectedStudent }
+    let selectedStudentProp = { selectedStudent: selectedStudent, setSelectedStudent };
 
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
@@ -102,7 +103,7 @@ const StudentsClassListResults = ({
                                         {students.length !== 0 ?
                                             <>
                                                 {students.map((student) => (
-                                                    <StudentsClassListItem key={`${student.id}_${new Date().getSeconds()}`} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} />
+                                                    <StudentsClassListItem key={`${student.id}_${new Date().getSeconds()}`} student={student} openProp={openProp} selectedStudentProp={selectedStudentProp} getStudents={getStudents} />
                                                 ))}
                                             </>
                                             :

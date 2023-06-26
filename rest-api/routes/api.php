@@ -67,6 +67,7 @@ Route::group([
     Route::get('/students-class/certificates', [StudentClassController::class, 'certificates']);
     Route::get('/students-class/application/{id}', [StudentClassController::class, 'getApplication']);
     Route::put('/students-class/application/{id}', [StudentClassController::class, 'editApplication']);
+    Route::delete('/students-class/application/{id}', [StudentClassController::class, 'deleteApplication']);
     Route::get('/students-class/{egn}', [StudentClassController::class, 'findByEgn']);
     Route::delete('/students-class/{id}', [StudentClassController::class, 'destroy']);
     Route::post('/students-class', [StudentClassController::class, 'store']);

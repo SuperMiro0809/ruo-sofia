@@ -100,6 +100,19 @@ function editApplication(data, id) {
     })
 }
 
+function deleteApplication(id) {
+    return fetch(`${services.url}/students-class/application/${id}?token=${localStorage.getItem('token')}`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
+}
+
 const StudentClassServices = {
     getAll,
     create,
@@ -107,7 +120,8 @@ const StudentClassServices = {
     destroy,
     certificates,
     getApplication,
-    editApplication
+    editApplication,
+    deleteApplication
 }
 
 export default StudentClassServices;

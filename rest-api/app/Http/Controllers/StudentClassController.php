@@ -112,4 +112,12 @@ class StudentClassController extends Controller
 
         return $application;
     }
+
+    public function deleteApplication($id) {
+        $application = StudentClassApplication::findOrFail($id);
+    
+        $application->delete();
+
+        return response()->json(['message' => 'Deleted']);
+    }
 }
