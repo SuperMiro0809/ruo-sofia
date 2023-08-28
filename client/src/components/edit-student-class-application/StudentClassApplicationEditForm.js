@@ -39,13 +39,12 @@ import subjectServices from '../../services/subjects';
 import AddSubjectModal from '../subject-modals/AddSubjectModal';
 
 const StudentClassApplicationEditForm = ({ application, ...rest }) => {
-    console.log(application.equivalenceExamsDate)
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const [dateOut, setDateOut] = useState(application.dateOut);
     const [documentDate, setDocumentDate] = useState(application.documentDate);
     const [inDate, setInDate] = useState(application.inDate);
-    const [equivalenceExamsDate, setEquivalenceExamsDate] = useState(null);
+    const [equivalenceExamsDate, setEquivalenceExamsDate] = useState(application.equivalenceExamsDate);
     const [subjects, setSubjects] = useState([]);
     const [openSubjectModal, setOpenSubjectModal] = useState(false);
     const scrollToEquivalenceExams = useRef(null);
@@ -58,7 +57,7 @@ const StudentClassApplicationEditForm = ({ application, ...rest }) => {
         setDateOut(application.dateOut);
         setDocumentDate(application.documentDate);
         setInDate(application.inDate);
-        setEquivalenceExamsDate(null);
+        setEquivalenceExamsDate(application.equivalenceExamsDate);
     }, [applicationJson])
 
     useEffect(() => {
@@ -149,7 +148,11 @@ const StudentClassApplicationEditForm = ({ application, ...rest }) => {
                                 class: application.class,
                                 admits: application.admits,
                                 equivalenceExamsDate: application.equivalenceExamsDate || '',
-                                equivalenceExams: application.equivalenceExams,
+                                equivalenceExams: application.equivalenceExams.length > 0 ? application.equivalenceExams : [
+                                    {
+                                        subjectName: ''
+                                    }
+                                ],
                                 grades: application.grades
                             }}
                             validationSchema={Yup.object().shape({
