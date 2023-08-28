@@ -55,7 +55,7 @@ const MpsCertificateListResult = ({
                             <TableHead>
                                 <TableRow>
                                     <TableCell style={{ textAlign: 'left' }}>
-                                        Три имена
+                                        Име
                                     </TableCell>
                                     <TableCell>
                                         ЕГН

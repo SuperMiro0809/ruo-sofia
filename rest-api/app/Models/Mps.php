@@ -12,9 +12,7 @@ class Mps extends Model
     protected $table = 'mps';
 
     protected $fillable = [
-        'firstName',
-        'middleName',
-        'lastName',
+        'name',
         'egn',
         'dateOfBirth',
         'citizenship',

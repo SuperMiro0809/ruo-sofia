@@ -48,9 +48,7 @@ const MpsEditForm = ({ mps }) => {
                     <Container maxWidth="1050">
                         <Formik
                             initialValues={{
-                                firstName: mps.firstName,
-                                middleName: mps.middleName,
-                                lastName: mps.lastName,
+                                name: mps.name,
                                 egn: mps.egn,
                                 dateOfBirth: mps.dateOfBirth,
                                 citizenship: mps.citizenship,
@@ -64,9 +62,7 @@ const MpsEditForm = ({ mps }) => {
                                 date: mps.date
                             }}
                             validationSchema={Yup.object().shape({
-                                firstName: Yup.string().required('Първото име е задължително'),
-                                middleName: Yup.string().required('Презимето е задължително'),
-                                lastName: Yup.string().required('Фамилията е задължителна'),
+                                name: Yup.string().required('Името е задължително'),
                                 egn: Yup.string().required('ЕГН-то е задължително'),
                                 dateOfBirth: Yup.date().required('Датата на разждане е задължителна').typeError('Датата не е валидна'),
                                 citizenship: Yup.string().required('Гражданството е задължително'),
@@ -124,42 +120,16 @@ const MpsEditForm = ({ mps }) => {
                                         </Typography>
                                     </Box>
                                     <TextField
-                                        error={Boolean(touched.firstName && errors.firstName)}
+                                        error={Boolean(touched.name && errors.name)}
                                         fullWidth
-                                        helperText={touched.firstName && errors.firstName}
+                                        helperText={touched.name && errors.name}
                                         label="Име"
                                         margin="normal"
-                                        name="firstName"
+                                        name="name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         type="text"
-                                        value={values.firstName}
-                                        variant="outlined"
-                                    />
-                                    <TextField
-                                        error={Boolean(touched.middleName && errors.middleName)}
-                                        fullWidth
-                                        helperText={touched.middleName && errors.middleName}
-                                        label="Презиме"
-                                        margin="normal"
-                                        name="middleName"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        type="text"
-                                        value={values.middleName}
-                                        variant="outlined"
-                                    />
-                                    <TextField
-                                        error={Boolean(touched.lastName && errors.lastName)}
-                                        fullWidth
-                                        helperText={touched.lastName && errors.lastName}
-                                        label="Фамилия"
-                                        margin="normal"
-                                        name="lastName"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        type="text"
-                                        value={values.lastName}
+                                        value={values.name}
                                         variant="outlined"
                                     />
                                     <Grid container spacing={2}>

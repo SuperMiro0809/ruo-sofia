@@ -43,7 +43,7 @@ const MpsListItem = ({ item, openProp, selectedMpsProp }) => {
                     {moment(item.date).format('DD/MM/YYYY')}
                 </TableCell>
                 <TableCell>
-                    {item.firstName} {item.middleName} {item.lastName}
+                    {item.name}
                 </TableCell>
                 <TableCell>
                     {item.egn}

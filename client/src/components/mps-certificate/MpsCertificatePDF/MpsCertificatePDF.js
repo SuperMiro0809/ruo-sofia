@@ -13,7 +13,7 @@ const MpsCertificatePDF = React.forwardRef(({ mps }, ref) => {
             <div><span>{moment(mps.date).format('DD.MM')}</span></div>
             <div><span>{moment(mps.date).format('YY')}</span></div>
             <div><span>София-град</span></div>
-            <div><span>{mps.firstName} {mps.middleName} {mps.lastName}</span></div>
+            <div><span>{mps.name}</span></div>
             <div><span>ЕГН/ЛНЧ/ИДН</span></div>
             <div><span>{mps.egn}, дата на раждане {moment(mps.dateOfBirth).format('DD.MM.YYYY')} г.</span></div>
             <div><span>гражданство: {mps.citizenship}</span></div>

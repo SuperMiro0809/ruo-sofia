@@ -11,9 +11,7 @@ const MpsEdit = () => {
     const { id } = useParams();
     const [mps, setMps] = useState({
         id: '',
-        firstName: '',
-        middleName: '',
-        lastName: '',
+        name: '',
         egn: '',
         dateOfBirth: null,
         citizenship: '',
@@ -32,9 +30,7 @@ const MpsEdit = () => {
             .then(res => {
                 setMps({
                     id: res.id,
-                    firstName: res.firstName,
-                    middleName: res.middleName,
-                    lastName: res.lastName,
+                    name: res.name,
                     egn: res.egn,
                     dateOfBirth: res.dateOfBirth,
                     citizenship: res.citizenship,

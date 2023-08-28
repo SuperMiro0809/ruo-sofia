@@ -12,9 +12,7 @@ class MpsController extends Controller
         $perPage = request()->query('per_page');
 
         if(request()->query('name')) {
-            $query->where('firstName', 'LIKE', '%'.request()->query('name').'%')
-                    ->orWhere('middleName', 'LIKE', '%'.request()->query('name').'%')
-                    ->orWhere('lastName', 'LIKE', '%'.request()->query('name').'%');
+            $query->where('name', 'LIKE', '%'.request()->query('name').'%');
         }
 
         if(request()->query('egn')) {
@@ -43,9 +41,7 @@ class MpsController extends Controller
         }
 
         $mps = Mps::create([
-            'firstName' => $request->firstName,
-            'middleName' => $request->middleName,
-            'lastName' => $request->lastName,
+            'name' => $request->name,
             'egn' => $request->egn,
             'dateOfBirth' => $request->dateOfBirth,
             'citizenship' => $request->citizenship,
@@ -79,9 +75,7 @@ class MpsController extends Controller
         }
 
         $mps->update([
-            'firstName' => $request->firstName,
-            'middleName' => $request->middleName,
-            'lastName' => $request->lastName,
+            'name' => $request->name,
             'egn' => $request->egn,
             'dateOfBirth' => $request->dateOfBirth,
             'citizenship' => $request->citizenship,

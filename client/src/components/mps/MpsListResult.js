@@ -68,7 +68,7 @@ const MpsListResult = ({
                       Дата
                   </TableCell>
                     <TableCell>
-                      Три имена
+                      Име
                   </TableCell>
                     <TableCell>
                       ЕГН

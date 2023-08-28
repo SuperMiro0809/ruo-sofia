@@ -23,7 +23,7 @@ const MpsCertificateListItem = ({ item }) => {
                 sx={{ '& > *': { borderBottom: 'unset' } }}
             >
                 <TableCell>
-                    {item.firstName} {item.middleName} {item.lastName}
+                    {item.name}
                 </TableCell>
                 <TableCell>
                     {item.egn}
