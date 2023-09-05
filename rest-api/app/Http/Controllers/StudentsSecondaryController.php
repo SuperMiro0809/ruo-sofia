@@ -41,6 +41,7 @@ class StudentsSecondaryController extends Controller
         $student->admits = $request->admits;
         $student->profession = $request->profession;
         $student->speciality = $request->speciality;
+        $student->equivalenceExams = json_encode($request->equivalenceExams);
         $student->grades = json_encode($request->grades);
 
         try {
@@ -83,6 +84,7 @@ class StudentsSecondaryController extends Controller
         $student->admits = $request->admits;
         $student->profession = $request->profession;
         $student->speciality = $request->speciality;
+        $student->equivalenceExams = json_encode($request->equivalenceExams);
         $student->grades = json_encode($request->grades);
 
         try {

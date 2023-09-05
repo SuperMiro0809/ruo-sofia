@@ -16,7 +16,7 @@ import {
 } from '@material-ui/icons';
 import { getIn } from 'formik';
 
-const SubjectGradeItem = ({ props, mode, subjects }) => {
+const SubjectGradeItem = ({ props, mode, subjects, noGrade }) => {
     const commaSeparatorRegex = /^[2-5]{1}(,\d{0,2})?$|^[6]{1}(,[0]{0,2})?$|^-$/;
     const {
         arrayHelpers,
@@ -38,7 +38,7 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
     return (
         <Box sx={{ ml: 2 }}>
             <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12} lg={6}>
+                <Grid item xs={12} lg={!noGrade ? 6 : 11}>
                     <Autocomplete
                         fullWidth
                         onChange={(event, newValue) => {
@@ -67,30 +67,31 @@ const SubjectGradeItem = ({ props, mode, subjects }) => {
                         )}
                     />
                 </Grid>
-                <Grid item xs={12} lg={5}>
-                    <TextField
-                        ste
-                        error={Boolean(
-                            getIn(touched, `${mode}.${index}.grade`) &&
-                            getIn(errors, `${mode}.${index}.grade`)
-                        )}
-                        fullWidth
-                        label="Оценка"
-                        margin="normal"
-                        type="text"
-                        name={`${mode}.${index}.grade`}
-                        onBlur={handleBlur}
-                        onChange={(e) => {
-                            if(commaSeparatorRegex.test(e.target.value) || !e.target.value) {
-                                handleChange(e);
-                            }
-                        }}
-                        value={values[mode][index].grade}
-                        variant="outlined"
-                    />
-                </Grid>
+                {!noGrade && (
+                    <Grid item xs={12} lg={5}>
+                        <TextField
+                            error={Boolean(
+                                getIn(touched, `${mode}.${index}.grade`) &&
+                                getIn(errors, `${mode}.${index}.grade`)
+                            )}
+                            fullWidth
+                            label="Оценка"
+                            margin="normal"
+                            type="text"
+                            name={`${mode}.${index}.grade`}
+                            onBlur={handleBlur}
+                            onChange={(e) => {
+                                if (commaSeparatorRegex.test(e.target.value) || !e.target.value) {
+                                    handleChange(e);
+                                }
+                            }}
+                            value={values[mode][index].grade}
+                            variant="outlined"
+                        />
+                    </Grid>
+                )}
                 <Grid item xs={12} lg={1}>
-                    <Fab onClick={() => arrayHelpers.push({ subjectName: '', grade: '' })} size="medium" color="primary" aria-label="add">
+                    <Fab onClick={() => arrayHelpers.push(!noGrade ? { subjectName: '', grade: '' } : { subjectName: '' })} size="medium" color="primary" aria-label="add">
                         <AddIcon />
                     </Fab>
                     <Fab onClick={() => arrayHelpers.remove(index)} disabled={values[mode].length === 1} sx={{ marginLeft: '15px' }} size="medium" color="primary" aria-label="remove">

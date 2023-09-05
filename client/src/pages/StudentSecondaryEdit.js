@@ -25,6 +25,7 @@ const StudentSecondaryEdit = () => {
         admits: '',
         profession: '',
         speciality: '',
+        equivalenceExams: [],
         grades: []
     });
 
@@ -48,6 +49,7 @@ const StudentSecondaryEdit = () => {
                     admits: data.admits,
                     profession: data.admits === 'ЗАВЪРШЕНО СРЕДНО С ПКС' ? student.profession : '',
                     speciality: data.admits === 'ЗАВЪРШЕНО СРЕДНО С ПКС' ? student.speciality : '',
+                    equivalenceExams: JSON.parse(data.equivalenceExams),
                     grades: JSON.parse(data.grades)
                 })
             })

@@ -38,7 +38,7 @@ import subjectServices from '../../services/subjects';
 import AddSubjectModal from '../subject-modals/AddSubjectModal';
 import SubjectGradeItem from '../add-student-secondary/SubjectGradeItem';
 
-const StudentSecondaryEditForm = ({student, ...rest }) => {
+const StudentSecondaryEditForm = ({ student, ...rest }) => {
     const messageContext = useContext(MеssageContext);
     const navigate = useNavigate();
     const [dateOut, setDateOut] = useState(student.dateOut);
@@ -47,6 +47,7 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
     const [inDate, setInDate] = useState(student.inDate);
     const [subjects, setSubjects] = useState([]);
     const [openSubjectModal, setOpenSubjectModal] = useState(false);
+    const scrollToEquivalenceExams = useRef(null);
     const scrollToGrades = useRef(null);
     const openSubjectModalProp = { openSubjectModal, setOpenSubjectModal };
     const studentJson = JSON.stringify(student);
@@ -90,8 +91,22 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
             }
         }
 
-        if(values.admits === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
-            if(!values.profession || !values.speciality) {
+        if (values.admits === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
+            if (!values.profession || !values.speciality) {
+                return true;
+            }
+        }
+
+        if (values.admits === "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ") {
+            for (let i = 0; i < values.equivalenceExams.length; i++) {
+                for (let key in values.equivalenceExams[i]) {
+                    if (!values.equivalenceExams[i][key]) {
+                        return true;
+                    }
+                }
+            }
+
+            if (errors['equivalenceExams']) {
                 return true;
             }
         }
@@ -144,6 +159,11 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                 admits: student.admits,
                                 profession: student.profession,
                                 speciality: student.speciality,
+                                equivalenceExams: student.equivalenceExams.length > 0 ? student.equivalenceExams : [
+                                    {
+                                        subjectName: ''
+                                    }
+                                ],
                                 grades: student.grades
                             }}
                             validationSchema={Yup.object().shape({
@@ -163,21 +183,33 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                 inDate: Yup.date().required('Датата на документите е задължителна').typeError('Датата не е валидна'),
                                 admits: Yup.string().required('Признава е задължително'),
                                 profession: Yup.string().when('admits', (admits) => {
-                                    if(admits === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
+                                    if (admits === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
                                         return Yup.string().required('Професията е задължителна!');
                                     }
                                 }),
                                 speciality: Yup.string().when('admits', (admits) => {
-                                    if(admits === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
+                                    if (admits === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
                                         return Yup.string().required('Специалността е задължителна!');
                                     }
                                 }),
                                 grades: Yup.array().of(Yup.object().shape({
                                     subjectName: Yup.string().required('Името на предмет е задължително'),
                                     grade: Yup.string().required('Оценката е задължителна')
+                                })),
+                                equivalenceExams: Yup.array().of(Yup.object().shape({
+                                    subjectName: Yup.string().when('admits', (admits) => {
+                                        if (admits === "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ") {
+                                            return Yup.string()
+                                                .required('Името на предмет е задължително');
+                                        }
+                                    })
                                 }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
+                                if (values.admits != "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ") {
+                                    values.equivalenceExams = [];
+                                }
+                                
                                 studentSecondaryServices.edit(values, student.id)
                                     .then(r => {
                                         messageContext[1]({ status: 'success', text: 'Ученикът е редактиран успешно!' });
@@ -191,7 +223,7 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                         setSubmitting(false)
                                         if (err.message === 'Unauthorized') {
                                             navigate('/login');
-                                        }else {
+                                        } else {
                                             messageContext[1]({ status: 'error', text: err.message });
                                             const interval = setInterval(function () {
                                                 messageContext[1]('');
@@ -456,7 +488,7 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                             name="admits"
                                             onChange={(e) => {
                                                 handleChange(e);
-                                                if(e.target.value !== "ЗАВЪРШЕНО СРЕДНО С ПКС") {
+                                                if (e.target.value !== "ЗАВЪРШЕНО СРЕДНО С ПКС") {
                                                     setFieldValue('profession', '');
                                                     setFieldValue('speciality', '');
                                                 }
@@ -496,6 +528,49 @@ const StudentSecondaryEditForm = ({student, ...rest }) => {
                                                 type="text"
                                                 value={values.speciality}
                                                 variant="outlined"
+                                            />
+                                        </>
+                                    }
+
+                                    {values.admits === "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ" &&
+                                        <>
+                                            <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
+                                                <Typography
+                                                    color="textPrimary"
+                                                    variant="h4"
+                                                >
+                                                    Приравнителни изпити
+                                                </Typography>
+                                            </Box>
+                                            <FieldArray
+                                                name="equivalenceExams"
+                                                render={arrayHelpers => (
+                                                    <>
+                                                        {values.equivalenceExams.map((exam, index) => (
+                                                            <SubjectGradeItem
+                                                                key={index}
+                                                                mode="equivalenceExams"
+                                                                subjects={subjects}
+                                                                noGrade
+                                                                props={
+                                                                    {
+                                                                        arrayHelpers,
+                                                                        values,
+                                                                        errors,
+                                                                        touched,
+                                                                        el: exam,
+                                                                        index,
+                                                                        handleBlur,
+                                                                        handleChange,
+                                                                        setFieldValue,
+                                                                        scrollTo: scrollToEquivalenceExams
+                                                                    }
+                                                                }
+                                                            />
+                                                        ))}
+                                                        <div ref={scrollToEquivalenceExams}></div>
+                                                    </>
+                                                )}
                                             />
                                         </>
                                     }

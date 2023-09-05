@@ -47,6 +47,7 @@ const StudentSecondaryAddForm = ({ rest }) => {
     const [inDate, setInDate] = useState(null);
     const [subjects, setSubjects] = useState([]);
     const [openSubjectModal, setOpenSubjectModal] = useState(false);
+    const scrollToEquivalenceExams = useRef(null);
     const scrollToGrades = useRef(null);
     const openSubjectModalProp = { openSubjectModal, setOpenSubjectModal };
 
@@ -84,6 +85,20 @@ const StudentSecondaryAddForm = ({ rest }) => {
 
         if(values.admits === "ЗАВЪРШЕНО СРЕДНО С ПКС") {
             if(!values.profession || !values.speciality) {
+                return true;
+            }
+        }
+
+        if (values.admits === "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ") {
+            for (let i = 0; i < values.equivalenceExams.length; i++) {
+                for (let key in values.equivalenceExams[i]) {
+                    if (!values.equivalenceExams[i][key]) {
+                        return true;
+                    }
+                }
+            }
+
+            if (errors['equivalenceExams']) {
                 return true;
             }
         }
@@ -136,6 +151,11 @@ const StudentSecondaryAddForm = ({ rest }) => {
                                 admits: '',
                                 profession: '',
                                 speciality: '',
+                                equivalenceExams: [
+                                    {
+                                        subjectName: ''
+                                    }
+                                ],
                                 grades: [
                                     {
                                         subjectName: '',
@@ -172,9 +192,21 @@ const StudentSecondaryAddForm = ({ rest }) => {
                                 grades: Yup.array().of(Yup.object().shape({
                                     subjectName: Yup.string().required('Името на предмет е задължително'),
                                     grade: Yup.string().required('Оценката е задължителна')
+                                })),
+                                equivalenceExams: Yup.array().of(Yup.object().shape({
+                                    subjectName: Yup.string().when('admits', (admits) => {
+                                        if (admits === "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ") {
+                                            return Yup.string()
+                                                .required('Името на предмет е задължително');
+                                        }
+                                    })
                                 }))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
+                                if (values.admits != "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ") {
+                                    values.equivalenceExams = [];
+                                }
+
                                 studentSecondaryServices.create(values)
                                     .then(r => {
                                         messageContext[1]({ status: 'success', text: 'Ученикът е добавен успешно!' });
@@ -492,6 +524,49 @@ const StudentSecondaryAddForm = ({ rest }) => {
                                                 type="text"
                                                 value={values.speciality}
                                                 variant="outlined"
+                                            />
+                                        </>
+                                    }
+                                    
+                                    {values.admits === "ЗАВЪРШЕН ПЪРВИ ГИМНАЗИАЛЕН ЕТАП НА СРЕДНО ОБРАЗОВАНИЕ" &&
+                                        <>
+                                            <Box sx={{ mb: 1, mt: 2, ml: 2 }}>
+                                                <Typography
+                                                    color="textPrimary"
+                                                    variant="h4"
+                                                >
+                                                    Приравнителни изпити
+                                                </Typography>
+                                            </Box>
+                                            <FieldArray
+                                                name="equivalenceExams"
+                                                render={arrayHelpers => (
+                                                    <>
+                                                        {values.equivalenceExams.map((exam, index) => (
+                                                            <SubjectGradeItem
+                                                                key={index}
+                                                                mode="equivalenceExams"
+                                                                subjects={subjects}
+                                                                noGrade
+                                                                props={
+                                                                    {
+                                                                        arrayHelpers,
+                                                                        values,
+                                                                        errors,
+                                                                        touched,
+                                                                        el: exam,
+                                                                        index,
+                                                                        handleBlur,
+                                                                        handleChange,
+                                                                        setFieldValue,
+                                                                        scrollTo: scrollToEquivalenceExams
+                                                                    }
+                                                                }
+                                                            />
+                                                        ))}
+                                                        <div ref={scrollToEquivalenceExams}></div>
+                                                    </>
+                                                )}
                                             />
                                         </>
                                     }

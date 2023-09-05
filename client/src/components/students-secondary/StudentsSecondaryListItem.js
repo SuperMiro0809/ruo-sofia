@@ -31,6 +31,8 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
 
     const gradeModalOpenProp = { gradeModal, setGradeModal };
 
+    const equivalenceExams = JSON.parse(student.equivalenceExams);
+
     const openModal = (id) => {
         openProp.setOpen(true);
         selectedStudentProp.setSelectedStudent(id);
@@ -40,7 +42,7 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
         setGrades(grades);
         setGradeModal(true);
     }
-
+    
     return (
         <React.Fragment>
             <GradeModal grades={grades} gradeModalOpenProp={gradeModalOpenProp} />
@@ -104,6 +106,7 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                                         <TableCell>Входящ номер</TableCell>
                                         <TableCell>Дата на документите</TableCell>
                                         <TableCell>Признава</TableCell>
+                                        {(equivalenceExams && equivalenceExams.length > 0) && <TableCell>Приравнителни изпити</TableCell>}
                                         <TableCell>Оценки по предмети</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -130,6 +133,17 @@ const StudentsSecondaryListItem = ({ student, openProp, selectedStudentProp, ...
                                         <TableCell>
                                             {student.admits}
                                         </TableCell>
+                                        {(equivalenceExams && equivalenceExams.length > 0) && (
+                                            <TableCell>
+                                                <Button
+                                                    variant="text"
+                                                    onClick={() => openGradeModal(equivalenceExams)}
+                                                    className="button-with-icon"
+                                                >
+                                                    Виж приравнителни изпити
+                                                </Button>
+                                            </TableCell>
+                                        )}
                                         <TableCell>
                                             <Button
                                                 variant="text"

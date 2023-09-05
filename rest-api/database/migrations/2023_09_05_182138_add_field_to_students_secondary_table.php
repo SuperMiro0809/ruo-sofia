@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldToMpsTable extends Migration
+class AddFieldToStudentsSecondaryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddFieldToMpsTable extends Migration
      */
     public function up()
     {
-        Schema::table('mps', function (Blueprint $table) {
-            $table->dropColumn(['firstName', 'middleName', 'lastName']);
-            $table->string('name');
+        Schema::table('students_secondary', function (Blueprint $table) {
+            $table->json('equivalenceExams');
         });
     }
 
@@ -26,8 +25,8 @@ class AddFieldToMpsTable extends Migration
      */
     public function down()
     {
-        Schema::table('mps', function (Blueprint $table) {
-            $table->dropColumn('name');
+        Schema::table('students_secondary', function (Blueprint $table) {
+            $table->dropColumn('equivalenceExams');
         });
     }
 }
