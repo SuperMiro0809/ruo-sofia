@@ -41,13 +41,14 @@ import MpsList from './pages/MpsList';
 import MpsAdd from './pages/MpsAdd';
 import MpsEdit from './pages/MpsEdit';
 import MpsCertificate from './pages/MpsCertificate';
+import ProtocolMpsList from './pages/ProtocolMpsList';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
 import NotAuthRoute from './hoc/isNotAuth';
 
 const Layout = () => (
-    <Outlet />
+  <Outlet />
 )
 
 const routes = [
@@ -86,14 +87,14 @@ const routes = [
           { path: 'add', element: <ProtocolAdd /> },
           { path: 'edit/:id', element: <ProtocolEdit /> },
           { path: 'text-editor', element: <ProtocolTextEditor /> },
-          { 
+          {
             path: 'students-class',
             element: <Layout />,
             children: [
               { path: '', element: <ProtocolClassList /> },
               { path: 'add', element: <ProtocolClassAdd /> },
               { path: 'edit/:id', element: <ProtocolClassEdit /> }
-            ] 
+            ]
           },
           {
             path: 'students-secondary',
@@ -108,7 +109,7 @@ const routes = [
       },
       {
         path: 'students-class',
-        element: <RoleRoute role="Education" component={Layout}/>,
+        element: <RoleRoute role="Education" component={Layout} />,
         children: [
           { path: '', element: <StudentClassList /> },
           { path: 'add', element: <StudentClassAdd /> },
@@ -123,7 +124,7 @@ const routes = [
       },
       {
         path: 'students-secondary',
-        element: <RoleRoute role="Education" component={Layout}/>,
+        element: <RoleRoute role="Education" component={Layout} />,
         children: [
           { path: '', element: <StudentSecondaryList /> },
           { path: 'add', element: <StudentSecondaryAdd /> },
@@ -133,7 +134,7 @@ const routes = [
       },
       {
         path: 'students/reference',
-        element: <RoleRoute role="Education" component={StudentReference}/>
+        element: <RoleRoute role="Education" component={StudentReference} />
       },
       {
         path: 'mps',
@@ -141,11 +142,17 @@ const routes = [
           { path: '', element: <MpsList /> },
           { path: 'add', element: <MpsAdd /> },
           { path: 'edit/:id', element: <MpsEdit /> },
-          { path: 'certificate', element: <MpsCertificate /> }
+          { path: 'certificate', element: <MpsCertificate /> },
+          {
+            path: 'protocols',
+            children: [
+              { path: '', element: <ProtocolMpsList /> }
+            ]
+          }
         ]
       },
-      { 
-        path: 'settings', 
+      {
+        path: 'settings',
         element: <Layout />,
         children: [
           { path: 'committe', element: <CommitteList /> },

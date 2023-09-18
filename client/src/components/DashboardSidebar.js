@@ -131,10 +131,15 @@ const dropDownMPS = {
       title: 'Заявления'
     },
     {
+      href: '/app/mps/protocols',
+      icon: FileContractIcon,
+      title: 'Протоколи'
+    },
+    {
       href: '/app/mps/certificate',
       icon: PrintIcon,
       title: 'Удостоверения'
-    },
+    }
   ]
 }
 
