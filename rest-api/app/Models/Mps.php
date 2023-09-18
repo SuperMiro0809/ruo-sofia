@@ -23,6 +23,7 @@ class Mps extends Model
         'country',
         'class',
         'number',
-        'date'
+        'date',
+        'protocol_id'
     ];
 }
