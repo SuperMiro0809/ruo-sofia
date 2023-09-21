@@ -1,6 +1,5 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -10,32 +9,21 @@ import {
     Container,
     TextField,
     Typography,
-    Select,
-    MenuItem,
-    InputLabel,
-    FormControl,
-    FormHelperText,
-    InputAdornment,
-    Fab,
-    Divider
+    InputAdornment
 } from '@material-ui/core';
 import {
     DatePicker,
     DateRangePicker,
     LocalizationProvider
 } from '@material-ui/lab';
-import {
-    Add as AddIcon,
-    Remove as RemoveIcon
-} from '@material-ui/icons';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 import * as Yup from 'yup';
-import { Formik, FieldArray, getIn } from 'formik';
+import { Formik } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import ProtocolEducationCommitteForm from '../protocol-education-committe/ProtocolEducationCommitteForm';
 import committeEducationServices from '../../services/committe-education';
-import protocolClassServices from '../../services/protocol-class';
+import protocolMpsServices from '../services/protocol-mps';
 
 const ProtocolMpsAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
@@ -114,10 +102,10 @@ const ProtocolMpsAddForm = ({ rest }) => {
                                 members: Yup.array().of(Yup.string().required('Членът е задължителен'))
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                protocolClassServices.create(values)
+                                protocolMpsServices.create(values)
                                     .then(r => {
                                         messageContext[1]({ status: 'success', text: 'Протоколът е генериран успешно!' });
-                                        navigate('/app/protocols/students-class', { replace: true });
+                                        navigate('/app/mps/protocols', { replace: true });
                                         const interval = setInterval(function () {
                                             messageContext[1]('');
                                             clearInterval(interval);

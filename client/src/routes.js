@@ -42,6 +42,7 @@ import MpsAdd from './pages/MpsAdd';
 import MpsEdit from './pages/MpsEdit';
 import MpsCertificate from './pages/MpsCertificate';
 import ProtocolMpsList from './pages/ProtocolMpsList';
+import ProtocolMpsAdd from './pages/ProtocolMpsAdd';
 
 import RoleRoute from './hoc/isRole';
 import AuthRoute from './hoc/isAuth';
@@ -146,7 +147,8 @@ const routes = [
           {
             path: 'protocols',
             children: [
-              { path: '', element: <ProtocolMpsList /> }
+              { path: '', element: <ProtocolMpsList /> },
+              { path: 'add', element: <ProtocolMpsAdd /> }
             ]
           }
         ]
