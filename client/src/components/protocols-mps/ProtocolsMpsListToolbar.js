@@ -20,7 +20,7 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { bg } from 'date-fns/locale';
 
 const ProtocolsMpsListToolbar = ({ setNumber, setStartDate, setEndDate, setPage }, ...props) => {
-    const [value, setValue] = useState();
+    const [value, setValue] = useState('');
     const [date, setDate] = useState([null, null]);
 
     const handleSearch = () => {
@@ -61,7 +61,7 @@ const ProtocolsMpsListToolbar = ({ setNumber, setStartDate, setEndDate, setPage 
                     component={RouterLink}
                     color="primary"
                     variant="contained"
-                    to="/app/protocols/students-class/add"
+                    to="/app/mps/protocols/add"
                 >
                     Генерирай протокол
                 </Button>

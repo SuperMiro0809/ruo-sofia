@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { Box, Container, Modal, Typography } from '@material-ui/core';
 import ProtocolsMpsListResults from '../components/protocols-mps/ProtocolsMpsListResults';
 import ProtocolsMpsListToolbar from 'src/components/protocols-mps/ProtocolsMpsListToolbar';
-import protocolClassServices from '../services/protocol-class';
+import protocolMpsServices from '../services/protocol-mps';
 
 const ProtocolMpsList = () => {
   const navigate = useNavigate();
@@ -19,13 +19,13 @@ const ProtocolMpsList = () => {
 
   useEffect(() => {
     let mounted = true;
-    //getProtocols();
+    getProtocols();
 
     return () => mounted = false;
   }, [number, startDate, endDate, page, limit])
 
   const getProtocols = () => {
-    protocolClassServices.getAll({number, startDate, endDate, page: page + 1, limit})
+    protocolMpsServices.getAll({number, startDate, endDate, page: page + 1, limit})
       .then(data => {
         setProtocols(data.data);
         setTotal(data.total);

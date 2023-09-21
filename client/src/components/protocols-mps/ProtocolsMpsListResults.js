@@ -13,8 +13,8 @@ import {
   CircularProgress,
   TableContainer
 } from '@material-ui/core';
-// import ProtocolClassListItem from './ProtocolClassListItem';
-// import ProtocolClassModal from '../protocol-class-modal/ProtocolClassModal';
+import ProtocolsMpsListItem from './ProtocolsMpsListItem';
+import ProtocolsMpsModal from '../protocols-mps-modal/ProtocolsMpsModal';
 
 const ProtocolsMpsListResults = ({
   protocols,
@@ -41,7 +41,7 @@ const ProtocolsMpsListResults = ({
 
   return (
     <Card>
-      {/* <ProtocolClassModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} getProtocols={getProtocols} /> */}
+      <ProtocolsMpsModal openProp={openProp} selectedProtocolProp={selectedProtocolProp} getProtocols={getProtocols} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <TableContainer>
@@ -76,7 +76,7 @@ const ProtocolsMpsListResults = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* {loader ?
+                {loader ?
                   <TableRow>
                     <TableCell sx={{ textAlign: 'center', fontStyle: 'italic' }} colSpan="4"><CircularProgress size="30px" /></TableCell>
                   </TableRow>
@@ -84,8 +84,8 @@ const ProtocolsMpsListResults = ({
                   <>
                     {protocols.length !== 0 ?
                       <>
-                        {protocols.slice(page * limit, page * limit + limit).map((protocol) => (
-                          <ProtocolClassListItem key={`${protocol.id}_${new Date().getSeconds()}`} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
+                        {protocols.map((protocol) => (
+                          <ProtocolsMpsListItem key={`${protocol.id}_${new Date().getSeconds()}`} protocol={protocol} openProp={openProp} selectedProtocolProp={selectedProtocolProp} />
                         ))}
                       </>
                       :
@@ -94,7 +94,7 @@ const ProtocolsMpsListResults = ({
                       </TableRow>
                     }
                   </>
-                } */}
+                }
               </TableBody>
             </Table>
           </TableContainer>
