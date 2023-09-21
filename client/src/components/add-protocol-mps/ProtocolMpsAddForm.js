@@ -23,7 +23,7 @@ import { Formik } from 'formik';
 import MеssageContext from '../../contexts/MessageContext';
 import ProtocolEducationCommitteForm from '../protocol-education-committe/ProtocolEducationCommitteForm';
 import committeEducationServices from '../../services/committe-education';
-import protocolMpsServices from '../services/protocol-mps';
+import protocolMpsServices from '../../services/protocol-mps';
 
 const ProtocolMpsAddForm = ({ rest }) => {
     const messageContext = useContext(MеssageContext);
