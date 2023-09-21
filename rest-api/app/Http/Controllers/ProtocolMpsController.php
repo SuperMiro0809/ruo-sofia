@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{
     ProtocolMps,
-    Mps
+    Mps,
+    CommitteEducation
 };
 
 class ProtocolMpsController extends Controller
 {
     public function index(Request $request) {
-        $protocols = ProtocolMps::with('application');
+        $protocols = ProtocolMps::with('applications');
 
         $perPage = $request->query('per_page');
 
@@ -79,7 +80,7 @@ class ProtocolMpsController extends Controller
     public function destroy($id) {
         $protocol = ProtocolMps::findOrFail($id);
 
-        $protocol->application()->update(['protocol_id' => null]);
+        $protocol->applications()->update(['protocol_id' => null]);
         $protocol->delete();
 
         return response()->json(['message' => 'Deleted']);

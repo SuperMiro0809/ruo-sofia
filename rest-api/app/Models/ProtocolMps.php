@@ -23,7 +23,7 @@ class ProtocolMps extends Model
         'members'
     ];
 
-    public function application() {
+    public function applications() {
         return $this->hasMany('App\Models\Mps', 'protocol_id');
     }
 }

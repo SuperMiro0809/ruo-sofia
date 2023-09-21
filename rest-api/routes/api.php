@@ -15,6 +15,7 @@ use App\Http\Controllers\ProtocolClassController;
 use App\Http\Controllers\ProtocolSecondaryController;
 use App\Http\Controllers\CommitteEducationController;
 use App\Http\Controllers\MpsController;
+use App\Http\Controllers\ProtocolMpsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,6 +106,14 @@ Route::group([
     Route::put('/committe-education', [CommitteEducationController::class, 'save']);
 
     Route::prefix('mps')->group(function () {
+        Route::prefix('protocols')->group(function () {
+            Route::get('/', [ProtocolMpsController::class, 'index']);
+            Route::post('/', [ProtocolMpsController::class, 'store']);
+            Route::put('/{id}', [ProtocolMpsController::class, 'edit']);
+            Route::delete('/{id}', [ProtocolMpsController::class, 'destroy']);
+            Route::get('/{id}', [ProtocolMpsController::class, 'getById']);
+        });
+
         Route::get('/', [MpsController::class, 'index']);
         Route::post('/', [MpsController::class, 'store']);
         Route::put('/{id}', [MpsController::class, 'edit']);
