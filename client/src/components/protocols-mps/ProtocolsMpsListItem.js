@@ -97,7 +97,7 @@ const ProtocolsMpsListItem = ({ protocol, openProp, selectedProtocolProp, ...res
                     <IconButton className="trash-icon-wrapper" onClick={e => openModal(protocol.id)}>
                         <DeleteIcon className="trash-icon" />
                     </IconButton>
-                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/protocols/students-class/edit/${protocol.id}`}>
+                    <IconButton className="edit-icon-wrapper" color="primary" component={RouterLink} to={`/app/mps/protocols/edit/${protocol.id}`}>
                         <EditIcon className="edit-icon" />
                     </IconButton>
                     <ReactToPrint
