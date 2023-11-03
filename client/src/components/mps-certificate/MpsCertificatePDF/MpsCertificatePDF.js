@@ -9,7 +9,7 @@ const MpsCertificatePDF = React.forwardRef(({ mps }, ref) => {
             {/* <article className="image-article">
                 <img src="/static/background/mps.png" width="790px" height="1114px" />
             </article> */}
-            <div><span>{mps.number}</span></div>
+            <div><span>{mps.protocol.number} - {mps.protocol_order}</span></div>
             <div><span>{moment(mps.date).format('DD.MM')}</span></div>
             <div><span>{moment(mps.date).format('YY')}</span></div>
             <div><span>София-град</span></div>

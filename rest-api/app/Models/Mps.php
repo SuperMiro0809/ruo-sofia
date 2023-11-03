@@ -29,6 +29,6 @@ class Mps extends Model
     ];
 
     public function protocol() {
-        return $this->hasOne('App\Models\ProtocolMps', 'id');
+        return $this->hasOne('App\Models\ProtocolMps', 'id', 'protocol_id');
     }
 }
