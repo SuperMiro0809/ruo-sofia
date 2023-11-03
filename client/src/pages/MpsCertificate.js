@@ -24,7 +24,7 @@ const MpsCertificate = () => {
     }, [name, egn, page, limit])
 
     const getMps = () => {
-        mpsService.getAll({name, egn, page: page + 1, limit})
+        mpsService.getCertificates({name, egn, page: page + 1, limit})
             .then(data => {
                 setMps(data.data);
                 setTotal(data.total);

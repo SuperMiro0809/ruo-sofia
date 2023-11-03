@@ -115,6 +115,7 @@ Route::group([
         });
 
         Route::get('/', [MpsController::class, 'index']);
+        Route::get('/certificates', [MpsController::class, 'certificates']);
         Route::post('/', [MpsController::class, 'store']);
         Route::put('/{id}', [MpsController::class, 'edit']);
         Route::delete('/{id}', [MpsController::class, 'destroy']);

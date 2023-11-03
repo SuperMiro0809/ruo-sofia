@@ -63,7 +63,15 @@ class ProtocolMpsController extends Controller
             }
 
             $protocol->save();
-            Mps::whereNull('protocol_id')->whereBetween('date', [$request->startDate, $request->endDate])->update(['protocol_id' => $protocol->id]);
+
+            $items = Mps::whereNull('protocol_id')->whereBetween('date', [$request->startDate, $request->endDate])->get();
+
+            foreach($items as $index => $mps) {
+                $mps->protocol_id = $protocol->id;
+                $mps->protocol_order = $index + 1;
+
+                $mps->save();
+            }
         } catch(\Exception $e) {
             $errorCode = $e->errorInfo[1];
             
@@ -80,7 +88,7 @@ class ProtocolMpsController extends Controller
     public function destroy($id) {
         $protocol = ProtocolMps::findOrFail($id);
 
-        $protocol->applications()->update(['protocol_id' => null]);
+        $protocol->applications()->update(['protocol_id' => null, 'protocol_order' => null]);
         $protocol->delete();
 
         return response()->json(['message' => 'Deleted']);
@@ -107,8 +115,16 @@ class ProtocolMpsController extends Controller
 
         try {
             $protocol->save();
-            Mps::where('protocol_id', $id)->update(['protocol_id' => null]);
-            Mps::whereNull('protocol_id')->whereBetween('date', [$request->startDate, $request->endDate])->update(['protocol_id' => $protocol->id]);
+            Mps::where('protocol_id', $id)->update(['protocol_id' => null, 'protocol_order' => null]);
+
+            $items = Mps::whereNull('protocol_id')->whereBetween('date', [$request->startDate, $request->endDate])->get();
+
+            foreach($items as $index => $mps) {
+                $mps->protocol_id = $protocol->id;
+                $mps->protocol_order = $index + 1;
+
+                $mps->save();
+            }
         } catch(\Exception $e) {
             $errorCode = $e->errorInfo[1];
             

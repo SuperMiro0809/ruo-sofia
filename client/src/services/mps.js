@@ -26,6 +26,29 @@ function getAll({ name, egn, date, page, limit }) {
         })
 }
 
+function getCertificates({ name, egn, page, limit }) {
+    let url = `${services.url}/mps/certificates?token=${localStorage.getItem('token')}`;
+
+    if (name) {
+        url += `&name=${name}`;
+    }
+    if (egn) {
+        url += `&egn=${egn}`;
+    }
+    if (page && limit) {
+        url += `&page=${page}&per_page=${limit}`
+    }
+
+    return fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                throw new Error('Unauthorized');
+            }
+        })
+}
+
 function create(data) {
     return fetch(`${services.url}/mps?token=${localStorage.getItem('token')}`, {
         method: 'POST',
@@ -94,6 +117,7 @@ function getById(id) {
 
 const mpsService = {
     getAll,
+    getCertificates,
     create,
     edit,
     destroy,

@@ -26,6 +26,23 @@ class MpsController extends Controller
         return $query->paginate($perPage);
     }
 
+    public function certificates() {
+        $query = Mps::select('mps.*');
+        $perPage = request()->query('per_page');
+
+        if(request()->query('name')) {
+            $query->where('name', 'LIKE', '%'.request()->query('name').'%');
+        }
+
+        if(request()->query('egn')) {
+            $query->where('egn', 'LIKE', '%'.request()->query('egn').'%');
+        }
+
+        $query->whereNotNull('protocol_id')->with('protocol');
+
+        return $query->paginate($perPage);
+    }
+
     public function store(Request $request) {
         $validator = validator($request->only('egn'), 
             [

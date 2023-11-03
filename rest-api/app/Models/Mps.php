@@ -24,6 +24,11 @@ class Mps extends Model
         'class',
         'number',
         'date',
-        'protocol_id'
+        'protocol_id',
+        'protocol_order'
     ];
+
+    public function protocol() {
+        return $this->hasOne('App\Models\ProtocolMps', 'id');
+    }
 }
