@@ -47,9 +47,9 @@ const ProtocolMpsPDF = React.forwardRef(({ protocol }, ref) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {protocol.applications.map((application, index) => (
+                                {protocol.applications.sort((a, b) => a.protocol_order - b.protocol_order).map((application, index) => (
                                     <tr key={index}>
-                                        <td>{`${protocol.number} - ${index + 1}`}</td>
+                                        <td>{`${protocol.number} - ${application.protocol_order}`}</td>
                                         <td>{application.name}</td>
                                         <td>{application.number}</td>
                                         <td>{moment(application.inDate).format('DD.MM.YYYY')} г.</td>

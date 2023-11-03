@@ -129,10 +129,10 @@ const ProtocolsMpsListItem = ({ protocol, openProp, selectedProtocolProp, ...res
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {protocol.applications.map((application, index) => (
+                                    {protocol.applications.sort((a, b) => a.protocol_order - b.protocol_order).map((application, index) => (
                                         <TableRow key={`${application.id}_${new Date().getSeconds()}`}>
                                             <TableCell component="th" scope="row" data-testid="number">
-                                                {`${protocol.number} - ${index + 1}`}
+                                                {`${protocol.number} - ${application.protocol_order}`}
                                             </TableCell>
                                             <TableCell>
                                                 {application.name}
