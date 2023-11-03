@@ -28,7 +28,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileWord as WordFileIcon,
 } from '@fortawesome/free-solid-svg-icons';
-import ProtocolClassPDF from '../protocol-class-pdf/ProtocolClassPDF';
+import ProtocolMpsPDF from '../protocol-mps-pdf/ProtocolMpsPDF';
 import ReactToPrint from 'react-to-print';
 import generate from '../protocol-class-word/generate-protocol-class-word';
 
@@ -51,11 +51,11 @@ const ProtocolsMpsListItem = ({ protocol, openProp, selectedProtocolProp, ...res
 
     return (
         <React.Fragment>
-            {/* <tr style={{ display: 'none' }}>
+            <tr style={{ display: 'none' }}>
                 <td>
-                    <ProtocolClassPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
+                    <ProtocolMpsPDF protocol={protocol} ref={print} style={{ display: 'none' }} />
                 </td>
-            </tr> */}
+            </tr>
             <Modal
                 open={openPreview}
                 aria-labelledby="modal-modal-title"
@@ -65,7 +65,7 @@ const ProtocolsMpsListItem = ({ protocol, openProp, selectedProtocolProp, ...res
                     <Typography id="modal-modal-title" variant="h6" component="h2" pb='15px'>
                         <CloseIcon className="close-icon" onClick={() => setOpenPreview(false)} />
                     </Typography>
-                    <ProtocolClassPDF protocol={protocol} />
+                    <ProtocolMpsPDF protocol={protocol} />
                 </Box>
             </Modal>
             <TableRow
@@ -108,9 +108,6 @@ const ProtocolsMpsListItem = ({ protocol, openProp, selectedProtocolProp, ...res
                             </IconButton>
                         )}
                     />
-                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol)}>
-                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
-                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
