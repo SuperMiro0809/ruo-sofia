@@ -35,7 +35,7 @@ const ProtocolSecondaryPDF = React.forwardRef(({ protocol }, ref) => {
                             <tbody>
                                 {protocol.application.map((application, index) => (
                                     <tr key={index}>
-                                        <td>{`${protocol.number}-${index + 1}`}</td>
+                                        <td>{`${protocol.number}-${application.protocol_order}`}</td>
                                         <td>{application.name}</td>
                                         <td>{`${application.inNumber}/ ${moment(application.inDate).format('DD/MM/YYYY')} г.`}</td>
                                         <td>{application.admits}</td>

@@ -134,7 +134,7 @@ const ProtocolSecondaryListItem = ({ protocol, openProp, selectedProtocolProp, .
                                     {protocol.application.map((application, index) => (
                                         <TableRow key={`${application.id}_${new Date().getSeconds()}`}>
                                             <TableCell component="th" scope="row" data-testid="number">
-                                                {`${protocol.number} - ${index + 1}`}
+                                                {`${protocol.number} - ${application.protocol_order}`}
                                             </TableCell>
                                             <TableCell>
                                                 {application.name}
