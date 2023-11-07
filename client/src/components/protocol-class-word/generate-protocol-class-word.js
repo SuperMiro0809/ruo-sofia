@@ -19,7 +19,7 @@ export default function generate(protocol) {
                             size: 3505,
                             type: WidthType.DXA,
                         },
-                        children: [new Paragraph(`${protocol.number} - ${i + 1}`)],
+                        children: [new Paragraph(`${protocol.number} - ${application.protocol_order}`)],
                     }),
                     new TableCell({
                         width: {
