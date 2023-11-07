@@ -30,7 +30,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ProtocolMpsPDF from '../protocol-mps-pdf/ProtocolMpsPDF';
 import ReactToPrint from 'react-to-print';
-import generate from '../protocol-class-word/generate-protocol-class-word';
+import generate from '../protocol-mps-word/generate-protocol-mps-word';
 
 const style = {
     bgcolor: 'background.paper',
@@ -108,6 +108,9 @@ const ProtocolsMpsListItem = ({ protocol, openProp, selectedProtocolProp, ...res
                             </IconButton>
                         )}
                     />
+                    <IconButton className="word-icon-wrapper" onClick={e => generate(protocol)}>
+                        <FontAwesomeIcon icon={WordFileIcon} className="word-icon" />
+                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
