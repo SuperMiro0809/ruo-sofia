@@ -111,7 +111,7 @@ const StudentClassCertificatePDF = React.forwardRef(({ application, student }, r
     return (
         <div ref={ref} className="StudentClassCertificatePDF">
             <div className="page-one">
-                <div><span>{application.registerNumber}</span></div>
+                <div><span>{application.protocol.number} - {application.protocol_order}</span></div>
                 <div><span>{moment(application.dateOut).format('DD.MM')}</span></div>
                 <div><span>{moment(application.dateOut).format('YY')}</span></div>
                 <div><span>София-град</span></div>
