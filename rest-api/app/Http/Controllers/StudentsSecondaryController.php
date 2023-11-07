@@ -112,6 +112,23 @@ class StudentsSecondaryController extends Controller
         return StudentSecondary::all();
     }
 
+    public function getCertificates(Request $request) {
+        $students = StudentSecondary::query();
+        $perPage = (int) $request->query('per_page');
+
+        if($request->has('name')) {
+            $students->where('name', 'regexp', $request->query('name'));
+        }
+
+        if($request->has('egn')) {
+            $students->where('egn', $request->query('egn'));
+        }
+
+        $students->whereNotNull('protocol_id')->with('protocol');
+            
+        return $students->paginate($perPage);
+    }
+
     public function getById($id) {
         return StudentSecondary::findOrFail($id);
     }

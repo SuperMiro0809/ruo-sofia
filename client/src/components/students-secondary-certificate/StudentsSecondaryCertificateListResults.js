@@ -40,7 +40,7 @@ const StudentsSecondaryCertificateListResults = ({ searchName, searchEgn }, ...p
             setPage(0);
         }
 
-        studentSecondaryServices.getAll({searchName, searchEgn, page: page + 1, limit})
+        studentSecondaryServices.getCertificates(searchName, searchEgn, page + 1, limit)
             .then(data => {
                 setStudents(data.data);
                 setTotal(data.total);

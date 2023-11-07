@@ -40,7 +40,7 @@ const StudentsClassCertificateListResults = ({ searchName, searchEgn }, ...props
             setPage(0);
         }
 
-        studentClassServices.getAll({searchName, searchEgn, page: page + 1, limit})
+        studentClassServices.getCertificates(searchName, searchEgn, page + 1, limit)
             .then(data => {
                 setStudents(data.data);
                 setTotal(data.total);

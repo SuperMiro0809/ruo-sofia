@@ -66,6 +66,7 @@ Route::group([
 
     Route::get('/students-class', [StudentClassController::class, 'index']);
     Route::get('/students-class/certificates', [StudentClassController::class, 'certificates']);
+    Route::get('/students-class/getCertificates', [StudentClassController::class, 'getCertificates']);
     Route::get('/students-class/application/{id}', [StudentClassController::class, 'getApplication']);
     Route::put('/students-class/application/{id}', [StudentClassController::class, 'editApplication']);
     Route::delete('/students-class/application/{id}', [StudentClassController::class, 'deleteApplication']);
@@ -75,6 +76,7 @@ Route::group([
 
     Route::get('/students-secondary', [StudentsSecondaryController::class, 'index']);
     Route::get('/students-secondary/certificates', [StudentsSecondaryController::class, 'certificates']);
+    Route::get('/students-secondary/getCertificates', [StudentsSecondaryController::class, 'getCertificates']);
     Route::post('/students-secondary', [StudentsSecondaryController::class, 'store']);
     Route::delete('/students-secondary/{id}', [StudentsSecondaryController::class, 'destroy']);
     Route::put('/students-secondary/{id}', [StudentsSecondaryController::class, 'edit']);

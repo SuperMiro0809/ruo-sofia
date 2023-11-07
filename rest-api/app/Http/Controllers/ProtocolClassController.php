@@ -62,7 +62,15 @@ class ProtocolClassController extends Controller
             }
 
             $protocol->save();
-            StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->update(['protocol_id' => $protocol->id]);
+
+            $items = StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate]);
+
+            foreach($items as $index => $item) {
+                $item->protocol_id = $protocol->id;
+                $item->protocol_order = $index + 1;
+
+                $item->save();
+            }
         } catch(\Exception $e) {
             $errorCode = $e->errorInfo[1];
             
@@ -79,7 +87,7 @@ class ProtocolClassController extends Controller
     public function destroy($id) {
         $protocol = ProtocolClass::findOrFail($id);
 
-        $protocol->application()->update(['protocol_id' => null]);
+        $protocol->application()->update(['protocol_id' => null, 'protocol_order' => null]);
         $protocol->delete();
 
         return response()->json(['message' => 'Deleted']);
@@ -106,8 +114,16 @@ class ProtocolClassController extends Controller
 
         try {
             $protocol->save();
-            StudentClassApplication::where('protocol_id', $id)->update(['protocol_id' => null]);
-            StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->update(['protocol_id' => $protocol->id]);
+            StudentClassApplication::where('protocol_id', $id)->update(['protocol_id' => null, 'protocol_order' => null]);
+
+            $items = StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate]);
+
+            foreach($items as $index => $item) {
+                $item->protocol_id = $protocol->id;
+                $item->protocol_order = $index + 1;
+
+                $item->save();
+            }
         } catch(\Exception $e) {
             $errorCode = $e->errorInfo[1];
             

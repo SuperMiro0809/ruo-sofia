@@ -22,10 +22,16 @@ class StudentClassApplication extends Model
             'admits',
             'equivalenceExamsDate',
             'equivalenceExams',
-            'grades'
+            'grades',
+            'protocol_id',
+            'protocol_order'
     ];
 
     public function student() {
         return $this->belongsTo('App\Models\StudentClass');
+    }
+
+    public function protocol() {
+        return $this->hasOne('App\Models\ProtocolClass', 'id', 'protocol_id');
     }
 }

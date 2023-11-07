@@ -82,6 +82,25 @@ function certificates(startDate, endDate) {
     })
 }
 
+function getCertificates(searchName, searchEgn, page, limit) {
+    let url = `${services.url}/students-secondary/getCertificates?token=${localStorage.getItem('token')}&page=${page}&per_page=${limit}`;
+    if(searchName) {
+        url += `&name=${searchName}`;
+    }
+    if(searchEgn) {
+        url += `&egn=${searchEgn}`;
+    }
+    
+    return fetch(url)
+    .then(res => {
+        if(res.status === 200) {
+            return res.json();
+        }else if(res.status === 401) {
+            throw new Error('Unauthorized');
+        }
+    })
+}
+
 function getById(id) {
     return fetch(`${services.url}/students-secondary/${id}?token=${localStorage.getItem('token')}`)
         .then(res => {
@@ -99,6 +118,7 @@ const StudentSecondaryServices = {
     destroy,
     edit,
     certificates,
+    getCertificates,
     getById
 }
 

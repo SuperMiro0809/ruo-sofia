@@ -61,7 +61,14 @@ class ProtocolSecondaryController extends Controller
             }
 
             $protocol->save();
-            StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$from, $to])->update(['protocol_id' => $protocol->id]);
+            $items = StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$from, $to]);
+
+            foreach($items as $index => $item) {
+                $item->protocol_id = $protocol->id;
+                $item->protocol_order = $index + 1;
+
+                $item->save();
+            }
         } catch(\Exception $e) {
             $errorCode = $e->errorInfo[1];
             
@@ -78,7 +85,7 @@ class ProtocolSecondaryController extends Controller
     public function destroy($id) {
         $protocol = ProtocolSecondary::findOrFail($id);
 
-        $protocol->application()->update(['protocol_id' => null]);
+        $protocol->application()->update(['protocol_id' => null, 'protocol_order']);
         $protocol->delete();
 
         return response()->json(['message' => 'Deleted']);
@@ -105,8 +112,16 @@ class ProtocolSecondaryController extends Controller
 
         try {
             $protocol->save();
-            StudentSecondary::where('protocol_id', $id)->update(['protocol_id' => null]);
-            StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->update(['protocol_id' => $protocol->id]);
+            StudentSecondary::where('protocol_id', $id)->update(['protocol_id' => null, 'protocol_order' => null]);
+
+            $items = StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate]);
+
+            foreach($items as $index => $item) {
+                $item->protocol_id = $protocol->id;
+                $item->protocol_order = $index + 1;
+
+                $item->save();
+            }
         } catch(\Exception $e) {
             $errorCode = $e->errorInfo[1];
             
