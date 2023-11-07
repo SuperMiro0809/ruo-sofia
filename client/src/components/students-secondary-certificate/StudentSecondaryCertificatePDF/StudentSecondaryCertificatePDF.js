@@ -136,7 +136,7 @@ const StudentSecondaryCertificatePDF = React.forwardRef(({ application }, ref) =
                     {JSON.parse(application.grades).map((grade, index) => (
                         <article className="grade" key={index}>
                             <p>{grade.subjectName}</p>
-                            <p>{gradeInWords(grade.grade)} {grade.grade}</p>
+                            <p style={{ flexBasis: '20%', float: 'left' }}>{gradeInWords(grade.grade)} {grade.grade}</p>
                         </article>
                     ))}
                 </section>

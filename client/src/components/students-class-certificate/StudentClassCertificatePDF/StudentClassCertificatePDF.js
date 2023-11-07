@@ -99,7 +99,7 @@ const StudentClassCertificatePDF = React.forwardRef(({ application, student }, r
     }, []);
 
     const gradeInWords = (grade) => {
-        switch(grade) {
+        switch (grade) {
             case '6': return 'Отличен';
             case '5': return 'Много добър';
             case '4': return 'Добър';
@@ -139,7 +139,7 @@ const StudentClassCertificatePDF = React.forwardRef(({ application, student }, r
                     {JSON.parse(application.grades).map((grade, index) => (
                         <article className="grade" key={index}>
                             <p>{grade.subjectName}</p>
-                            <p>{gradeInWords(grade.grade)} {grade.grade}</p>
+                            <p style={{ flexBasis: '20%', float: 'left' }}>{gradeInWords(grade.grade)} {grade.grade}</p>
                         </article>
                     ))}
                 </section>
