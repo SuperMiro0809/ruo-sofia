@@ -102,7 +102,7 @@ class StudentClassController extends Controller
         $students->whereHas('application', function ($q) {
             $q->whereNotNull('protocol_id');
         })
-        ->with('protocol');
+        ->with('application.protocol');
             
         return $students->paginate($perPage);
     }

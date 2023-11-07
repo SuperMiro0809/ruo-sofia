@@ -63,7 +63,7 @@ class ProtocolClassController extends Controller
 
             $protocol->save();
 
-            $items = StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate]);
+            $items = StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->get();
 
             foreach($items as $index => $item) {
                 $item->protocol_id = $protocol->id;
@@ -116,7 +116,7 @@ class ProtocolClassController extends Controller
             $protocol->save();
             StudentClassApplication::where('protocol_id', $id)->update(['protocol_id' => null, 'protocol_order' => null]);
 
-            $items = StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate]);
+            $items = StudentClassApplication::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->get();
 
             foreach($items as $index => $item) {
                 $item->protocol_id = $protocol->id;

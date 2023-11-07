@@ -61,7 +61,7 @@ class ProtocolSecondaryController extends Controller
             }
 
             $protocol->save();
-            $items = StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$from, $to]);
+            $items = StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$from, $to])->get();
 
             foreach($items as $index => $item) {
                 $item->protocol_id = $protocol->id;
@@ -114,7 +114,7 @@ class ProtocolSecondaryController extends Controller
             $protocol->save();
             StudentSecondary::where('protocol_id', $id)->update(['protocol_id' => null, 'protocol_order' => null]);
 
-            $items = StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate]);
+            $items = StudentSecondary::whereNull('protocol_id')->whereBetween('dateOut', [$request->startDate, $request->endDate])->get();
 
             foreach($items as $index => $item) {
                 $item->protocol_id = $protocol->id;
